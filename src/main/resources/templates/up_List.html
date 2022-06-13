@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script th:if="${session.login eq null}">
+
+    alert('로그인 이후 이용해주세요.');
+    location.href = "memberLogin";
+</script>
 <body>
 <table>
     <tr>

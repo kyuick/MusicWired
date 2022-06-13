@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.icia.musicwired.dto.MusicLikeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -149,11 +150,21 @@ public class uploadController {
     }
     //LikeUp
     @RequestMapping(value="/LikeUp", method=RequestMethod.POST)
-    public @ResponseBody List<uploadDto> LikeUp(@RequestParam(value="muCode", required=true)int muCode ) {
+    public @ResponseBody List<uploadDto> LikeUp(@RequestParam(value="muCode", required=true)int muCode) {
         System.out.println("[1] likeup:" + muCode);
         LikeList = svc.LikeUp(muCode);
         System.out.println("[5] likeup :" + LikeList);
         return LikeList;
+    }
+
+    List<MusicLikeDto> LikeUpInsert = new ArrayList<MusicLikeDto>();
+    //LikeUpInsert
+    @RequestMapping(value="/LikeUpInsert", method=RequestMethod.POST)
+    public @ResponseBody List<MusicLikeDto> LikeUpInsert(@ModelAttribute MusicLikeDto mlDto) {
+        System.out.println("[1] likeup:" + mlDto);
+        LikeUpInsert = svc.LikeUpInsert(mlDto);
+        System.out.println("[5] likeup :" + LikeList);
+        return LikeUpInsert;
     }
     //LikeDown
     @RequestMapping(value="/LikeDown", method=RequestMethod.POST)

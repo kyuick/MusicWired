@@ -59,6 +59,9 @@
     <update id="LikeDown" parameterType="int">
         UPDATE MUSIC SET MULIKE = MULIKE -1,HEARTIMG = -1 WHERE MUCODE =#{muCode}
     </update>
+    <insert id="LikeUpInsert" parameterType="mulike">
+        INSERT INTO MUSICLIKE VALUES (#{mulCode},#{mulmuCode},#{mulMid})
+    </insert>
 
 
 </mapper>

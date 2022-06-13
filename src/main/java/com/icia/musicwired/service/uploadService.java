@@ -3,6 +3,7 @@ package com.icia.musicwired.service;
 import java.io.IOException;
 import java.util.List;
 
+import com.icia.musicwired.dto.MusicLikeDto;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.musicwired.dto.uploadDto;
@@ -30,4 +31,7 @@ public interface uploadService {
 	List<uploadDto> LikeUp(int muCode);
 
 	List<uploadDto> LikeDown(int muCode);
+
+
+	List<MusicLikeDto> LikeUpInsert(MusicLikeDto mlDto);
 }

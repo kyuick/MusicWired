@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
 </head>
+<script th:if="${session.login eq null}">
+
+    alert('로그인 이후 이용해주세요.');
+    location.href = "memberLogin";
+</script>
 <body>
 
 <table>
@@ -80,6 +85,7 @@
 
 </table>
 <input type="hidden" th:value="${muView.muLike}" th:id="muLike">
+<input type="hidden" th:value="${session.login.mId}" th:id="mId">
 <div th:id="LikeArea"></div>
 </body>
 
@@ -90,6 +96,7 @@
 <script th:inline="javascript">
     $(document).ready(function () { //페이지 실행시 좋아요 ajax가 실행되도록 ready 안에서 함수 실행
         var muCode = $("#muCode").val(); //음악 코드 가져옴
+        var mId = $("#mId").val();
         console.log('muCode :' + muCode);
 
         $.ajax({
@@ -113,6 +120,7 @@
     function LikeList(good) {
         console.log(good);
         var muLike = $('#muLike').val(); //dto에 있는 좋아요 필드인 mulike의 아이디 값을 가져옴.
+        var mId = $("#mId").val();
         var output = "";
         output += "<table>";
         output += "<tr>";
@@ -132,7 +140,7 @@
         //좋아요 개 수 올라가는 ajax 실행
         $(".heartUp").click(function () {
             var muCode = $(this).attr('id'); //attr 은 아이디값을 가져오는 명령.
-
+            var mId = $("#mId").val();
             console.log("muCode:" + muCode);
             $.ajax({
                 type: "POST",
@@ -144,6 +152,20 @@
                 success: function (list) {
 
                     LikePlus(list); //하트를 누를 시 muLike 값이 +1 되도록 함.
+                    $.ajax({
+                        type: "POST",
+                        url: "LikeUpInsert",
+                        data: {
+                            "mulmuCode": muCode,
+                            "mulMid":mId
+                        },
+                        dataType: "json",
+                        success: function (likeinsert) {
+                        },
+                        error: function () {
+                            alert("좋아요 실패2");
+                        }
+                    });
                 },
                 error: function () {
                     alert("좋아요 실패");
@@ -152,7 +174,7 @@
 
             //muLike가 +1 되는 것이 화면에 출력되도록 하는 함수
             function LikePlus(list) {
-                console.log("좋아요"+list);
+                console.log("좋아요" + list);
 
                 var muLike = $('#muLike').val();
                 var output = "";
@@ -164,9 +186,9 @@
                 output += "</tr>";
                 for (var i in list) {
                     output += "<tr>";
-                    if(list[i].heartImg=1){
-                    output += "<th id='" + list[i].muCode + "' class='heartDown'><img src='/heart/heart2.png' style='width:25px;'/><span>" + list[i].muLike + "</span></th>";
-                    }else{
+                    if (list[i].heartImg = 1) {
+                        output += "<th id='" + list[i].muCode + "' class='heartDown'><img src='/heart/heart2.png' style='width:25px;'/><span>" + list[i].muLike + "</span></th>";
+                    } else {
                         output += "<th id='" + list[i].muCode + "' class='heartDown'><img src='/heart/heart1.png' style='width:25px;'/><span>" + list[i].muLike + "</span></th>";
                     }
                     output += "</tr>";
@@ -195,8 +217,9 @@
                             alert("싫어요 실패");
                         }
                     });
-                    function LikeMinus(list){
-                        console.log("마이너스 : "+list);
+
+                    function LikeMinus(list) {
+                        console.log("마이너스 : " + list);
                         var muLike = $('#muLike').val();
                         var output = "";
 
@@ -206,9 +229,9 @@
                         output += "</tr>";
                         for (var k in list) {
                             output += "<tr>";
-                            if(list[i].heartImg=-1){
+                            if (list[i].heartImg = -1) {
                                 output += "<th id='" + list[i].muCode + "' class='heartDown'><img src='/heart/heart1.png' style='width:25px;'/><span>" + list[i].muLike + "</span></th>";
-                            }else{
+                            } else {
                                 output += "<th id='" + list[i].muCode + "' class='heartDown'><img src='/heart/heart2.png' style='width:25px;'/><span>" + list[i].muLike + "</span></th>";
                             }
                             output += "</tr>";
@@ -222,7 +245,6 @@
             }
 
         });
-
 
 
     }

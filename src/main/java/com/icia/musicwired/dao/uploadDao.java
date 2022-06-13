@@ -2,6 +2,7 @@ package com.icia.musicwired.dao;
 
 import java.util.List;
 
+import com.icia.musicwired.dto.MusicLikeDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.icia.musicwired.dto.pagingDto;
@@ -23,7 +24,6 @@ public interface uploadDao {
 	List<uploadDto> LikeList(int muCode);
 
 	int LikeUp(int muCode);
-
 	List<uploadDto> LikeCheck(int muCode);
 
 	int LikeDown(int muCode);
@@ -32,5 +32,5 @@ public interface uploadDao {
 
 	int muListCount();
 
-	
+	int LikeUpInsert(MusicLikeDto mlDto);
 }

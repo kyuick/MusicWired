@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.icia.musicwired.dto.MusicLikeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -194,6 +195,7 @@ public class uploadServiceimpl implements uploadService {
 	// 좋아요 구현
 	List<uploadDto> LikeList = new ArrayList<uploadDto>();
 
+
 	// 좋아요 실행
 	@Override
 	public List<uploadDto> Like(int muCode) {
@@ -227,6 +229,20 @@ public class uploadServiceimpl implements uploadService {
 		}
 
 		return LikeList;
+	}
+
+	List<MusicLikeDto> LikeUpInsert = new ArrayList<MusicLikeDto>();
+
+	@Override
+	public List<MusicLikeDto> LikeUpInsert(MusicLikeDto mlDto) {
+
+		int result = dao.LikeUpInsert(mlDto);
+		if (result > 0) {
+
+		} else {
+			LikeUpInsert = null;
+		}
+		return LikeUpInsert;
 	}
 
 }
