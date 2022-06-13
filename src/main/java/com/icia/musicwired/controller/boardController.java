@@ -19,7 +19,7 @@ import com.icia.musicwired.service.BoardService;
 
 @Controller
 public class boardController {
-
+	// asd
 	private ModelAndView mav = new ModelAndView();
 	
 	@Autowired
