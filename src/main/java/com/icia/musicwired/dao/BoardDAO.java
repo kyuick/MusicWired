@@ -31,4 +31,6 @@ public interface BoardDAO {
 
 	int boLikeInsert(BoardLikeDTO boLike);
 
+	List<BoardLikeDTO> boLikeCheck(BoardLikeDTO boLike);
+
 }

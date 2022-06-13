@@ -89,24 +89,49 @@ table, tr, td, th {
 			output += "<table>";
 			
 			for(var i in list){
-				output += "<tr>";
-				output += "<td>" + list[i].boCode + "</td>";
-				output += "<td>" + list[i].boWriter + "</td>";
-				output += "<td>" + list[i].boTitle + "</td>";
-				output += "<td>" + list[i].boDate + "</td>";
-				output += "<td>" + list[i].boContent + "</td>";
-				output += "<td><img src='/ImageUpload/"+ list[i].boImage + "' style='width: 200px;'></td>";
-				output += "<td id='"+ list[i].boCode +"' class='heartUp'><img src='/heart/heart1.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>"
-				if(sessionId == list[i].boWriter){
-					output += "<td><a href='boardModiForm?boCode="+list[i].boCode +"'>수정</a></td>"
-					output += "<td><a href='boardDelete?boCode="+list[i].boCode +"'>삭제</a></td>";
-				} else{
-					output += "<td></td>"
-					output += "<td></td>"
-				}
-				output += "</tr>";
+				
+				(function(i){
+					$.ajax({
+						type: "POST",
+						url: "boLikeCheck",
+						data: {"bolBoCode" : list[i].boCode,
+							   "bolMid" : sessionId},
+						dataType: "json",
+						async: false,
+						success: function(result){
+							console.log('result : ' +result);
+							output += "<tr>";
+							output += "<td>" + list[i].boCode + "</td>";
+							output += "<td>" + list[i].boWriter + "</td>";
+							output += "<td>" + list[i].boTitle + "</td>";
+							output += "<td>" + list[i].boDate + "</td>";
+							output += "<td>" + list[i].boContent + "</td>";
+							output += "<td><img src='/ImageUpload/"+ list[i].boImage + "' style='width: 200px;'></td>";
+							
+							if(result == ""){
+								output += "<td id='"+ list[i].boCode +"' class='heartUp'><img src='/heart/heart1.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>"
+							} else if(result != ""){
+								output += "<td id='"+ list[i].boCode +"' class='heartDown'><img src='/heart/heart2.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>"
+							}
+							
+							if(sessionId == list[i].boWriter || sessionId == 'admin'){
+								output += "<td><a href='boardModiForm?boCode="+list[i].boCode +"'>수정</a></td>"
+								output += "<td><a href='boardDelete?boCode="+list[i].boCode +"'>삭제</a></td>";
+							} else{
+								output += "<td></td>"
+								output += "<td></td>"
+							}
+							output += "</tr>";
+						},
+						error: function(){
+							alert('좋아요한 게시글 리스트 불러오기 실패');
+						}
+						
+					});
+				})(i);
+				
+				
 			}
-			
 			output += "</table>";
 
 			var boardListArea = document.getElementById('boardListArea');
@@ -166,48 +191,47 @@ table, tr, td, th {
 					
 					td1.innerHTML = output1;
 				
-					// 다운
-					$(".heartDown").click(function(){
-						
-						var boCode = $(this).attr('id');
-						console.log("boCode1 : "+ boCode);
-						/* $(".heartDown").removeClass("heartDown");
-						$(this).addClass("heartUp"); */
-						
-						$.ajax({
-							type : "POST",
-							url : "boLikeDown",
-							data : {"boCode" : boCode},
-							dataType : "json",
-							success : function(list){
-								LikeMinus(list);
-								/* document.getElementById(boCode).classList.remove('heartDown');
-								document.getElementById(boCode).className='heartUp'; */
-							},
-							error : function(){
-								alert('좋아요 감소 실패');
-							}
-						});
-						
-					// 좋아요 클릭시 좋아요 감소 메소드(ajax)
-						function LikeMinus(list){
-							
-							var output2 = "";
-							for(var i in list){
-								output2 += "<td id='"+ list[i].boCode +"'><img src='/heart/heart1.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>"
-							}
-							
-							var td1 = document.getElementById(boCode);
-							
-							td1.innerHTML = output2;
-						}
-						/* $(this).attr("class","heartUp"); */
-					});
-					
 				}
 				
+				
 			});
-			
+			// 다운
+			$(".heartDown").click(function(){
+				
+				var boCode = $(this).attr('id');
+				console.log("boCode1 : "+ boCode);
+				/* $(".heartDown").removeClass("heartDown");
+				$(this).addClass("heartUp"); */
+				
+				$.ajax({
+					type : "POST",
+					url : "boLikeDown",
+					data : {"boCode" : boCode},
+					dataType : "json",
+					success : function(list){
+						LikeMinus(list);
+						/* document.getElementById(boCode).classList.remove('heartDown');
+						document.getElementById(boCode).className='heartUp'; */
+					},
+					error : function(){
+						alert('좋아요 감소 실패');
+					}
+				});
+				
+			// 좋아요 클릭시 좋아요 감소 메소드(ajax)
+				function LikeMinus(list){
+					
+					var output2 = "";
+					for(var i in list){
+						output2 += "<td id='"+ list[i].boCode +"'><img src='/heart/heart1.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>"
+					}
+					
+					var td1 = document.getElementById(boCode);
+					
+					td1.innerHTML = output2;
+				}
+				/* $(this).attr("class","heartUp"); */
+			});
 		}
 		
 	});

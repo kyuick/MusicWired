@@ -28,4 +28,6 @@ public interface BoardService {
 
 	List<BoardLikeDTO> boLikeInsert(BoardLikeDTO boLike);
 
+	List<BoardLikeDTO> boLikeCheck(BoardLikeDTO boLike);
+
 }

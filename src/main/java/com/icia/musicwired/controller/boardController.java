@@ -77,9 +77,9 @@ public class boardController {
 //	boardDelete : 게시글 삭제 메소드
 	@GetMapping("/boardDelete")
 	public ModelAndView boardDelete(@RequestParam("boCode") int boCode) {
-		
+		System.out.println("[1] 삭제 C : " + boCode);
 		mav = bosvc.boardDelete(boCode);
-		
+		System.out.println("[4] 삭제 C : " + mav);
 		return mav;
 	}
 	
@@ -113,11 +113,20 @@ public class boardController {
 		return boardList;
 	}
 	
-//	boLikeInsert : 게시글 좋아요 테이블에 좋아요한 게시글 등록
+//	boLikeInsert : 게시글 좋아요 테이블에 좋아요한 게시글 등록(ajax)
 	@PostMapping("boLikeInsert")
 	public @ResponseBody List<BoardLikeDTO> boLikeInsert(@ModelAttribute BoardLikeDTO boLike){
 		System.out.println("[1] 좋아요 테이블 등록 C : " + boLike);
 		boardLike = bosvc.boLikeInsert(boLike);
+		return boardLike;
+	}
+	
+//	boLikeCheck : 좋아요한 게시글 목록 불러오기 메소드(ajax)
+	@PostMapping("boLikeCheck")
+	public @ResponseBody List<BoardLikeDTO> boLikeCheck(@ModelAttribute BoardLikeDTO boLike){
+		System.out.println("[1] 좋아요 게시글 목록 불러오기 C : " + boLike);
+		boardLike = bosvc.boLikeCheck(boLike);
+		System.out.println("[4] 좋아요 게시글 목록 불러오기 C : " + boardLike);
 		return boardLike;
 	}
 	

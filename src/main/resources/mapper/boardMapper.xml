@@ -53,5 +53,10 @@
 	<insert id="boLikeInsert" parameterType="boardLike">
 		INSERT INTO BOARDLIKE VALUES(BOLIKE_SEQ.NEXTVAL,#{bolBoCode},#{bolMid})
 	</insert>
+	
+<!-- 좋아요 게시글 목록 불러오기 메소드 -->
+	<select id="boLikeCheck" parameterType="boardLike" resultType="boardLike">
+		SELECT * FROM BOARDLIKE WHERE BOLBOCODE = #{bolBoCode} AND BOLMID = #{bolMid}
+	</select>
 
 </mapper>
