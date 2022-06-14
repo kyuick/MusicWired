@@ -118,6 +118,7 @@ public class boardController {
 	public @ResponseBody List<BoardLikeDTO> boLikeInsert(@ModelAttribute BoardLikeDTO boLike){
 		System.out.println("[1] 좋아요 테이블 등록 C : " + boLike);
 		boardLike = bosvc.boLikeInsert(boLike);
+		System.out.println("[4] 좋아요 테이블 등록 C : " + boardLike);
 		return boardLike;
 	}
 	
@@ -130,5 +131,23 @@ public class boardController {
 		return boardLike;
 	}
 	
+//	boLikeDelete : 게시글 좋아요 테이블에 등록된 게시글 삭제[좋아요취소](ajax)
+	@PostMapping("boLikeDelete")
+	public @ResponseBody List<BoardLikeDTO> boLikeDelete(@ModelAttribute BoardLikeDTO boLike){
+		System.out.println("[1] 좋아요 테이블 삭제 C : " + boLike);
+		boardLike = bosvc.boLikeDelete(boLike);
+		System.out.println("[4] 좋아요 테이블 삭제 C : " + boardLike);
+		
+		return boardLike;
+	}
+	
+//	ajaxBoardSelect : 게시글 제목으로 검색 메소드(ajax)
+	@PostMapping("ajaxBoardSelect")
+	public @ResponseBody List<BoardDTO> ajaxBoardSelect(@RequestParam("boTitle") String boTitle){
+		System.out.println("[1] 게시글 제목검색 C : " + boTitle);
+		boardList = bosvc.ajaxBoardSelect(boTitle);
+		System.out.println("[4] 게시글 제목검색 C : " + boardLike);
+		return boardList;
+	}
 	
 }

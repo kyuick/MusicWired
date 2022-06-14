@@ -202,7 +202,7 @@ private ModelAndView mav = new ModelAndView();
 		return boardLike;
 	}
 
-//	boLikeCheck : 좋아요한 게시글 목록 불러오기 메소드
+//	boLikeCheck : 좋아요한 게시글 목록 불러오기 메소드(ajax)
 	@Override
 	public List<BoardLikeDTO> boLikeCheck(BoardLikeDTO boLike) {
 		System.out.println("[2] 좋아요 게시글 목록 불러오기 S : " + boLike);
@@ -217,6 +217,35 @@ private ModelAndView mav = new ModelAndView();
 		
 		System.out.println("[3] 좋아요 게시글 목록 불러오기 S : " + boLikeList);
 		return boardLike;
+	}
+
+//	boLikeDelete : 좋아요 테이블 삭제 메소드(ajax)
+	@Override
+	public List<BoardLikeDTO> boLikeDelete(BoardLikeDTO boLike) {
+		System.out.println("[2] 좋아요 테이블 삭제 S : " + boLike);
+		
+		int result = bodao.boLikeDelete(boLike);
+		System.out.println("[3] 좋아요 테이블 삭제 S : " + result);
+		
+		if(result>0) {
+			
+		}else {
+			boardLike = null;
+		}
+		
+		return boardLike;
+	}
+
+//	ajaxBoardSelect : 게시글 제목으로 검색 메소드(ajax)
+	@Override
+	public List<BoardDTO> ajaxBoardSelect(String boTitle) {
+		System.out.println("[2] 게시글 제목검색 S : " + boTitle);
+		List<BoardDTO> board = bodao.ajaxBoardSelect(boTitle);
+		
+		boardList = board;
+		
+		System.out.println("[3] 게시글 제목검색 S : " + boTitle);
+		return boardList;
 	}
 
 

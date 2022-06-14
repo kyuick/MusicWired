@@ -54,9 +54,19 @@
 		INSERT INTO BOARDLIKE VALUES(BOLIKE_SEQ.NEXTVAL,#{bolBoCode},#{bolMid})
 	</insert>
 	
-<!-- 좋아요 게시글 목록 불러오기 메소드 -->
+<!-- 좋아요 게시글 목록 불러오기 메소드(ajax) -->
 	<select id="boLikeCheck" parameterType="boardLike" resultType="boardLike">
 		SELECT * FROM BOARDLIKE WHERE BOLBOCODE = #{bolBoCode} AND BOLMID = #{bolMid}
 	</select>
-
+	
+<!-- 좋아요 테이블 삭제 메소드(ajax) -->
+	<delete id="boLikeDelete" parameterType="boardLike">
+		DELETE FROM BOARDLIKE WHERE BOLBOCODE = #{bolBoCode} AND BOLMID = #{bolMid}
+	</delete>
+	
+<!-- 게시글 제목검색(ajax) -->
+	<select id="ajaxBoardSelect" parameterType="String" resultType="Board">
+		SELECT * FROM BOARD WHERE BOTITLE LIKE '%'||#{boTitle}||'%'
+	</select>
+	
 </mapper>

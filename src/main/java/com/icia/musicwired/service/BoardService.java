@@ -30,4 +30,8 @@ public interface BoardService {
 
 	List<BoardLikeDTO> boLikeCheck(BoardLikeDTO boLike);
 
+	List<BoardLikeDTO> boLikeDelete(BoardLikeDTO boLike);
+
+	List<BoardDTO> ajaxBoardSelect(String boTitle);
+
 }

@@ -33,4 +33,8 @@ public interface BoardDAO {
 
 	List<BoardLikeDTO> boLikeCheck(BoardLikeDTO boLike);
 
+	int boLikeDelete(BoardLikeDTO boLike);
+
+	List<BoardDTO> ajaxBoardSelect(String boTitle);
+
 }
