@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.icia.musicwired.dao.CartDAO">
+
+<!-- 장바구니 상품 추가 메소드 -->
+	<insert id="cartListAdd" parameterType="Cart">
+		INSERT INTO CART VALUES(CART_SEQ.NEXTVAL,#{caMid},#{caMuCode},500)
+	</insert>
+	
+<!-- 장바구니 상품 삭제 메소드 -->
+	<delete id="cartListDelete" parameterType="Cart">
+		DELETE FROM CART WHERE CAMID = #{caMid} AND CAMUCODE = #{caMuCode}
+	</delete>
+
+</mapper>

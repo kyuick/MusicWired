@@ -100,9 +100,11 @@ public class uploadServiceimpl implements uploadService {
 		paging.setLimit(limit);
 		List<uploadDto> upList = dao.fileList(paging);
 		System.out.println("paging : " +paging);
+		
 		mav.setViewName("up_List");
 		mav.addObject("upList", upList);
 		mav.addObject("paging", paging);
+		
 		return mav;
 		
 	}
