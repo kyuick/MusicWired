@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="kooky"/>
+	<meta name="description" content="inputBoot index"/>
+	<title>Spring Boot Index</title>
+	<style>
+		th, td, table{
+			border : 1px solid black;
+			border-collapse : collapse;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<button onclick="location.href='index'">홈페이지</button>
+		<button onclick="location.href='boardList'">목록으로</button>
+	</div>
+	<table>
+		<caption>작성자 정보</caption>
+		<tr>
+			<th>아이디</th>
+			<td th:text="${memView.mId}"></td>
+		</tr>
+		
+		<tr>
+			<th>이름</th>
+			<td th:text="${memView.mName}"></td>
+		</tr>
+		
+		<tr>
+			<th>이메일</th>
+			<td th:text="${memView.mEmail}"></td>
+		</tr>
+		
+		<tr>
+			<th>성별</th>
+			<td th:text="${memView.mGender}"></td>
+		</tr>
+		
+		<tr>
+			<th>프로필 사진</th>
+			<td><img th:src="@{/profile/{aa}(aa=${memView.mProfileName})}" style="width:200px;"/></td>
+		</tr>
+	</table>
+<hr/>
+	<table>
+		<caption>등록한 음악</caption>
+	    <tr>
+	       <th>가수 이름</th>
+	        <th>음악 이름</th>
+	        <th>음악 장르</th>
+	        <th>게시일</th>
+	        <th>조회 수</th>
+	        <th>좋아요 수</th>
+	        <th>가격</th>
+	    </tr>
+	    <tr th:each="mulist : ${muViewList}">
+	    <td th:text="${mulist.muSinger}"></td>
+	        <td><a th:href="@{muView(muCode=${mulist.muCode})}" th:text="${mulist.muName}" id="audio"></a></td>
+	        <td th:text="${mulist.muGanre}"></td>
+	        <td th:text="${mulist.muDate}"></td>
+	        <td th:text="${mulist.muHit}"></td>
+	        <td th:text="${mulist.muLike}"></td>
+	        <td th:text="${mulist.muPrice}"></td>
+	    </tr>
+	</table>
+<hr/>
+	<table>
+		<caption>등록한 게시글</caption>
+	    <tr>
+	        <th>글번호</th>
+	        <th>제목</th>
+	        <th>내용</th>
+	        <th>이미지</th>
+	        <th>좋아요수</th>
+	        <th>작성일</th>
+	    </tr>
+	    <tr th:each="bolist : ${boViewList}">
+	    	<td th:text="${bolist.boCode}"></td>
+	    	<td th:text="${bolist.boTitle}"></td>
+	        <td th:text="${bolist.boContent}"></td>
+	        <td><img th:src="@{/ImageUpload/{aa}(aa=${bolist.boImage})}" style="width:200px;"/></td>
+	        <td th:text="${bolist.boLike}"></td>
+	        <td th:text="${bolist.boDate}"></td>
+	    </tr>
+	</table>
+</body>
+</html>
