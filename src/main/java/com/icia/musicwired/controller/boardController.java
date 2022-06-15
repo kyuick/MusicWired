@@ -150,4 +150,13 @@ public class boardController {
 		return boardList;
 	}
 	
+//	boardWriterView : 게시글 작성자 피드로 이동하는 메소드
+	@GetMapping("boardWriterView")
+	public ModelAndView boardWriterView(@RequestParam("boWriter") String boWriter) {
+		System.out.println("[1] 게시글 작성자 피드 이동 C : " + boWriter);
+		mav = bosvc.boardWriterView(boWriter);
+		System.out.println("[4] 게시글 작성자 피드 이동 C : " + mav);
+		return mav;
+	}
+	
 }

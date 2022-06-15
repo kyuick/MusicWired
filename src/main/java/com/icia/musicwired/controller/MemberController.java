@@ -33,6 +33,12 @@ public class MemberController {
         return "index";
     }
 	
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String index1() {
+
+        return "index";
+    }
+	
 	
 	// memberJoinForm
 	@RequestMapping(value="/memberJoinForm", method=RequestMethod.GET)

@@ -69,4 +69,8 @@
 		SELECT * FROM BOARD WHERE BOTITLE LIKE '%'||#{boTitle}||'%'
 	</select>
 	
+<!-- 게시글 작성자 피드 이동 -->
+	<select id="boardWriterView" parameterType="String" resultType="Board">
+		SELECT * FROM BOARD WHERE BOWRITER = #{boWriter}
+	</select>
 </mapper>

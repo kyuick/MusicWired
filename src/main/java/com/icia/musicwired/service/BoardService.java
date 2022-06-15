@@ -34,4 +34,6 @@ public interface BoardService {
 
 	List<BoardDTO> ajaxBoardSelect(String boTitle);
 
+	ModelAndView boardWriterView(String boWriter);
+
 }

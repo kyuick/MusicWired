@@ -44,4 +44,8 @@
 	<update id="memPwfind" parameterType="member">
 		UPDATE MEMBER SET MPW = #{mPw} WHERE MID = #{mId}
 	</update>
+	
+	<select id="boardWriterView" parameterType="String" resultType="member">
+		SELECT * FROM MEMBER WHERE MID = #{boWriter}
+	</select>
 </mapper>

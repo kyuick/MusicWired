@@ -37,4 +37,6 @@ public interface BoardDAO {
 
 	List<BoardDTO> ajaxBoardSelect(String boTitle);
 
+	List<BoardDTO> boardWriterView(String boWriter);
+
 }

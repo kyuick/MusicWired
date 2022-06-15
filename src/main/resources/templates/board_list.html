@@ -25,36 +25,11 @@ table, tr, td, th {
 </script>
 
 <body>
-
-	<!-- <table>
-		<caption>게시글 목록</caption>
-
-		<tr th:each="list : ${boardList}">
-			<td th:text="${list.boCode}"></td>
-			<td th:text="${list.boWriter}"></td>
-			<td th:text="${list.boTitle}"></td>
-			<td th:text="${list.boDate}"></td>
-			<td th:text="${list.boContent}"></td>
-			<td><img th:src="@{/ImageUpload/{boImage}(boImage=${list.boImage})}" style="width: 200px;"></td>
-			<td>
-				<a th:onclick="|javascript:LikeUp('${list.boCode}')|" th:id="${list.boCode}">
-					<img src="/heart/heart1.png" style="width: 25px;" th:value="${list.boCode}">
-				</a>
-				
-				<a th:onclick="|javascript:LikeUp('${list.boCode}')|" th:id="${list.boCode}+'t'">
-					<img src="/heart/heart2.png" style="width: 25px; display: none;">
-				</a>
-				
-				<br/><span th:text="${list.boLike}"></span>
-			</td>
-			<th><a th:href="@{boardModiForm(boCode=${list.boCode})}" th:text="수정"></a></th>
-			<th><a th:href="@{bDelete(boCode=${list.boCode})}" th:text="삭제"></a></th>
-		</tr>
-	</table> -->
-	<div> <input id="search" type="text" placeholder="검색어 입력"> <button id="searchBtn">검색</button> </div>
+	<div> <input id="search" type="text" placeholder="검색어 입력"> <button id="searchBtn">검색</button></div>
+	<div><button onclick="location.href='index'">홈페이지</button></div>
 	<div id="boardListArea"></div>
-
 </body>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <script type="text/javascript" th:inline="javascript">
@@ -101,7 +76,7 @@ table, tr, td, th {
 						success: function(result){
 							output += "<tr>";
 							output += "<td>" + list[i].boCode + "</td>";
-							output += "<td>" + list[i].boWriter + "</td>";
+							output += "<td><a href='boardWriterView?boWriter="+list[i].boWriter+"'>" + list[i].boWriter + "</a></td>";
 							output += "<td>" + list[i].boTitle + "</td>";
 							output += "<td>" + list[i].boDate + "</td>";
 							output += "<td>" + list[i].boContent + "</td>";

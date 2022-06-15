@@ -14,8 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.musicwired.dao.BoardDAO;
+import com.icia.musicwired.dao.MemberDAO;
+import com.icia.musicwired.dao.uploadDao;
 import com.icia.musicwired.dto.BoardDTO;
 import com.icia.musicwired.dto.BoardLikeDTO;
+import com.icia.musicwired.dto.MemberDTO;
+import com.icia.musicwired.dto.uploadDto;
 
 @Service
 public class BoardServiceIpml implements BoardService{
@@ -23,6 +27,12 @@ private ModelAndView mav = new ModelAndView();
 	
 	@Autowired
 	private BoardDAO bodao;
+	
+	@Autowired
+	private MemberDAO mdao;
+	
+	@Autowired
+	private uploadDao updao;
 	
 	List<BoardDTO> boardList = new ArrayList<BoardDTO>();
 	
@@ -246,6 +256,25 @@ private ModelAndView mav = new ModelAndView();
 		
 		System.out.println("[3] 게시글 제목검색 S : " + boTitle);
 		return boardList;
+	}
+
+//	boardWriterView : 게시글 작성자 피드 이동
+	@Override
+	public ModelAndView boardWriterView(String boWriter) {
+		System.out.println("[2] 게시글 작성자 피드 이동 S : " + boWriter);
+		
+		MemberDTO member = mdao.boardWriterView(boWriter);
+		List<uploadDto> music = updao.boardWriterView(boWriter);
+		List<BoardDTO> board = bodao.boardWriterView(boWriter);
+		
+		mav.setViewName("board_WriterFeed");
+		mav.addObject("memView",member);
+		mav.addObject("muViewList",music);
+		mav.addObject("boViewList",board);
+		
+		System.out.println("[3] 게시글 작성자 피드 이동 S : " + mav);
+		
+		return mav;
 	}
 
 
