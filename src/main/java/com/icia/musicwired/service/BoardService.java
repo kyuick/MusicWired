@@ -28,4 +28,14 @@ public interface BoardService {
 
 	List<BoardLikeDTO> boLikeInsert(BoardLikeDTO boLike);
 
+	List<BoardLikeDTO> boLikeCheck(BoardLikeDTO boLike);
+
+	List<BoardLikeDTO> boLikeDelete(BoardLikeDTO boLike);
+
+	List<BoardDTO> ajaxBoardSelect(String boTitle);
+
+	ModelAndView boardWriterView(String boWriter);
+
+	List<BoardDTO> LikeBoardList(String bolMid);
+
 }

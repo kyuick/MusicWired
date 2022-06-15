@@ -14,8 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.musicwired.dao.BoardDAO;
+import com.icia.musicwired.dao.MemberDAO;
+import com.icia.musicwired.dao.uploadDao;
 import com.icia.musicwired.dto.BoardDTO;
 import com.icia.musicwired.dto.BoardLikeDTO;
+import com.icia.musicwired.dto.MemberDTO;
+import com.icia.musicwired.dto.uploadDto;
 
 @Service
 public class BoardServiceIpml implements BoardService{
@@ -23,6 +27,12 @@ private ModelAndView mav = new ModelAndView();
 	
 	@Autowired
 	private BoardDAO bodao;
+	
+	@Autowired
+	private MemberDAO mdao;
+	
+	@Autowired
+	private uploadDao updao;
 	
 	List<BoardDTO> boardList = new ArrayList<BoardDTO>();
 	
@@ -131,9 +141,9 @@ private ModelAndView mav = new ModelAndView();
 //	boardDelete : 게시글 삭제 메소드
 	@Override
 	public ModelAndView boardDelete(int boCode) {
-		
+		System.out.println("[2] 삭제 S : " + boCode);
 		int result = bodao.boardDelete(boCode);
-		
+		System.out.println("[3] 삭제 S : " + result);
 		if(result > 0) {
 			mav.setViewName("redirect:/boardList");
 		} else {
@@ -186,6 +196,7 @@ private ModelAndView mav = new ModelAndView();
 		return boardList;
 	}
 
+//	boLikeInsert : 좋아요 테이블 등록 메소드(ajax)
 	@Override
 	public List<BoardLikeDTO> boLikeInsert(BoardLikeDTO boLike) {
 		System.out.println("[2] 좋아요 테이블 등록 S : " + boLike);
@@ -199,6 +210,84 @@ private ModelAndView mav = new ModelAndView();
 			boardLike = null;
 		}
 		return boardLike;
+	}
+
+//	boLikeCheck : 좋아요한 게시글 목록 불러오기 메소드(ajax)
+	@Override
+	public List<BoardLikeDTO> boLikeCheck(BoardLikeDTO boLike) {
+		System.out.println("[2] 좋아요 게시글 목록 불러오기 S : " + boLike);
+		
+		List<BoardLikeDTO> boLikeList = bodao.boLikeCheck(boLike);
+		
+		if(boLikeList != null) {
+			boardLike = boLikeList;
+		} else {
+			boardLike = null;
+		}
+		
+		System.out.println("[3] 좋아요 게시글 목록 불러오기 S : " + boLikeList);
+		return boardLike;
+	}
+
+//	boLikeDelete : 좋아요 테이블 삭제 메소드(ajax)
+	@Override
+	public List<BoardLikeDTO> boLikeDelete(BoardLikeDTO boLike) {
+		System.out.println("[2] 좋아요 테이블 삭제 S : " + boLike);
+		
+		int result = bodao.boLikeDelete(boLike);
+		System.out.println("[3] 좋아요 테이블 삭제 S : " + result);
+		
+		if(result>0) {
+			
+		}else {
+			boardLike = null;
+		}
+		
+		return boardLike;
+	}
+
+//	ajaxBoardSelect : 게시글 제목으로 검색 메소드(ajax)
+	@Override
+	public List<BoardDTO> ajaxBoardSelect(String boTitle) {
+		System.out.println("[2] 게시글 제목검색 S : " + boTitle);
+		List<BoardDTO> board = bodao.ajaxBoardSelect(boTitle);
+		
+		boardList = board;
+		
+		System.out.println("[3] 게시글 제목검색 S : " + boTitle);
+		return boardList;
+	}
+
+//	boardWriterView : 게시글 작성자 피드 이동
+	@Override
+	public ModelAndView boardWriterView(String boWriter) {
+		System.out.println("[2] 게시글 작성자 피드 이동 S : " + boWriter);
+		
+		MemberDTO member = mdao.boardWriterView(boWriter);
+		List<uploadDto> music = updao.boardWriterView(boWriter);
+		List<BoardDTO> board = bodao.boardWriterView(boWriter);
+		
+		mav.setViewName("board_WriterFeed");
+		mav.addObject("memView",member);
+		mav.addObject("muViewList",music);
+		mav.addObject("boViewList",board);
+		
+		System.out.println("[3] 게시글 작성자 피드 이동 S : " + mav);
+		
+		return mav;
+	}
+
+//	LikeBoardList : 좋아요한 게시글만 출력하는 메소드
+	@Override
+	public List<BoardDTO> LikeBoardList(String bolMid) {
+		System.out.println("[2] 좋아요한 게시글 출력 S : " + bolMid);
+		
+		List<BoardDTO> board = bodao.LikeBoardList(bolMid);
+		
+		boardList = board;
+		
+		System.out.println("[3] 좋아요한 게시글 출력 S : " + bolMid);
+		return boardList;
 	}
 
 

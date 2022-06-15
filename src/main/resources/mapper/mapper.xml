@@ -60,5 +60,8 @@
         UPDATE MUSIC SET MULIKE = MULIKE -1,HEARTIMG = -1 WHERE MUCODE =#{muCode}
     </update>
 
+	<select id="boardWriterView" parameterType="String" resultType="audio">
+		SELECT * FROM MUSIC WHERE MUSINGER = #{boWriter}
+	</select>
 
 </mapper>

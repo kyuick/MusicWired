@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -77,9 +78,9 @@ public class boardController {
 //	boardDelete : 게시글 삭제 메소드
 	@GetMapping("/boardDelete")
 	public ModelAndView boardDelete(@RequestParam("boCode") int boCode) {
-		
+		System.out.println("[1] 삭제 C : " + boCode);
 		mav = bosvc.boardDelete(boCode);
-		
+		System.out.println("[4] 삭제 C : " + mav);
 		return mav;
 	}
 	
@@ -113,13 +114,59 @@ public class boardController {
 		return boardList;
 	}
 	
-//	boLikeInsert : 게시글 좋아요 테이블에 좋아요한 게시글 등록
+//	boLikeInsert : 게시글 좋아요 테이블에 좋아요한 게시글 등록(ajax)
 	@PostMapping("boLikeInsert")
 	public @ResponseBody List<BoardLikeDTO> boLikeInsert(@ModelAttribute BoardLikeDTO boLike){
 		System.out.println("[1] 좋아요 테이블 등록 C : " + boLike);
 		boardLike = bosvc.boLikeInsert(boLike);
+		System.out.println("[4] 좋아요 테이블 등록 C : " + boardLike);
 		return boardLike;
 	}
 	
+//	boLikeCheck : 좋아요한 게시글 목록 불러오기 메소드(ajax)
+	@PostMapping("boLikeCheck")
+	public @ResponseBody List<BoardLikeDTO> boLikeCheck(@ModelAttribute BoardLikeDTO boLike){
+		System.out.println("[1] 좋아요 게시글 목록 불러오기 C : " + boLike);
+		boardLike = bosvc.boLikeCheck(boLike);
+		System.out.println("[4] 좋아요 게시글 목록 불러오기 C : " + boardLike);
+		return boardLike;
+	}
+	
+//	boLikeDelete : 게시글 좋아요 테이블에 등록된 게시글 삭제[좋아요취소](ajax)
+	@PostMapping("boLikeDelete")
+	public @ResponseBody List<BoardLikeDTO> boLikeDelete(@ModelAttribute BoardLikeDTO boLike){
+		System.out.println("[1] 좋아요 테이블 삭제 C : " + boLike);
+		boardLike = bosvc.boLikeDelete(boLike);
+		System.out.println("[4] 좋아요 테이블 삭제 C : " + boardLike);
+		
+		return boardLike;
+	}
+	
+//	ajaxBoardSelect : 게시글 제목으로 검색 메소드(ajax)
+	@PostMapping("ajaxBoardSelect")
+	public @ResponseBody List<BoardDTO> ajaxBoardSelect(@RequestParam("boTitle") String boTitle){
+		System.out.println("[1] 게시글 제목검색 C : " + boTitle);
+		boardList = bosvc.ajaxBoardSelect(boTitle);
+		System.out.println("[4] 게시글 제목검색 C : " + boardLike);
+		return boardList;
+	}
+	
+//	boardWriterView : 게시글 작성자 피드로 이동하는 메소드
+	@GetMapping("boardWriterView")
+	public ModelAndView boardWriterView(@RequestParam("boWriter") String boWriter) {
+		System.out.println("[1] 게시글 작성자 피드 이동 C : " + boWriter);
+		mav = bosvc.boardWriterView(boWriter);
+		System.out.println("[4] 게시글 작성자 피드 이동 C : " + mav);
+		return mav;
+	}
+	
+//	LikeBoardList : 좋아요한 게시글만 출력하는 메소드
+	@PostMapping("LikeBoardList")
+	public @ResponseBody List<BoardDTO> LikeBoardList(@RequestParam("boWriter") String bolMid){
+		System.out.println("[1] 좋아요한 게시글 출력 C : " + bolMid);
+		boardList = bosvc.LikeBoardList(bolMid);
+		System.out.println("[4] 좋아요한 게시글 출력 C : " + bolMid);
+		return boardList;
+	}
 	
 }
