@@ -36,4 +36,6 @@ public interface BoardService {
 
 	ModelAndView boardWriterView(String boWriter);
 
+	List<BoardDTO> LikeBoardList(String bolMid);
+
 }

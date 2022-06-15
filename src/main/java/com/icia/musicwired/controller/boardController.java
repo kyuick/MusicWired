@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -157,6 +158,15 @@ public class boardController {
 		mav = bosvc.boardWriterView(boWriter);
 		System.out.println("[4] 게시글 작성자 피드 이동 C : " + mav);
 		return mav;
+	}
+	
+//	LikeBoardList : 좋아요한 게시글만 출력하는 메소드
+	@PostMapping("LikeBoardList")
+	public @ResponseBody List<BoardDTO> LikeBoardList(@RequestParam("boWriter") String bolMid){
+		System.out.println("[1] 좋아요한 게시글 출력 C : " + bolMid);
+		boardList = bosvc.LikeBoardList(bolMid);
+		System.out.println("[4] 좋아요한 게시글 출력 C : " + bolMid);
+		return boardList;
 	}
 	
 }

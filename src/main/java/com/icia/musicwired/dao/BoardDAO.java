@@ -39,4 +39,6 @@ public interface BoardDAO {
 
 	List<BoardDTO> boardWriterView(String boWriter);
 
+	List<BoardDTO> LikeBoardList(String bolMid);
+
 }

@@ -277,6 +277,19 @@ private ModelAndView mav = new ModelAndView();
 		return mav;
 	}
 
+//	LikeBoardList : 좋아요한 게시글만 출력하는 메소드
+	@Override
+	public List<BoardDTO> LikeBoardList(String bolMid) {
+		System.out.println("[2] 좋아요한 게시글 출력 S : " + bolMid);
+		
+		List<BoardDTO> board = bodao.LikeBoardList(bolMid);
+		
+		boardList = board;
+		
+		System.out.println("[3] 좋아요한 게시글 출력 S : " + bolMid);
+		return boardList;
+	}
+
 
 
 

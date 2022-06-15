@@ -25,7 +25,10 @@ table, tr, td, th {
 </script>
 
 <body>
-	<div> <input id="search" type="text" placeholder="검색어 입력"> <button id="searchBtn">검색</button></div>
+	<div> 
+		<input id="search" type="text" placeholder="검색어 입력"> <button id="searchBtn">검색</button>
+		<button id="LikeBoardListBtn">좋아요한 글목록</button>
+	</div>
 	<div><button onclick="location.href='index'">홈페이지</button></div>
 	<div id="boardListArea"></div>
 </body>
@@ -225,77 +228,26 @@ table, tr, td, th {
 						alert('게시글 리스트 불러오기 실패');
 					}
 				});
+			});
+			
+			$("#LikeBoardListBtn").click(function(){
 				
+				$.ajax({
+					type : "POST",
+					url : "LikeBoardList",
+					data : {"boWriter" : sessionId},
+					dataType : "json",
+					success : function(list){
+						boardList(list);
+					},
+					error : function(){
+						alert('게시글 리스트 불러오기 실패');
+					}
+				});
 			});
 		}
-		
 	});
 	
 
-	/* // 좋아요 클릭시 좋아요 증가 메소드(ajax)
-	function LikeUp(boCode){
-		
-		$.ajax({
-			type : "POST",
-			url : "boLikeUp",
-			data : {"boCode" : boCode},
-			dataType : "json",
-			success : function(list){
-				LikePlus(list);
-			},
-			error : function(){
-				alert('좋아요 클릭 실패');
-			}
-		});
-		
-	}
-	
-	// 좋아요 증가 메소드
-	function LikePlus(list){
-		$('.heartChange').click(function(){
-			var boCode11 = $(this).attr('id');
-			console.log("boCode11 : "+boCode11);
-			
-			var output1 = "";
-			for(var i in list){
-				output1 += "<td id='"+ list[i].boCode +"' class='heartChange'><a href='javascript:LikeDown("+ list[i].boCode +")'><img src='/heart/heart2.png' style='width: 25px';></a><br/><span>" + list[i].boLike + "</span></td>";
-			}
-			
-			var td1 = document.getElementById(boCode11);
-			td1.innerHTML = output1;
-		});
-	}
-	
-	// 좋아요 클릭시 좋아요 감소 메소드(ajax)
-	function LikeDown(boCode){
-		$.ajax({
-			type : "POST",
-			url : "boLikeDown",
-			data : {"boCode" : boCode},
-			dataType : "json",
-			success : function(list){
-				LikeMinus(list);
-			},
-			error : function(){
-				alert('좋아요 클릭 실패');
-			}
-		});
-	}
-	
-	// 좋아요 감소 메소드
-	function LikeMinus(list){
-		$('.heartChange').click(function(){
-			var boCode11 = $(this).attr('id');
-			console.log("boCode11 : "+boCode11);
-		var output2 = "";
-		
-		for(var i in list){
-			output2 += "<td id='"+ list[i].boCode +"'  class='heartChange'><a onclick='javascript:LikeUp("+ list[i].boCode +")'><img src='/heart/heart1.png' style='width: 25px';></a><br/><span>" + list[i].boLike + "</span></td>";
-		}
-		
-		var td1 = document.getElementById(boCode11);
-		td1.innerHTML = output2;
-		});
-	} */
 </script>
 </html>
