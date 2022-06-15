@@ -31,4 +31,6 @@ public interface MemberDAO {
 
 	void memPwfind(MemberDTO member);
 
+	MemberDTO boardWriterView(String boWriter);
+
 }

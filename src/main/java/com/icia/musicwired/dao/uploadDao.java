@@ -32,5 +32,7 @@ public interface uploadDao {
 
 	int muListCount();
 
+	List<uploadDto> boardWriterView(String boWriter);
+
 	
 }
