@@ -194,55 +194,70 @@ public class uploadServiceimpl implements uploadService {
 	////////////////////////////////////////////
 	// 좋아요 구현
 	List<uploadDto> LikeList = new ArrayList<uploadDto>();
+	List<MusicLikeDto> LikeUpInsert = new ArrayList<MusicLikeDto>();
 
 
-	// 좋아요 실행
-	@Override
-	public List<uploadDto> Like(int muCode) {
-		System.out.println("2like" + muCode);
-		LikeList = dao.LikeList(muCode);
-		System.out.println("4like" + LikeList);
-		return LikeList;
-	}
+	////////////////////////////////////////////////////////////////////////////////////////
+	//좋아요 +1
 
 	@Override
 	public List<uploadDto> LikeUp(int muCode) {
-
+		System.out.println("[2] 좋아요:" + muCode);
 		int result = dao.LikeUp(muCode);
+		System.out.println("[4] 좋아요:" + muCode);
 		if (result > 0) {
-			LikeList = dao.LikeCheck(muCode);
+
 		} else {
 			LikeList = null;
 		}
 		return LikeList;
 	}
 
-	// 좋아요 취소
-	@Override
-	public List<uploadDto> LikeDown(int muCode) {
-
-		int result = dao.LikeDown(muCode);
-		if (result > 0) {
-			LikeList = dao.LikeCheck(muCode);
-		} else {
-			LikeList = null;
-		}
-
-		return LikeList;
-	}
-
-	List<MusicLikeDto> LikeUpInsert = new ArrayList<MusicLikeDto>();
-
+	//좋아요테이블에 insert
 	@Override
 	public List<MusicLikeDto> LikeUpInsert(MusicLikeDto mlDto) {
 
 		int result = dao.LikeUpInsert(mlDto);
 		if (result > 0) {
-
+			LikeUpInsert = dao.LikeCheck2(mlDto);
 		} else {
 			LikeUpInsert = null;
 		}
 		return LikeUpInsert;
 	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//좋아요 취소
+
+
+	@Override
+	public List<uploadDto> LikeDown(int muCode) {
+		System.out.println("[2] 좋아요:" + muCode);
+		int result = dao.LikeDown(muCode);
+		System.out.println("[4] 좋아요:" + muCode);
+		if (result > 0) {
+
+		} else {
+			LikeList = null;
+		}
+		return LikeList;
+	}
+
+	//좋아요 테이블에서 delete
+	@Override
+	public List<MusicLikeDto> LikeDelete(MusicLikeDto mlDto) {
+		int result = dao.LikeDelete(mlDto);
+		if (result > 0) {
+			LikeUpInsert = dao.LikeDeleteCheck(mlDto);
+		} else {
+			LikeUpInsert = null;
+		}
+		return LikeUpInsert;
+	}
+
+
+
+
+
+
 
 }

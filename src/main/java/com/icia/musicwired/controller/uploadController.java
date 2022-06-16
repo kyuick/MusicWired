@@ -141,24 +141,24 @@ public class uploadController {
     List<uploadDto> LikeList = new ArrayList<uploadDto>();
 
     //Like : 댓글 목록 불러오기
-    @RequestMapping(value="/Like", method=RequestMethod.GET)
-    public @ResponseBody List<uploadDto> LikeList(@RequestParam(value="muCode", required=true)int muCode ) {
-        System.out.println("[1] like:" + muCode);
-        LikeList = svc.Like(muCode);
-        System.out.println("[5] like :" + LikeList);
-        return LikeList;
-    }
-    //LikeUp
+//    @RequestMapping(value="/Like", method=RequestMethod.GET)
+//    public @ResponseBody List<uploadDto> LikeList(@RequestParam(value="muCode", required=true)int muCode ) {
+//        System.out.println("[1] like:" + muCode);
+//        LikeList = svc.Like(muCode);
+//        System.out.println("[5] like :" + LikeList);
+//        return LikeList;
+//    }
+    //LikeUp : 좋아요+1
     @RequestMapping(value="/LikeUp", method=RequestMethod.POST)
-    public @ResponseBody List<uploadDto> LikeUp(@RequestParam(value="muCode", required=true)int muCode) {
-        System.out.println("[1] likeup:" + muCode);
+    public @ResponseBody List<uploadDto> LikeUp(@RequestParam(value="muCode", required=true)int muCode ) {
+        System.out.println("[1] 좋아요:" + muCode);
         LikeList = svc.LikeUp(muCode);
-        System.out.println("[5] likeup :" + LikeList);
+        System.out.println("[5] 좋아요 :" + LikeList);
         return LikeList;
     }
 
     List<MusicLikeDto> LikeUpInsert = new ArrayList<MusicLikeDto>();
-    //LikeUpInsert
+    //LikeUpInsert : 좋아요 테이블에 추가
     @RequestMapping(value="/LikeUpInsert", method=RequestMethod.POST)
     public @ResponseBody List<MusicLikeDto> LikeUpInsert(@ModelAttribute MusicLikeDto mlDto) {
         System.out.println("[1] likeup:" + mlDto);
@@ -166,12 +166,22 @@ public class uploadController {
         System.out.println("[5] likeup :" + LikeList);
         return LikeUpInsert;
     }
-    //LikeDown
+
+    //좋아요 취소
     @RequestMapping(value="/LikeDown", method=RequestMethod.POST)
     public @ResponseBody List<uploadDto> LikeDown(@RequestParam(value="muCode", required=true)int muCode ) {
         System.out.println("[1] likeup:" + muCode);
         LikeList = svc.LikeDown(muCode);
         System.out.println("[5] likeup :" + LikeList);
         return LikeList;
+    }
+
+    //좋아요 테이블 delete
+    @RequestMapping(value="/LikeUpDelete", method=RequestMethod.POST)
+    public @ResponseBody List<MusicLikeDto> LikeDelete(@ModelAttribute MusicLikeDto mlDto) {
+
+        LikeUpInsert = svc.LikeDelete(mlDto);
+        System.out.println("[5] likeup :" + LikeList);
+        return LikeUpInsert;
     }
 }

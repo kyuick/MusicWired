@@ -23,14 +23,34 @@ public interface uploadDao {
 
 	List<uploadDto> LikeList(int muCode);
 
-	int LikeUp(int muCode);
-	List<uploadDto> LikeCheck(int muCode);
 
-	int LikeDown(int muCode);
 
 	uploadDto muView(int muCode);
 
 	int muListCount();
 
+////////////////////////////////////////////////////////////
+	//	좋아요 +1 메소드
+
+	//좋아요 +1
+	int LikeUp(int muCode);
 	int LikeUpInsert(MusicLikeDto mlDto);
+	List<MusicLikeDto> LikeCheck2(MusicLikeDto mlDto);
+////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////
+	//좋아요 -1 메소드
+
+	//좋아요 -1
+	int LikeDown(int muCode);
+	//좋아요 테이블 삭제 result
+//	int LikeDelete(MusicLikeDto mlDto);
+//	//좋아요 테이블 삭제
+//	List<MusicLikeDto> LikeDeleteCheck(MusicLikeDto mlDto);
+
+	int LikeDelete(MusicLikeDto mlDto);
+
+	List<MusicLikeDto> LikeDeleteCheck(MusicLikeDto mlDto);
+////////////////////////////////////////////////////////////
 }

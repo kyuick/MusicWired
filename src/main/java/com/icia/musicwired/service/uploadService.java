@@ -26,12 +26,18 @@ public interface uploadService {
 
 	void muCount(int muCode);
 
-	List<uploadDto> Like(int muCode);
-
+	///////////////////////////////////////////////////////
+	//좋아요 +1
 	List<uploadDto> LikeUp(int muCode);
 
-	List<uploadDto> LikeDown(int muCode);
-
-
+	//좋아요 테이블에 추가
 	List<MusicLikeDto> LikeUpInsert(MusicLikeDto mlDto);
+
+	///////////////////////////////////////////////////////
+
+
+	//좋아요 -1
+	List<uploadDto> LikeDown(int muCode);
+	//좋아요 테이블에서 삭제
+	List<MusicLikeDto> LikeDelete(MusicLikeDto mlDto);
 }
