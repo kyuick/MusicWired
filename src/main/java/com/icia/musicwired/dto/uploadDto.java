@@ -24,6 +24,10 @@ public class uploadDto {
 	private int heartImg; //좋아요 하트 이미지
     private MultipartFile muFile;  //음원
     private MultipartFile mImage;  //포스터
+    
+    
+    
+    
 	public String getMuSinger() {
 		return muSinger;
 	}
@@ -117,7 +121,12 @@ public class uploadDto {
 	public void setHeartImg(int heartImg) {
 		this.heartImg = heartImg;
 	}
+	
+	
+	
+	
+	}
 
 
 
-}
+

@@ -29,6 +29,8 @@
 	
 	<button onclick="location.href='boardUploadPage'">게시글 업로드</button>
 	<button onclick="location.href='boardList'">게시글 목록</button>
+	<button onclick="location.href='chart'">차트 목록</button>
+	<button onclick="location.href='genre'">장르 목록</button>
 	
 	<button th:if="${session.login ne null} and ${session.login.mId ne 'admin'}" th:onclick="'location.href=\'' + @{moveChating(mId=${session.login.mId})} + '\''">채팅하기</button>
 	<button th:if="${session.login ne null} and ${session.login.mId eq 'admin'}"  onclick="location.href='chatlist'">채팅방목록보기</button>

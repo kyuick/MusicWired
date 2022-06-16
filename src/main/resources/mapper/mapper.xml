@@ -59,6 +59,8 @@
     <update id="LikeDown" parameterType="int">
         UPDATE MUSIC SET MULIKE = MULIKE -1,HEARTIMG = -1 WHERE MUCODE =#{muCode}
     </update>
+    
+    
 
 
 </mapper>

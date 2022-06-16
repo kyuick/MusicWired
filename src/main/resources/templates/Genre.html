@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>장르</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<style type="text/css">
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+</style>
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+</script>
+
+<script type="text/javascript">
+
+function on3(){
+	console.log('시발!');
+	
+ 	$.ajax({
+			type : "POST",
+			url : "balGenre",
+			dataType:'json',
+			success : function(list){
+				
+				genrelist(list);
+				alert("성공");
+				console.log("성공");
+			},
+			error : function(){
+				alert("실패");
+			}
+		});
+}
+
+	function genrelist(list){
+		var output="";
+		
+		output +="<table>";
+		output +="<tr>";
+		output +="<th>가수이름</th>";
+		output +="<th>음악이름</th>";
+		output +="<th>음악장르</th>";
+		output +="<th>게시일</th>";
+		output +="<th>조회수</th>";
+		output +="<th>좋아요수</th>";
+		output +="<th>가격</th>";
+		output +="</tr>	";
+	
+		for(var i in list){
+		output +="<td>"+list[i].muSinger+"</td>";
+		output +="<td><a href='muView?muCode="+list[i].muCode+"'>"+list[i].muName+"</td>";
+		output +="<td>"+list[i].muGanre+"</td>";
+		output +="<td>"+list[i].muDate+"</td>";
+		output +="<td>"+list[i].muHit+"</td>";
+		output +="<td>"+list[i].muLike+"</td>";
+		output +="<td>"+list[i].muPrice+"</td>";
+		output +="</tr> ";
+		
+		var genreArea=document.getElementById('genreArea');
+		
+		genreArea.innerHTML=output;
+		}
+		
+	}
+	output +="</table>";
+
+</script>
+<body>
+		<h1>Ganre</h1>
+		<h2>장르 조회</h2>
+		<button  onclick="on3()">발라드</button>
+		<button onclick="on4">댄스</button>
+		<button onclick="on5">락</button>
+		<button onclick="on6">랩</button>
+		<button onclick="on7">인디</button>
+		<button onclick="on7">기타</button>
+
+
+	<div id="genreArea">
+	
+	</div>
+</body>
+</html>
