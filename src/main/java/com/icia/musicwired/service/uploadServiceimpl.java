@@ -112,10 +112,12 @@ public class uploadServiceimpl implements uploadService {
 	public ModelAndView muView(int muCode) {
 		System.out.println("2서비스 : " + muCode);
 		uploadDto muView = dao.muView(muCode);
-
+		LikeUpInsert = dao.LikeMid(muCode);
+//		LikeUpInsert = dao.LikeListCount(muCode);
 		System.out.println("4서비스 : " + mav);
 		mav.setViewName("mu_View");
 		mav.addObject("muView", muView);
+		mav.addObject("list", LikeUpInsert);
 		return mav;
 	}
 
@@ -254,10 +256,47 @@ public class uploadServiceimpl implements uploadService {
 		return LikeUpInsert;
 	}
 
+	@Override
+	public ModelAndView muLikeList(int page, int limit, int muCode) {
+		System.out.println("페이징 되라 서비스: "+page);
+		System.out.println("페이징 되라 서비스: "+limit);
+		System.out.println("페이징 되라 서비스: "+mav);
 
+		// 한 화면에 보여줄 페이지 번호 갯수
+		int block = 5;
 
+		// 전체 음원목록 갯수
+		int MusicLikeCount = dao.MusicLikeCount();
 
+		int startRow = (page - 1) * limit + 1;
+		int endRow = page * limit;
 
+		int maxPage = (int) (Math.ceil((double) MusicLikeCount / limit)); // Math.ceil 올림
+		int startPage = (((int) (Math.ceil((double) page / block))) - 1) * block + 1;
+		int endPage = startPage + block - 1;
+		// 오류 방지
+		if (endPage > maxPage) {
+			endPage = maxPage;
+
+		}
+		pagingDto paging = new pagingDto();
+
+		paging.setPage(page);
+		paging.setStartRow(startRow);
+		paging.setEndRow(endRow);
+		paging.setMaxPage(maxPage);
+		paging.setStartPage(startPage);
+		paging.setEndPage(endPage);
+		paging.setLimit(limit);
+
+		List<MusicLikeDto> MusicLikeList = dao.MusicLikeList(paging);
+		List<MusicLikeDto> mlList = dao.mlList(muCode);
+		System.out.println("paging : " +paging);
+		mav.setViewName("MusicLikeList");
+		mav.addObject("muLikeList", mlList);
+		mav.addObject("paging", paging);
+		return mav;
+	}
 
 
 }

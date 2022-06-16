@@ -9,6 +9,23 @@
     alert('로그인 이후 이용해주세요.');
     location.href = "memberLogin";
 </script>
+<style>
+    a:link{
+        color: black;
+    }
+    a:visited{
+        color: black;
+    }
+    a:hover{
+        color: black;
+    }
+    a:active{
+        color: black;
+    }
+    a{
+        text-decoration-line: none;
+    }
+</style>
 <body>
 
 <table>
@@ -72,7 +89,7 @@
             <img th:if="${muView.muLike}==0" th:src="@{/heart/heart1.png}" style="width:30px;" HEIGHT="30" th:class="Heart"  th:id="LikeImg"/>
             <img th:if="${muView.muLike}!=0" th:src="@{/heart/heart2.png}" style="width:30px;" HEIGHT="30" th:class="HeartDown"  th:id="LikeImgDown"/>
         </th>
-        <th th:text="${muView.muLike}+'명이 좋아합니다.'" th:id="muLike"> <a th:href="@{muLike(muCode=${muView.muCode})}"></a></th>
+        <td><a th:href="@{muLikeList(muCode=${muView.muCode})}" th:text="${muView.muLike}+'명이 좋아합니다.'" th:id="muLike"></a></td>
     </tr>
     <tr>
         <td><a th:href="@{fileModiForm(muCode=${muView.muCode})}">
@@ -86,7 +103,7 @@
 </table>
 <input type="hidden" th:value="${muView.heartImg}" th:id="heartImg">
 <input type="hidden" th:value="${session.login.mId}" th:id="mId">
-<div th:id="LikeArea"></div>
+
 </body>
 
 
@@ -107,11 +124,15 @@
        console.log('이미지'+LikeImg);
        console.log('다운이미지'+LikeImgDown);
 
+       //else if 문으로 아이디와 하트이미지를 비교하는 거 해보기.
        if(heartImg>0){
            LikeImgDown.src ="/heart/heart2.png";
        }else{
            LikeImg.src ="/heart/heart1.png";
        }
+
+
+
        //좋아요 버튼을 클릭 시 실행되는 코드
        $("#LikeImg").click(function () {
            $.ajax({
@@ -172,7 +193,7 @@
            },
            dataType:"json",
            success:function (Down) {
-               console.log('다운리스트'+Down);
+
                $.ajax({
                    type: "POST",
                    url: "LikeUpDelete",
@@ -182,7 +203,7 @@
                    },
                    dataType: "json",
                    success: function (likeDelete) {
-                        alert(likeDelete);
+
                    },
                    error: function () {
                        alert("좋아요취소 실패");

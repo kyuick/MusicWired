@@ -40,4 +40,7 @@ public interface uploadService {
 	List<uploadDto> LikeDown(int muCode);
 	//좋아요 테이블에서 삭제
 	List<MusicLikeDto> LikeDelete(MusicLikeDto mlDto);
+
+
+	ModelAndView muLikeList(int page, int limit, int muCode);
 }

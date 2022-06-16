@@ -22,7 +22,7 @@
     </tr>
     <tr th:each="list : ${upList}">
     <td th:text="${list.muSinger}"></td>
-        <td><a th:href="@{muView(muCode=${list.muCode})}" th:text="${list.muName}" id="audio"></a></td>
+        <td><a th:href="@{muView(muCode=${list.muCode},mId=${session.login.mId})}" th:text="${list.muName}" id="audio"></a></td> <!--href에 값을 여러개를 가져갈 수 있다.-->
         <td th:text="${list.muGanre}"></td>
         <td th:text="${list.muDate}"></td>
         <td th:text="${list.muHit}"></td>
