@@ -20,134 +20,133 @@ import com.icia.musicwired.service.MemberService;
 public class MemberController {
 
 	private ModelAndView mav = new ModelAndView();
-	
+
 	@Autowired
 	private MemberService msvc;
-	
+
 	@Autowired
 	private HttpSession session;
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index() {
+	public String index() {
 
-        return "index";
-    }
-	
+		return "index";
+	}
+
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index1() {
+	public String index1() {
 
-        return "index";
-    }
-	
-	
+		return "index";
+	}
+
 	// memberJoinForm
-	@RequestMapping(value="/memberJoinForm", method=RequestMethod.GET)
+	@RequestMapping(value = "/memberJoinForm", method = RequestMethod.GET)
 	public String memberJoinForm() {
 		return "Mem_JoinForm";
 	}
-	
+
 	// memberJoin
-	@RequestMapping(value="/memberJoin", method=RequestMethod.POST)
+	@RequestMapping(value = "/memberJoin", method = RequestMethod.POST)
 	public ModelAndView memberJoin(@ModelAttribute MemberDTO member) throws IllegalStateException, IOException {
 		mav = msvc.memberJoin(member);
 		return mav;
 	}
 
-	// memberLogin 
-	@RequestMapping(value="/memberLogin", method=RequestMethod.GET)
+	// memberLogin
+	@RequestMapping(value = "/memberLogin", method = RequestMethod.GET)
 	public String memberLogin() {
 		return "Mem_Login";
 	}
-	
+
 	// memLogin
-	@RequestMapping(value="/memLogin", method=RequestMethod.POST)
+	@RequestMapping(value = "/memLogin", method = RequestMethod.POST)
 	public ModelAndView memLogin(@ModelAttribute MemberDTO member) {
 		mav = msvc.memLogin(member);
 		return mav;
 	}
-	
+
 	// checkId
 	@RequestMapping(value = "/checkId", method = RequestMethod.POST)
-	public @ResponseBody String checkId(@RequestParam("mId")String mId) {
-		
+	public @ResponseBody String checkId(@RequestParam("mId") String mId) {
+
 		String msg = msvc.checkId(mId);
-		
+
 		return msg;
 	}
-	
+
 	// memberViewMe
-	@RequestMapping(value = "/memberViewMe", method=RequestMethod.GET)
+	@RequestMapping(value = "/memberViewMe", method = RequestMethod.GET)
 	public String memberViewMe() {
-		
+
 		return "Mem_ViewMe";
 	}
-	
+
 	// memberLogout
-	@RequestMapping(value= "/memberLogout", method = RequestMethod.GET)
+	@RequestMapping(value = "/memberLogout", method = RequestMethod.GET)
 	public String memberLogout() {
 		session.invalidate();
 		return "index";
 	}
-	
+
 	// memberModiForm
-	@RequestMapping(value="/memberModiForm", method=RequestMethod.GET)
-	public ModelAndView memberModiForm(@RequestParam("mId")String mId) {
+	@RequestMapping(value = "/memberModiForm", method = RequestMethod.GET)
+	public ModelAndView memberModiForm(@RequestParam("mId") String mId) {
 		mav = msvc.memberModiForm(mId);
 		return mav;
 	}
-	
+
 	// memberModify
-	@RequestMapping(value="/memberModify", method=RequestMethod.POST)
+	@RequestMapping(value = "/memberModify", method = RequestMethod.POST)
 	public ModelAndView memberModify(@ModelAttribute MemberDTO member) throws IllegalStateException, IOException {
 		mav = msvc.memberModify(member);
 		return mav;
 	}
-	
+
 	// memberDelete
-	@RequestMapping(value="/memberDelete", method=RequestMethod.GET)
+	@RequestMapping(value = "/memberDelete", method = RequestMethod.GET)
 	public ModelAndView memberDelete(@RequestParam("mId") String mId) {
 		System.out.println(mId);
 		mav = msvc.memberDelete(mId);
 		return mav;
 	}
-	
+
 	// memberList
-	@RequestMapping(value="/memberList", method=RequestMethod.GET)
+	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
 	public ModelAndView memberList() {
 		mav = msvc.memberList();
 		return mav;
 	}
-	
+
 	// memberView
-	@RequestMapping(value="/memberView", method=RequestMethod.GET)
+	@RequestMapping(value = "/memberView", method = RequestMethod.GET)
 	public ModelAndView memberView(@RequestParam("mId") String mId) {
 		mav = msvc.memberView(mId);
 		return mav;
 	}
-	
+
 	// memberIdfind
-	@RequestMapping(value="/memberIdfind", method=RequestMethod.GET)
+	@RequestMapping(value = "/memberIdfind", method = RequestMethod.GET)
 	public String memberIdfind() {
-		
+
 		return "Mem_Idfind";
 	}
-	
+
 	// memIdfind
-	@RequestMapping(value="/memIdfind", method = RequestMethod.POST)
+	@RequestMapping(value = "/memIdfind", method = RequestMethod.POST)
 	public ModelAndView memIdfind(@RequestParam("mEmail") String mEmail) {
 		mav = msvc.memIdfind(mEmail);
 		return mav;
 	}
-	
+
 	// memberPwfind
-	@RequestMapping(value="/memberPwfind", method=RequestMethod.GET)
+	@RequestMapping(value = "/memberPwfind", method = RequestMethod.GET)
 	public String memberPwfind() {
-		
+
 		return "Mem_Pwfind";
 	}
-	
+
 	// memPwfind
-	@RequestMapping(value="/memPwfind", method=RequestMethod.POST)
+	@RequestMapping(value = "/memPwfind", method = RequestMethod.POST)
 	public ModelAndView memPwfind(@ModelAttribute MemberDTO member) {
 		mav = msvc.memPwfind(member);
 		return mav;

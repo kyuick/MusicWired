@@ -9,10 +9,10 @@ import com.icia.musicwired.dto.uploadDto;
 
 @Mapper
 public interface uploadDao {
-	
-    int fileUpload(uploadDto dto);
-    
-    List<uploadDto> fileList(pagingDto paging);
+
+	int fileUpload(uploadDto dto);
+
+	List<uploadDto> fileList(pagingDto paging);
 
 	int fileModify(uploadDto dto);
 
@@ -34,5 +34,4 @@ public interface uploadDao {
 
 	List<uploadDto> boardWriterView(String boWriter);
 
-	
 }

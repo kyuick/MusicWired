@@ -68,9 +68,9 @@ public class uploadServiceimpl implements uploadService {
 
 	@Override
 	public ModelAndView fileList(int page, int limit) {
-    	System.out.println("페이징 되라 서비스: "+page);
-    	System.out.println("페이징 되라 서비스: "+limit);
-    	System.out.println("페이징 되라 서비스: "+mav);
+		System.out.println("페이징 되라 서비스: " + page);
+		System.out.println("페이징 되라 서비스: " + limit);
+		System.out.println("페이징 되라 서비스: " + mav);
 
 		// 한 화면에 보여줄 페이지 번호 갯수
 		int block = 5;
@@ -99,12 +99,12 @@ public class uploadServiceimpl implements uploadService {
 		paging.setEndPage(endPage);
 		paging.setLimit(limit);
 		List<uploadDto> upList = dao.fileList(paging);
-		System.out.println("paging : " +paging);
+		System.out.println("paging : " + paging);
 		mav.setViewName("up_List");
 		mav.addObject("upList", upList);
 		mav.addObject("paging", paging);
 		return mav;
-		
+
 	}
 
 	@Override

@@ -11,12 +11,13 @@
     <tr>
         <th>번호</th>
         <td><input type="hidden" th:value="${muView.muCode}" th:id="muCode" th:text="${muView.muCode}">
+       
         <td>
     </tr>
     <tr>
         <th>가수</th>
-        <td th:text="${muView.muSinger}">
-      
+        <td  >
+       <a th:href="@{boardWriterView(boWriter=${muView.muSinger})}" th:text="${muView.muSinger}"  ></a>
         <td>
     </tr>
     <tr>

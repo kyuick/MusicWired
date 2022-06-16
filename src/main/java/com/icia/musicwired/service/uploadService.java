@@ -8,18 +8,17 @@ import org.springframework.web.servlet.ModelAndView;
 import com.icia.musicwired.dto.uploadDto;
 
 public interface uploadService {
-    ModelAndView fileUpload(uploadDto dto) throws IOException;
+	ModelAndView fileUpload(uploadDto dto) throws IOException;
 
 	ModelAndView fileList(int page, int limit);
 
 	ModelAndView muView(int muCode);
 
-	//수정페이지이동
+	// 수정페이지이동
 	ModelAndView fileModiForm(int muCode);
 
-	//수정메소드
+	// 수정메소드
 	ModelAndView fileModify(uploadDto dto) throws IOException;
-
 
 	ModelAndView fileDelete(int muCode);
 

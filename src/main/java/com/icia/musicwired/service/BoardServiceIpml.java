@@ -22,22 +22,22 @@ import com.icia.musicwired.dto.MemberDTO;
 import com.icia.musicwired.dto.uploadDto;
 
 @Service
-public class BoardServiceIpml implements BoardService{
-private ModelAndView mav = new ModelAndView();
-	
+public class BoardServiceIpml implements BoardService {
+	private ModelAndView mav = new ModelAndView();
+
 	@Autowired
 	private BoardDAO bodao;
-	
+
 	@Autowired
 	private MemberDAO mdao;
-	
+
 	@Autowired
 	private uploadDao updao;
-	
+
 	List<BoardDTO> boardList = new ArrayList<BoardDTO>();
-	
+
 	List<BoardLikeDTO> boardLike = new ArrayList<BoardLikeDTO>();
-	
+
 //	boardUpload : 게시글 업로드 메소드
 	@Override
 	public ModelAndView boardUpload(BoardDTO board) throws IllegalStateException, IOException {
@@ -63,7 +63,7 @@ private ModelAndView mav = new ModelAndView();
 			board.setBoImage(boImage);
 			boImageFile.transferTo(new File(savePath));
 		}
-		
+
 		int result = bodao.boardUpload(board);
 
 		System.out.println("[3] 업로드 S : " + result);
@@ -79,27 +79,27 @@ private ModelAndView mav = new ModelAndView();
 //	boardList : 게시글 목록 메소드
 	@Override
 	public ModelAndView boardList() {
-		
+
 		List<BoardDTO> boardList = bodao.boardList();
-		
+
 		mav.setViewName("board_list");
-		mav.addObject("boardList",boardList);
-		
+		mav.addObject("boardList", boardList);
+
 		return mav;
 	}
 
 //	boardModiForm : 게시글 수정 페이지 이동
 	@Override
 	public ModelAndView boardModiForm(int boCode) {
-		
+
 		BoardDTO board = bodao.boardModiView(boCode);
-		
+
 		mav.setViewName("board_ModiForm");
-		mav.addObject("modi",board);
-		
+		mav.addObject("modi", board);
+
 		return mav;
 	}
-	
+
 //	boardModify : 게시글 수정 메소드
 	@Override
 	public ModelAndView boardModify(BoardDTO board) throws IllegalStateException, IOException {
@@ -125,7 +125,7 @@ private ModelAndView mav = new ModelAndView();
 			board.setBoImage(boImage);
 			boImageFile.transferTo(new File(savePath));
 		}
-		
+
 		int result = bodao.boardModify(board);
 
 		System.out.println("[3] 수정 S : " + result);
@@ -137,47 +137,47 @@ private ModelAndView mav = new ModelAndView();
 
 		return mav;
 	}
-	
+
 //	boardDelete : 게시글 삭제 메소드
 	@Override
 	public ModelAndView boardDelete(int boCode) {
 		System.out.println("[2] 삭제 S : " + boCode);
 		int result = bodao.boardDelete(boCode);
 		System.out.println("[3] 삭제 S : " + result);
-		if(result > 0) {
+		if (result > 0) {
 			mav.setViewName("redirect:/boardList");
 		} else {
 			mav.setViewName("index");
 		}
-		
+
 		return mav;
 	}
 
 //	ajaxBoardList : 게시글 목록 메소드(ajax)
 	@Override
 	public List<BoardDTO> ajaxBoardList() {
-		
+
 		boardList = bodao.ajaxBoardList();
-		
+
 		return boardList;
 	}
 
 //	boLikeUp : 좋아요 증가 메소드(ajax)
 	@Override
 	public List<BoardDTO> boLikeUp(int boCode) {
-		
+
 		System.out.println("[2] 좋아요증가 S : " + boCode);
-		
+
 		int result = bodao.boLikeUp(boCode);
-		
+
 		System.out.println("[3] 좋아요증가 S : " + result);
-		
-		if(result > 0) {
+
+		if (result > 0) {
 			boardList = bodao.ajaxBoardListSelect(boCode);
 		} else {
 			boardList = null;
 		}
-		
+
 		return boardList;
 	}
 
@@ -187,12 +187,12 @@ private ModelAndView mav = new ModelAndView();
 		System.out.println("[2] 좋아요감소 S : " + boCode);
 		int result = bodao.boLikeDown(boCode);
 		System.out.println("[3] 좋아요감소 S : " + result);
-		if(result > 0) {
+		if (result > 0) {
 			boardList = bodao.ajaxBoardListSelect(boCode);
 		} else {
 			boardList = null;
 		}
-		
+
 		return boardList;
 	}
 
@@ -200,12 +200,12 @@ private ModelAndView mav = new ModelAndView();
 	@Override
 	public List<BoardLikeDTO> boLikeInsert(BoardLikeDTO boLike) {
 		System.out.println("[2] 좋아요 테이블 등록 S : " + boLike);
-		
+
 		int result = bodao.boLikeInsert(boLike);
 		System.out.println("[3] 좋아요 테이블 등록 S : " + result);
-		
-		if(result>0) {
-			
+
+		if (result > 0) {
+
 		} else {
 			boardLike = null;
 		}
@@ -216,15 +216,15 @@ private ModelAndView mav = new ModelAndView();
 	@Override
 	public List<BoardLikeDTO> boLikeCheck(BoardLikeDTO boLike) {
 		System.out.println("[2] 좋아요 게시글 목록 불러오기 S : " + boLike);
-		
+
 		List<BoardLikeDTO> boLikeList = bodao.boLikeCheck(boLike);
-		
-		if(boLikeList != null) {
+
+		if (boLikeList != null) {
 			boardLike = boLikeList;
 		} else {
 			boardLike = null;
 		}
-		
+
 		System.out.println("[3] 좋아요 게시글 목록 불러오기 S : " + boLikeList);
 		return boardLike;
 	}
@@ -233,16 +233,16 @@ private ModelAndView mav = new ModelAndView();
 	@Override
 	public List<BoardLikeDTO> boLikeDelete(BoardLikeDTO boLike) {
 		System.out.println("[2] 좋아요 테이블 삭제 S : " + boLike);
-		
+
 		int result = bodao.boLikeDelete(boLike);
 		System.out.println("[3] 좋아요 테이블 삭제 S : " + result);
-		
-		if(result>0) {
-			
-		}else {
+
+		if (result > 0) {
+
+		} else {
 			boardLike = null;
 		}
-		
+
 		return boardLike;
 	}
 
@@ -251,9 +251,9 @@ private ModelAndView mav = new ModelAndView();
 	public List<BoardDTO> ajaxBoardSelect(String boTitle) {
 		System.out.println("[2] 게시글 제목검색 S : " + boTitle);
 		List<BoardDTO> board = bodao.ajaxBoardSelect(boTitle);
-		
+
 		boardList = board;
-		
+
 		System.out.println("[3] 게시글 제목검색 S : " + boTitle);
 		return boardList;
 	}
@@ -262,18 +262,18 @@ private ModelAndView mav = new ModelAndView();
 	@Override
 	public ModelAndView boardWriterView(String boWriter) {
 		System.out.println("[2] 게시글 작성자 피드 이동 S : " + boWriter);
-		
+
 		MemberDTO member = mdao.boardWriterView(boWriter);
 		List<uploadDto> music = updao.boardWriterView(boWriter);
 		List<BoardDTO> board = bodao.boardWriterView(boWriter);
-		
+
 		mav.setViewName("board_WriterFeed");
-		mav.addObject("memView",member);
-		mav.addObject("muViewList",music);
-		mav.addObject("boViewList",board);
-		
+		mav.addObject("memView", member);
+		mav.addObject("muViewList", music);
+		mav.addObject("boViewList", board);
+
 		System.out.println("[3] 게시글 작성자 피드 이동 S : " + mav);
-		
+
 		return mav;
 	}
 
@@ -281,17 +281,13 @@ private ModelAndView mav = new ModelAndView();
 	@Override
 	public List<BoardDTO> LikeBoardList(String bolMid) {
 		System.out.println("[2] 좋아요한 게시글 출력 S : " + bolMid);
-		
+
 		List<BoardDTO> board = bodao.LikeBoardList(bolMid);
-		
+
 		boardList = board;
-		
+
 		System.out.println("[3] 좋아요한 게시글 출력 S : " + bolMid);
 		return boardList;
 	}
-
-
-
-
 
 }

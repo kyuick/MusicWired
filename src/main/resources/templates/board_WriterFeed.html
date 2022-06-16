@@ -19,12 +19,14 @@
 	<div>
 		<button onclick="location.href='index'">홈페이지</button>
 		<button onclick="location.href='boardList'">목록으로</button>
+		<button th:id="subcheck" >구독</button><hr>
+		<div th:id="subarea"></div>
 	</div>
 	<table>
 		<caption>작성자 정보</caption>
 		<tr>
 			<th>아이디</th>
-			<td th:text="${memView.mId}"></td>
+			<td th:text="${memView.mId}" th:id="sid" th:value="${memView.mId}"></td>
 		</tr>
 		
 		<tr>
@@ -89,5 +91,53 @@
 	        <td th:text="${bolist.boDate}"></td>
 	    </tr>
 	</table>
+	<input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<script th:inline="javascript">
+var loginId = $("#mId").val();
+$(document).ready(function () {
+		var ssMid = loginId
+		var sserMid = $("#sid").attr("value");
+		console.log('로그인 아이디 : ' + ssMid);
+		console.log('구독당한 아이디 : ' + sserMid);
+	   $.ajax({
+          type: "POST",
+          url: "subreg",
+          data: {
+              "ssMid": ssMid ,
+              "sserMid": sserMid
+          },
+          dataType: "json",
+          success: function (subr) {
+
+              subList(subr);
+          },
+          error: function () {
+              alert('파이팅!!');
+          }
+      }); 
+function subList(subr){
+	var output = "";
+	
+	output += "<table>";
+	output += "<tr>";
+	output += "<td>팔로우</td>";
+	output += "<td>팔로잉</td>";
+	output += "<td>트랙</td>";
+	output += "</tr>";
+	output += "</table>";  
+	var subarea = document.getElementById('subarea');
+
+	subarea.innerHTML = output;
+
+}   
+
+});
+
+
+
+</script>
 </html>

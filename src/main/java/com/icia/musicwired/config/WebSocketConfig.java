@@ -8,16 +8,13 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 
 import com.icia.musicwired.handler.SocketHandler;
 
-
-
-
 @Configuration
 @EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer{
+public class WebSocketConfig implements WebSocketConfigurer {
 
 	@Autowired
 	SocketHandler socketHandler;
-	
+
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		registry.addHandler(socketHandler, "/chating/{roomNumber}");
