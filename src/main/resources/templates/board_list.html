@@ -86,9 +86,13 @@ table, tr, td, th {
 							output += "<td><img src='/ImageUpload/"+ list[i].boImage + "' style='width: 200px;'></td>";
 							
 							if(result == ""){
-								output += "<td id='"+ list[i].boCode +"' class='heartChange' value='check1'><img src='/heart/heart1.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>"
+								if(list[i].boLike <= 0){
+									output += "<td><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span></span></td>"
+								} else{
+									output += "<td><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'><strong>" + list[i].boLike + "명이 좋아합니다.</strong></span></td>"
+								}
 							} else if(result != ""){
-								output += "<td id='"+ list[i].boCode +"' class='heartChange' value='check2'><img src='/heart/heart2.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>"
+								output += "<td><img id='"+ list[i].boCode +"' class='heartChange' value='check2' src='/heart/heart2.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'><strong>" + list[i].boLike + "명이 좋아합니다.</strong></span></td>"
 							}
 							
 							if(sessionId == list[i].boWriter || sessionId == 'admin'){
@@ -111,6 +115,8 @@ table, tr, td, th {
 			var boardListArea = document.getElementById('boardListArea');
 			
 			boardListArea.innerHTML = output;
+			
+			
 			
 			// class명이 heartChange 인 태그를 클릭했을때 작동하는 메소드
 			$(".heartChange").click(function(){
@@ -153,14 +159,43 @@ table, tr, td, th {
 						
 						var output1 = "";
 						for ( var i in list) {
-							output1 += "<td id='"+ list[i].boCode +"'><img src='/heart/heart2.png' style='width: 25px;'/><span>"
-									+ list[i].boLike + "</span></td>";
+							if(list[i].boLike <= 0){
+								output1 += "<span></span>"
+							} else{
+								output1 += "<span id='"+list[i].boCode+"check' class='likeUserList'><strong>" + list[i].boLike + "명이 좋아합니다.</strong></span>"
+							}
+							
 						}
-						var td1 = document.getElementById(boCode);
+						var spanClassName = boCode + "check";
+						
+						var td1 = document.getElementById(spanClassName);
 						td1.innerHTML = output1;
+						
+						$(".likeUserList").off().one("click",function(){
+							
+							var boCode123 = $(this).attr('id');
+							console.log("선택한곳 코드 : "+boCode123);
+							
+							var selectBoardCode = boCode123.replace("check","");
+							console.log("선택한곳 코드자름 : "+selectBoardCode);
+							
+							/* $.ajax({
+								type : "POST",
+								url : "boardListUserList",
+								data : {"bolBoCode" : selectBoardCode},
+								dataType : "json",
+								success : function(list){
+									console.log(list)
+								},
+								error : function(){
+									alert('게시글 리스트 불러오기 실패');
+								}
+							}); */
+							
+						});
 					}
 					CheckHeart = $(this).attr('value',"check2")
-					
+					$(this).attr("src","/heart/heart2.png");
 				} else if(CheckHeart == "check2"){
 					$.ajax({
 						type : "POST",
@@ -192,24 +227,72 @@ table, tr, td, th {
 						
 						var output2 = "";
 						for(var i in list){
-							output2 += "<td id='"+ list[i].boCode +"'><img src='/heart/heart1.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>";
+							if(list[i].boLike <= 0){
+								output2 += "<span></span>"
+							} else if(list[i].boLike > 0){
+								output2 += "<span id='"+list[i].boCode+"check' class='likeUserList'><strong>" + list[i].boLike + "명이 좋아합니다.</strong></span>"
+							}
 						}
-						var td1 = document.getElementById(boCode);
+						
+						var spanClassName = boCode + "check";
+						document.getElementById(spanClassName).className = 'likeUserList';
+						
+						var td1 = document.getElementById(spanClassName);
 						td1.innerHTML = output2;
+						
+						$(".likeUserList").off().one("click",function(){
+							
+							var boCode123 = $(this).attr('id');
+							console.log("선택한곳 코드 : "+boCode123);
+							
+							var selectBoardCode = boCode123.replace("check","");
+							console.log("선택한곳 코드자름 : "+selectBoardCode);
+							
+							/* $.ajax({
+								type : "POST",
+								url : "boardListUserList",
+								data : {"bolBoCode" : selectBoardCode},
+								dataType : "json",
+								success : function(list){
+									console.log(list)
+								},
+								error : function(){
+									alert('게시글 리스트 불러오기 실패');
+								}
+							}); */
+							
+						});
 					}
+				
 					CheckHeart = $(this).attr('value',"check1");
+					$(this).attr("src","/heart/heart1.png");
+					
 				}
+				
 			});
-			// 다운
-			/* $(".heartDown").click(function(){
+			
+			$(".likeUserList").off().one("click",function(){
 				
-				var boCode = $(this).attr('id');
-				console.log("boCode1 : "+ boCode);
-				$(".heartDown").removeClass("heartDown");
-				$(this).addClass("heartUp");
+				var boCode123 = $(this).attr('id');
+				console.log("선택한곳 코드 : "+boCode123);
 				
+				var selectBoardCode = boCode123.replace("check","");
+				console.log("선택한곳 코드자름 : "+selectBoardCode);
 				
-			}); */
+				/* $.ajax({
+					type : "POST",
+					url : "boardListUserList",
+					data : {"bolBoCode" : selectBoardCode},
+					dataType : "json",
+					success : function(list){
+						console.log(list)
+					},
+					error : function(){
+						alert('게시글 리스트 불러오기 실패');
+					}
+				}); */
+				
+			});
 			
 			$("#searchBtn").click(function(){
 				

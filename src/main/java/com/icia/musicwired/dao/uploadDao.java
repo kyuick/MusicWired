@@ -34,5 +34,7 @@ public interface uploadDao {
 
 	List<uploadDto> boardWriterView(String boWriter);
 
+	List<uploadDto> ajaxFileList(pagingDto paging);
+
 	
 }

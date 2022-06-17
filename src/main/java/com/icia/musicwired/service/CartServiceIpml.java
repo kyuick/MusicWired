@@ -53,4 +53,22 @@ public class CartServiceIpml implements CartService{
 		return cartList;
 	}
 
+//	CartInCheck : 장바구니에 이미 담았는지 확인하는 메소드
+	@Override
+	public List<CartDTO> CartInCheck(CartDTO cart) {
+		System.out.println("[2] 장바구니 확인 S : " + cart);
+		
+		List<CartDTO> cartCheck = cartdao.CartInCheck(cart);
+		
+		System.out.println("[3] 장바구니 확인 S : " + cart);
+		
+		if(cartCheck != null) {
+			cartList = cartCheck;
+		} else {
+			cartList = null;
+		}
+		
+		return cartList;
+	}
+
 }

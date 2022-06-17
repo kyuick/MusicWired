@@ -63,5 +63,10 @@
 	<select id="boardWriterView" parameterType="String" resultType="audio">
 		SELECT * FROM MUSIC WHERE MUSINGER = #{boWriter}
 	</select>
+	
+	<!-- 전체 음악 목록 메소드 -->
+	<select id="ajaxFileList" resultType="audio">
+		SELECT * FROM PAGING WHERE RN BETWEEN #{startRow} AND #{endRow}
+	</select>
 
 </mapper>

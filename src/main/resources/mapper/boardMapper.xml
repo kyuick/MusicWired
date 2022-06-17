@@ -66,7 +66,7 @@
 	
 <!-- 게시글 제목검색(ajax) -->
 	<select id="ajaxBoardSelect" parameterType="String" resultType="Board">
-		SELECT * FROM BOARD WHERE BOTITLE LIKE '%'||#{boTitle}||'%'
+		SELECT * FROM BOARD WHERE BOTITLE LIKE '%'||#{boTitle}||'%' ORDER BY BOCODE DESC
 	</select>
 	
 <!-- 게시글 작성자 피드 이동 -->

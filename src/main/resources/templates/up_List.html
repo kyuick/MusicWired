@@ -3,6 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+table, tr, td, th {
+	border: 1px solid;
+	border-collapse: collapse;
+	padding: 10px;
+	text-align: center;
+}
+</style>
 </head>
 <script th:if="${session.login eq null}">
 	alert('로그인 이후 이용해주세요');
@@ -31,7 +39,7 @@
         <td th:text="${list.muDate}"></td>
         <td th:text="${list.muHit}"></td>
         <td th:text="${list.muLike}"></td>
-        <td th:text="${list.muPrice}"></td>
+        <td th:text="500"></td>
         
         <!-- <td th:id="check+${list.muCode}"><span style="background-color: gray; color: white;" th:id="${list.muCode}" th:class="cartChange" th:value="check1">장바구니 추가1</span></td> -->
         <td style="background-color: gray; color: white;" th:id="${list.muCode}" th:class="cartChange" th:value="check1">장바구니 추가</td>
@@ -45,12 +53,12 @@
         <code th:if="${paging.page > 1}">
             <a th:href="@{fileList(page=${paging.page-1},limit=${paging.limit})}" th:text="이전"></a>
         </code>
-
- 
+        
         <th:block th:each="i : ${#numbers.sequence(paging.startPage , paging.endPage)}">
           <code  th:if= "${paging.page eq i}" th:text="${i}"></code>
             <a th:unless="${paging.page eq i}" th:href="@{fileList(page=${i},limit=${paging.limit})}" ><code th:text="${i}"></code></a>
 		 </th:block>
+		 
 		<code th:if="${paging.page >= paging.maxPage}" th:text="다음"></code>
       <code th:if="${paging.page < paging.maxPage}">
             <a th:href="@{fileList(page=${paging.page+1},limit=${paging.limit})}" th:text="다음"></a>
@@ -92,7 +100,7 @@
 					CartAddSuccess(list);
 				},
 				error : function(){
-					alert('게시글 리스트 불러오기 실패');
+					alert('장바구니 추가 실패');
 				}
 			});
 			
@@ -102,8 +110,6 @@
 				
 				output += "<td style='background-color: red; color: white;' th:id='"+list.muCode+"'>추가완료</td>";
 				
-				console.log("output2"+output);
-				 
 				var td22 = document.getElementById(muCode);
 				console.log(td22);
 				td22.innerHTML = output;
@@ -123,7 +129,7 @@
 					CartDeleteSuccess(list);
 				},
 				error : function(){
-					alert('게시글 리스트 불러오기 실패');
+					alert('장바구니 삭제 실패');
 				}
 			});
 			
@@ -133,8 +139,6 @@
 				
 				output += "<td style='background-color: red; color: white;' th:id='"+list.muCode+"'>장바구니 추가</td>";
 				
-				console.log("output2"+output);
-				 
 				var td22 = document.getElementById(muCode);
 				console.log(td22);
 				td22.innerHTML = output;
@@ -144,7 +148,6 @@
 			cartCheck = $(this).attr('value','check1');
 			
 		}
-		
 	});
 	
 </script>

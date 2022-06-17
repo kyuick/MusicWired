@@ -2,6 +2,7 @@ package com.icia.musicwired.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,7 +12,7 @@ public interface uploadService {
     ModelAndView fileUpload(uploadDto dto) throws IOException;
 
 	ModelAndView fileList(int page, int limit);
-
+	
 	ModelAndView muView(int muCode);
 
 	//수정페이지이동
@@ -30,4 +31,6 @@ public interface uploadService {
 	List<uploadDto> LikeUp(int muCode);
 
 	List<uploadDto> LikeDown(int muCode);
+
+	Map<String, Object> ajaxFileList(int page,int limit);
 }

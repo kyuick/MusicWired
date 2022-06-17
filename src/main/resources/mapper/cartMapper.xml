@@ -13,5 +13,14 @@
 	<delete id="cartListDelete" parameterType="Cart">
 		DELETE FROM CART WHERE CAMID = #{caMid} AND CAMUCODE = #{caMuCode}
 	</delete>
-
+	
+<!-- 장바구니에 이미 담았는지 확인하는 메소드 -->
+	<select id="CartInCheck" parameterType="Cart" resultType="Cart">
+		SELECT *
+		FROM CART
+		WHERE CAMUCODE = #{caMuCode} AND CAMID = #{caMid}
+		ORDER BY CARCODE
+	</select>
+	
+	
 </mapper>

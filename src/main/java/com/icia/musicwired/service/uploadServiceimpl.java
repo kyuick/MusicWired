@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class uploadServiceimpl implements uploadService {
 	private uploadDao dao;
 
 	private ModelAndView mav = new ModelAndView();
+	
+	List<uploadDto> musicList = new ArrayList<uploadDto>();
 
 	@Override
 	public ModelAndView fileUpload(uploadDto dto) throws IOException {
@@ -108,7 +112,7 @@ public class uploadServiceimpl implements uploadService {
 		return mav;
 		
 	}
-
+	
 	@Override
 	public ModelAndView muView(int muCode) {
 		System.out.println("2서비스 : " + muCode);
@@ -229,6 +233,55 @@ public class uploadServiceimpl implements uploadService {
 		}
 
 		return LikeList;
+	}
+	
+//	ajaxFileList : 전체 음악 목록 메소드
+	@Override
+	public Map<String, Object> ajaxFileList(int page,int limit) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		// 한 화면에 보여줄 페이지 번호 갯수
+		int block = 5;
+
+		// 전체 음원목록 갯수
+		int muListCount = dao.muListCount();
+
+		int startRow = (page - 1) * limit + 1;
+		int endRow = page * limit;
+
+		int maxPage = (int) (Math.ceil((double) muListCount / limit));
+		int startPage = (((int) (Math.ceil((double) page / block))) - 1) * block + 1;
+		int endPage = startPage + block - 1;
+		// 오류 방지
+		if (endPage > maxPage) {
+			endPage = maxPage;
+
+		}
+		pagingDto paging = new pagingDto();
+
+		paging.setPage(page);
+		paging.setStartRow(startRow);
+		paging.setEndRow(endRow);
+		paging.setMaxPage(maxPage);
+		paging.setStartPage(startPage);
+		paging.setEndPage(endPage);
+		paging.setLimit(limit);
+		
+		System.out.println("paging : " +paging);
+		
+		musicList = dao.ajaxFileList(paging);
+		
+		System.out.println("musicList : " +musicList);
+		
+		if(musicList != null) {
+			result.put("musicList", musicList);
+			result.put("paging", paging);
+		}else {
+			result = null;
+		}
+		
+		return result;
 	}
 
 }
