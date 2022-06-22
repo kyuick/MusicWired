@@ -5,80 +5,40 @@ import java.util.List;
 import com.icia.musicwired.dto.MusicLikeDto;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.icia.musicwired.dto.MusicLikeDto;
 import com.icia.musicwired.dto.pagingDto;
 import com.icia.musicwired.dto.uploadDto;
 
 @Mapper
 public interface uploadDao {
 
-	
-	  int fileUpload(uploadDto dto);
-	    
-	    List<uploadDto> fileList(pagingDto paging);
-
-		int fileModify(uploadDto dto);
-
-		int fileDelete(int muCode);
-
-
+	//음원 업로드
+    int fileUpload(uploadDto dto);
+    //음원 리스트
+    List<uploadDto> fileList(pagingDto paging);
+	//음원 수정
+	int fileModify(uploadDto dto);
+	//음원 삭제
+	int fileDelete(int muCode);
+	//조회수
 	void muCount(uploadDto dto);
-
-
-		List<uploadDto> LikeList(int muCode);
-
-
-
-
+	//음원 상세보기
 	uploadDto muView(uploadDto dto);
+	//전체 음원목록 갯수
+	int muListCount();
 
+	// 좋아요 눌렀는지 확인
+	String LikeCheck(uploadDto dto);
 
-		int muListCount();
+	//해당 음원 좋아요 수
+	int LikeListCount(uploadDto dto);
 
-
-	////////////////////////////////////////////////////////////
-		//	좋아요 +1 메소드
-
-		//좋아요 +1
-		int LikeUp(int muCode);
-		int LikeUpInsert(MusicLikeDto mlDto);
-		List<MusicLikeDto> LikeCheck2(MusicLikeDto mlDto);
-	////////////////////////////////////////////////////////////
-
-
-	////////////////////////////////////////////////////////////
-		//좋아요 -1 메소드
-
-		//좋아요 -1
-		int LikeDown(int muCode);
-
-		//좋아요 테이블 삭제 result
-		int LikeDelete(MusicLikeDto mlDto);
-		//좋아요 테이블 삭제
-		List<MusicLikeDto> LikeDeleteCheck(MusicLikeDto mlDto);
-
-
-	////////////////////////////////////////////////////////////
-		//좋아요 리스트
-		List<MusicLikeDto> MusicLikeList(pagingDto paging);
-		// 좋아요 수 카운트
-		int MusicLikeCount();
-
-
-		List<MusicLikeDto> mlList(int muCode);
-
-		List<MusicLikeDto> LikeMid(int muCode);
-
-		List<uploadDto> boardWriterView(String boWriter);
-
-//		List<MusicLikeDto> LikeListCount(int muCode);
 
 ////////////////////////////////////////////////////////////
 	//	좋아요 +1 메소드
 
 	//좋아요 +1
 	int LikeUp(MusicLikeDto musicLikeDto);
-
+	//좋아요 +1 갯수(?)
 	int LikeTableUpCheck(MusicLikeDto musicLikeDto);
 ////////////////////////////////////////////////////////////
 
@@ -89,35 +49,21 @@ public interface uploadDao {
 	//좋아요 -1
 	int LikeDown(MusicLikeDto musicLikeDto);
 
-	//좋아요 테이블 삭제 result
-	int LikeDelete(MusicLikeDto mlDto);
-	//좋아요 테이블 삭제
+	//좋아요 테이블 데이터 삭제
+	int LikeTableDownCheck(MusicLikeDto musicLikeDto);
+	
+	List<uploadDto> boardWriterView(String boWriter);
+
 
 
 
 ////////////////////////////////////////////////////////////
-	//좋아요 리스트
-	List<MusicLikeDto> MusicLikeList(pagingDto paging);
-	// 좋아요 수 카운트
-	int MusicLikeCount();
-
-
-	List<MusicLikeDto> mlList(int muCode);
 
 
 
-	String LikeCheck(uploadDto dto);
 
-	int LikeListCount(uploadDto dto);
 
-	int LikeTableDownCheck(MusicLikeDto musicLikeDto);
 
-//	MemberDTO memberView(uploadDto uploadDto);
 
-//	List<MusicLikeDto> LikeMid(uploadDto uploadDto);
-
-//	List<MusicLikeDto> LikeListCount(int );
-
-//	List<MusicLikeDto> LikeListCount(int muCode);
 
 }

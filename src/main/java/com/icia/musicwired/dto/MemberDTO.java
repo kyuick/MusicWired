@@ -18,22 +18,12 @@ public class MemberDTO {
 	private String mNickname;
 	private int mPoint;
 
-	public String getmNickname() {
-		return mNickname;
-	}
-	public void setmNickname(String mNickname) {
-		this.mNickname = mNickname;
-	}
-	public int getmPoint() {
-		return mPoint;
-	}
-	public void setmPoint(int mPoint) {
-		this.mPoint = mPoint;
-	}
+	
+	
 	private MultipartFile mProfile;
 	private String mProfileName;
-	private String mNickName;
-	private int mPoint;
+	
+
 
 	public String getmId() {
 		return mId;
@@ -108,11 +98,11 @@ public class MemberDTO {
 	}
 
 	public String getmNickName() {
-		return mNickName;
+		return mNickname;
 	}
 
 	public void setmNickName(String mNickName) {
-		this.mNickName = mNickName;
+		this.mNickname = mNickName;
 	}
 
 	public int getmPoint() {
@@ -125,19 +115,11 @@ public class MemberDTO {
 
 	@Override
 	public String toString() {
-		return "MemberDTO{" +
-				"mId='" + mId + '\'' +
-				", mPw='" + mPw + '\'' +
-				", mName='" + mName + '\'' +
-				", mGender='" + mGender + '\'' +
-				", mEmail='" + mEmail + '\'' +
-				", mSub=" + mSub +
-				", mSuber=" + mSuber +
-				", mProfile=" + mProfile +
-				", mProfileName='" + mProfileName + '\'' +
-				", mNickName='" + mNickName + '\'' +
-				", mPoint=" + mPoint +
-				'}';
+		return "MemberDTO [mId=" + mId + ", mPw=" + mPw + ", mName=" + mName + ", mGender=" + mGender + ", mEmail="
+				+ mEmail + ", mSub=" + mSub + ", mSuber=" + mSuber + ", mNickname=" + mNickname + ", mPoint=" + mPoint
+				+ ", mProfile=" + mProfile + ", mProfileName=" + mProfileName + "]";
 	}
+
+	
 
 }

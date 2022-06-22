@@ -175,16 +175,6 @@ public class uploadController {
     }
 
 
-    //muLikeList  : 좋아요 리스트
-    @GetMapping("/muLikeList")
-    public ModelAndView muLikeList(@RequestParam(value = "muCode", required = true) int muCode,
-                                   @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-                                   @RequestParam(value = "limit", required = false, defaultValue = "5") int limit) {
-        mav = svc.muLikeList(page, limit, muCode);
-        System.out.println("페이징 되라 컨트롤러: " + page);
-        System.out.println("페이징 되라 컨트롤러: " + limit);
-        System.out.println("페이징 되라 컨트롤러: " + mav);
-        return mav;
-    }
+
 }
 
