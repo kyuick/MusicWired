@@ -18,8 +18,6 @@
 <body>
 	<h1>Member Index</h1>
 	
-	
-	
 	<button th:if="${session.login eq null}" onclick="location.href='memberJoinForm'">회원가입</button>
 	<button th:if="${session.login eq null}" onclick="location.href='memberLogin'">로그인</button>
 	<button th:if="${session.login ne null}" onclick="location.href='memberLogout'">로그아웃</button>
@@ -40,7 +38,8 @@
 	</div>
 	
 	<p th:if="${session.login ne null}" th:text="${session.login.mId}+'님 로그인 성공'"></p>
-	
+	<hr/>
+	<button onclick="location.href='kakaoPayTestPage'">결제테스트</button>
 	
 </body>
 </html>

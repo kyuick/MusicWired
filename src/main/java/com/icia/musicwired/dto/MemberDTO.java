@@ -3,7 +3,6 @@ package com.icia.musicwired.dto;
 import org.apache.ibatis.type.Alias;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @Alias("member")
 public class MemberDTO {
 
@@ -14,6 +13,8 @@ public class MemberDTO {
 	private String mEmail;
 	private int mSub;
 	private int mSuber;
+	private String mNickname;
+	private int mPoint;
 
 	private MultipartFile mProfile;
 	private String mProfileName;
@@ -59,6 +60,18 @@ public class MemberDTO {
 	public void setmSuber(int mSuber) {
 		this.mSuber = mSuber;
 	}
+	public String getmNickname() {
+		return mNickname;
+	}
+	public void setmNickname(String mNickname) {
+		this.mNickname = mNickname;
+	}
+	public int getmPoint() {
+		return mPoint;
+	}
+	public void setmPoint(int mPoint) {
+		this.mPoint = mPoint;
+	}
 	public MultipartFile getmProfile() {
 		return mProfile;
 	}
@@ -74,9 +87,10 @@ public class MemberDTO {
 	@Override
 	public String toString() {
 		return "MemberDTO [mId=" + mId + ", mPw=" + mPw + ", mName=" + mName + ", mGender=" + mGender + ", mEmail="
-				+ mEmail + ", mSub=" + mSub + ", mSuber=" + mSuber + ", mProfile=" + mProfile + ", mProfileName="
-				+ mProfileName + "]";
+				+ mEmail + ", mSub=" + mSub + ", mSuber=" + mSuber + ", mNickname=" + mNickname + ", mPoint=" + mPoint
+				+ ", mProfile=" + mProfile + ", mProfileName=" + mProfileName + "]";
 	}
+	
 	
 	
 }

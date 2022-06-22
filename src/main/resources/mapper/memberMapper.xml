@@ -5,7 +5,7 @@
 <mapper namespace="com.icia.musicwired.dao.MemberDAO">
 
 	<insert id="memberJoin" parameterType="member">
-		INSERT INTO MEMBER VALUES(#{mId}, #{mPw}, #{mName}, #{mGender}, #{mEmail}, 0, 0, #{mProfileName})
+		INSERT INTO MEMBER VALUES(#{mId}, #{mPw}, #{mName}, #{mGender}, #{mEmail}, 0, 0, #{mProfileName}, #{mNickname},0)
 	</insert>
 	
 	<select id="checkId" parameterType="String" resultType="String">

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.icia.musicwired.dao.BoCommentDAO;
 import com.icia.musicwired.dao.BoardDAO;
 import com.icia.musicwired.dao.MemberDAO;
 import com.icia.musicwired.dao.uploadDao;
@@ -33,6 +34,9 @@ private ModelAndView mav = new ModelAndView();
 	
 	@Autowired
 	private uploadDao updao;
+	
+	@Autowired
+	private BoCommentDAO bcdao;
 	
 	List<BoardDTO> boardList = new ArrayList<BoardDTO>();
 	
@@ -157,8 +161,13 @@ private ModelAndView mav = new ModelAndView();
 	@Override
 	public List<BoardDTO> ajaxBoardList() {
 		
-		boardList = bodao.ajaxBoardList();
+		List<BoardDTO> boardList = bodao.ajaxBoardList();
 		
+		boardList.forEach( board -> {
+
+			board.setBoComment(bcdao.bcList(board.getBoCode()));
+
+		});
 		return boardList;
 	}
 
@@ -287,6 +296,18 @@ private ModelAndView mav = new ModelAndView();
 		boardList = board;
 		
 		System.out.println("[3] 좋아요한 게시글 출력 S : " + bolMid);
+		return boardList;
+	}
+
+//	boardListUserList : 게시글을 좋아요한 사람들을 출력하는 메소드
+	@Override
+	public List<BoardDTO> boardListUserList(int bolBoCode) {
+		System.out.println("[2] 게시글을 좋아요한 사람들 S : " + bolBoCode);
+		
+		List<BoardDTO> board = bodao.boardListUserList(bolBoCode);
+		
+		boardList = board;
+		
 		return boardList;
 	}
 

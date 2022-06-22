@@ -38,4 +38,6 @@ public interface BoardService {
 
 	List<BoardDTO> LikeBoardList(String bolMid);
 
+	List<BoardDTO> boardListUserList(int bolBoCode);
+
 }

@@ -41,4 +41,6 @@ public interface BoardDAO {
 
 	List<BoardDTO> LikeBoardList(String bolMid);
 
+	List<BoardDTO> boardListUserList(int bolBoCode);
+
 }

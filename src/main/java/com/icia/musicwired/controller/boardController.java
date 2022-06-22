@@ -169,4 +169,13 @@ public class boardController {
 		return boardList;
 	}
 	
+//	boardListUserList : 게시글을 좋아요한 사람들을 출력하는 메소드
+	@PostMapping("boardListUserList")
+	public @ResponseBody List<BoardDTO> boardListUserList(@RequestParam("bolBoCode") int bolBoCode){
+		System.out.println("[1] 게시글을 좋아요한 사람들 C : " + bolBoCode);
+		boardList = bosvc.boardListUserList(bolBoCode);
+		System.out.println("[4] 게시글을 좋아요한 사람들 C : " + boardList);
+		return boardList;
+	}
+	
 }

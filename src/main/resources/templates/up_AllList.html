@@ -74,7 +74,7 @@ table, tr, td, th {
 					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
 				}
 			}
-			0
+			
 			if(paging.page >= paging.maxPage){
 				output += "<span> [다음]</span>"
 			} else if(paging.page < paging.maxPage){
@@ -184,6 +184,7 @@ table, tr, td, th {
 			output += "<th>좋아요수</th>";
 			output += "<th>가격</th>";
 			output += "<th>장바구니</th>";
+			output += "<th>결제</th>";
 			output += "</tr>";
 			
 			for(var i in musicList){
@@ -209,7 +210,7 @@ table, tr, td, th {
 							} else if(result != ""){
 								output += "<td style='background-color: red; color: white;' id='"+musicList[i].muCode+"' class='cartChange' value='check2'>추가완료</td>";
 							}
-							
+							output += "<td><button onclick='kakaoPay1()'>결제하기</button></td>";
 							output += "</tr>";
 						},
 						error: function(){
@@ -296,7 +297,9 @@ table, tr, td, th {
 		}
 		
 	});
-	
+	function kakaoPay1(){
+		location.href="kakaoPayTestPage/kakaoPay";
+	}
 	
 	
 </script>
