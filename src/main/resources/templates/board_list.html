@@ -527,12 +527,13 @@ table, tr, td, th {
 					dataType : "json",
 					success : function(list){
 						boardList(list);
-						
 					},
 					error : function(){
 						alert('게시글 리스트 불러오기 실패');
 					}
 				});
+				
+				
 			});
 			
 			$("#LikeBoardListBtn").click(function(){

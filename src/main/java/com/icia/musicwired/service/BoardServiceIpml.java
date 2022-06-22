@@ -259,9 +259,13 @@ private ModelAndView mav = new ModelAndView();
 	@Override
 	public List<BoardDTO> ajaxBoardSelect(String boTitle) {
 		System.out.println("[2] 게시글 제목검색 S : " + boTitle);
-		List<BoardDTO> board = bodao.ajaxBoardSelect(boTitle);
-		
-		boardList = board;
+		/* List<BoardDTO> board = bodao.ajaxBoardSelect(boTitle); */
+		List<BoardDTO> boardList = bodao.ajaxBoardSelect(boTitle);
+		boardList.forEach( board -> {
+
+			board.setBoComment(bcdao.bcList(board.getBoCode()));
+
+		});
 		
 		System.out.println("[3] 게시글 제목검색 S : " + boTitle);
 		return boardList;
@@ -291,9 +295,13 @@ private ModelAndView mav = new ModelAndView();
 	public List<BoardDTO> LikeBoardList(String bolMid) {
 		System.out.println("[2] 좋아요한 게시글 출력 S : " + bolMid);
 		
-		List<BoardDTO> board = bodao.LikeBoardList(bolMid);
-		
-		boardList = board;
+		/* List<BoardDTO> board = bodao.LikeBoardList(bolMid); */
+		List<BoardDTO> boardList = bodao.LikeBoardList(bolMid);
+		boardList.forEach( board -> {
+
+			board.setBoComment(bcdao.bcList(board.getBoCode()));
+
+		});
 		
 		System.out.println("[3] 좋아요한 게시글 출력 S : " + bolMid);
 		return boardList;
