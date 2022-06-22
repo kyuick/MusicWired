@@ -4,13 +4,13 @@ import org.apache.ibatis.type.Alias;
 
 @Alias("paging")
 public class pagingDto {
-	private int page;
-	private int startRow;
-	private int endRow;
-	private int maxPage;
-	private int startPage;
-	private int endPage;
-	private int limit;
+	private int page; //현재 페이지
+	private int startRow; //현재 페이지의 시작행
+	private int endRow;	//현재 페이지의 마지막 행
+	private int maxPage; // 리스트 행의 총 갯수
+	private int startPage; //시작페이지 
+	private int endPage; //마지막 페이지
+	private int limit; //한페이지의 행의 갯수
 	public int getPage() {
 		return page;
 	}

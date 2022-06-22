@@ -12,7 +12,51 @@
 </select>
 
 <select id="balgenre" resultType="audio">
-	SELECT * FROM MUSIC WHERE MUGANRE LIKE '발라드' ORDER BY MUDATE DESC
+	SELECT * FROM JJJ WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC 
+</select>
+
+    <select id="baladCount" resultType="int">
+		SELECT COUNT(*) FROM MUSIC WHERE MUGANRE='발라드'
+	</select>
+
+<select id="danceGenre" resultType="audio">
+	SELECT * FROM DANCE WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC
+</select>
+
+<select id="danceCount" resultType="int">
+	SELECT COUNT(*) FROM MUSIC WHERE MUGANRE='댄스'
+</select>
+
+<select id="rockGenre" resultType="audio">
+	SELECT * FROM ROCK WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC
+</select>
+
+<select id="rockCount" resultType="int">
+	SELECT COUNT(*) FROM MUSIC WHERE MUGANRE='락'
+</select>
+
+<select id="hiphopGenre" resultType="audio">
+	SELECT * FROM HIPHOP WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC
+</select>
+
+<select id="hiphopCount" resultType="int">
+	SELECT COUNT(*) FROM MUSIC WHERE MUGANRE='힙합'
+</select>
+
+<select id="indiGenre" resultType="audio">
+	SELECT * FROM INDI WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC
+</select>
+
+<select id="indiCount" resultType="int">
+	SELECT COUNT(*) FROM MUSIC WHERE MUGANRE='인디'
+</select>
+
+<select id="gitaGenre" resultType="audio">
+	SELECT * FROM GITA WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC
+</select>
+
+<select id="gitaCount" resultType="int">
+	SELECT COUNT(*) FROM MUSIC WHERE MUGANRE='기타'
 </select>
 
 
