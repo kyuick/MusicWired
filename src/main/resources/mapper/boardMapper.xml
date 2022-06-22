@@ -80,4 +80,17 @@
 		FROM BOARD B, BOARDLIKE BOL
 		WHERE BOCODE = BOLBOCODE AND BOLMID = #{bolMid}
 	</select>
+	<!--  게시글 작성자 팔로우 표시하는 메소드 -->
+	 <select id="memCount" resultType="int">
+		SELECT COUNT(*) FROM SUBSCRIPTION WHERE SSERMID = #{boWriter}
+	</select>
+	<select id="subCheck" parameterType="String" resultType="String">
+   SELECT SSMID FROM SUBSCRIPTION WHERE SSERMID=#{boWriter} AND SSMID=#{mId}
+   </select>
+    <select id="memCount1" resultType="int">
+		SELECT COUNT(*) FROM SUBSCRIPTION WHERE SSMID = #{mId}
+	</select>
+	<select id="muTrack" resultType="int">
+		SELECT COUNT(*) FROM MUSIC WHERE MUSINGER = #{boWriter}
+	</select>
 </mapper>

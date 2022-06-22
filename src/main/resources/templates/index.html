@@ -38,7 +38,20 @@
 	</div>
 	
 	<p th:if="${session.login ne null}" th:text="${session.login.mId}+'님 로그인 성공'"></p>
+
 	
+	<frameset rows="0,*">
+
+  <frame src="bgm.html" marginwidth="0" marginheight="0" noresize>
+  <frame src="main.html" marginwidth="0" marginheight="0" noresize>
+</frameset>
+
+<noframes>
+<body>프레임을 볼수 없는 브라우저에서는 에러가 발생합니다.</body>
+</noframes>
+
+
+
 	
 </body>
 </html>

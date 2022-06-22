@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +24,8 @@ import com.icia.musicwired.service.BoardService;
 public class boardController {
 
 	private ModelAndView mav = new ModelAndView();
-
+	@Autowired
+	private HttpSession session;
 	@Autowired
 	private BoardService bosvc;
 
@@ -151,15 +154,19 @@ public class boardController {
 		return boardList;
 	}
 
-//	boardWriterView : 게시글 작성자 피드로 이동하는 메소드
 	@GetMapping("boardWriterView")
-	public ModelAndView boardWriterView(@RequestParam("boWriter") String boWriter) {
-		System.out.println("[1] 게시글 작성자 피드 이동 C : " + boWriter);
-		mav = bosvc.boardWriterView(boWriter);
-		System.out.println("[4] 게시글 작성자 피드 이동 C : " + mav);
-		return mav;
-	}
-
+	   public ModelAndView boardWriterView(@RequestParam("boWriter") String boWriter,   
+	         @RequestParam(value = "mId", required = false, defaultValue = "user") String mId){//로그인 안한 유저들도 볼수 있게 
+	   
+	      System.out.println("[1] 게시글 작성자 피드 이동 C : " + boWriter);
+	      mav = bosvc.boardWriterView(boWriter,mId);
+	      
+	      String value = (String)session.getAttribute("login.mId");
+	      System.out.println("세션아이디"+value);
+	      
+	      System.out.println("[4] 게시글 작성자 피드 이동 C : " + mav);
+	      return mav;
+	   }
 //	LikeBoardList : 좋아요한 게시글만 출력하는 메소드
 	@PostMapping("LikeBoardList")
 	public @ResponseBody List<BoardDTO> LikeBoardList(@RequestParam("boWriter") String bolMid) {

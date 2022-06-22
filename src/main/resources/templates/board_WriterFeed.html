@@ -2,141 +2,372 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="author" content="kooky"/>
-	<meta name="description" content="inputBoot index"/>
-	<title>Spring Boot Index</title>
-	<style>
-		th, td, table{
-			border : 1px solid black;
-			border-collapse : collapse;
-		}
-	</style>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="author" content="kooky"/>
+   <meta name="description" content="inputBoot index"/>
+   <title>Spring Boot Index</title>
+   <style>
+      th, td, table{
+         border : 1px solid black;
+         border-collapse : collapse;
+      }
+   </style>
+   <style>
+#modal.modal-overlay {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(1.5px);
+            -webkit-backdrop-filter: blur(1.5px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            display: none;
+        }
+        #modal .modal-window {
+            background: rgba( 69, 139, 197, 0.70 );
+            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+            backdrop-filter: blur( 13.5px );
+            -webkit-backdrop-filter: blur( 13.5px );
+            border-radius: 10px;
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            width: 400px;
+            height: 500px;
+            position: relative;
+            top: -100px;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        #modal .title {
+            padding-left: 10px;
+            display: inline;
+            text-shadow: 1px 1px 2px gray;
+            color: white;
+            
+        }
+        #modal .title h2 {
+            display: inline;
+        }
+        #modal .close-area {
+            display: inline;
+            float: right;
+            padding-right: 10px;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px gray;
+            color: white;
+        }
+        
+        #modal .content {
+            margin-top: 20px;
+            padding: 0px 10px;
+            text-shadow: 1px 1px 2px gray;
+            color: white;
+           
+        }
+</style>
 </head>
 <body>
-	<div>
-		<button onclick="location.href='index'">홈페이지</button>
-		<button onclick="location.href='boardList'">목록으로</button>
-		<button th:id="subcheck" >구독</button><hr>
-		<div th:id="subarea"></div>
-	</div>
-	<table>
-		<caption>작성자 정보</caption>
-		<tr>
-			<th>아이디</th>
-			<td th:text="${memView.mId}" th:id="sid" th:value="${memView.mId}"></td>
-		</tr>
-		
-		<tr>
-			<th>이름</th>
-			<td th:text="${memView.mName}"></td>
-		</tr>
-		
-		<tr>
-			<th>이메일</th>
-			<td th:text="${memView.mEmail}"></td>
-		</tr>
-		
-		<tr>
-			<th>성별</th>
-			<td th:text="${memView.mGender}"></td>
-		</tr>
-		
-		<tr>
-			<th>프로필 사진</th>
-			<td><img th:src="@{/profile/{aa}(aa=${memView.mProfileName})}" style="width:200px;"/></td>
-		</tr>
-	</table>
+   <div id="container">
+        <div id="lorem-ipsum"></div>
+    </div>
+    <div id="modal" class="modal-overlay" role="dialog">
+        <div class="modal-window">
+            <div class="title">
+                <h2 id="modalTitle"></h2>
+            </div>
+            <div class="close-area">X</div>
+            <div class="content" id="content">
+            </div>
+        </div>
+    </div>
+   <div>
+      <button onclick="location.href='index'">홈페이지</button>
+      <button onclick="location.href='boardList'">목록으로</button>
+   </div>
+   <div th:if="${session.login.mId ne memView.mId}">   
+      <input type="button" th:if="${subCheck eq 0}" th:id="subcheck" th:value="팔로우하기"> 
+      <input type="button" th:if="${subCheck eq 1}" th:id="subcheck" th:value="팔로우취소"> 
+   </div>
+   
+
+   
+   
+   
+   <table>
+      <tr>
+         <td>팔로우</td>
+         <td>팔로잉</td>
+         <td>트랙</td>
+      </tr>
+      <tr>
+      <td ><a href="#"><span th:id="subList" th:text="${memCount}" th:value="${memCount}"></span></a></td>
+      <td><a href="#"><span  th:id="suberList" th:text="${memCount1}" th:value="${memCount1}"></span></a></td>
+      <td th:id="muTrack" th:text="${muTrack}"></td>
+      </tr>
+   </table>
+   <table>
+      <caption>작성자 정보</caption>
+      <tr>
+         <th>아이디</th>
+         <td th:text="${memView.mId}" th:id="sid" th:value="${memView.mId}"></td>
+      </tr>
+      
+      <tr>
+         <th>이름</th>
+         <td th:text="${memView.mName}"></td>
+      </tr>
+      
+      <tr>
+         <th>이메일</th>
+         <td th:text="${memView.mEmail}"></td>
+      </tr>
+      
+      <tr>
+         <th>성별</th>
+         <td th:text="${memView.mGender}"></td>
+      </tr>
+      
+      <tr>
+         <th>프로필 사진</th>
+         <td><img th:src="@{/profile/{aa}(aa=${memView.mProfileName})}" style="width:200px;"/></td>
+      </tr>
+   </table>
 <hr/>
-	<table>
-		<caption>등록한 음악</caption>
-	    <tr>
-	       <th>가수 이름</th>
-	        <th>음악 이름</th>
-	        <th>음악 장르</th>
-	        <th>게시일</th>
-	        <th>조회 수</th>
-	        <th>좋아요 수</th>
-	        <th>가격</th>
-	    </tr>
-	    <tr th:each="mulist : ${muViewList}">
-	    <td th:text="${mulist.muSinger}"></td>
-	        <td><a th:href="@{muView(muCode=${mulist.muCode})}" th:text="${mulist.muName}" id="audio"></a></td>
-	        <td th:text="${mulist.muGanre}"></td>
-	        <td th:text="${mulist.muDate}"></td>
-	        <td th:text="${mulist.muHit}"></td>
-	        <td th:text="${mulist.muLike}"></td>
-	        <td th:text="${mulist.muPrice}"></td>
-	    </tr>
-	</table>
+   <table>
+      <caption>등록한 음악</caption>
+       <tr>
+          <th>가수 이름</th>
+           <th>음악 이름</th>
+           <th>음악 장르</th>
+           <th>게시일</th>
+           <th>조회 수</th>
+           <th>좋아요 수</th>
+           <th>가격</th>
+       </tr>
+       <tr th:each="mulist : ${muViewList}">
+       <td th:text="${mulist.muSinger}"></td>
+           <td><a th:href="@{muView(muCode=${mulist.muCode})}" th:text="${mulist.muName}" id="audio"></a></td>
+           <td th:text="${mulist.muGanre}"></td>
+           <td th:text="${mulist.muDate}"></td>
+           <td th:text="${mulist.muHit}"></td>
+           <td th:text="${mulist.muLike}"></td>
+           <td th:text="${mulist.muPrice}"></td>
+       </tr>
+   </table>
 <hr/>
-	<table>
-		<caption>등록한 게시글</caption>
-	    <tr>
-	        <th>글번호</th>
-	        <th>제목</th>
-	        <th>내용</th>
-	        <th>이미지</th>
-	        <th>좋아요수</th>
-	        <th>작성일</th>
-	    </tr>
-	    <tr th:each="bolist : ${boViewList}">
-	    	<td th:text="${bolist.boCode}"></td>
-	    	<td th:text="${bolist.boTitle}"></td>
-	        <td th:text="${bolist.boContent}"></td>
-	        <td><img th:src="@{/ImageUpload/{aa}(aa=${bolist.boImage})}" style="width:200px;"/></td>
-	        <td th:text="${bolist.boLike}"></td>
-	        <td th:text="${bolist.boDate}"></td>
-	    </tr>
-	</table>
-	<input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
+   <table>
+      <caption>등록한 게시글</caption>
+       <tr>
+           <th>글번호</th>
+           <th>제목</th>
+           <th>내용</th>
+           <th>이미지</th>
+           <th>좋아요수</th>
+           <th>작성일</th>
+       </tr>
+       <tr th:each="bolist : ${boViewList}">
+          <td th:text="${bolist.boCode}"></td>
+          <td th:text="${bolist.boTitle}"></td>
+           <td th:text="${bolist.boContent}"></td>
+           <td><img th:src="@{/ImageUpload/{aa}(aa=${bolist.boImage})}" style="width:200px;"/></td>
+           <td th:text="${bolist.boLike}"></td>
+           <td th:text="${bolist.boDate}"></td>
+       </tr>
+   </table>
+   <input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>
 <script th:inline="javascript">
+
 var loginId = $("#mId").val();
 $(document).ready(function () {
-		var ssMid = loginId
-		var sserMid = $("#sid").attr("value");
-		console.log('로그인 아이디 : ' + ssMid);
-		console.log('구독당한 아이디 : ' + sserMid);
-	   $.ajax({
-          type: "POST",
-          url: "subreg",
-          data: {
-              "ssMid": ssMid ,
-              "sserMid": sserMid
-          },
-          dataType: "json",
-          success: function (subr) {
-
-              subList(subr);
-          },
-          error: function () {
-              alert('파이팅!!');
-          }
-      }); 
-function subList(subr){
-	var output = "";
-	
-	output += "<table>";
-	output += "<tr>";
-	output += "<td>팔로우</td>";
-	output += "<td>팔로잉</td>";
-	output += "<td>트랙</td>";
-	output += "</tr>";
-	output += "</table>";  
-	var subarea = document.getElementById('subarea');
-
-	subarea.innerHTML = output;
-
-}   
-
+   
 });
 
+
+$("#subcheck").click(function() {
+   
+   var ssMid = loginId;
+   var sserMid = $("#sid").attr("value");
+   console.log('로그인 아이디 : ' + ssMid);
+   console.log('구독당한 아이디 : ' + sserMid);
+   
+   if($("#subcheck").val() == "팔로우하기"){
+       $.ajax({
+            type: "POST",
+            url: "subreg",
+            data: {
+                "ssMid": ssMid ,
+                "sserMid": sserMid
+            },
+            dataType: "json",
+            success: function (subr) {
+            $("#subList").empty().append(subr);
+            $("#subcheck").attr('value','팔로우취소');
+
+            },
+            error: function () {
+                alert('파이팅!!');
+            }
+        }); 
+   }else{
+        $.ajax({
+            type: "POST",
+            url: "subcancel",
+            data: {
+                "ssMid": ssMid ,
+                "sserMid": sserMid
+            },
+            dataType: "json",
+            success: function (subr) {
+            $("#subList").empty().append(subr);
+            $("#subcheck").attr('value','팔로우하기');
+
+            
+            },
+            error: function () {
+                alert('파이팅!!');
+            }
+        }); 
+   }
+   
+   
+
+});
+$("#subList").click(function(){
+	  console.log("모달되냐?");
+	  var sserMid = $("#sid").attr("value");
+	  
+	  console.log(sserMid);
+	  $.ajax({
+		  type : "POST",
+		  url : "submodalList",
+		  data : {"sserMid" : sserMid},
+		  dataType: "json",
+          success: function (subr) {
+        	  
+        	var output = "";
+        	var output1 = "구독자";
+        	
+        	for(var i in subr){
+        		if(subr.length <= 0){
+        			output += "<p>구독을 눌러보세요<p>"
+        		}else if(subr.length > 0){
+        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + subr[i].mId + "</p>"
+        		}
+        	}
+        	const modalContent = document.getElementById("content");
+			modalContent.innerHTML = output;
+			
+			var modalTitle = document.getElementById("modalTitle");
+			modalTitle.innerHTML = output1;
+			
+			const modal = document.getElementById("modal")
+			
+			modal.style.display = "flex"
+			
+			const closeBtn = modal.querySelector(".close-area")
+			closeBtn.addEventListener("click", e => {
+				modal.style.display = "none"
+			});	
+			
+			modal.addEventListener("click", e => {
+			    const evTarget = e.target
+			    if(evTarget.classList.contains("modal-overlay")) {
+			        modal.style.display = "none"
+			    }
+			});
+			
+			window.addEventListener("keyup", e => {
+			    if(modal.style.display === "flex" && e.key === "Escape") {
+			        modal.style.display = "none"
+			    }
+			});
+			
+			console.log(subr);
+          },
+          error : function(){
+        	  alert('구독자 목록 불러오기 실패');
+          }
+	  });
+});
+	  $("#suberList").click(function(){
+		  console.log("모달되냐?");
+		  var ssMid = $("#sid").attr("value");
+		  
+		  console.log(ssMid);
+		  $.ajax({
+			  type : "POST",
+			  url : "subermodalList",
+			  data : {"ssMid" : ssMid},
+			  dataType: "json",
+	          success: function (subr) {
+	        	  
+	        	var output = "";
+	        	var output1 = "구독한 목록";
+	        	for(var i in subr){
+	        		if(subr.length <= 0){
+	        			output += "<p>구독을 눌러보세요<p>"
+	        		}else if(subr.length > 0){
+	        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + subr[i].mId + "</p>"
+	        		}
+	        	}
+	        	const modalContent = document.getElementById("content");
+				modalContent.innerHTML = output;
+				
+				var modalTitle = document.getElementById("modalTitle");
+				modalTitle.innerHTML = output1;
+				
+				const modal = document.getElementById("modal")
+				
+				modal.style.display = "flex"
+				
+				const closeBtn = modal.querySelector(".close-area")
+				closeBtn.addEventListener("click", e => {
+					modal.style.display = "none"
+				});	
+				
+				modal.addEventListener("click", e => {
+				    const evTarget = e.target
+				    if(evTarget.classList.contains("modal-overlay")) {
+				        modal.style.display = "none"
+				    }
+				});
+				
+				window.addEventListener("keyup", e => {
+				    if(modal.style.display === "flex" && e.key === "Escape") {
+				        modal.style.display = "none"
+				    }
+				});
+				
+				console.log(subr);
+	          },
+	          error : function(){
+	        	  alert('구독자 목록 불러오기 실패');
+	          }
+		  });	  
+	  
+});
+
+/* $("#subcheck1").click(function() {
+   
+   var ssMid = loginId;
+   var sserMid = $("#sid").attr("value");
+   console.log('로그인 아이디 : ' + ssMid);
+   console.log('구독당한 아이디 : ' + sserMid);
+ 
+}); */
 
 
 </script>

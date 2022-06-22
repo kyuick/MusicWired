@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.musicwired.dao.uploadDao;
+import com.icia.musicwired.dto.MusicLikeDto;
 import com.icia.musicwired.dto.pagingDto;
 import com.icia.musicwired.dto.uploadDto;
 
@@ -68,9 +69,9 @@ public class uploadServiceimpl implements uploadService {
 
 	@Override
 	public ModelAndView fileList(int page, int limit) {
-		System.out.println("페이징 되라 서비스: " + page);
-		System.out.println("페이징 되라 서비스: " + limit);
-		System.out.println("페이징 되라 서비스: " + mav);
+    	System.out.println("페이징 되라 서비스: "+page);
+    	System.out.println("페이징 되라 서비스: "+limit);
+    	System.out.println("페이징 되라 서비스: "+mav);
 
 		// 한 화면에 보여줄 페이지 번호 갯수
 		int block = 5;
@@ -99,22 +100,26 @@ public class uploadServiceimpl implements uploadService {
 		paging.setEndPage(endPage);
 		paging.setLimit(limit);
 		List<uploadDto> upList = dao.fileList(paging);
-		System.out.println("paging : " + paging);
+		System.out.println("paging : " +paging);
 		mav.setViewName("up_List");
 		mav.addObject("upList", upList);
 		mav.addObject("paging", paging);
+		
+		
 		return mav;
-
+		
 	}
 
 	@Override
 	public ModelAndView muView(int muCode) {
 		System.out.println("2서비스 : " + muCode);
 		uploadDto muView = dao.muView(muCode);
-
+		LikeUpInsert = dao.LikeMid(muCode);
+//		LikeUpInsert = dao.LikeListCount(muCode);
 		System.out.println("4서비스 : " + mav);
 		mav.setViewName("mu_View");
 		mav.addObject("muView", muView);
+		mav.addObject("list", LikeUpInsert);
 		return mav;
 	}
 
@@ -193,40 +198,108 @@ public class uploadServiceimpl implements uploadService {
 	////////////////////////////////////////////
 	// 좋아요 구현
 	List<uploadDto> LikeList = new ArrayList<uploadDto>();
+	List<MusicLikeDto> LikeUpInsert = new ArrayList<MusicLikeDto>();
 
-	// 좋아요 실행
-	@Override
-	public List<uploadDto> Like(int muCode) {
-		System.out.println("2like" + muCode);
-		LikeList = dao.LikeList(muCode);
-		System.out.println("4like" + LikeList);
-		return LikeList;
-	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	//좋아요 +1
 
 	@Override
 	public List<uploadDto> LikeUp(int muCode) {
-
+		System.out.println("[2] 좋아요:" + muCode);
 		int result = dao.LikeUp(muCode);
+		System.out.println("[4] 좋아요:" + muCode);
 		if (result > 0) {
-			LikeList = dao.LikeCheck(muCode);
+
 		} else {
 			LikeList = null;
 		}
 		return LikeList;
 	}
 
-	// 좋아요 취소
+	//좋아요테이블에 insert
+	@Override
+	public List<MusicLikeDto> LikeUpInsert(MusicLikeDto mlDto) {
+
+		int result = dao.LikeUpInsert(mlDto);
+		if (result > 0) {
+			LikeUpInsert = dao.LikeCheck2(mlDto);
+		} else {
+			LikeUpInsert = null;
+		}
+		return LikeUpInsert;
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//좋아요 취소
+
+
 	@Override
 	public List<uploadDto> LikeDown(int muCode) {
-
+		System.out.println("[2] 좋아요:" + muCode);
 		int result = dao.LikeDown(muCode);
+		System.out.println("[4] 좋아요:" + muCode);
 		if (result > 0) {
-			LikeList = dao.LikeCheck(muCode);
+
 		} else {
 			LikeList = null;
 		}
-
 		return LikeList;
 	}
+
+	//좋아요 테이블에서 delete
+	@Override
+	public List<MusicLikeDto> LikeDelete(MusicLikeDto mlDto) {
+		int result = dao.LikeDelete(mlDto);
+		if (result > 0) {
+			LikeUpInsert = dao.LikeDeleteCheck(mlDto);
+		} else {
+			LikeUpInsert = null;
+		}
+		return LikeUpInsert;
+	}
+
+	@Override
+	public ModelAndView muLikeList(int page, int limit, int muCode) {
+		System.out.println("페이징 되라 서비스: "+page);
+		System.out.println("페이징 되라 서비스: "+limit);
+		System.out.println("페이징 되라 서비스: "+mav);
+
+		// 한 화면에 보여줄 페이지 번호 갯수
+		int block = 5;
+
+		// 전체 음원목록 갯수
+		int MusicLikeCount = dao.MusicLikeCount();
+
+		int startRow = (page - 1) * limit + 1;
+		int endRow = page * limit;
+
+		int maxPage = (int) (Math.ceil((double) MusicLikeCount / limit)); // Math.ceil 올림
+		int startPage = (((int) (Math.ceil((double) page / block))) - 1) * block + 1;
+		int endPage = startPage + block - 1;
+		// 오류 방지
+		if (endPage > maxPage) {
+			endPage = maxPage;
+
+		}
+		pagingDto paging = new pagingDto();
+
+		paging.setPage(page);
+		paging.setStartRow(startRow);
+		paging.setEndRow(endRow);
+		paging.setMaxPage(maxPage);
+		paging.setStartPage(startPage);
+		paging.setEndPage(endPage);
+		paging.setLimit(limit);
+
+		List<MusicLikeDto> MusicLikeList = dao.MusicLikeList(paging);
+		List<MusicLikeDto> mlList = dao.mlList(muCode);
+		System.out.println("paging : " +paging);
+		mav.setViewName("MusicLikeList");
+		mav.addObject("muLikeList", mlList);
+		mav.addObject("paging", paging);
+		return mav;
+	}
+
+	
 
 }

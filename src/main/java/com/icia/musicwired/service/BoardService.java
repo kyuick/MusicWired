@@ -34,7 +34,7 @@ public interface BoardService {
 
 	List<BoardDTO> ajaxBoardSelect(String boTitle);
 
-	ModelAndView boardWriterView(String boWriter);
+	ModelAndView boardWriterView(String boWriter, String mId);
 
 	List<BoardDTO> LikeBoardList(String bolMid);
 

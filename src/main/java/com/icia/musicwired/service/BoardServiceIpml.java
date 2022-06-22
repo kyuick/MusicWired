@@ -19,6 +19,7 @@ import com.icia.musicwired.dao.uploadDao;
 import com.icia.musicwired.dto.BoardDTO;
 import com.icia.musicwired.dto.BoardLikeDTO;
 import com.icia.musicwired.dto.MemberDTO;
+import com.icia.musicwired.dto.subDTO;
 import com.icia.musicwired.dto.uploadDto;
 
 @Service
@@ -81,7 +82,14 @@ public class BoardServiceIpml implements BoardService {
 	public ModelAndView boardList() {
 
 		List<BoardDTO> boardList = bodao.boardList();
-
+//		  String subCheck = bodao.subCheck(boWriter,mId);
+//	      System.out.println("확인"+subCheck);
+//	      
+//	      if(subCheck != null) {
+//	         mav.addObject("subCheck", 1);
+//	      }else { 
+//	         mav.addObject("subCheck", 0);
+//	      }
 		mav.setViewName("board_list");
 		mav.addObject("boardList", boardList);
 
@@ -260,21 +268,36 @@ public class BoardServiceIpml implements BoardService {
 
 //	boardWriterView : 게시글 작성자 피드 이동
 	@Override
-	public ModelAndView boardWriterView(String boWriter) {
+	public ModelAndView boardWriterView(String boWriter, String mId) {
 		System.out.println("[2] 게시글 작성자 피드 이동 S : " + boWriter);
 
 		MemberDTO member = mdao.boardWriterView(boWriter);
 		List<uploadDto> music = updao.boardWriterView(boWriter);
 		List<BoardDTO> board = bodao.boardWriterView(boWriter);
+		int memCount = bodao.memCount(boWriter);  
+		int memCount1 = bodao.memCount1(boWriter);  
+		int muTrack = bodao.muTrack(boWriter);
+		   String subCheck = bodao.subCheck(boWriter,mId);
+		      System.out.println("확인"+subCheck);
+		      
+		      if(subCheck != null) {
+		         mav.addObject("subCheck", 1);
+		      }else { 
+		         mav.addObject("subCheck", 0);
+		      }
+		      System.out.println("트랙 : " + muTrack);
+		      mav.setViewName("board_WriterFeed");
+		      mav.addObject("memView", member);
+		      mav.addObject("muViewList", music);
+		      mav.addObject("boViewList", board);
+		      mav.addObject("memCount", memCount);
+		      mav.addObject("memCount1", memCount1);
+		      mav.addObject("muTrack", muTrack);
+		      
+		      System.out.println("[3] 게시글 작성자 피드 이동 S : " + mav);
 
-		mav.setViewName("board_WriterFeed");
-		mav.addObject("memView", member);
-		mav.addObject("muViewList", music);
-		mav.addObject("boViewList", board);
+		      return mav;
 
-		System.out.println("[3] 게시글 작성자 피드 이동 S : " + mav);
-
-		return mav;
 	}
 
 //	LikeBoardList : 좋아요한 게시글만 출력하는 메소드

@@ -2,6 +2,8 @@ package com.icia.musicwired.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +62,13 @@ public class MemberController {
 
 	// memLogin
 	@RequestMapping(value = "/memLogin", method = RequestMethod.POST)
-	public ModelAndView memLogin(@ModelAttribute MemberDTO member) {
+	public ModelAndView memLogin(@ModelAttribute MemberDTO member , HttpServletResponse response) {
+		//쿠키에 시간 정보를 주지 않으면 세션 쿠키가 된다. (브라우저 종료시 모두 종료)
+	    Cookie idCookie = new Cookie("memberId", String.valueOf(member.getmId()));
+	    idCookie.setMaxAge(60*60*24);
+	    response.addCookie(idCookie);
 		mav = msvc.memLogin(member);
+		
 		return mav;
 	}
 
@@ -83,9 +90,17 @@ public class MemberController {
 
 	// memberLogout
 	@RequestMapping(value = "/memberLogout", method = RequestMethod.GET)
-	public String memberLogout() {
+	public String memberLogout(HttpServletResponse response) {
+		 expiredCookie(response, "memberId");
 		session.invalidate();
 		return "index";
+	}
+
+	private void expiredCookie(HttpServletResponse response, String cookieName) {
+		  Cookie cookie = new Cookie(cookieName, null);
+		    cookie.setMaxAge(0);
+		    response.addCookie(cookie);
+		
 	}
 
 	// memberModiForm
