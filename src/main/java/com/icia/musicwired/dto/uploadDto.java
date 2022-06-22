@@ -10,20 +10,28 @@ import java.sql.Date;
 @Alias("audio")
 public class uploadDto {
 	private int muCode;
-	private String muSinger;
-	private String muName;
-	private String muGanre; // 장르
-	private Date muDate;
-	private String muImage;
-	private String muLyrics; // 가사
-	private int muHit;
-	private int muLike;
-	private int muPrice;
-	private String mFile;
 
-	private int heartImg; // 좋아요 하트 이미지
-	private MultipartFile muFile; // 음원
-	private MultipartFile mImage; // 포스터
+    private String muSinger;
+	private String mId;
+    private String muName;
+    private String muGanre;  //장르
+    private Date muDate;
+    private String muImage; //포스터 이름
+    private String muLyrics; //가사
+    private int muHit;
+    private int muPrice;
+    private String mFile; //음악 파일 이름
+    private MultipartFile muFile;  //음원
+    private MultipartFile mImage;  //포스터
+
+	public int getMuCode() {
+		return muCode;
+	}
+
+	public void setMuCode(int muCode) {
+		this.muCode = muCode;
+	}
+
 
 	public String getMuSinger() {
 		return muSinger;
@@ -31,6 +39,15 @@ public class uploadDto {
 
 	public void setMuSinger(String muSinger) {
 		this.muSinger = muSinger;
+	}
+
+
+	public String getmId() {
+		return mId;
+	}
+
+	public void setmId(String mId) {
+		this.mId = mId;
 	}
 
 	public String getMuName() {
@@ -81,13 +98,8 @@ public class uploadDto {
 		this.muHit = muHit;
 	}
 
-	public int getMuLike() {
-		return muLike;
-	}
 
-	public void setMuLike(int muLike) {
-		this.muLike = muLike;
-	}
+
 
 	public int getMuPrice() {
 		return muPrice;
@@ -96,6 +108,15 @@ public class uploadDto {
 	public void setMuPrice(int muPrice) {
 		this.muPrice = muPrice;
 	}
+
+	public String getmFile() {
+		return mFile;
+	}
+
+	public void setmFile(String mFile) {
+		this.mFile = mFile;
+	}
+
 
 	public MultipartFile getMuFile() {
 		return muFile;
@@ -113,36 +134,24 @@ public class uploadDto {
 		this.mImage = mImage;
 	}
 
-	public String getmFile() {
-		return mFile;
-	}
-
-	public void setmFile(String mFile) {
-		this.mFile = mFile;
-	}
-
-	public int getMuCode() {
-		return muCode;
-	}
-
-	public void setMuCode(int muCode) {
-		this.muCode = muCode;
-	}
 
 	@Override
 	public String toString() {
-		return "uploadDto [muCode=" + muCode + ", muSinger=" + muSinger + ", muName=" + muName + ", muGanre=" + muGanre
-				+ ", muDate=" + muDate + ", muImage=" + muImage + ", muLyrics=" + muLyrics + ", muHit=" + muHit
-				+ ", muLike=" + muLike + ", muPrice=" + muPrice + ", mFile=" + mFile + ", muFile=" + muFile
-				+ ", mImage=" + mImage + "]";
-	}
-
-	public int getHeartImg() {
-		return heartImg;
-	}
-
-	public void setHeartImg(int heartImg) {
-		this.heartImg = heartImg;
+		return "uploadDto{" +
+				"muCode=" + muCode +
+				", muSinger='" + muSinger + '\'' +
+				", mId='" + mId + '\'' +
+				", muName='" + muName + '\'' +
+				", muGanre='" + muGanre + '\'' +
+				", muDate=" + muDate +
+				", muImage='" + muImage + '\'' +
+				", muLyrics='" + muLyrics + '\'' +
+				", muHit=" + muHit +
+				", muPrice=" + muPrice +
+				", mFile='" + mFile + '\'' +
+				", muFile=" + muFile +
+				", mImage=" + mImage +
+				'}';
 	}
 
 }

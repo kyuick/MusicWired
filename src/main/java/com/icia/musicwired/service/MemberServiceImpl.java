@@ -30,6 +30,7 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private HttpSession session;
 
+
 	@Autowired
 	private PasswordEncoder pwEnc;
 

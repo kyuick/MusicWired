@@ -1,8 +1,8 @@
 package com.icia.musicwired.service;
 
 import java.io.IOException;
-import java.util.List;
 
+import com.icia.musicwired.dto.MusicLikeDto;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.musicwired.dto.MusicLikeDto;
@@ -13,10 +13,12 @@ public interface uploadService {
 
 	ModelAndView fileList(int page, int limit);
 
-	ModelAndView muView(int muCode);
+	ModelAndView muView(uploadDto dto);
+
+//	ModelAndView muView(int muCode, MemberDTO member);
 
 	//수정페이지이동
-	ModelAndView fileModiForm(int muCode);
+	ModelAndView fileModiForm(uploadDto dto);
 
 	//수정메소드
 	ModelAndView fileModify(uploadDto dto) throws IOException;
@@ -24,25 +26,18 @@ public interface uploadService {
 
 	ModelAndView fileDelete(int muCode);
 
-	void muCount(int muCode);
+	void muCount(uploadDto dto);
 
 	///////////////////////////////////////////////////////
 	//좋아요 +1
-	List<uploadDto> LikeUp(int muCode);
+	int LikeUp(MusicLikeDto musicLikeDto);
 
-	//좋아요 테이블에 추가
-	List<MusicLikeDto> LikeUpInsert(MusicLikeDto mlDto);
 
 	///////////////////////////////////////////////////////
 
 
 	//좋아요 -1
-	List<uploadDto> LikeDown(int muCode);
-	//좋아요 테이블에서 삭제
-	List<MusicLikeDto> LikeDelete(MusicLikeDto mlDto);
+	int LikeDown(MusicLikeDto musicLikeDto);
 
 
-	ModelAndView muLikeList(int page, int limit, int muCode);
-
-	
 }

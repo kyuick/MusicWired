@@ -26,7 +26,7 @@
 	
 	<update id="memberModify" parameterType="member">
 		UPDATE MEMBER SET MPW=#{mPw}, MNAME=#{mName}, MGENDER=#{mGender}, MEMAIL=#{mEmail},
-		MPROFILENAME=#{mProfileName} WHERE MID=#{mId}
+						  MPROFILENAME=#{mProfileName}, MNICKNAME=#{mNickname} WHERE MID=#{mId}
 	</update>
 	
 	<delete id="memberDelete" parameterType="String">

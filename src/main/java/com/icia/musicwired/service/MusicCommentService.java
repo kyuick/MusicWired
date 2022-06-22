@@ -1,5 +1,6 @@
 package com.icia.musicwired.service;
 
+
 import java.util.List;
 
 import com.icia.musicwired.dto.MusicCommentDTO;
@@ -13,5 +14,6 @@ public interface MusicCommentService {
 	List<MusicCommentDTO> mcModify(MusicCommentDTO mcomm);
 
 	List<MusicCommentDTO> mcDelete(MusicCommentDTO mcomm);
+
 
 }

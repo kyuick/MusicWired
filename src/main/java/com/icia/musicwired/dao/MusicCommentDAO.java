@@ -1,13 +1,14 @@
 package com.icia.musicwired.dao;
 
-import java.util.List;
-
+import com.icia.musicwired.dto.MusicCommentDTO;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.icia.musicwired.dto.MusicCommentDTO;
+import java.util.List;
+
 
 @Mapper
 public interface MusicCommentDAO {
+
 
 	List<MusicCommentDTO> mcList(int mcCode);
 
@@ -16,5 +17,6 @@ public interface MusicCommentDAO {
 	int mcModify(MusicCommentDTO mcomm);
 
 	int mcDelete(MusicCommentDTO mcomm);
+
 
 }
