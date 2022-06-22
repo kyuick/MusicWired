@@ -15,7 +15,6 @@
         <th>음악 장르</th>
         <th>게시일</th>
         <th>조회 수</th>
-        <th>좋아요 수</th>
         <th>가격</th>
         <th>장바구니</th>
     </tr>
@@ -25,7 +24,6 @@
         <td th:text="${list.muGanre}"></td>
         <td th:text="${list.muDate}"></td>
         <td th:text="${list.muHit}"></td>
-        <td th:text="${list.muLike}"></td>
         <td th:text="${list.muPrice}"></td>
         <td><button th:id="${list.muCode}" th:class="cartAdd">장바구니 추가</button></td>
     </tr>

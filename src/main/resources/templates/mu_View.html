@@ -10,25 +10,64 @@
     location.href = "memberLogin";
 </script>
 <style>
-    a:link {
-        color: black;
+    /*a:link {*/
+    /*    color: black;*/
+    /*}*/
+
+    /*a:visited {*/
+    /*    color: black;*/
+    /*}*/
+
+    /*a:hover {*/
+    /*    color: black;*/
+    /*}*/
+
+    /*a:active {*/
+    /*    color: black;*/
+    /*}*/
+
+    /*a {*/
+    /*    text-decoration-line: none;*/
+    /*}*/
+    #modal {
+        display:none;
+        position:absolute;
+        top : 80%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width:100%;
+        height:100%;
+        z-index:1;
     }
 
-    a:visited {
-        color: black;
+    #modal h2 {
+        margin:0;
     }
 
-    a:hover {
-        color: black;
+    #modal button {
+        display:inline-block;
+        width:100px;
+        margin-left:calc(100% - 100px - 10px);
     }
 
-    a:active {
-        color: black;
+    #modal .modal_content {
+        width:300px;
+        margin:100px auto;
+        padding:20px 10px;
+        background:#fff;
+        border:2px solid #666;
     }
 
-    a {
-        text-decoration-line: none;
+    #modal .modal_layer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgb(255, 255, 255);
+        z-index: -1;
     }
+
 </style>
 <body>
 
@@ -95,7 +134,7 @@
             <button th:if="${LikeCheck eq 1}"  style="width:30px;" HEIGHT="30"
                     th:id="LikeImg" th:value="LikeDown">👍</button>
         </th>
-        <td><a th:href="@{muLikeList(muCode=${muView.muCode})}" th:text="${list}+'명이 좋아합니다.'" th:id="muLike"></a></td>
+        <td><div th:id="root"><button th:type="button" th:text="${list}+'명이 좋아합니다.'" th:id="muLike"></button></div></td>
     </tr>
     <tr>
         <td><a th:href="@{fileModiForm(muCode=${muView.muCode})}">
@@ -107,8 +146,9 @@
     </tr>
 
 </table>
-<input type="hidden" th:value="${muView.heartImg}" th:id="heartImg">
+
 <input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
+
 
 <!--<div>-->
 <!--    <div th:each = 'list:${list}'>-->
@@ -123,6 +163,14 @@
 </div>
 <div th:id="mucommentArea">
 </div>
+<div th:id="modal">
+    <div th:class="modal_content">
+        <h2>모달 창</h2>
+        <p>모달 창 입니다.</p>
+        <button th:type="button" th:id="modal_close_btn">모달 창 닫기</button>
+    </div>
+    <div th:class="modal_layer"></div>
+</div>
 </body>
 
 
@@ -132,7 +180,7 @@
 <script th:inline="javascript">
     var loginId = $("#mId").val();
     // var muLike = document.getElementById('muLike');  //이미지 클릭시 화면에 출력되는 숫자 값
-    var heartImg = document.getElementById('heartImg').value; //뮤직 테이블에 있는 heartImg 컬럼에 들어갈 값
+
     const muCode = document.getElementById('muCode').value; // 음악 코드 값
     //const mId = document.getElementById('mId').value; // 아이디 값
 
@@ -321,6 +369,17 @@
     }
 
 
+
+
+</script>
+<script>
+    $("#muLike").click(function(){
+        $("#modal").fadeIn();
+    });
+
+    $("#modal_close_btn").click(function(){
+        $("#modal").fadeOut();
+    });
 </script>
 
 
