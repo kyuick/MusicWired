@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.musicwired.dao.uploadDao;
+import com.icia.musicwired.dto.MusicLikeDto;
 import com.icia.musicwired.dto.pagingDto;
 import com.icia.musicwired.dto.uploadDto;
 
@@ -109,6 +110,8 @@ public class uploadServiceimpl implements uploadService {
 		mav.setViewName("up_List");
 		mav.addObject("upList", upList);
 		mav.addObject("paging", paging);
+		
+		
 		return mav;
 		
 	}
@@ -134,6 +137,7 @@ public class uploadServiceimpl implements uploadService {
 		mav.setViewName("mu_View");
 		mav.addObject("muView", muView);
 		mav.addObject("list", LikeListCount);
+
 		return mav;
 	}
 
@@ -215,6 +219,7 @@ public class uploadServiceimpl implements uploadService {
 	List<MusicLikeDto> LikeUpInsert = new ArrayList<MusicLikeDto>();
 
 
+
 	////////////////////////////////////////////////////////////////////////////////////////
 	//좋아요 +1 / 좋아요 insert
 
@@ -229,11 +234,18 @@ public class uploadServiceimpl implements uploadService {
 	}
 
 
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	//좋아요 +1
+
+
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//좋아요 취소
 
 
 	@Override
+
 	public int LikeDown(MusicLikeDto musicLikeDto) {
 		System.out.println("[2] 좋아요:" + musicLikeDto);
 		int result = dao.LikeDown(musicLikeDto);
@@ -244,47 +256,8 @@ public class uploadServiceimpl implements uploadService {
 	}
 
 
-	@Override
-	public ModelAndView muLikeList(int page, int limit, int muCode) {
-		System.out.println("페이징 되라 서비스: "+page);
-		System.out.println("페이징 되라 서비스: "+limit);
-		System.out.println("페이징 되라 서비스: "+mav);
-
-		// 한 화면에 보여줄 페이지 번호 갯수
-		int block = 5;
-
-		// 전체 음원목록 갯수
-		int MusicLikeCount = dao.MusicLikeCount();
-
-		int startRow = (page - 1) * limit + 1;
-		int endRow = page * limit;
-
-		int maxPage = (int) (Math.ceil((double) MusicLikeCount / limit)); // Math.ceil 올림
-		int startPage = (((int) (Math.ceil((double) page / block))) - 1) * block + 1;
-		int endPage = startPage + block - 1;
-		// 오류 방지
-		if (endPage > maxPage) {
-			endPage = maxPage;
-
-		}
-		pagingDto paging = new pagingDto();
-
-		paging.setPage(page);
-		paging.setStartRow(startRow);
-		paging.setEndRow(endRow);
-		paging.setMaxPage(maxPage);
-		paging.setStartPage(startPage);
-		paging.setEndPage(endPage);
-		paging.setLimit(limit);
-
-		List<MusicLikeDto> MusicLikeList = dao.MusicLikeList(paging);
-		List<MusicLikeDto> mlList = dao.mlList(muCode);
-		System.out.println("paging : " +paging);
-		mav.setViewName("MusicLikeList");
-		mav.addObject("muLikeList", mlList);
-		mav.addObject("paging", paging);
-		return mav;
-	}
-
+	
+	
+	
 
 }

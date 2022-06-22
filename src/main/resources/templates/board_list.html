@@ -10,280 +10,246 @@
 <title></title>
 <style>
 table, tr, td, th {
-	border: 1px solid;
-	border-collapse: collapse;
-	padding: 10px;
-	text-align: center;
+   border: 1px solid;
+   border-collapse: collapse;
+   padding: 10px;
+   text-align: center;
 }
 </style>
 
 </head>
 
 <script th:if="${session.login eq null}">
-	alert('로그인 이후 이용해주세요');
-	location.href="memberLogin";
+   alert('로그인 이후 이용해주세요');
+   location.href="memberLogin";
 </script>
 
 <body>
-
-	<!-- <table>
-		<caption>게시글 목록</caption>
-
-		<tr th:each="list : ${boardList}">
-			<td th:text="${list.boCode}"></td>
-			<td th:text="${list.boWriter}"></td>
-			<td th:text="${list.boTitle}"></td>
-			<td th:text="${list.boDate}"></td>
-			<td th:text="${list.boContent}"></td>
-			<td><img th:src="@{/ImageUpload/{boImage}(boImage=${list.boImage})}" style="width: 200px;"></td>
-			<td>
-				<a th:onclick="|javascript:LikeUp('${list.boCode}')|" th:id="${list.boCode}">
-					<img src="/heart/heart1.png" style="width: 25px;" th:value="${list.boCode}">
-				</a>
-				
-				<a th:onclick="|javascript:LikeUp('${list.boCode}')|" th:id="${list.boCode}+'t'">
-					<img src="/heart/heart2.png" style="width: 25px; display: none;">
-				</a>
-				
-				<br/><span th:text="${list.boLike}"></span>
-			</td>
-			<th><a th:href="@{boardModiForm(boCode=${list.boCode})}" th:text="수정"></a></th>
-			<th><a th:href="@{bDelete(boCode=${list.boCode})}" th:text="삭제"></a></th>
-		</tr>
-	</table> -->
-	
-	<div id="boardListArea"></div>
-
+   <div> 
+      <input id="search" type="text" placeholder="검색어 입력"> <button id="searchBtn">검색</button>
+      <button id="LikeBoardListBtn">좋아요한 글목록</button>
+   </div>
+   <div><button onclick="location.href='index'">홈페이지</button></div>
+   <div id="boardListArea"></div>
+   <input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
 </body>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <script type="text/javascript" th:inline="javascript">
 
-	var CheckLogin = [[${session.login}]]
-	
-	if(CheckLogin != null){
-		var sessionId = [[${session.login.mId}]]
-	}
-	
-	console.log('sessionId = ' + sessionId);
+   var CheckLogin = [[${session.login}]]
+   
+   if(CheckLogin != null){
+      var sessionId = [[${session.login.mId}]]
+   }
+   
+   console.log('sessionId = ' + sessionId);
 
-	$(document).ready(function(){
-		
-		$.ajax({
-			type : "POST",
-			url : "ajaxBoardList",
-			dataType : "json",
-			success : function(list){
-				boardList(list);
-			},
-			error : function(){
-				alert('게시글 리스트 불러오기 실패');
-			}
-		});
-		
-		// 게시글 목록 메소드
-		function boardList(list){
-			
-			var output = "";
-			
-			output += "<table>";
-			
-			for(var i in list){
-				output += "<tr>";
-				output += "<td>" + list[i].boCode + "</td>";
-				output += "<td>" + list[i].boWriter + "</td>";
-				output += "<td>" + list[i].boTitle + "</td>";
-				output += "<td>" + list[i].boDate + "</td>";
-				output += "<td>" + list[i].boContent + "</td>";
-				output += "<td><img src='/ImageUpload/"+ list[i].boImage + "' style='width: 200px;'></td>";
-				output += "<td id='"+ list[i].boCode +"' class='heartUp'><img src='/heart/heart1.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>"
-				if(sessionId == list[i].boWriter){
-					output += "<td><a href='boardModiForm?boCode="+list[i].boCode +"'>수정</a></td>"
-					output += "<td><a href='boardDelete?boCode="+list[i].boCode +"'>삭제</a></td>";
-				} else{
-					output += "<td></td>"
-					output += "<td></td>"
-				}
-				output += "</tr>";
-			}
-			
-			output += "</table>";
+   $(document).ready(function(){  
+      var loginId = $("#mId").val();
+      
+      $.ajax({
+         type : "POST",
+         url : "ajaxBoardList",
+         dataType : "json",
+         success : function(list){
+            boardList(list);
+         },
+         error : function(){
+            alert('게시글 리스트 불러오기 실패');
+         }
+      });
+      
+      // 게시글 목록 메소드
+      function boardList(list){
+         
+         var output = "";
+         
+         output += "<table>";
+         
+         for(var i in list){
+            
+            (function(i){
+               $.ajax({
+                  type: "POST",
+                  url: "boLikeCheck",
+                  data: {"bolBoCode" : list[i].boCode,
+                        "bolMid" : sessionId},
+                  dataType: "json",
+                  async: false,
+                  success: function(result){
+                     output += "<tr>";
+                     output += "<td>" + list[i].boCode + "</td>";
+                     output += "<td><a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+loginId+"'>" + list[i].boWriter + "</a></td>";
+                     output += "<td>" + list[i].boTitle + "</td>";
+                     output += "<td>" + list[i].boDate + "</td>";
+                     output += "<td>" + list[i].boContent + "</td>";
+                     output += "<td><img src='/ImageUpload/"+ list[i].boImage + "' style='width: 200px;'></td>";
+                     
+                     if(result == ""){
+                        output += "<td id='"+ list[i].boCode +"' class='heartChange' value='check1'><img src='/heart/heart1.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>"
+                     } else if(result != ""){
+                        output += "<td id='"+ list[i].boCode +"' class='heartChange' value='check2'><img src='/heart/heart2.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>"
+                     }
+                     
+                     if(sessionId == list[i].boWriter || sessionId == 'admin'){
+                        output += "<td><a href='boardModiForm?boCode="+list[i].boCode +"'>수정</a></td>"
+                        output += "<td><a href='boardDelete?boCode="+list[i].boCode +"'>삭제</a></td>";
+                     } else{
+                        output += "<td></td>"
+                        output += "<td></td>"
+                     }
+                     output += "</tr>";
+                  },
+                  error: function(){
+                     alert('좋아요한 게시글 리스트 불러오기 실패');
+                  }
+               });
+             })(i);
+         }
+         output += "</table>";
 
-			var boardListArea = document.getElementById('boardListArea');
-			
-			boardListArea.innerHTML = output;
-			
-			// class명이 heartUp 인 태그를 클릭했을때 작동하는 메소드
-			$(".heartUp").click(function(){
-				
-				var boCode = $(this).attr('id');
-				console.log("boCode : "+boCode);
-				
-				$(this).removeClass("heartUp");
-				/* $(this).addClass("heartDown"); */
-				
-				$.ajax({
-					type : "POST",
-					url : "boLikeUp",
-					data : {"boCode" : boCode,},
-					dataType : "json",
-					success : function(list){
-						LikePlus(list);
-						/* $(this).attr("class","heartDown"); */
-						/* document.getElementById(boCode).classList.remove('heartUp'); */
-						/* document.getElementById(boCode).className='heartDown'; */
-						
-						$.ajax({
-							type : "POST",
-							url : "boLikeInsert",
-							data : {"bolBoCode" : boCode,
-									"bolMid" : sessionId},
-							dataType : "json",
-							success : function(list){
-								
-							},
-							error : function(){
-								alert('좋아요 테이블 등록 실패');
-							}
-						});
-						
-					},
-					error : function(){
-						alert('좋아요 증가 실패');
-					}
-				});
-				
-				// 좋아요 클릭시 좋아요 증가 메소드(ajax)
-				function LikePlus(list) {
-					
-					var output1 = "";
-					for ( var i in list) {
-						output1 += "<td id='"+ list[i].boCode +"'><img src='/heart/heart2.png' style='width: 25px;'/><span>"
-								+ list[i].boLike + "</span></td>"
-					}
-					
-					var td1 = document.getElementById(boCode);
-					
-					td1.innerHTML = output1;
-				
-					// 다운
-					$(".heartDown").click(function(){
-						
-						var boCode = $(this).attr('id');
-						console.log("boCode1 : "+ boCode);
-						/* $(".heartDown").removeClass("heartDown");
-						$(this).addClass("heartUp"); */
-						
-						$.ajax({
-							type : "POST",
-							url : "boLikeDown",
-							data : {"boCode" : boCode},
-							dataType : "json",
-							success : function(list){
-								LikeMinus(list);
-								/* document.getElementById(boCode).classList.remove('heartDown');
-								document.getElementById(boCode).className='heartUp'; */
-							},
-							error : function(){
-								alert('좋아요 감소 실패');
-							}
-						});
-						
-					// 좋아요 클릭시 좋아요 감소 메소드(ajax)
-						function LikeMinus(list){
-							
-							var output2 = "";
-							for(var i in list){
-								output2 += "<td id='"+ list[i].boCode +"'><img src='/heart/heart1.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>"
-							}
-							
-							var td1 = document.getElementById(boCode);
-							
-							td1.innerHTML = output2;
-						}
-						/* $(this).attr("class","heartUp"); */
-					});
-					
-				}
-				
-			});
-			
-		}
-		
-	});
-	
-	
+         var boardListArea = document.getElementById('boardListArea');
+         
+         boardListArea.innerHTML = output;
+         
+         // class명이 heartChange 인 태그를 클릭했을때 작동하는 메소드
+         $(".heartChange").click(function(){
+            
+            var boCode = $(this).attr('id');
+            console.log("boCode : "+boCode);
+            
+            var CheckHeart = $(this).attr('value');
+            console.log("CheckHeart : " + CheckHeart);
+            
+            if(CheckHeart == "check1"){
+               $.ajax({
+                  type : "POST",
+                  url : "boLikeUp",
+                  data : {"boCode" : boCode},
+                  dataType : "json",
+                  success : function(list){
+                     LikePlus(list);
+                     
+                     $.ajax({
+                        type : "POST",
+                        url : "boLikeInsert",
+                        data : {"bolBoCode" : boCode,
+                              "bolMid" : sessionId},
+                        dataType : "json",
+                        success : function(list){
+                        },
+                        error : function(){
+                        }
+                     });
+                     
+                  },
+                  error : function(){
+                     alert('좋아요 증가 실패');
+                  }
+               });
+               
+               // 좋아요 클릭시 좋아요 증가 메소드(ajax)
+               function LikePlus(list) {
+                  
+                  var output1 = "";
+                  for ( var i in list) {
+                     output1 += "<td id='"+ list[i].boCode +"'><img src='/heart/heart2.png' style='width: 25px;'/><span>"
+                           + list[i].boLike + "</span></td>";
+                  }
+                  var td1 = document.getElementById(boCode);
+                  td1.innerHTML = output1;
+               }
+               CheckHeart = $(this).attr('value',"check2")
+               
+            } else if(CheckHeart == "check2"){
+               $.ajax({
+                  type : "POST",
+                  url : "boLikeDown",
+                  data : {"boCode" : boCode},
+                  dataType : "json",
+                  success : function(list){
+                     LikeMinus(list);
+                     
+                     $.ajax({
+                        type : "POST",
+                        url : "boLikeDelete",
+                        data : {"bolBoCode" : boCode,
+                              "bolMid" : sessionId},
+                        dataType : "json",
+                        success : function(list){
+                        },
+                        error : function(){
+                        }
+                     });
+                  },
+                  error : function(){
+                     alert('좋아요 감소 실패');
+                  }
+               });
+               
+            // 좋아요 클릭시 좋아요 감소 메소드(ajax)
+               function LikeMinus(list){
+                  
+                  var output2 = "";
+                  for(var i in list){
+                     output2 += "<td id='"+ list[i].boCode +"'><img src='/heart/heart1.png' style='width: 25px;'/><span>" + list[i].boLike + "</span></td>";
+                  }
+                  var td1 = document.getElementById(boCode);
+                  td1.innerHTML = output2;
+               }
+               CheckHeart = $(this).attr('value',"check1");
+            }
+         });
+         // 다운
+         /* $(".heartDown").click(function(){
+            
+            var boCode = $(this).attr('id');
+            console.log("boCode1 : "+ boCode);
+            $(".heartDown").removeClass("heartDown");
+            $(this).addClass("heartUp");
+            
+            
+         }); */
+         
+         $("#searchBtn").click(function(){
+            
+            var searchName = $('#search').val();
+            console.log("searchName : "+ searchName);
+            
+            $.ajax({
+               type : "POST",
+               url : "ajaxBoardSelect",
+               data : {"boTitle" : searchName},
+               dataType : "json",
+               success : function(list){
+                  boardList(list);
+               },
+               error : function(){
+                  alert('게시글 리스트 불러오기 실패');
+               }
+            });
+         });
+         
+         $("#LikeBoardListBtn").click(function(){
+            
+            $.ajax({
+               type : "POST",
+               url : "LikeBoardList",
+               data : {"boWriter" : sessionId},
+               dataType : "json",
+               success : function(list){
+                  boardList(list);
+               },
+               error : function(){
+                  alert('게시글 리스트 불러오기 실패');
+               }
+            });
+         });
+      }
+   });
+   
 
-	
-		
-			
-		
-	
-
-	/* // 좋아요 클릭시 좋아요 증가 메소드(ajax)
-	function LikeUp(boCode){
-		
-		$.ajax({
-			type : "POST",
-			url : "boLikeUp",
-			data : {"boCode" : boCode},
-			dataType : "json",
-			success : function(list){
-				LikePlus(list);
-			},
-			error : function(){
-				alert('좋아요 클릭 실패');
-			}
-		});
-		
-	}
-	
-	// 좋아요 증가 메소드
-	function LikePlus(list){
-		$('.heartChange').click(function(){
-			var boCode11 = $(this).attr('id');
-			console.log("boCode11 : "+boCode11);
-			
-			var output1 = "";
-			for(var i in list){
-				output1 += "<td id='"+ list[i].boCode +"' class='heartChange'><a href='javascript:LikeDown("+ list[i].boCode +")'><img src='/heart/heart2.png' style='width: 25px';></a><br/><span>" + list[i].boLike + "</span></td>";
-			}
-			
-			var td1 = document.getElementById(boCode11);
-			td1.innerHTML = output1;
-		});
-	}
-	
-	// 좋아요 클릭시 좋아요 감소 메소드(ajax)
-	function LikeDown(boCode){
-		$.ajax({
-			type : "POST",
-			url : "boLikeDown",
-			data : {"boCode" : boCode},
-			dataType : "json",
-			success : function(list){
-				LikeMinus(list);
-			},
-			error : function(){
-				alert('좋아요 클릭 실패');
-			}
-		});
-	}
-	
-	// 좋아요 감소 메소드
-	function LikeMinus(list){
-		$('.heartChange').click(function(){
-			var boCode11 = $(this).attr('id');
-			console.log("boCode11 : "+boCode11);
-		var output2 = "";
-		
-		for(var i in list){
-			output2 += "<td id='"+ list[i].boCode +"'  class='heartChange'><a onclick='javascript:LikeUp("+ list[i].boCode +")'><img src='/heart/heart1.png' style='width: 25px';></a><br/><span>" + list[i].boLike + "</span></td>";
-		}
-		
-		var td1 = document.getElementById(boCode11);
-		td1.innerHTML = output2;
-		});
-	} */
 </script>
 </html>

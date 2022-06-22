@@ -5,10 +5,11 @@ import java.io.IOException;
 import com.icia.musicwired.dto.MusicLikeDto;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.icia.musicwired.dto.MusicLikeDto;
 import com.icia.musicwired.dto.uploadDto;
 
 public interface uploadService {
-    ModelAndView fileUpload(uploadDto dto) throws IOException;
+	ModelAndView fileUpload(uploadDto dto) throws IOException;
 
 	ModelAndView fileList(int page, int limit);
 
@@ -39,6 +40,4 @@ public interface uploadService {
 	int LikeDown(MusicLikeDto musicLikeDto);
 
 
-
-	ModelAndView muLikeList(int page, int limit, int muCode);
 }

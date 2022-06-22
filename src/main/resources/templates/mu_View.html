@@ -76,11 +76,13 @@
     <tr>
         <th>번호</th>
         <td><input type="hidden" th:value="${muView.muCode}" th:id="muCode" th:text="${muView.muCode}">
+       
         <td>
     </tr>
     <tr>
         <th>가수</th>
-        <td th:text="${muView.muSinger}">
+        <td  >
+       <a th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=${session.login.mId})}" th:text="${muView.muSinger}"  ></a>
         <td>
     </tr>
     <tr>
@@ -147,6 +149,7 @@
 
 </table>
 
+
 <input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
 
 
@@ -171,13 +174,15 @@
     </div>
     <div th:class="modal_layer"></div>
 </div>
+
 </body>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>
 <script th:inline="javascript">
+
     var loginId = $("#mId").val();
     // var muLike = document.getElementById('muLike');  //이미지 클릭시 화면에 출력되는 숫자 값
 
@@ -371,6 +376,8 @@
 
 
 
+
+
 </script>
 <script>
     $("#muLike").click(function(){
@@ -381,6 +388,7 @@
         $("#modal").fadeOut();
     });
 </script>
+
 
 
 </html>

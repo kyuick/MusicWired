@@ -10,6 +10,7 @@ import java.sql.Date;
 @Alias("audio")
 public class uploadDto {
 	private int muCode;
+
     private String muSinger;
 	private String mId;
     private String muName;
@@ -31,6 +32,7 @@ public class uploadDto {
 		this.muCode = muCode;
 	}
 
+
 	public String getMuSinger() {
 		return muSinger;
 	}
@@ -38,6 +40,7 @@ public class uploadDto {
 	public void setMuSinger(String muSinger) {
 		this.muSinger = muSinger;
 	}
+
 
 	public String getmId() {
 		return mId;
@@ -95,6 +98,9 @@ public class uploadDto {
 		this.muHit = muHit;
 	}
 
+
+
+
 	public int getMuPrice() {
 		return muPrice;
 	}
@@ -111,6 +117,7 @@ public class uploadDto {
 		this.mFile = mFile;
 	}
 
+
 	public MultipartFile getMuFile() {
 		return muFile;
 	}
@@ -126,6 +133,7 @@ public class uploadDto {
 	public void setmImage(MultipartFile mImage) {
 		this.mImage = mImage;
 	}
+
 
 	@Override
 	public String toString() {
@@ -145,4 +153,5 @@ public class uploadDto {
 				", mImage=" + mImage +
 				'}';
 	}
+
 }

@@ -5,15 +5,18 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+
 @Mapper
 public interface MusicCommentDAO {
 
-    List<MusicCommentDTO> mcList(int mcCode);
 
-    int mcWrite(MusicCommentDTO mcomm);
+	List<MusicCommentDTO> mcList(int mcCode);
 
-    int mcModify(MusicCommentDTO mcomm);
+	int mcWrite(MusicCommentDTO mcomm);
 
-    int mcDelete(MusicCommentDTO mcomm);
+	int mcModify(MusicCommentDTO mcomm);
+
+	int mcDelete(MusicCommentDTO mcomm);
+
 
 }

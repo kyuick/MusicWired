@@ -8,18 +8,23 @@
         INSERT INTO MUSIC
         VALUES (MUSIC_SEQ.NEXTVAL, #{muSinger}, #{muName}, #{muGanre},
                 SYSDATE, #{muImage}, #{muLyrics},
+
                 0, 0, #{mFile})
+
     </insert>
     <select id="fileList" resultType="audio">
         SELECT *
         FROM PAGING
         WHERE RN BETWEEN #{startRow} AND #{endRow}
     </select>
+
     <select id="muView" parameterType="audio" resultType="audio">
+
         SELECT *
         FROM MUSIC
         WHERE MUCODE = #{muCode}
     </select>
+
 
     <!--좋아요 상태 확인 -->
     <select id="LikeCheck" parameterType="mulike" resultType="String">
@@ -37,6 +42,7 @@
     <select id="memberView" parameterType="String" resultType="member">
         SELECT * FROM MEMBER WHERE MID = #{mId}
     </select>
+
 
     <select id="muListCount" resultType="int">
         SELECT COUNT(*)
@@ -70,12 +76,15 @@
         WHERE MUCODE = #{muCode}
     </select>
 
+
 <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <!-- 좋아요 +1 sql-->
     <insert id="LikeUp" parameterType="mulike">
+
         INSERT INTO MUSICLIKE
         VALUES (MULIKE_SEQ.NEXTVAL, #{mulmuCode}, #{mulMid})
     </insert>
+
 
     <select id="LikeTableUpCheck" parameterType="mulike" resultType="int">
        SELECT COUNT(*)
@@ -115,4 +124,39 @@
 
 
 
+    <delete id="LikeDelete" parameterType="mulike">
+        DELETE FROM MUSICLIKE WHERE MULMUCODE = #{mulmuCode} AND MULMID =#{mulMid}
+    </delete>
+
+    <select id="LikeDeleteCheck" parameterType="mulike" resultType="mulike">
+        SELECT *
+        FROM MUSICLIKE
+        WHERE MULMUCODE = #{mulmuCode}
+          AND MULMID = #{mulMid}
+    </select>
+
+
+    <select id="mlList" parameterType="int" resultType="member">
+        SELECT M.MID, M.MPROFILENAME
+        FROM MEMBER M,MUSICLIKE
+        WHERE MID=MULMID AND MULMUCODE =#{mulmuCode}
+    </select>
+
+    <select id="MusicLikeList" resultType="mulike">
+        SELECT *
+        FROM MUSICLIKEPAGING
+        WHERE RN BETWEEN #{startRow} AND #{endRow}
+    </select>
+    <select id="MusicLikeCount" resultType="int">
+        SELECT COUNT(*)
+        FROM MUSICLIKE
+    </select>
+
+<select id="LikeMid" parameterType="int" resultType="mulike">
+    SELECT MULMID FROM MUSICLIKE WHERE MULCODE = #{mulCode}
+</select>
+<!--<select id="LikeListCount" parameterType="int" >-->
+<!--    SELECT COUNT(*)-->
+<!--    FROM MUSICLIKE WHERE MULMUCODE = #{mulCode}-->
+<!--</select>-->
 </mapper>
