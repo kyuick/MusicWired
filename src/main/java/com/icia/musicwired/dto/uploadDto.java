@@ -11,6 +11,7 @@ import java.sql.Date;
 public class uploadDto {
 	private int muCode;
     private String muSinger;
+	private String mId;
     private String muName;
     private String muGanre;  //장르
     private Date muDate;
@@ -97,20 +98,43 @@ public class uploadDto {
 	public void setmFile(String mFile) {
 		this.mFile = mFile;
 	}
-	
+
 	public int getMuCode() {
 		return muCode;
 	}
 	public void setMuCode(int muCode) {
 		this.muCode = muCode;
 	}
+
+	public String getmId(){
+		return mId;
+	}
+
+	public void setmId(){
+		this.mId=mId;
+	}
+
 	@Override
 	public String toString() {
-		return "uploadDto [muCode=" + muCode + ", muSinger=" + muSinger + ", muName=" + muName + ", muGanre=" + muGanre
-				+ ", muDate=" + muDate + ", muImage=" + muImage + ", muLyrics=" + muLyrics + ", muHit=" + muHit
-				+ ", muLike=" + muLike + ", muPrice=" + muPrice + ", mFile=" + mFile + ", muFile=" + muFile
-				+ ", mImage=" + mImage + "]";
+		return "uploadDto{" +
+				"muCode=" + muCode +
+				", muSinger='" + muSinger + '\'' +
+				", mId='" + mId + '\'' +
+				", muName='" + muName + '\'' +
+				", muGanre='" + muGanre + '\'' +
+				", muDate=" + muDate +
+				", muImage='" + muImage + '\'' +
+				", muLyrics='" + muLyrics + '\'' +
+				", muHit=" + muHit +
+				", muLike=" + muLike +
+				", muPrice=" + muPrice +
+				", mFile='" + mFile + '\'' +
+				", heartImg=" + heartImg +
+				", muFile=" + muFile +
+				", mImage=" + mImage +
+				'}';
 	}
+
 	public int getHeartImg() {
 		return heartImg;
 	}

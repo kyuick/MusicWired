@@ -14,20 +14,21 @@
         <td th:text="${list.mId}" ></td>
     </tr>
 
+
 </table>
 <code th:if="${paging.page <= 1}" th:text="이전"></code>
 <code th:if="${paging.page > 1}">
-    <a th:href="@{fileList(page=${paging.page-1},limit=${paging.limit})}" th:text="이전"></a>
+    <a th:href="@{muLikeList(page=${paging.page-1},limit=${paging.limit})}" th:text="이전"></a>
 </code>
 
 
 <th:block th:each="i : ${#numbers.sequence(paging.startPage , paging.endPage)}">
     <code  th:if= "${paging.page eq i}" th:text="${i}"></code>
-    <a th:unless="${paging.page eq i}" th:href="@{fileList(page=${i},limit=${paging.limit})}" ><code th:text="${i}"></code></a>
+    <a th:unless="${paging.page eq i}" th:href="@{muLikeList(page=${i},limit=${paging.limit})}" ><code th:text="${i}"></code></a>
 </th:block>
 <code th:if="${paging.page >= paging.maxPage}" th:text="다음"></code>
 <code th:if="${paging.page < paging.maxPage}">
-    <a th:href="@{fileList(page=${paging.page+1},limit=${paging.limit})}" th:text="다음"></a>
+    <a th:href="@{muLikeList(page=${paging.page+1},limit=${paging.limit})}" th:text="다음"></a>
 </code>
 </body>
 </html>

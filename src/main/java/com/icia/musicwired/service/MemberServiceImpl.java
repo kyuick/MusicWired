@@ -23,13 +23,13 @@ import com.icia.musicwired.dto.MemberDTO;
 public class MemberServiceImpl implements MemberService{
 
 	private ModelAndView mav = new ModelAndView();
-	
+
 	@Autowired
 	private MemberDAO mdao;
-	
 	@Autowired
 	private HttpSession session;
-	
+
+
 	@Autowired
 	private PasswordEncoder pwEnc;
 	

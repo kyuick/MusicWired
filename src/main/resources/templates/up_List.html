@@ -6,7 +6,7 @@
 </head>
 <body>
 <div>
-    <button onclick="location.href='index'">홈페이지</button>
+    <button onclick="location.href='indexhtml'">홈페이지</button>
 </div>
 <table>
     <tr>
@@ -21,7 +21,7 @@
     </tr>
     <tr th:each="list : ${upList}">
         <td th:text="${list.muSinger}"></td>
-        <td><a th:href="@{muView(muCode=${list.muCode},mId=${session.login})}" th:text="${list.muName}" id="audio"></a></td>
+        <td><a th:href="@{muView(muCode=${list.muCode},mId=${session.login.mId})}" th:text="${list.muName}" id="audio"></a></td>
         <td th:text="${list.muGanre}"></td>
         <td th:text="${list.muDate}"></td>
         <td th:text="${list.muHit}"></td>

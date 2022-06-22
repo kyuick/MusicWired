@@ -19,13 +19,13 @@ public interface uploadDao {
 
 	int fileDelete(int muCode);
 
-	void muCount(int muCode);
+	void muCount(uploadDto dto);
 
 	List<uploadDto> LikeList(int muCode);
 
 
 
-	uploadDto muView(int muCode);
+	uploadDto muView(uploadDto dto);
 
 	int muListCount();
 
@@ -33,9 +33,9 @@ public interface uploadDao {
 	//	좋아요 +1 메소드
 
 	//좋아요 +1
-	int LikeUp(int muCode);
-	int LikeUpInsert(MusicLikeDto mlDto);
-	List<MusicLikeDto> LikeCheck2(MusicLikeDto mlDto);
+	int LikeUp(MusicLikeDto musicLikeDto);
+
+	int LikeTableUpCheck(MusicLikeDto musicLikeDto);
 ////////////////////////////////////////////////////////////
 
 
@@ -43,12 +43,12 @@ public interface uploadDao {
 	//좋아요 -1 메소드
 
 	//좋아요 -1
-	int LikeDown(int muCode);
+	int LikeDown(MusicLikeDto musicLikeDto);
 
 	//좋아요 테이블 삭제 result
 	int LikeDelete(MusicLikeDto mlDto);
 	//좋아요 테이블 삭제
-	List<MusicLikeDto> LikeDeleteCheck(MusicLikeDto mlDto);
+
 
 
 ////////////////////////////////////////////////////////////
@@ -60,7 +60,19 @@ public interface uploadDao {
 
 	List<MusicLikeDto> mlList(int muCode);
 
-	List<MusicLikeDto> LikeMid(int muCode);
+
+
+	String LikeCheck(uploadDto dto);
+
+	int LikeListCount(uploadDto dto);
+
+	int LikeTableDownCheck(MusicLikeDto musicLikeDto);
+
+//	MemberDTO memberView(uploadDto uploadDto);
+
+//	List<MusicLikeDto> LikeMid(uploadDto uploadDto);
+
+//	List<MusicLikeDto> LikeListCount(int );
 
 //	List<MusicLikeDto> LikeListCount(int muCode);
 }
