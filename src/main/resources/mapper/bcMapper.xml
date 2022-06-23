@@ -6,11 +6,6 @@
 	<select id="bcList" parameterType="int" resultType="BoComment">
 		SELECT * FROM BOCOMMENT WHERE BCBOCODE = #{bcBoCode}
 	</select>
-	
-	<!-- <select id="bcListlimit" parameterType="int" resultType="BoComment">
-		SELECT * FROM BOCOMMENT WHERE BCBOCODE = #{bcBoCode} limit 3
-	</select> -->
-	
 	<insert id="bcWrite" parameterType="BoComment">
 		INSERT INTO BOCOMMENT VALUES(BOCO_SEQ.NEXTVAL, #{bcMid}, #{bcBoCode}, #{bcContent}, SYSDATE)
 	</insert>

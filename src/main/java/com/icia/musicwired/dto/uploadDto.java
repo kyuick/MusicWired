@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
 
-@Data
+
 @Alias("audio")
 public class uploadDto {
 	private int muCode;
@@ -154,5 +154,6 @@ public class uploadDto {
 				", mImage=" + mImage +
 				'}';
 	}
+}
 
 

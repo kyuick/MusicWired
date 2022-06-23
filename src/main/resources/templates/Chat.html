@@ -2,22 +2,25 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<style>
-.notification-container {
-  background: rgba(0,0,0,.3);
-  border-radius: 10px;
-  padding: 15px 20px;
-  position: absolute;
-  bottom: 50px;
-  display: none;
-}
 
-.notification-container.show {
-display: flex;
+<style>
+
+	.toast-wrap {
+    display: table;
+    position: fixed;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    border-radius: 5%;
+    z-index: 999;
 }
 		*{
 			margin:0;
@@ -72,13 +75,14 @@ display: flex;
 
 <script type="text/javascript">
 	var ws;
-	
 
-	 $(document).ready(function(){
 	
+	    
+	    $(document).ready(function(){
+
 		 wsOpen();
-		
 		 
+		
 	});
 	
 	function wsOpen(){
@@ -96,6 +100,29 @@ display: flex;
 
 
 	
+	if($("#loginId").val() == "admin"){
+		
+		var crId = $("#loginId").val();
+		
+		$.ajax({
+			
+			type : "POST",
+			url : "/readupdate", 
+			data : {
+				"crId" : crId
+				},
+			dataType : "json",
+			success : function(){
+				
+			},
+			error : function(){
+			
+			}
+
+		});
+	}
+	
+	
 	function wsEvt() {
 		ws.onopen = function(data){
 			//소켓이 열리면 동작
@@ -104,6 +131,7 @@ display: flex;
 		
 		
 		ws.onmessage = function(data) {
+		
 			//메시지를 받으면 동작
 			var msg = data.data;
 			if(msg != null && msg.trim() != ''){
@@ -123,12 +151,33 @@ display: flex;
 					}if(d.userName !== $("#loginId").val()){
 						$("#chating").append("<p class='others'>" + d.userName + ": " + d.msg + "<p id='csDate1' class='others'>" + d.date + "</p></p>");
 					}
+					
+					if($("#loginId").val() == "admin"){
+						if(d.userName !== "admin"){
+						setTimeout(function () {
+				             notify(d.userName,d.msg);
+				         }, 300);
+					}
+					}
+					
+					/* if($("#loginId").val() !== "admin"){
+						if(d.userName == "admin"){
+						setTimeout(function () {
+				             notify(d.userName,d.msg);
+				         }, 300);
+					}
+					}
+ */
+
 						
 				}else{
 					console.warn("unknown type!")
 				}
 				document.getElementById('chating').scrollTop = document.getElementById('chating').scrollHeight;
-			}
+				 
+				
+		
+		}
 		
 		}
 		
@@ -175,13 +224,31 @@ display: flex;
 		
 	
 		
-	
-		
-		
 	}
 	
+	 window.onload = function () {
+         if (window.Notification) {
+             Notification.requestPermission();
+         }
+     }
 
+     function notify(name,msg) {
+        var name1 = name;
+        var msg1 = msg;
+    	 if (Notification.permission !== 'granted') {
+             alert('notification is disabled');
+         }
+         else {
+             var notification = new Notification(name1+'님이 메세지를 보냈습니다', {
+                 icon: 'http://192.168.1.100/static/chat/chaticon.png',
+                 body: msg1,
+             });
 
+             notification.onclick = function () {
+                 window.open('http://google.com');
+             };
+         }
+     }
 	
 </script>
 
@@ -221,8 +288,7 @@ display: flex;
 		</div>
 	</div>  
 	
-	  
+	  <div id="toast" class="toast-wrap"  th:fragment="toast1"></div>
 
-</body>
 </html>
 

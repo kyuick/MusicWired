@@ -13,8 +13,7 @@ public interface BoCommentDAO {
 
 	int bcWrite(BoCommentDTO boComment);
 	
-	List<BoCommentDTO> bcListlimit(int bcBoCode);
-
+	
 	int bcDelete(BoCommentDTO boComment);
 	
 	
