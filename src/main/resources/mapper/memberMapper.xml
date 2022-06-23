@@ -5,7 +5,9 @@
 <mapper namespace="com.icia.musicwired.dao.MemberDAO">
 
 	<insert id="memberJoin" parameterType="member">
+
 		INSERT INTO MEMBER VALUES(#{mId}, #{mPw}, #{mName}, #{mGender}, #{mEmail}, 0, 0, #{mProfileName}, #{mNickname},0)
+
 	</insert>
 	
 	<select id="checkId" parameterType="String" resultType="String">
@@ -26,7 +28,7 @@
 	
 	<update id="memberModify" parameterType="member">
 		UPDATE MEMBER SET MPW=#{mPw}, MNAME=#{mName}, MGENDER=#{mGender}, MEMAIL=#{mEmail},
-		MPROFILENAME=#{mProfileName} WHERE MID=#{mId}
+						  MPROFILENAME=#{mProfileName}, MNICKNAME=#{mNickname} WHERE MID=#{mId}
 	</update>
 	
 	<delete id="memberDelete" parameterType="String">

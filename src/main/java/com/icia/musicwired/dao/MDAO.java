@@ -11,7 +11,6 @@ import com.icia.musicwired.dto.MemberDTO;
 @Mapper
 public interface MDAO {
 
-	
 	int createRoom(String mId);
 
 	CRDTO getRoom(String mId);

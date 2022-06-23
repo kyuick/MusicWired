@@ -10,8 +10,6 @@ import com.icia.musicwired.dto.MemberDTO;
 
 public interface MService {
 
-	
-
 	ModelAndView createRoom(String mId);
 
 	ModelAndView chatlist();

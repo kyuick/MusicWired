@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.icia.musicwired.dto.BoardDTO;
 import com.icia.musicwired.dto.BoardLikeDTO;
+import com.icia.musicwired.dto.subDTO;
 
 @Mapper
 public interface BoardDAO {
@@ -42,5 +43,14 @@ public interface BoardDAO {
 	List<BoardDTO> LikeBoardList(String bolMid);
 
 	List<BoardDTO> boardListUserList(int bolBoCode);
+
+	int memCount(String boWriter);
+
+	String subCheck(String boWriter, String mId);
+
+	int memCount1(String boWriter);
+
+	int muTrack(String boWriter);
+
 
 }

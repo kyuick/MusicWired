@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -11,58 +12,63 @@ table, tr, td, th {
 	text-align: center;
 }
 </style>
+
 </head>
 <script th:if="${session.login eq null}">
 	alert('로그인 이후 이용해주세요');
 	location.href="memberLogin";
 </script>
 <body>
+
 	<div>
 		<button onclick="location.href='index'">홈페이지</button>
 	</div>
+
 <table>
     <tr>
-       <th>가수 이름</th>
+        <th>가수 이름</th>
         <th>음악 이름</th>
         <th>음악 장르</th>
         <th>게시일</th>
         <th>조회 수</th>
-        <th>좋아요 수</th>
         <th>가격</th>
         <th colspan="2">장바구니</th>
     </tr>
     
     <tr th:each="list : ${upList}">
-    	<td th:text="${list.muSinger}"></td>
-        <td><a th:href="@{muView(muCode=${list.muCode})}" th:text="${list.muName}" id="audio"></a></td>
+
+        <td th:text="${list.muSinger}"></td>
+        <td><a th:href="@{muView(muCode=${list.muCode},mId=${session.login.mId})}" th:text="${list.muName}" id="audio"></a></td>
         <td th:text="${list.muGanre}"></td>
         <td th:text="${list.muDate}"></td>
         <td th:text="${list.muHit}"></td>
         <td th:text="${list.muLike}"></td>
         <td th:text="500"></td>
-        
         <!-- <td th:id="check+${list.muCode}"><span style="background-color: gray; color: white;" th:id="${list.muCode}" th:class="cartChange" th:value="check1">장바구니 추가1</span></td> -->
-        <td style="background-color: gray; color: white;" th:id="${list.muCode}" th:class="cartChange" th:value="check1">장바구니 추가</td>
-        
+        <td style="background-color: gray; color: white;" th:id="${list.muCode}" th:class="cartChange" th:value="check1">장바구니 추가</td>     
         <!-- <td style="background-color: red; color: white;" th:id="${list.muCode}" th:class="cartChange" th:value="check2">추가완료</td> -->
-        
+        <td th:text="${list.muPrice}"></td>
+        <td><button th:id="${list.muCode}" th:class="cartAdd">장바구니 추가</button></td>
+
     </tr>
-    
+
 </table>
 <code th:if="${paging.page <= 1}" th:text="이전"></code>
-        <code th:if="${paging.page > 1}">
-            <a th:href="@{fileList(page=${paging.page-1},limit=${paging.limit})}" th:text="이전"></a>
-        </code>
-        
-        <th:block th:each="i : ${#numbers.sequence(paging.startPage , paging.endPage)}">
-          <code  th:if= "${paging.page eq i}" th:text="${i}"></code>
-            <a th:unless="${paging.page eq i}" th:href="@{fileList(page=${i},limit=${paging.limit})}" ><code th:text="${i}"></code></a>
-		 </th:block>
-		 
-		<code th:if="${paging.page >= paging.maxPage}" th:text="다음"></code>
-      <code th:if="${paging.page < paging.maxPage}">
-            <a th:href="@{fileList(page=${paging.page+1},limit=${paging.limit})}" th:text="다음"></a>
-        </code> 
+
+<code th:if="${paging.page > 1}">
+    <a th:href="@{fileList(page=${paging.page-1},limit=${paging.limit})}" th:text="이전"></a>
+</code>
+
+
+<th:block th:each="i : ${#numbers.sequence(paging.startPage , paging.endPage)}">
+    <code  th:if= "${paging.page eq i}" th:text="${i}"></code>
+    <a th:unless="${paging.page eq i}" th:href="@{fileList(page=${i},limit=${paging.limit})}" ><code th:text="${i}"></code></a>
+</th:block>
+<code th:if="${paging.page >= paging.maxPage}" th:text="다음"></code>
+<code th:if="${paging.page < paging.maxPage}">
+    <a th:href="@{fileList(page=${paging.page+1},limit=${paging.limit})}" th:text="다음"></a>
+</code>
+
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -149,6 +155,6 @@ table, tr, td, th {
 			
 		}
 	});
-	
+
 </script>
 </html>

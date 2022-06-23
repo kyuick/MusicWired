@@ -10,10 +10,10 @@
 <title></title>
 <style>
 table, tr, td, th {
-	border: 1px solid;
-	border-collapse: collapse;
-	padding: 10px;
-	text-align: center;
+   border: 1px solid;
+   border-collapse: collapse;
+   padding: 10px;
+   text-align: center;
 }
 
 #modal.modal-overlay {
@@ -83,11 +83,12 @@ table, tr, td, th {
 </head>
 
 <script th:if="${session.login eq null}">
-	alert('로그인 이후 이용해주세요');
-	location.href="memberLogin";
+   alert('로그인 이후 이용해주세요');
+   location.href="memberLogin";
 </script>
 
 <body>
+
 	<div> 
 		<input id="search" type="text" placeholder="검색어 입력"> <button id="searchBtn">검색</button>
 		<button id="LikeBoardListBtn">좋아요한 글목록</button>
@@ -108,11 +109,15 @@ table, tr, td, th {
             </div>
         </div>
     </div>
+
+   <input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
+
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <script type="text/javascript" th:inline="javascript">
+
 
 	var CheckLogin = [[${session.login}]]
 	
@@ -125,7 +130,7 @@ table, tr, td, th {
 	var clickCheck = false;
 
 	$(document).ready(function(){
-		
+		    var loginId = $("#mId").val();
 		function init(){
 			$.ajax({
 				type : "POST",
@@ -175,7 +180,7 @@ table, tr, td, th {
 						success: function(result){
 							output += "<tr>";
 							output += "<td>" + list[i].boCode + "</td>";
-							output += "<td><a href='boardWriterView?boWriter="+list[i].boWriter+"'>" + list[i].boWriter + "</a></td>";
+							output += "<td><a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+loginId+"'>" + list[i].boWriter + "</a></td>";
 							output += "<td>" + list[i].boTitle + "</td>";
 							output += "<td>" + list[i].boDate + "</td>";
 							output += "<td>" + list[i].boContent + "</td>";
@@ -554,6 +559,7 @@ table, tr, td, th {
 		}
 	});
 	
+
 
 </script>
 </html>
