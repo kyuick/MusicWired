@@ -33,6 +33,7 @@ public class uploadDto {
 	}
 
 
+
 	public String getMuSinger() {
 		return muSinger;
 	}
@@ -154,4 +155,4 @@ public class uploadDto {
 				'}';
 	}
 
-}
+

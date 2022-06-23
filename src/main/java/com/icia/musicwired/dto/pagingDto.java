@@ -4,6 +4,7 @@ import org.apache.ibatis.type.Alias;
 
 @Alias("paging")
 public class pagingDto {
+
 	private int page;
 	private int startRow;
 	private int endRow;
@@ -11,6 +12,7 @@ public class pagingDto {
 	private int startPage;
 	private int endPage;
 	private int limit;
+
 
 	public int getPage() {
 		return page;

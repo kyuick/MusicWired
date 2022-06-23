@@ -115,6 +115,7 @@
         FROM MUSICLIKEPAGING
         WHERE RN BETWEEN #{startRow} AND #{endRow}
     </select>
+
     <select id="MusicLikeCount" parameterType="mulike" resultType="int">
         SELECT COUNT(*)
         FROM MUSICLIKE
@@ -143,6 +144,7 @@
         WHERE MULMUCODE = #{mulmuCode}
           AND MULMID = #{mulMid}
     </select>
+
 
 
    

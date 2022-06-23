@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>장르</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<style type="text/css">
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+</style>
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+</script>
+
+<script type="text/javascript">
+
+
+
+$(document).ready(function(){
+
+	on3();
+ 
+});
+
+
+
+
+
+function on3(){
+	console.log('시발!');
+	
+ 	$.ajax({
+			type : "POST",
+			url : "balGenre",
+			dataType:'json',
+			success : function(list){
+				
+				genrelist(list);
+			
+				console.log("성공");
+			},
+			error : function(){
+				alert("실패");
+			}
+		});
+}
+
+
+
+	function genrelist(list){
+	 var GenreChart = list.GenreChart;
+	 var paging = list.paging;
+   
+
+		var output="";
+
+		if(paging.page <= 1){
+			output += "<span>[이전] </span>"
+		} else if(paging.page > 1){
+			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>[이전] </a></span>";
+		}
+		
+		for(var i=paging.startPage; i<=paging.endPage; i++){
+			if(paging.page == i){
+				output += "<span> ["+i+"] </span>";
+			} else if(paging.page != i){
+				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+			}
+		}
+	
+		if(paging.page >= paging.maxPage){
+			output += "<span> [다음]</span>"
+		} else if(paging.page < paging.maxPage){
+			output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
+		}
+		
+		
+		output +="<table>";
+		output +="<tr>";
+		output +="<th>가수이름</th>";
+		output +="<th>음악이름</th>";
+		output +="<th>음악장르</th>";
+		output +="<th>게시일</th>";
+		output +="<th>조회수</th>";
+		output +="<th>좋아요수</th>";
+		output +="<th>가격</th>";
+		output +="</tr>	";
+	
+		for(var i in GenreChart){
+		output +="<td>"+GenreChart[i].muSinger+"</td>";
+		output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
+		output +="<td>"+GenreChart[i].muGanre+"</td>";
+		output +="<td>"+GenreChart[i].muDate+"</td>";
+		output +="<td>"+GenreChart[i].muHit+"</td>";
+		output +="<td>"+GenreChart[i].muLike+"</td>";
+		output +="<td>"+GenreChart[i].muPrice+"</td>";
+		output +="</tr> ";
+		
+		var genreArea=document.getElementById('genreArea');
+		
+		genreArea.innerHTML=output;
+	
+	
+		}
+			
+		
+		output +="</table>";
+		
+		
+		$(".previousPage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			var page1 = page - 1;
+			console.log("page1 : " + page1);
+			
+			$.ajax({
+				type : "POST",
+				url : "balGenre",
+				data : {"page" : page1,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					genrelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
+			
+		});
+		
+		
+		
+		
+		
+		$(".selectPage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			$.ajax({
+				type : "POST",
+				url : "balGenre",
+				data : {"page" : page,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					genrelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
+			
+		});
+		
+		
+		$(".nextPage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			var page2 = parseInt(page) + 1;
+			
+			console.log("page2 : " + page2);
+			
+			$.ajax({
+				type : "POST",
+				url : "balGenre",
+				data : {"page" : page2,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					genrelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
+		});
+		
+		
+	}
+	
+	function on4(){
+		console.log('된다');
+		
+		$.ajax({
+			
+			type : "POST",
+			url :"danceGenre",
+			dataType:'json',
+			success: function(list){
+			
+				dancelist(list);
+				console.log("성공");
+		},
+		error : function(){
+			alert("실페");
+		}
+		});
+		
+	}
+	
+	function dancelist(list){
+		 var GenreChart = list.GenreChart;
+		 var paging = list.paging;
+	   
+
+			var output="";
+
+			if(paging.page <= 1){
+				output += "<span>[이전] </span>"
+			} else if(paging.page > 1){
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>[이전] </a></span>";
+			}
+			
+			for(var i=paging.startPage; i<=paging.endPage; i++){
+				if(paging.page == i){
+					output += "<span> ["+i+"] </span>";
+				} else if(paging.page != i){
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+				}
+			}
+		
+			if(paging.page >= paging.maxPage){
+				output += "<span> [다음]</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
+			}
+			
+			
+			output +="<table>";
+			output +="<tr>";
+			output +="<th>가수이름</th>";
+			output +="<th>음악이름</th>";
+			output +="<th>음악장르</th>";
+			output +="<th>게시일</th>";
+			output +="<th>조회수</th>";
+			output +="<th>좋아요수</th>";
+			output +="<th>가격</th>";
+			output +="</tr>	";
+		
+			for(var i in GenreChart){
+			output +="<td>"+GenreChart[i].muSinger+"</td>";
+			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
+			output +="<td>"+GenreChart[i].muGanre+"</td>";
+			output +="<td>"+GenreChart[i].muDate+"</td>";
+			output +="<td>"+GenreChart[i].muHit+"</td>";
+			output +="<td>"+GenreChart[i].muLike+"</td>";
+			output +="<td>"+GenreChart[i].muPrice+"</td>";
+			output +="</tr> ";
+			
+			var genreArea=document.getElementById('genreArea');
+			
+			genreArea.innerHTML=output;
+		
+		
+			}
+				
+			
+			output +="</table>";
+			
+			
+			$(".previousPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = page - 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "danceGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						dancelist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
+			
+			
+			
+			
+			$(".selectPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				$.ajax({
+					type : "POST",
+					url : "danceGenre",
+					data : {"page" : page,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						dancelist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
+			
+			$(".nextPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = parseInt(page) + 1;
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "danceGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						dancelist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
+			
+			
+		}
+	
+	function on5(){
+		console.log('된다');
+		
+		$.ajax({
+			
+			type : "POST",
+			url :"rockGenre",
+			dataType:'json',
+			success: function(list){
+			
+				rocklist(list);
+				console.log("성공");
+		},
+		error : function(){
+			alert("실페");
+		}
+		});
+		
+	}
+	
+	function rocklist(list){
+		 var GenreChart = list.GenreChart;
+		 var paging = list.paging;
+	   
+
+			var output="";
+
+			if(paging.page <= 1){
+				output += "<span>[이전] </span>"
+			} else if(paging.page > 1){
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>[이전] </a></span>";
+			}
+			
+			for(var i=paging.startPage; i<=paging.endPage; i++){
+				if(paging.page == i){
+					output += "<span> ["+i+"] </span>";
+				} else if(paging.page != i){
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+				}
+			}
+		
+			if(paging.page >= paging.maxPage){
+				output += "<span> [다음]</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
+			}
+			
+			
+			output +="<table>";
+			output +="<tr>";
+			output +="<th>가수이름</th>";
+			output +="<th>음악이름</th>";
+			output +="<th>음악장르</th>";
+			output +="<th>게시일</th>";
+			output +="<th>조회수</th>";
+			output +="<th>좋아요수</th>";
+			output +="<th>가격</th>";
+			output +="</tr>	";
+		
+			for(var i in GenreChart){
+			output +="<td>"+GenreChart[i].muSinger+"</td>";
+			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
+			output +="<td>"+GenreChart[i].muGanre+"</td>";
+			output +="<td>"+GenreChart[i].muDate+"</td>";
+			output +="<td>"+GenreChart[i].muHit+"</td>";
+			output +="<td>"+GenreChart[i].muLike+"</td>";
+			output +="<td>"+GenreChart[i].muPrice+"</td>";
+			output +="</tr> ";
+			
+			var genreArea=document.getElementById('genreArea');
+			
+			genreArea.innerHTML=output;
+		
+		
+			}
+				
+			
+			output +="</table>";
+			
+			
+			$(".previousPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = page - 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "rockGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						rocklist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
+			
+			
+			
+			
+			$(".selectPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				$.ajax({
+					type : "POST",
+					url : "rockGenre",
+					data : {"page" : page,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						rocklist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
+			
+			$(".nextPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = parseInt(page) + 1;
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "rockGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						rocklist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
+			
+			
+		}
+	
+	function on6(){
+		console.log('된다');
+		
+		$.ajax({
+			
+			type : "POST",
+			url :"hiphopGenre",
+			dataType:'json',
+			success: function(list){
+			
+				hiphoplist(list);
+				console.log("성공");
+		},
+		error : function(){
+			alert("실페");
+		}
+		});
+		
+	}
+	
+	function hiphoplist(list){
+		 var GenreChart = list.GenreChart;
+		 var paging = list.paging;
+	   
+
+			var output="";
+
+			if(paging.page <= 1){
+				output += "<span>[이전] </span>"
+			} else if(paging.page > 1){
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>[이전] </a></span>";
+			}
+			
+			for(var i=paging.startPage; i<=paging.endPage; i++){
+				if(paging.page == i){
+					output += "<span> ["+i+"] </span>";
+				} else if(paging.page != i){
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+				}
+			}
+		
+			if(paging.page >= paging.maxPage){
+				output += "<span> [다음]</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
+			}
+			
+			
+			output +="<table>";
+			output +="<tr>";
+			output +="<th>가수이름</th>";
+			output +="<th>음악이름</th>";
+			output +="<th>음악장르</th>";
+			output +="<th>게시일</th>";
+			output +="<th>조회수</th>";
+			output +="<th>좋아요수</th>";
+			output +="<th>가격</th>";
+			output +="</tr>	";
+		
+			for(var i in GenreChart){
+			output +="<td>"+GenreChart[i].muSinger+"</td>";
+			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
+			output +="<td>"+GenreChart[i].muGanre+"</td>";
+			output +="<td>"+GenreChart[i].muDate+"</td>";
+			output +="<td>"+GenreChart[i].muHit+"</td>";
+			output +="<td>"+GenreChart[i].muLike+"</td>";
+			output +="<td>"+GenreChart[i].muPrice+"</td>";
+			output +="</tr> ";
+			
+			var genreArea=document.getElementById('genreArea');
+			
+			genreArea.innerHTML=output;
+		
+		
+			}
+				
+			
+			output +="</table>";
+			
+			
+			$(".previousPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = page - 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "hiphopGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						hiphoplist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
+			
+			
+			
+			
+			$(".selectPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				$.ajax({
+					type : "POST",
+					url : "hiphopGenre",
+					data : {"page" : page,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						hiphoplist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
+			
+			$(".nextPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = parseInt(page) + 1;
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "hiphopGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						hiphoplist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
+			
+			
+		}
+	
+	function on7(){
+		console.log('된다');
+		
+		$.ajax({
+			
+			type : "POST",
+			url :"indiGenre",
+			dataType:'json',
+			success: function(list){
+			
+				indilist(list);
+				console.log("성공");
+		},
+		error : function(){
+			alert("실페");
+		}
+		});
+		
+	}
+	
+	function indilist(list){
+		 var GenreChart = list.GenreChart;
+		 var paging = list.paging;
+	   
+
+			var output="";
+
+			if(paging.page <= 1){
+				output += "<span>[이전] </span>"
+			} else if(paging.page > 1){
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>[이전] </a></span>";
+			}
+			
+			for(var i=paging.startPage; i<=paging.endPage; i++){
+				if(paging.page == i){
+					output += "<span> ["+i+"] </span>";
+				} else if(paging.page != i){
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+				}
+			}
+		
+			if(paging.page >= paging.maxPage){
+				output += "<span> [다음]</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
+			}
+			
+			
+			output +="<table>";
+			output +="<tr>";
+			output +="<th>가수이름</th>";
+			output +="<th>음악이름</th>";
+			output +="<th>음악장르</th>";
+			output +="<th>게시일</th>";
+			output +="<th>조회수</th>";
+			output +="<th>좋아요수</th>";
+			output +="<th>가격</th>";
+			output +="</tr>	";
+		
+			for(var i in GenreChart){
+			output +="<td>"+GenreChart[i].muSinger+"</td>";
+			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
+			output +="<td>"+GenreChart[i].muGanre+"</td>";
+			output +="<td>"+GenreChart[i].muDate+"</td>";
+			output +="<td>"+GenreChart[i].muHit+"</td>";
+			output +="<td>"+GenreChart[i].muLike+"</td>";
+			output +="<td>"+GenreChart[i].muPrice+"</td>";
+			output +="</tr> ";
+			
+			var genreArea=document.getElementById('genreArea');
+			
+			genreArea.innerHTML=output;
+		
+		
+			}
+				
+			
+			output +="</table>";
+			
+			
+			$(".previousPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = page - 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "indiGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						indilist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
+			
+			
+			
+			
+			$(".selectPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				$.ajax({
+					type : "POST",
+					url : "indiGenre",
+					data : {"page" : page,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						indilist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
+			
+			$(".nextPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = parseInt(page) + 1;
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "indiGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						indilist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
+			
+			
+		}
+	
+	function on8(){
+		console.log('된다');
+		
+		$.ajax({
+			
+			type : "POST",
+			url :"gitaGenre",
+			dataType:'json',
+			success: function(list){
+			
+				gitalist(list);
+				console.log("성공");
+		},
+		error : function(){
+			alert("실페");
+		}
+		});
+		
+	}
+	function gitalist(list){
+		 var GenreChart = list.GenreChart;
+		 var paging = list.paging;
+	   
+
+			var output="";
+
+			if(paging.page <= 1){
+				output += "<span>[이전] </span>"
+			} else if(paging.page > 1){
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>[이전] </a></span>";
+			}
+			
+			for(var i=paging.startPage; i<=paging.endPage; i++){
+				if(paging.page == i){
+					output += "<span> ["+i+"] </span>";
+				} else if(paging.page != i){
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+				}
+			}
+		
+			if(paging.page >= paging.maxPage){
+				output += "<span> [다음]</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
+			}
+			
+			
+			output +="<table>";
+			output +="<tr>";
+			output +="<th>가수이름</th>";
+			output +="<th>음악이름</th>";
+			output +="<th>음악장르</th>";
+			output +="<th>게시일</th>";
+			output +="<th>조회수</th>";
+			output +="<th>좋아요수</th>";
+			output +="<th>가격</th>";
+			output +="</tr>	";
+		
+			for(var i in GenreChart){
+			output +="<td>"+GenreChart[i].muSinger+"</td>";
+			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
+			output +="<td>"+GenreChart[i].muGanre+"</td>";
+			output +="<td>"+GenreChart[i].muDate+"</td>";
+			output +="<td>"+GenreChart[i].muHit+"</td>";
+			output +="<td>"+GenreChart[i].muLike+"</td>";
+			output +="<td>"+GenreChart[i].muPrice+"</td>";
+			output +="</tr> ";
+			
+			var genreArea=document.getElementById('genreArea');
+			
+			genreArea.innerHTML=output;
+		
+		
+			}
+				
+			
+			output +="</table>";
+			
+			
+			$(".previousPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = page - 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "gitaGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						gitalist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
+			
+			
+			
+			
+			$(".selectPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				$.ajax({
+					type : "POST",
+					url : "gitaGenre",
+					data : {"page" : page,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						gitalist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
+			
+			$(".nextPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = parseInt(page) + 1;
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "gitaGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						gitalist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
+			
+			
+		}
+	
+	
+	
+	
+	/* 	
+		function allFileList(list){
+			 var GenreChart = list.GenreChart;
+			 var paging = list.paging;
+		   
+
+				var output="";
+				
+				output +="<table>";
+				output +="<tr>";
+				output +="<th>가수이름</th>";
+				output +="<th>음악이름</th>";
+				output +="<th>음악장르</th>";
+				output +="<th>게시일</th>";
+				output +="<th>조회수</th>";
+				output +="<th>좋아요수</th>";
+				output +="<th>가격</th>";
+				output +="</tr>	";
+			
+				for(var i in GenreChart){
+				output +="<td>"+GenreChart[i].muSinger+"</td>";
+				output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
+				output +="<td>"+GenreChart[i].muGanre+"</td>";
+				output +="<td>"+GenreChart[i].muDate+"</td>";
+				output +="<td>"+GenreChart[i].muHit+"</td>";
+				output +="<td>"+GenreChart[i].muLike+"</td>";
+				output +="<td>"+GenreChart[i].muPrice+"</td>";
+				output +="</tr> ";
+				
+				var genreArea=document.getElementById('genreArea');
+				
+				genreArea.innerHTML=output;
+			
+			
+				}
+					
+				
+				output +="</table>";
+				
+			
+		}
+		
+		
+		
+		function filePaging(list){
+			 var GenreChart = list.GenreChart;
+			 var paging = list.paging;
+		   
+
+				var output="";
+
+				if(paging.page <= 1){
+					output += "<span>[이전] </span>"
+				} else if(paging.page > 1){
+					output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>[이전] </a></span>";
+				}
+				
+				for(var i=paging.startPage; i<=paging.endPage; i++){
+					if(paging.page == i){
+						output += "<span> ["+i+"] </span>";
+					} else if(paging.page != i){
+						output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+					}
+				}
+			
+				if(paging.page >= paging.maxPage){
+					output += "<span> [다음]</span>"
+				} else if(paging.page < paging.maxPage){
+					output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
+				}
+				
+			
+				var genreArea=document.getElementById('genreArea');
+				
+				genreArea.innerHTML=output;
+			
+			
+				} */
+					
+				
+			
+				
+
+		
+		
+
+	
+	
+
+</script>
+<body>
+		<h1>Ganre</h1>
+		<h2>장르 조회</h2>
+		<button  onclick="on3()">발라드</button>
+		<button onclick="on4()">댄스</button>
+		<button onclick="on5()">락</button>
+		<button onclick="on6()">랩</button>
+		<button onclick="on7()">인디</button>
+		<button onclick="on8()">기타</button>
+
+
+	<div id="genreArea">
+	
+	</div>
+	<div id="genreArea1">
+	
+	</div>
+	<!-- <code th:if="${paging.page <= 1}" th:text="이전"></code>
+        <code th:if="${paging.page > 1}">
+            <a th:href="@{balGenre(page=${paging.page-1},limit=${paging.limit})}" th:text="이전"></a></code>
+        <th:block th:each="i : ${#numbers.sequence(paging.startPage , paging.endPage)}">
+          <code  th:if= "${paging.page eq i}" th:text="${i}"></code>
+            <a th:unless="${paging.page eq i}" th:href="@{balGenre(page=${i},limit=${paging.limit})}" ><code th:text="${i}"></code></a>
+		 </th:block>
+		<code th:if="${paging.page >= paging.maxPage}" th:text="다음"></code>
+      <code th:if="${paging.page < paging.maxPage}">
+            <a th:href="@{balGenre(page=${paging.page+1},limit=${paging.limit})}" th:text="다음"></a>
+        </code>  -->
+</body>
+</html>
