@@ -22,7 +22,7 @@
 			<th>이름</th>
 			<td th:text="${session.login.mName}"></td>
 		</tr>
-		
+
 		<tr>
 			<th>이메일</th>
 			<td th:text="${session.login.mEmail}"></td>
@@ -46,6 +46,13 @@
 		<tr>
 			<th>프로필 사진</th>
 			<td><img th:src="@{/profile/{aa}(aa=${session.login.mProfileName})}" style="width:200px;"/></td>
+		</tr>
+		
+	
+		
+		<tr>
+			<th>포인트</th>
+			<td th:text="${session.login.mPoint}"></td>
 		</tr>
 		
 		<tr>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+table, tr, td, th {
+	border: 1px solid;
+	border-collapse: collapse;
+	padding: 10px;
+	text-align: center;
+}
+</style>
+</head>
+<script th:if="${session.login eq null}">
+	alert('로그인 이후 이용해주세요');
+	location.href="memberLogin";
+</script>
+<body>
+	<div>
+		<button onclick="location.href='index'">홈페이지</button>
+	</div>
+
+	<div id="allMuListArea"></div>
+	<div id="pagingArea"></div>
+        
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" th:inline="javascript">
+
+	var CheckLogin = [[${session.login}]]
+	
+	if(CheckLogin != null){
+		var sessionId = [[${session.login.mId}]]
+	}
+	
+	$(document).ready(function(){
+		
+		$.ajax({
+			type : "POST",
+			url : "ajaxFileList",
+			dataType : "json",
+			success : function(list){
+				allFileList(list);
+				filePaging(list);
+			},
+			error : function(){
+				alert('음악목록 실패');
+			}
+		});
+		
+		function filePaging(list){
+			var output = "";
+			
+			var paging = list.paging;
+            var musicList = list.musicList;
+
+            console.log(paging);
+            console.log(paging.maxPage);
+            console.log(paging.endPage);
+
+			if(paging.page <= 1){
+				output += "<span>[이전] </span>"
+			} else if(paging.page > 1){
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>[이전] </a></span>";
+			}
+			
+			for(var i=paging.startPage; i<=paging.endPage; i++){
+				if(paging.page == i){
+					output += "<span> ["+i+"] </span>";
+				} else if(paging.page != i){
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+				}
+			}
+			
+			if(paging.page >= paging.maxPage){
+				output += "<span> [다음]</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
+			}
+			
+			var pagingArea = document.getElementById('pagingArea');
+			
+			pagingArea.innerHTML = output;
+			
+			$(".previousPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = page - 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "ajaxFileList",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						allFileList(list);
+						filePaging(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
+			$(".selectPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				$.ajax({
+					type : "POST",
+					url : "ajaxFileList",
+					data : {"page" : page,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						allFileList(list);
+						filePaging(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
+			$(".nextPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = parseInt(page) + 1;
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "ajaxFileList",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						allFileList(list);
+						filePaging(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
+			
+		}
+		
+		function allFileList(list) {
+			
+			var paging = list.paging;
+            var musicList = list.musicList;
+            
+            console.log("paging : " + paging +", musicList : " + musicList)
+
+			var output = "";
+			
+			output += "<table>";
+			output += "<tr>";
+			output += "<th>가수 이름</th>";
+			output += "<th>음악 이름</th>";
+			output += "<th>음악 장르</th>";
+			output += "<th>게시일</th>";
+			output += "<th>조회수</th>";
+			output += "<th>좋아요수</th>";
+			output += "<th>가격</th>";
+			output += "<th>장바구니</th>";
+			output += "<th>결제</th>";
+			output += "</tr>";
+			
+			for(var i in musicList){
+				(function(i){
+					$.ajax({
+						type: "POST",
+						url: "CartInCheck",
+						data: {"caMuCode" : musicList[i].muCode,
+							   "caMid" : sessionId},
+						dataType: "json",
+						async: false,
+						success: function(result){
+							output += "<tr>";
+							output += "<td>"+musicList[i].muSinger+"</td>";
+							output += "<td><a href='muView?muCode="+musicList[i].muCode+"'>"+musicList[i].muName+"</a></td>";
+							output += "<td>"+musicList[i].muGanre+"</td>";
+							output += "<td>"+musicList[i].muDate+"</td>";
+							output += "<td>"+musicList[i].muHit+"</td>";
+							output += "<td>"+musicList[i].muLike+"</td>";
+							output += "<td>500</td>";
+							if(result == ""){
+								output += "<td style='background-color: gray; color: white;' id='"+musicList[i].muCode+"' class='cartChange' value='check1'>장바구니 추가</td>";
+							} else if(result != ""){
+								output += "<td style='background-color: red; color: white;' id='"+musicList[i].muCode+"' class='cartChange' value='check2'>추가완료</td>";
+							}
+							output += "<td><button onclick='kakaoPay1()'>결제하기</button></td>";
+							output += "</tr>";
+						},
+						error: function(){
+							alert('장바구니에 담은 리스트 불러오기 실패');
+						}
+					});
+				 })(i);
+			}
+			
+			output += "</table>";
+			
+			var allMuListArea = document.getElementById('allMuListArea');
+			
+			allMuListArea.innerHTML = output;
+			
+			$(".cartChange").click(function(){
+				
+				var muCode = $(this).attr('id');
+				console.log("muCode : "+muCode);
+				
+				var cartCheck = $(this).attr('value');
+				
+				if(cartCheck == "check1"){
+					$.ajax({
+						type : "POST",
+						url : "cartListAdd",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
+								},
+						dataType : "json",
+						success : function(list){
+							CartAddSuccess(list);
+						},
+						error : function(){
+							alert('장바구니 추가 실패');
+						}
+					});
+					
+					function CartAddSuccess(list){
+						
+						var output = "";
+						
+						output += "<td style='background-color: red; color: white;' th:id='"+list.muCode+"'>추가완료</td>";
+						
+						var td22 = document.getElementById(muCode);
+						console.log(td22);
+						td22.innerHTML = output;
+					}
+					$(this).css('background-color','red');
+					cartCheck = $(this).attr('value','check2');
+					
+				}else if(cartCheck == "check2"){
+					$.ajax({
+						type : "POST",
+						url : "cartListDelete",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
+								},
+						dataType : "json",
+						success : function(list){
+							CartDeleteSuccess(list);
+						},
+						error : function(){
+							alert('장바구니 삭제 실패');
+						}
+					});
+					
+					function CartDeleteSuccess(list){
+						
+						var output = "";
+						
+						output += "<td style='background-color: red; color: white;' th:id='"+list.muCode+"'>장바구니 추가</td>";
+						
+						var td22 = document.getElementById(muCode);
+						console.log(td22);
+						td22.innerHTML = output;
+					}
+					
+					$(this).css('background-color','gray');
+					cartCheck = $(this).attr('value','check1');
+					
+				}
+			});
+		}
+		
+	});
+	function kakaoPay1(){
+		location.href="kakaoPayTestPage/kakaoPay";
+	}
+	
+	
+</script>
+</html>

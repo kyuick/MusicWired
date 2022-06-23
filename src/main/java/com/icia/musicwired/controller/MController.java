@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.icia.musicwired.dto.CSDTO;
 import com.icia.musicwired.service.MService;
 
-
 @Controller
 public class MController {
 
@@ -26,54 +25,48 @@ public class MController {
 	private MService msvc;
 	@Autowired
 	private HttpSession session;
-	
-	
-	
-	
+
 	// moveChating 채팅방 만들기
-		@RequestMapping(value="/moveChating", method = RequestMethod.GET)
-		public ModelAndView chating(@RequestParam("mId")String mId) {
+	@RequestMapping(value = "/moveChating", method = RequestMethod.GET)
+	public ModelAndView chating(@RequestParam("mId") String mId) {
 		System.out.println("아이디" + mId);
 		mav = msvc.createRoom(mId);
 		return mav;
 
-		}
-	
-	// chat 채팅방 열기	
+	}
+
+	// chat 채팅방 열기
 	@RequestMapping(value = "/chat", method = RequestMethod.GET)
 	public ModelAndView chat() {
 		mav.setViewName("Chat");
 		return mav;
 	}
 
-	
-	
-	
 	// chatlist 채팅방 목록
-	@RequestMapping(value="/chatlist", method = RequestMethod.GET)
+	@RequestMapping(value = "/chatlist", method = RequestMethod.GET)
 	public ModelAndView chatlist() {
-	mav = msvc.chatlist();
-	return mav;
+		mav = msvc.chatlist();
+		return mav;
 
 	}
-	
-	List<CSDTO> chatsave  = new ArrayList<CSDTO>();
-	
+
+	List<CSDTO> chatsave = new ArrayList<CSDTO>();
+
 	// chatSave 채팅방 저장
-	@RequestMapping(value="/chatSave", method = RequestMethod.POST)
+	@RequestMapping(value = "/chatSave", method = RequestMethod.POST)
 	public @ResponseBody List<CSDTO> chatSave(@ModelAttribute CSDTO csdto) {
-	System.out.println("채팅저장" + csdto);
-	chatsave = msvc.chatSave(csdto);
-	return chatsave;
+		System.out.println("채팅저장" + csdto);
+		chatsave = msvc.chatSave(csdto);
+		return chatsave;
 
 	}
-	
-	@RequestMapping(value="/readupdate", method = RequestMethod.POST)
-	public @ResponseBody int readupdate(@RequestParam("crId")String crId) {
-	System.out.println("새메세지" + crId);
-	int readupdate = msvc.readupdate(crId);
 
-	return readupdate;
+	@RequestMapping(value = "/readupdate", method = RequestMethod.POST)
+	public @ResponseBody int readupdate(@RequestParam("crId") String crId) {
+		System.out.println("새메세지" + crId);
+		int readupdate = msvc.readupdate(crId);
+
+		return readupdate;
 
 	}
 }

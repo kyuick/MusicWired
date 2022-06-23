@@ -5,17 +5,23 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import com.icia.musicwired.dto.MusicLikeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.musicwired.dao.uploadDao;
+import com.icia.musicwired.dto.MusicLikeDto;
 import com.icia.musicwired.dto.pagingDto;
 import com.icia.musicwired.dto.uploadDto;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class uploadServiceimpl implements uploadService {
@@ -24,6 +30,11 @@ public class uploadServiceimpl implements uploadService {
 	private uploadDao dao;
 
 	private ModelAndView mav = new ModelAndView();
+	
+	List<uploadDto> musicList = new ArrayList<uploadDto>();
+
+	@Autowired
+	private HttpSession session;
 
 	@Override
 	public ModelAndView fileUpload(uploadDto dto) throws IOException {
@@ -100,30 +111,45 @@ public class uploadServiceimpl implements uploadService {
 		paging.setLimit(limit);
 		List<uploadDto> upList = dao.fileList(paging);
 		System.out.println("paging : " +paging);
+		
 		mav.setViewName("up_List");
 		mav.addObject("upList", upList);
 		mav.addObject("paging", paging);
+
 		return mav;
 		
 	}
 
 	@Override
-	public ModelAndView muView(int muCode) {
-		System.out.println("2서비스 : " + muCode);
-		uploadDto muView = dao.muView(muCode);
+	public ModelAndView muView(uploadDto dto) {
+		System.out.println("2서비스 : " + dto);
+		uploadDto muView = dao.muView(dto);
 
+		String LikeCheck = dao.LikeCheck(dto);
+		System.out.println("확인 : " + LikeCheck);
+		if(LikeCheck != null){
+			mav.addObject("LikeCheck",1);
+		}else{
+			mav.addObject("LikeCheck",0);
+		}
+
+
+		System.out.println("라이크업 인설트" + LikeUpInsert);
+		int LikeListCount = dao.LikeListCount(dto);
 		System.out.println("4서비스 : " + mav);
 		mav.setViewName("mu_View");
 		mav.addObject("muView", muView);
+		mav.addObject("list", LikeListCount);
+
 		return mav;
 	}
 
 	// 수정페이지 이동
 	@Override
-	public ModelAndView fileModiForm(int muCode) {
-		System.out.println("2수정" + muCode);
-		uploadDto muView = dao.muView(muCode);
-		System.out.println("4수정" + muCode);
+	public ModelAndView fileModiForm(uploadDto dto) {
+		System.out.println("2수정" + dto);
+		uploadDto muView = dao.muView(dto);
+		System.out.println("4수정" + dto);
 		mav.setViewName("up_ModiForm");
 		mav.addObject("modi", muView);
 		return mav;
@@ -193,40 +219,99 @@ public class uploadServiceimpl implements uploadService {
 	////////////////////////////////////////////
 	// 좋아요 구현
 	List<uploadDto> LikeList = new ArrayList<uploadDto>();
+	List<MusicLikeDto> LikeUpInsert = new ArrayList<MusicLikeDto>();
 
-	// 좋아요 실행
+
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	//좋아요 +1 / 좋아요 insert
+
 	@Override
-	public List<uploadDto> Like(int muCode) {
-		System.out.println("2like" + muCode);
-		LikeList = dao.LikeList(muCode);
-		System.out.println("4like" + LikeList);
-		return LikeList;
+	public int LikeUp(MusicLikeDto musicLikeDto) {
+		System.out.println("[2] 좋아요:" + musicLikeDto);
+		int result = dao.LikeUp(musicLikeDto);
+
+		int LikeTableUpCheck = dao.LikeTableUpCheck(musicLikeDto);
+
+		return LikeTableUpCheck;
 	}
 
-	@Override
-	public List<uploadDto> LikeUp(int muCode) {
 
-		int result = dao.LikeUp(muCode);
-		if (result > 0) {
-			LikeList = dao.LikeCheck(muCode);
-		} else {
-			LikeList = null;
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	//좋아요 +1
+
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//좋아요 취소
+
+
+	@Override
+
+	public int LikeDown(MusicLikeDto musicLikeDto) {
+		System.out.println("[2] 좋아요:" + musicLikeDto);
+		int result = dao.LikeDown(musicLikeDto);
+		int LikeTableDownCheck = dao.LikeTableDownCheck(musicLikeDto);
+		System.out.println("[4] 좋아요:" + LikeTableDownCheck);
+
+		return LikeTableDownCheck;
+	}
+	
+//	ajaxFileList : 전체 음악 목록 메소드
+	@Override
+	public Map<String, Object> ajaxFileList(int page,int limit) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		// 한 화면에 보여줄 페이지 번호 갯수
+		int block = 5;
+
+		// 전체 음원목록 갯수
+		int muListCount = dao.muListCount();
+
+		int startRow = (page - 1) * limit + 1;
+		int endRow = page * limit;
+
+		int maxPage = (int) (Math.ceil((double) muListCount / limit));
+		int startPage = (((int) (Math.ceil((double) page / block))) - 1) * block + 1;
+		int endPage = startPage + block - 1;
+		// 오류 방지
+		if (endPage > maxPage) {
+			endPage = maxPage;
+
 		}
-		return LikeList;
-	}
+		pagingDto paging = new pagingDto();
 
-	// 좋아요 취소
-	@Override
-	public List<uploadDto> LikeDown(int muCode) {
-
-		int result = dao.LikeDown(muCode);
-		if (result > 0) {
-			LikeList = dao.LikeCheck(muCode);
-		} else {
-			LikeList = null;
+		paging.setPage(page);
+		paging.setStartRow(startRow);
+		paging.setEndRow(endRow);
+		paging.setMaxPage(maxPage);
+		paging.setStartPage(startPage);
+		paging.setEndPage(endPage);
+		paging.setLimit(limit);
+		
+		System.out.println("paging : " +paging);
+		
+		musicList = dao.ajaxFileList(paging);
+		
+		System.out.println("musicList : " +musicList);
+		
+		if(musicList != null) {
+			result.put("musicList", musicList);
+			result.put("paging", paging);
+		}else {
+			result = null;
 		}
-
-		return LikeList;
+		
+		return result;
 	}
+
+	
+
+
+	
+	
+	
 
 }

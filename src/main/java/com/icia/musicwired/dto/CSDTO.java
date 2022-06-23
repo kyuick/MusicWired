@@ -1,6 +1,5 @@
 package com.icia.musicwired.dto;
 
-
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
@@ -10,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor	
+@AllArgsConstructor
 @NoArgsConstructor
 @Alias("chatSave")
 public class CSDTO {

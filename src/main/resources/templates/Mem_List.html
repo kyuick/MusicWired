@@ -11,6 +11,7 @@
 			<th>아이디</th>
 			<th>비밀번호</th>
 			<th>이름</th>
+			<th>닉네임</th>
 			<th>이메일</th>
 			<th>성별</th>
 			<th>삭제</th>
@@ -24,6 +25,7 @@
 			<td><a th:href="@{memberView(mId=${list.mId})}" th:text="${list.mId}"></a></td>
 			<td th:text="${list.mPw}"></td>
 			<td th:text="${list.mName}"></td>
+			<td th:text="${list.mNickName}"></td>
 			<td th:text="${list.mEmail}"></td>
 			<td th:text="${list.mGender}"></td>
 			<td><a th:href="@{memberDelete(mId=${list.mId})}" th:text="'삭제'"></a></td>

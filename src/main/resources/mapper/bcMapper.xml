@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.icia.musicwired.dao.BoCommentDAO">
+	<select id="bcList" parameterType="int" resultType="BoComment">
+		SELECT * FROM BOCOMMENT WHERE BCBOCODE = #{bcBoCode}
+	</select>
+	
+	<!-- <select id="bcListlimit" parameterType="int" resultType="BoComment">
+		SELECT * FROM BOCOMMENT WHERE BCBOCODE = #{bcBoCode} limit 3
+	</select> -->
+	
+	<insert id="bcWrite" parameterType="BoComment">
+		INSERT INTO BOCOMMENT VALUES(BOCO_SEQ.NEXTVAL, #{bcMid}, #{bcBoCode}, #{bcContent}, SYSDATE)
+	</insert>
+	
+	<delete id="bcDelete" parameterType="BoComment">
+		DELETE FROM BOCOMMENT WHERE BCCODE =#{bcCode}
+	</delete>
+</mapper>
