@@ -54,6 +54,16 @@
 		</tr>
 		
 		<tr>
+			<th>닉네임</th>
+			<td th:text="${session.login.mNickname}"></td>
+		</tr>
+		
+		<tr>
+			<th>포인트</th>
+			<td th:text="${session.login.mPoint}"></td>
+		</tr>
+		
+		<tr>
 		<td><a th:href="@{memberModiForm(mId=${session.login.mId})}" th:text="'수정'"></a></td>
 		<td><a th:href="@{memberDelete(mId=${session.login.mId})}" th:text="'삭제'"></a></td>
 		</tr>

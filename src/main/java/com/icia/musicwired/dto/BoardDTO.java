@@ -1,6 +1,7 @@
 package com.icia.musicwired.dto;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,15 +16,23 @@ import lombok.NoArgsConstructor;
 @Alias("Board")
 public class BoardDTO {
 
-	private int boCode; // 게시글 번호
-	private String boWriter; // 게시글 작성자
-	private String boTitle; // 글 제목
-	private String boContent; // 글 내용
-	private String boLike; // 게시글 좋아요 수
-	private Date boDate; // 게시글 작성일
-
-	private MultipartFile boImageFile; // 게시글 이미지 파일
-	private String boImage; // 게시글 이미지(이름)
+	
+	private int boCode;			// 게시글 번호
+	private String boWriter;	// 게시글 작성자
+	private String boTitle;		// 글 제목
+	private String boContent;	// 글 내용
+	private String boLike;		// 게시글 좋아요 수
+	private Date boDate;		// 게시글 작성일
+	private List<BoCommentDTO> boComment; //코멘트 리스트
+	
+	public List<BoCommentDTO> getBoComment() {
+		return boComment;
+	}
+	public void setBoComment(List<BoCommentDTO> boComment) {
+		this.boComment = boComment;
+	}
+	private MultipartFile boImageFile;	// 게시글 이미지 파일
+	private String boImage;		// 게시글 이미지(이름)
 
 	public int getBoCode() {
 		return boCode;
@@ -96,4 +105,6 @@ public class BoardDTO {
 				+ ", boImage=" + boImage + "]";
 	}
 
+	
 }
+

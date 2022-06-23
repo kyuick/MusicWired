@@ -2,7 +2,9 @@ package com.icia.musicwired.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +39,8 @@ public class uploadController {
 
     @Autowired
     private HttpSession session;
+    
+    List<uploadDto> musicList = new ArrayList<uploadDto>();
 
     //MUSIC DTO
     List<uploadDto> MusicUploadDto = new ArrayList<uploadDto>();
@@ -71,7 +76,30 @@ public class uploadController {
         return mav;
     }
 
-    //muView
+    
+    
+//  allfileList : 전체 음원 목록 페이지로 이동하는 메소드
+    @GetMapping("/allfileList")
+    public String allfileList() {
+    	
+    	return "up_AllList";
+    }
+    
+//  ajaxFileList : 음악 목록 ajax
+    @PostMapping("/ajaxFileList")
+    @ResponseBody
+    public Map<String, Object> testajaxFileList(@RequestParam(value="page",required = false,defaultValue="1")int page,
+    		@RequestParam(value="limit", required = false, defaultValue = "5")int limit){
+    	
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	
+    	result = svc.ajaxFileList(page,limit);
+    	
+    	return result;
+    }
+    
+    
+    //muView 
     @GetMapping("/muView")
     public ModelAndView muView(@ModelAttribute uploadDto dto, HttpServletRequest request, HttpServletResponse response) {
 

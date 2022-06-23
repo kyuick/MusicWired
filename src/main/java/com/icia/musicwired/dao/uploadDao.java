@@ -49,6 +49,9 @@ public interface uploadDao {
 	//좋아요 -1
 	int LikeDown(MusicLikeDto musicLikeDto);
 
+
+	List<uploadDto> ajaxFileList(pagingDto paging);
+
 	//좋아요 테이블 데이터 삭제
 	int LikeTableDownCheck(MusicLikeDto musicLikeDto);
 	

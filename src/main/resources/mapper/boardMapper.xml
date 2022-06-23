@@ -66,7 +66,7 @@
 	
 <!-- 게시글 제목검색(ajax) -->
 	<select id="ajaxBoardSelect" parameterType="String" resultType="Board">
-		SELECT * FROM BOARD WHERE BOTITLE LIKE '%'||#{boTitle}||'%'
+		SELECT * FROM BOARD WHERE BOTITLE LIKE '%'||#{boTitle}||'%' ORDER BY BOCODE DESC
 	</select>
 	
 <!-- 게시글 작성자 피드 이동 -->
@@ -79,7 +79,17 @@
 		SELECT B.BOCODE, B.BOWRITER, B.BOTITLE, B.BOIMAGE, B.BOCONTENT, B.BOLIKE, B.BODATE
 		FROM BOARD B, BOARDLIKE BOL
 		WHERE BOCODE = BOLBOCODE AND BOLMID = #{bolMid}
+		ORDER BY BOCODE DESC
 	</select>
+
+	
+<!-- 게시글을 좋아요한 사람들을 출력하는 메소드 -->
+	<select id="boardListUserList" parameterType="int" resultType="Member">
+		SELECT M.MNICKNAME, M.MPROFILENAME
+		FROM MEMBER M, BOARDLIKE B
+		WHERE B.BOLMID = M.MID AND BOLBOCODE = #{bolBoCode}
+	</select>
+
 	<!--  게시글 작성자 팔로우 표시하는 메소드 -->
 	 <select id="memCount" resultType="int">
 		SELECT COUNT(*) FROM SUBSCRIPTION WHERE SSERMID = #{boWriter}
@@ -93,4 +103,5 @@
 	<select id="muTrack" resultType="int">
 		SELECT COUNT(*) FROM MUSIC WHERE MUSINGER = #{boWriter}
 	</select>
+
 </mapper>

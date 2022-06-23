@@ -3,8 +3,6 @@ package com.icia.musicwired.dto;
 import org.apache.ibatis.type.Alias;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.Data;
-
 @Alias("member")
 public class MemberDTO {
 
@@ -81,6 +79,19 @@ public class MemberDTO {
 		this.mSuber = mSuber;
 	}
 
+	public String getmNickname() {
+		return mNickname;
+	}
+	public void setmNickname(String mNickname) {
+		this.mNickname = mNickname;
+	}
+	public int getmPoint() {
+		return mPoint;
+	}
+	public void setmPoint(int mPoint) {
+		this.mPoint = mPoint;
+	}
+
 	public MultipartFile getmProfile() {
 		return mProfile;
 	}
@@ -120,6 +131,5 @@ public class MemberDTO {
 				+ ", mProfile=" + mProfile + ", mProfileName=" + mProfileName + "]";
 	}
 
-	
 
 }

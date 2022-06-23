@@ -42,6 +42,8 @@ public interface BoardDAO {
 
 	List<BoardDTO> LikeBoardList(String bolMid);
 
+	List<BoardDTO> boardListUserList(int bolBoCode);
+
 	int memCount(String boWriter);
 
 	String subCheck(String boWriter, String mId);

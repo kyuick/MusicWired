@@ -18,14 +18,14 @@
 <body>
 	<h1>Member Index</h1>
 	
-	
-	
 	<button th:if="${session.login eq null}" onclick="location.href='memberJoinForm'">회원가입</button>
 	<button th:if="${session.login eq null}" onclick="location.href='memberLogin'">로그인</button>
 	<button th:if="${session.login ne null}" onclick="location.href='memberLogout'">로그아웃</button>
 	<button th:if="${session.login ne null}" onclick="location.href='memberViewMe'">내정보</button>
 	<button onclick="location.href='fUpload'">음원등록</button>
-	<button onclick="location.href='fileList'">전체음원목록</button>
+	<button onclick="location.href='fileList'">음원목록</button>
+	
+	<button onclick="location.href='allfileList'">전체음원목록</button>
 	
 	<button onclick="location.href='boardUploadPage'">게시글 업로드</button>
 	<button onclick="location.href='boardList'">게시글 목록</button>
@@ -39,18 +39,8 @@
 	
 	<p th:if="${session.login ne null}" th:text="${session.login.mId}+'님 로그인 성공'"></p>
 
-	
-	<frameset rows="0,*">
-
-  <frame src="bgm.html" marginwidth="0" marginheight="0" noresize>
-  <frame src="main.html" marginwidth="0" marginheight="0" noresize>
-</frameset>
-
-<noframes>
-<body>프레임을 볼수 없는 브라우저에서는 에러가 발생합니다.</body>
-</noframes>
-
-
+	<hr/>
+	<button onclick="location.href='kakaoPayTestPage'">결제테스트</button>
 
 	
 </body>
