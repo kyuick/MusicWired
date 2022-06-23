@@ -81,8 +81,10 @@
     </tr>
     <tr>
         <th>가수</th>
+
         <td  >
        <a th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=${session.login.mId})}" th:text="${muView.muSinger}"  ></a>
+
         <td>
     </tr>
     <tr>
@@ -150,6 +152,7 @@
 </table>
 
 
+
 <input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
 
 
@@ -175,6 +178,7 @@
     <div th:class="modal_layer"></div>
 </div>
 
+
 </body>
 
 
@@ -182,6 +186,7 @@
        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>
 <script th:inline="javascript">
+
 
     var loginId = $("#mId").val();
     // var muLike = document.getElementById('muLike');  //이미지 클릭시 화면에 출력되는 숫자 값
@@ -239,6 +244,81 @@
         });
 
     });
+    // 댓글 목록 조회
+    function commentList(list){
+    	var output = "";
+    	console.log("댓댓 리스트" + list);
+    	output += "<table>";
+    	output += "<tr>";
+    	output +="<th>작성자</th>";
+    	output +="<th>내용</th>";
+    	output +="<th>작성일</th>";
+    	output +="<th>수정</th>";
+    	output +="<th>삭제</th>";
+    	output += "</tr>";
+    	
+    	for(var i in list){
+    		output += "<tr>";
+    		output += "<td>"+list[i].mcMid + "</td>";
+    		output += "<td>"+list[i].mcContent + "</td>";
+    		output += "<td>"+list[i].mcDate + "</td>";
+    		output += "<td>"+"</td>";
+    		if(list[i].mcMid ==  loginId){
+    		output += "<td><button onclick='mcCommentModify("+ list[i].mcCode +","+list[i].mcMuNum+")'>수정</button></td>";
+    		}else{
+    			output += "<td><button disabled>수정</button></td>";
+    			}
+    		if(list[i].mcMid ==  loginId || loginId == 'admin'){
+        		output += "<td><button onclick = 'muCommentDelete(mcCode="+ list[i].mcCode +",mcMuNum="+list[i].mcMuNum +")'>삭제</button></td>";
+        		}else{
+        			output += "<td><button disabled>삭제</button></td>";
+        			}
+        		
+    		output +="</tr>";
+    	}
+    	output += "</table>";
+    	var mucommentArea = document.getElementById('mucommentArea');
+    	mucommentArea.innerHTML = output;
+    }
+    function mcCommentModify(mcCode, mcMuNum){
+		var check = confirm('댓글을 수정하시겠습니까?');
+		var mcContent = $('#mcContent').val();
+		if(check){
+			$.ajax({
+				type : "POST",
+				url : "mcModify",
+				data : {"mcCode" : mcCode,
+						"mcMuNum" : mcMuNum,
+						"mcContent" : mcContent},
+				dataType : "json",
+				success : function(list){
+					commentList(list);
+					$('#mcContent').val(""); //작성한 내용 을 댓글입력과 동시에 내용을 "";
+				},
+				error : function(){
+					alert('댓글 수정 실패');
+				}
+			 });
+		 }
+	}
+    	
+    function muCommentDelete(mcCode, mcMuNum){
+    	var check = confirm('댓글을 삭제하시겠습니까?');
+    	
+    	$.ajax({
+    		type : "POST",
+    		url : "mcDelete",
+    		data : {"mcCode" : mcCode , "mcMuNum" : mcMuNum},
+    		dataType : "json",
+    		success : function(list){
+    			commentList(list);
+    		},
+    		error : function(){
+    			alert('삭제 실패');
+    		}
+    		
+    	});
+    }
 
     //좋아요 버튼을 클릭 시 실행되는 코드
     $("#LikeImg").click(function () {

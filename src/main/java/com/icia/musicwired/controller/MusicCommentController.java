@@ -22,6 +22,7 @@ public class MusicCommentController {
 
 	private ModelAndView mav = new ModelAndView();
 
+
 	@Autowired
 	private MusicCommentService svc;
 	List<MusicCommentDTO> commentList = new ArrayList<MusicCommentDTO>();
@@ -48,6 +49,7 @@ public class MusicCommentController {
 	// mcModify 댓글 수정
 	@PostMapping("mcModify")
 	public @ResponseBody List<MusicCommentDTO> mcModify(@ModelAttribute MusicCommentDTO mcomm) {
+
 		System.out.println("1 수정" + mcomm);
 		commentList = svc.mcModify(mcomm);
 		System.out.println("4 수정 " + commentList);
@@ -57,11 +59,13 @@ public class MusicCommentController {
 
 	@PostMapping("mcDelete")
 	public @ResponseBody List<MusicCommentDTO> mcDelete(@ModelAttribute MusicCommentDTO mcomm) {
+
 		System.out.println("1 수정" + mcomm);
 		commentList = svc.mcDelete(mcomm);
 		System.out.println("4 수정 " + commentList);
 		return commentList;
 
 	}
+
 
 }

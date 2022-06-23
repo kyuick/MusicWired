@@ -8,10 +8,12 @@ import lombok.Data;
 @Alias("sub")
 public class subDTO {
 
+
 	/*
 	 * CREATE TABLE SUBSCRIPTION( SSCODE NUMBER, SSMID NVARCHAR2(20) NOT NULL,
 	 * SSERMID NVARCHAR2(20) NOT NULL );
 	 */
+
 
 	private int ssCode;
 	private String ssMid;

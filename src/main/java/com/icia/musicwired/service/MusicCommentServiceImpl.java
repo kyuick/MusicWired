@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 
-
 import com.icia.musicwired.dao.MusicCommentDAO;
 import com.icia.musicwired.dto.MusicCommentDTO;
 
 @Service
+
 public class MusicCommentServiceImpl implements MusicCommentService {
 
 	private ModelAndView mav = new ModelAndView();
@@ -22,6 +22,7 @@ public class MusicCommentServiceImpl implements MusicCommentService {
 	private MusicCommentDAO dao;
 
 	List<MusicCommentDTO> commentList = new ArrayList<MusicCommentDTO>();
+
 
 	@Override
 	public List<MusicCommentDTO> mcList(int mcCode) {
@@ -34,11 +35,13 @@ public class MusicCommentServiceImpl implements MusicCommentService {
 	@Override
 	public List<MusicCommentDTO> mcWrite(MusicCommentDTO mcomm) {
 
+
 		int result = dao.mcWrite(mcomm);
 
 		if (result > 0) {
 			commentList = dao.mcList(mcomm.getMcMuNum());
 		} else {
+
 			commentList = null;
 		}
 		System.out.println("commentList : " + commentList);
@@ -49,9 +52,11 @@ public class MusicCommentServiceImpl implements MusicCommentService {
 	public List<MusicCommentDTO> mcModify(MusicCommentDTO mcomm) {
 		int result = dao.mcModify(mcomm);
 
+
 		if (result > 0) {
 			commentList = dao.mcList(mcomm.getMcMuNum());
 		} else {
+
 			commentList = null;
 		}
 		return commentList;
@@ -61,9 +66,11 @@ public class MusicCommentServiceImpl implements MusicCommentService {
 	public List<MusicCommentDTO> mcDelete(MusicCommentDTO mcomm) {
 		int result = dao.mcDelete(mcomm);
 
+
 		if (result > 0) {
 			commentList = dao.mcList(mcomm.getMcMuNum());
 		} else {
+
 			commentList = null;
 		}
 		return commentList;

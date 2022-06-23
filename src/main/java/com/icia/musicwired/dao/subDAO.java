@@ -1,5 +1,6 @@
 package com.icia.musicwired.dao;
 
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -26,6 +27,7 @@ public interface subDAO {
 
 
 	List<subDTO> subermodalList(String ssMid);
+
 
 
 

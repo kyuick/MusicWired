@@ -1,5 +1,6 @@
 package com.icia.musicwired.controller;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import com.icia.musicwired.service.subService;
 
 @Controller
 public class subController {
+
 
 	@Autowired
 	private subService svc;
