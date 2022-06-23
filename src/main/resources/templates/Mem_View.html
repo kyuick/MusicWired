@@ -27,6 +27,11 @@
 			<th>이름</th>
 			<td th:text="${view.mName}"></td>
 		</tr>
+
+		<tr>
+			<th>닉네임</th>
+			<td th:text="${view.mNickName}"></td>
+		</tr>
 		
 		<tr>
 			<th>이메일</th>
@@ -41,6 +46,16 @@
 		<tr>
 			<th>프로필 사진</th>
 			<td><img th:src="@{/profile/{aa}(aa=${view.mProfileName})}" style="width:200px;"/></td>
+		</tr>
+		
+		<tr>
+			<th>닉네임</th>
+			<td th:text="${view.mNickname}"></td>
+		</tr>
+		
+		<tr>
+			<th>포인트</th>
+			<td th:text="${view.mPoint}"></td>
 		</tr>
 		
 		<tr>

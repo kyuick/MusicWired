@@ -4,6 +4,71 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
 </head>
+<script th:if="${session.login eq null}">
+
+    alert('로그인 이후 이용해주세요.');
+    location.href = "memberLogin";
+</script>
+<style>
+    /*a:link {*/
+    /*    color: black;*/
+    /*}*/
+
+    /*a:visited {*/
+    /*    color: black;*/
+    /*}*/
+
+    /*a:hover {*/
+    /*    color: black;*/
+    /*}*/
+
+    /*a:active {*/
+    /*    color: black;*/
+    /*}*/
+
+    /*a {*/
+    /*    text-decoration-line: none;*/
+    /*}*/
+    #modal {
+        display:none;
+        position:absolute;
+        top : 80%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width:100%;
+        height:100%;
+        z-index:1;
+    }
+
+    #modal h2 {
+        margin:0;
+    }
+
+    #modal button {
+        display:inline-block;
+        width:100px;
+        margin-left:calc(100% - 100px - 10px);
+    }
+
+    #modal .modal_content {
+        width:300px;
+        margin:100px auto;
+        padding:20px 10px;
+        background:#fff;
+        border:2px solid #666;
+    }
+
+    #modal .modal_layer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgb(255, 255, 255);
+        z-index: -1;
+    }
+
+</style>
 <body>
 
 <table>
@@ -11,12 +76,15 @@
     <tr>
         <th>번호</th>
         <td><input type="hidden" th:value="${muView.muCode}" th:id="muCode" th:text="${muView.muCode}">
+       
         <td>
     </tr>
     <tr>
         <th>가수</th>
-        <td th:text="${muView.muSinger}">
-      
+
+        <td  >
+       <a th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=${session.login.mId})}" th:text="${muView.muSinger}"  ></a>
+
         <td>
     </tr>
     <tr>
@@ -63,13 +131,15 @@
         <td><img th:src="@{/muImage/{muImage}(muImage=${muView.muImage})}" style="width:200px;"/>
         <td>
     </tr>
-    <!--        <tr>-->
-    <!--            <th>좋아요</th>-->
-    <!--            <td><a th:onclick="|javascript:likeup('${muView.muCode}')|"><img th:src="@{/Like/heart1.png}"-->
-    <!--                                                                             style="width:10px;"-->
-    <!--                                                                             th:name="${muView.muLike}"/></a>-->
-    <!--            <td>-->
-    <!--        </tr>-->
+    <tr>
+        <th>좋아요
+            <button th:if="${LikeCheck eq 0}"  style="width:30px;" HEIGHT="30"
+                    th:id="LikeImg" th:value="Like">👍</button>
+            <button th:if="${LikeCheck eq 1}"  style="width:30px;" HEIGHT="30"
+                    th:id="LikeImg" th:value="LikeDown">👍</button>
+        </th>
+        <td><div th:id="root"><button th:type="button" th:text="${list}+'명이 좋아합니다.'" th:id="muLike"></button></div></td>
+    </tr>
     <tr>
         <td><a th:href="@{fileModiForm(muCode=${muView.muCode})}">
             <button type="button">수정</button>
@@ -80,15 +150,35 @@
     </tr>
 
 </table>
-<input type="hidden" th:value="${muView.muLike}" th:id="muLike">
-<input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
-<div th:id="LikeArea"></div>
+
+
+
+<input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
+
+
+<!--<div>-->
+<!--    <div th:each = 'list:${list}'>-->
+<!--        <img th:if="${session.login.mId.equals('${list.mulMid}')}" th:src="@{/heart/heart1.png}" style="width:30px;" HEIGHT="30" th:class="Heart"  th:id="LikeImg"/>-->
+<!--    </div>-->
+<!--</div>-->
+
+
 <div>
-	<textarea rows="5" cols="20" th:id= mcContent></textarea>
-	<button th:id="mcCommBtn">댓글 입력</button>
+    <textarea rows="5" cols="20" th:id=mcContent></textarea>
+    <button th:id="mcCommBtn">댓글 입력</button>
 </div>
 <div th:id="mucommentArea">
 </div>
+<div th:id="modal">
+    <div th:class="modal_content">
+        <h2>모달 창</h2>
+        <p>모달 창 입니다.</p>
+        <button th:type="button" th:id="modal_close_btn">모달 창 닫기</button>
+    </div>
+    <div th:class="modal_layer"></div>
+</div>
+
+
 </body>
 
 
@@ -96,71 +186,63 @@
        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>
 <script th:inline="javascript">
-var loginId = $("#mId").val();
-    $(document).ready(function () { //페이지 실행시 좋아요 ajax가 실행되도록 ready 안에서 함수 실행
-        var muCode = $("#muCode").val(); //음악 코드 가져옴
-        console.log('muCode :' + muCode);
 
+
+    var loginId = $("#mId").val();
+    // var muLike = document.getElementById('muLike');  //이미지 클릭시 화면에 출력되는 숫자 값
+
+    const muCode = document.getElementById('muCode').value; // 음악 코드 값
+    //const mId = document.getElementById('mId').value; // 아이디 값
+
+    $(document).ready(function () {
+        //댓글 div 실행
+        var mcCode = $("#muCode").val();
         $.ajax({
-            type: "GET",
-            url: "Like",
-            data: {
-                "muCode": muCode
-            },
+            type: "POST",
+            url: "mcList",
+            data: {"mcCode": mcCode},
             dataType: "json",
-            success: function (like) {
-
-                LikeList(like);
+            success: function (list) {
+                commentList(list);
+                console.log("댓글 리스트 : " + list);
             },
             error: function () {
-                alert('파이팅!!');
+                alert('실패');
+            }
+        })
+
+        //댓글 버튼 클릭 시 ajax 실행
+        $('#mcCommBtn').click(function () {
+            if (!loginId) {
+                alert('로그인 이후 사용하세요!');
+                location.href = "memberLogin";
+            } else {
+                var mcMid = loginId;
+                var mcContent = $('#mcContent').val();
+                var mcMuNum = $('#muCode').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "mcWrite",
+                    data: {
+                        "mcMid": mcMid,
+                        "mcContent": mcContent,
+                        "mcMuNum": mcMuNum
+                    },
+                    datatype: "json",
+                    success: function (list) {
+                        console.log("성공" + list);
+                        commentList(list);
+                        $('#mcContent').val("");
+                    },
+                    error: function () {
+                        alert('댓댓 라잌 댓글 안됨');
+                    }
+
+                });
             }
         });
-        var mcCode = $("#muCode").val();
-        console.log('mcCode : ' + mcCode);
-        
-        $.ajax({
-        	type : "POST",
-        	url : "mcList",
-        	data : {"mcCode" : mcCode},
-        	dataType : "json",
-        	success : function(list){
-        		commentList(list);
-        	},
-        	error : function(){
-        		alert('실패');
-        	}
-        })
-       
-        console.log(loginId);
-        $('#mcCommBtn').click(function(){
-        	if(!loginId){
-        		alert('로그인 이후 사용하세요!');
-        		location.href="memberLogin";
-        	}else{
-        		var mcMid = loginId;
-        		var mcContent = $('#mcContent').val();
-        		var mcMuNum = $('#muCode').val();
-        		
-        		$.ajax({
-        			type : "POST",
-        			url : "mcWrite",
-        			data : {"mcMid" : mcMid,
-        					"mcContent" : mcContent,
-        					"mcMuNum" : mcMuNum	},
-        			datatype : "json",
-        			success : function(list){
-        				commentList(list);
-        				$('#mcContent').val("");
-        			},
-        			error : function(){
-        				alert('댓댓 라잌 댓글 안됨');
-        			}
-        			
-        		});
-        	}	
-        });
-        
+
     });
     // 댓글 목록 조회
     function commentList(list){
@@ -238,126 +320,155 @@ var loginId = $("#mId").val();
     	});
     }
 
-    //좋아요 +1 / -1 함수 실행
-    function LikeList(good) {
-        console.log(good);
-        var muLike = $('#muLike').val(); //dto에 있는 좋아요 필드인 mulike의 아이디 값을 가져옴.
-        var output = "";
-        output += "<table>";
-        output += "<tr>";
-        output += "<th ></th>";
-        output += "</tr>";
+    //좋아요 버튼을 클릭 시 실행되는 코드
+    $("#LikeImg").click(function () {
+        var loginId = $("#mId").val();
+        const muCode = document.getElementById('muCode').value; // 음악 코드 값
+        var LikeImg = $("#LikeImg").val();
 
-        for (var i in good) {
-            output += "<tr>";
-            output += "<th id='" + good[i].muCode + "' class='heartUp'><img src='/heart/heart1.png' style='width: 25px;' id='muLike'/><span>" + good[i].muLike + "</span></th>";
-            //아이디는 음악 코드 값을 가져온다. 이미지를 가져오고 출력되는 내용은 mulike 이다.
-            output += "</tr>";
-        }
-        output += "</table>";
-        var LikeArea = document.getElementById('LikeArea');
-        LikeArea.innerHTML = output;// likeArea div에 위 내용들을 출력해준다.
+        console.log('코드' + muCode);
+        console.log('아이디 : ' + loginId);
+        console.log('LikeImg : ' + LikeImg);
 
-        //좋아요 개 수 올라가는 ajax 실행
-        $(".heartUp").click(function () {
-            var muCode = $(this).attr('id'); //attr 은 아이디값을 가져오는 명령.
-
-            console.log("muCode:" + muCode);
+        if ($("#LikeImg").val() == "Like") {
             $.ajax({
                 type: "POST",
                 url: "LikeUp",
                 data: {
-                    "muCode": muCode
+                    "mulmuCode": muCode,
+                    "mulMid": loginId
                 },
                 dataType: "json",
-                success: function (list) {
+                success: function (likeUpCount) {
+                    console.log("업 : " + likeUpCount)
+                    $("#muLike").empty().append(likeUpCount + '명이 좋아합니다.');
+                    $("#LikeImg").attr('value', 'LikeDown');
 
-                    LikePlus(list); //하트를 누를 시 muLike 값이 +1 되도록 함.
                 },
                 error: function () {
-                    alert("좋아요 실패");
+                    console.log('오타가 숨어있다.');
+                }
+            });
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "LikeDown",
+                data: {
+                    "mulmuCode": muCode,
+                    "mulMid": loginId
+                },
+                dataType: "json",
+                success: function (likeDownCount) {
+                    console.log('다운: ' + likeDownCount)
+                    $("#muLike").empty().append(likeDownCount + '명이 좋아합니다.');
+                    $("#LikeImg").attr('value', 'Like');
+                },
+                error: function () {
+                    console.log('오타가 숨어있다.!!!');
                 }
             });
 
-            //muLike가 +1 되는 것이 화면에 출력되도록 하는 함수
-            function LikePlus(list) {
-                console.log("좋아요"+list);
-
-                var muLike = $('#muLike').val();
-                var output = "";
+        }
 
 
-                output += "<table>";
-                output += "<tr>";
-                output += "<th ></th>";
-                output += "</tr>";
-                for (var i in list) {
-                    output += "<tr>";
-                    if(list[i].heartImg=1){
-                    output += "<th id='" + list[i].muCode + "' class='heartDown'><img src='/heart/heart2.png' style='width:25px;'/><span>" + list[i].muLike + "</span></th>";
-                    }else{
-                        output += "<th id='" + list[i].muCode + "' class='heartDown'><img src='/heart/heart1.png' style='width:25px;'/><span>" + list[i].muLike + "</span></th>";
-                    }
-                    output += "</tr>";
+    });
+
+
+    // 댓글 목록 조회
+    function commentList(list) {
+        var output = "";
+        console.log("댓댓 리스트" + list);
+        output += "<table>";
+        output += "<tr>";
+        output += "<th>작성자</th>";
+        output += "<th>내용</th>";
+        output += "<th>작성일</th>";
+        output += "<th>수정</th>";
+        output += "<th>삭제</th>";
+        output += "</tr>";
+
+        for (var i in list) {
+            output += "<tr>";
+            output += "<td>" + list[i].mcMid + "</td>";
+            output += "<td>" + list[i].mcContent + "</td>";
+            output += "<td>" + list[i].mcDate + "</td>";
+            output += "<td>" + "</td>";
+            if (list[i].mcMid == loginId) {
+                output += "<td><button onclick='mcCommentModify(" + list[i].mcCode + "," + list[i].mcMuNum + ")'>수정</button></td>";
+            } else {
+                output += "<td><button disabled>수정</button></td>";
+            }
+            if (list[i].mcMid == loginId || loginId == 'admin') {
+                output += "<td><button onclick = 'muCommentDelete(mcCode=" + list[i].mcCode + ",mcMuNum=" + list[i].mcMuNum + ")'>삭제</button></td>";
+            } else {
+                output += "<td><button disabled>삭제</button></td>";
+            }
+
+            output += "</tr>";
+        }
+        output += "</table>";
+        var mucommentArea = document.getElementById('mucommentArea');
+        mucommentArea.innerHTML = output;
+    }
+
+    function mcCommentModify(mcCode, mcMuNum) {
+        var check = confirm('댓글을 수정하시겠습니까?');
+        var mcContent = $('#mcContent').val();
+        if (check) {
+            $.ajax({
+                type: "POST",
+                url: "mcModify",
+                data: {
+                    "mcCode": mcCode,
+                    "mcMuNum": mcMuNum,
+                    "mcContent": mcContent
+                },
+                dataType: "json",
+                success: function (list) {
+                    commentList(list);
+                    $('#mcContent').val(""); //작성한 내용 을 댓글입력과 동시에 내용을 "";
+                },
+                error: function () {
+                    alert('댓글 수정 실패');
                 }
-                output += "</table>";
-                var LikeArea = document.getElementById('LikeArea');
-                LikeArea.innerHTML = output;
+            });
+        }
+    }
 
+    function muCommentDelete(mcCode, mcMuNum) {
+        var check = confirm('댓글을 삭제하시겠습니까?');
 
-                $(".heartDown").click(function () {
-                    var muCode = $(this).attr('id'); //attr 은 아이디값을 가져오는 명령.
-                    var cancle = true;
-                    console.log("음악코드:" + muCode);
-                    $.ajax({
-                        type: "POST",
-                        url: "LikeDown",
-                        data: {
-                            "muCode": muCode
-                        },
-                        dataType: "json",
-                        success: function (list) {
-                            LikeMinus(list); //하트를 누를 시 muLike 값이 -1 되도록 함.
-                            cancle = false;
-                        },
-                        error: function () {
-                            alert("싫어요 실패");
-                        }
-                    });
-                    function LikeMinus(list){
-                        console.log("마이너스 : "+list);
-                        var muLike = $('#muLike').val();
-                        var output = "";
-
-                        output += "<table>";
-                        output += "<tr>";
-                        output += "<th ></th>";
-                        output += "</tr>";
-                        for (var k in list) {
-                            output += "<tr>";
-                            if(list[i].heartImg=-1){
-                                output += "<th id='" + list[i].muCode + "' class='heartDown'><img src='/heart/heart1.png' style='width:25px;'/><span>" + list[i].muLike + "</span></th>";
-                            }else{
-                                output += "<th id='" + list[i].muCode + "' class='heartDown'><img src='/heart/heart2.png' style='width:25px;'/><span>" + list[i].muLike + "</span></th>";
-                            }
-                            output += "</tr>";
-                        }
-                        output += "</table>";
-                        var LikeArea = document.getElementById('LikeArea');
-                        LikeArea.innerHTML = output;
-                    }
-
-                });
+        $.ajax({
+            type: "POST",
+            url: "mcDelete",
+            data: {"mcCode": mcCode, "mcMuNum": mcMuNum},
+            dataType: "json",
+            success: function (list) {
+                commentList(list);
+            },
+            error: function () {
+                alert('삭제 실패');
             }
 
         });
-
-
-
     }
 
 
+
+
+
+
 </script>
+<script>
+    $("#muLike").click(function(){
+        $("#modal").fadeIn();
+    });
+
+    $("#modal_close_btn").click(function(){
+        $("#modal").fadeOut();
+    });
+</script>
+
 
 
 </html>

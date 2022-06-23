@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Alias("BoardLike")
 public class BoardLikeDTO {
-	
+
 	private int bolCode;
 	private int bolBoCode;
 	private String bolMid;
-	
+
 }
