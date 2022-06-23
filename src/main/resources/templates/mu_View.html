@@ -392,7 +392,8 @@
 
                 for(var i in LikeList){
                     if(LikeList.length > 0){
-                        output += "<p><img src='/profile/"+ LikeList[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + LikeList[i].mId + "</p>"
+                        output += "<a href='boardWriterView?boWriter="+LikeList[i].mId+"'><p><img src='/profile/"+ LikeList[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + LikeList[i].mId + "</p></a>"
+                            // <a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+loginId+"'>" + list[i].boWriter + "</a>
                     }
                 }
                 const modalContent = document.getElementById("content");
