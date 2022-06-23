@@ -82,8 +82,8 @@
     <tr>
         <th>가수</th>
 
-        <td  >
-       <a th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=${session.login.mId})}" th:text="${muView.muSinger}"  ></a>
+        <td>
+       <a th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=${session.login.mId})}" th:text="${muView.muSinger}"></a>
 
         <td>
     </tr>
@@ -178,16 +178,6 @@
 <div>
     <textarea rows="5" cols="20" th:id=mcContent></textarea>
     <button th:id="mcCommBtn">댓글 입력</button>
-</div>
-<div th:id="mucommentArea">
-</div>
-<div th:id="modal">
-    <div th:class="modal_content">
-        <h2>모달 창</h2>
-        <p>모달 창 입니다.</p>
-        <button th:type="button" th:id="modal_close_btn">모달 창 닫기</button>
-    </div>
-    <div th:class="modal_layer"></div>
 </div>
 
 
@@ -388,7 +378,7 @@
     $("#muLike").click(function(){
 
         const muCode = document.getElementById('muCode').value;
-
+        console.log(loginId);
         console.log(muCode);
         $.ajax({
             type : "POST",
@@ -433,7 +423,7 @@
                     }
                 });
 
-                console.log(subr);
+
             },
             error : function(){
                 alert('구독자 목록 불러오기 실패');

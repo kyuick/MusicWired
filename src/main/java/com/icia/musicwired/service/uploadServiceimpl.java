@@ -302,14 +302,14 @@ public class uploadServiceimpl implements uploadService {
 		
 		return result;
 	}
+
+
+
 	//MusicLikeList : 좋아요 한 사람들 목록
 	@Override
-	public List<MusicLikeDto> MusicLikeList(int mulmuCode) {
+	public List<MusicLikeDto> LikemodalList(int mulmuCode) {
 
-		List<MusicLikeDto> Likelist = dao.MusicLikeList(mulmuCode);
-
-		MusicLikeDto = Likelist;
-
+		MusicLikeDto= dao.LikemodalList(mulmuCode);
 
 		return MusicLikeDto;
 	}

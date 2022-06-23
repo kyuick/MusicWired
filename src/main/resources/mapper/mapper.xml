@@ -109,13 +109,13 @@
     </select>
 
     <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!--    <select id="mlList" parameterType="int" resultType="member">-->
-<!--        SELECT M.MID, M.MPROFILENAME-->
-<!--        FROM MEMBER M,-->
-<!--             MUSICLIKE-->
-<!--        WHERE MID = MULMID-->
-<!--          AND MULMUCODE = #{mulmuCode}-->
-<!--    </select>-->
+    <!--    <select id="mlList" parameterType="int" resultType="member">-->
+    <!--        SELECT M.MID, M.MPROFILENAME-->
+    <!--        FROM MEMBER M,-->
+    <!--             MUSICLIKE-->
+    <!--        WHERE MID = MULMID-->
+    <!--          AND MULMUCODE = #{mulmuCode}-->
+    <!--    </select>-->
 
     <select id="MusicLikeList" parameterType="int" resultType="mulike">
         SELECT *
@@ -164,11 +164,12 @@
         WHERE MULCODE = #{mulCode}
     </select>
 
-    <select id="MusicLikeList" parameterType="int" resultType="member">
+    <select id="LikemodalList" parameterType="int" resultType="member">
         SELECT M.MID, M.MPROFILENAME
         FROM MEMBER M,
              MUSICLIKE
-        WHERE MULMUCODE = #{mulmuCode}
+        WHERE MID = MULMID
+          AND MULMUCODE = #{mulmuCode}
     </select>
     <!--<select id="LikeListCount" parameterType="int" >-->
     <!--    SELECT COUNT(*)-->

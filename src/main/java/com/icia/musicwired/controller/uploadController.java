@@ -201,13 +201,15 @@ public class uploadController {
     }
 
     //MusicLikeList : 좋아요 한 사람들 목록
-    @PostMapping("MusicLikeList")
+    @RequestMapping(value = "/MusicLikeList", method = RequestMethod.POST)
     public @ResponseBody List<MusicLikeDto> MusicLikeList(@RequestParam("mulmuCode") int mulmuCode) {
         System.out.println("[1] 좋아요 리스트 : " + mulmuCode);
-        MusicLikeDto = svc.MusicLikeList(mulmuCode);
+        MusicLikeDto = svc.LikemodalList(mulmuCode);
         System.out.println("[4] 좋아요 리스트: " + mulmuCode);
         return MusicLikeDto;
     }
+
+
 
 
 }
