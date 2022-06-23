@@ -31,7 +31,7 @@ public interface uploadService {
 
 	ModelAndView fileDelete(int muCode);
 
-	void muCount(uploadDto dto);
+	void muCount(int muCode);
 
 	///////////////////////////////////////////////////////
 	//좋아요 +1
@@ -45,7 +45,6 @@ public interface uploadService {
 	int LikeDown(MusicLikeDto musicLikeDto);
 
 
-	List<uploadDto> LikeDown(int muCode);
 
 	Map<String, Object> ajaxFileList(int page,int limit);
 

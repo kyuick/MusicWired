@@ -101,7 +101,8 @@ public class uploadController {
     
     //muView 
     @GetMapping("/muView")
-    public ModelAndView muView(@ModelAttribute uploadDto dto, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView muView(@ModelAttribute uploadDto dto, HttpServletRequest request, HttpServletResponse response,
+    		@RequestParam("muCode")int muCode) {
 
         System.out.println("1con" + dto);
         Cookie viewCookie = null;
@@ -113,7 +114,7 @@ public class uploadController {
 //System.out.println("쿠키 이름 : "+cookies[i].getName());
 
                 //만들어진 쿠키들을 확인하며, 만약 들어온 적 있다면 생성되었을 쿠키가 있는지 확인
-                if (cookies[i].getName().equals("|" + dto + "|")) {
+                if (cookies[i].getName().equals("|" + muCode + "|")) {
                     System.out.println("if문 쿠키 이름" + cookies[i].getName());
                     //찾은 쿠키를 변수에 저장
                     viewCookie = cookies[i];
@@ -132,12 +133,12 @@ public class uploadController {
             try {
 
                 //이 페이지에 왔다는 증거용(?) 쿠키 생성
-                Cookie newCookie = new Cookie("|" + dto + "|", "readCount");
+                Cookie newCookie = new Cookie("|" + muCode + "|", "readCount");
                 response.addCookie(newCookie);
 
                 //쿠키가 없으니 증가 로직 진행
 
-                svc.muCount(dto);
+                svc.muCount(muCode);
             } catch (Exception e) {
                 System.out.println("쿠키 넣을때 오류 나나? : " + e.getMessage());
                 e.getStackTrace();

@@ -20,7 +20,7 @@ public interface uploadDao {
 	//음원 삭제
 	int fileDelete(int muCode);
 	//조회수
-	void muCount(uploadDto dto);
+	void muCount(int muCode);
 	//음원 상세보기
 	uploadDto muView(uploadDto dto);
 	//전체 음원목록 갯수

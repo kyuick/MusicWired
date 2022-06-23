@@ -485,8 +485,8 @@ table, tr, td, th {
 							if(list.length <= 0){
 								output3 += "<p>가장 먼저 좋아요를 눌러보세요</p>";
 							} else if(list.length > 0){
-								output3 += "<p><img src='/profile/"+ list[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + list[i].mNickname + "</p>";
-							}
+								output3 += "<p><a href='boardWriterView?boWriter="+list[i].mId+"'><img src='/profile/"+ list[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + list[i].mName + "</a></p>";
+								}
 						}
 						
 						const modalContent = document.getElementById("content");

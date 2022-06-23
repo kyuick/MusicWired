@@ -206,6 +206,7 @@ public class MemberServiceImpl implements MemberService {
 			System.out.println(member);
 
 			member.setmPw(mPw);
+			member.setmPw(pwEnc.encode(member.getmPw()));
 			mdao.memPwfind(member);
 		}
 		return mav;

@@ -151,7 +151,6 @@
 	        <th>음악 장르</th>
 	        <th>게시일</th>
 	        <th>조회 수</th>
-	        <th>좋아요 수</th>
 	        <th>가격</th>
 	    </tr>
 	    <tr th:each="mulist : ${muViewList}">
@@ -160,7 +159,6 @@
 	        <td th:text="${mulist.muGanre}"></td>
 	        <td th:text="${mulist.muDate}"></td>
 	        <td th:text="${mulist.muHit}"></td>
-	        <td th:text="${mulist.muLike}"></td>
 	        <td th:text="500"></td>
 	    </tr>
 	</table>

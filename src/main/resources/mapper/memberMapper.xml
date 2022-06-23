@@ -6,7 +6,7 @@
 
 	<insert id="memberJoin" parameterType="member">
 
-		INSERT INTO MEMBER VALUES(#{mId}, #{mPw}, #{mName}, #{mGender}, #{mEmail}, 0, 0, #{mProfileName}, #{mNickname},0)
+		INSERT INTO MEMBER VALUES(#{mId}, #{mPw}, #{mName}, #{mGender}, #{mEmail}, 0, 0, #{mProfileName},0)
 
 	</insert>
 	
@@ -28,7 +28,7 @@
 	
 	<update id="memberModify" parameterType="member">
 		UPDATE MEMBER SET MPW=#{mPw}, MNAME=#{mName}, MGENDER=#{mGender}, MEMAIL=#{mEmail},
-						  MPROFILENAME=#{mProfileName}, MNICKNAME=#{mNickname} WHERE MID=#{mId}
+						  MPROFILENAME=#{mProfileName} WHERE MID=#{mId}
 	</update>
 	
 	<delete id="memberDelete" parameterType="String">

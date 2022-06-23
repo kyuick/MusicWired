@@ -212,8 +212,8 @@ public class uploadServiceimpl implements uploadService {
 	}
 
 	@Override
-	public void muCount(uploadDto dto) {
-		dao.muCount(dto);
+	public void muCount(int muCode) {
+		dao.muCount(muCode);
 	}
 
 	////////////////////////////////////////////
@@ -306,6 +306,8 @@ public class uploadServiceimpl implements uploadService {
 		
 		return result;
 	}
+
+	
 
 
 	
