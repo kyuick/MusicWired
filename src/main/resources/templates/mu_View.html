@@ -10,64 +10,64 @@
     location.href = "memberLogin";
 </script>
 <style>
-    /*a:link {*/
-    /*    color: black;*/
-    /*}*/
-
-    /*a:visited {*/
-    /*    color: black;*/
-    /*}*/
-
-    /*a:hover {*/
-    /*    color: black;*/
-    /*}*/
-
-    /*a:active {*/
-    /*    color: black;*/
-    /*}*/
-
-    /*a {*/
-    /*    text-decoration-line: none;*/
-    /*}*/
-    #modal {
-        display:none;
-        position:absolute;
-        top : 80%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width:100%;
-        height:100%;
-        z-index:1;
-    }
-
-    #modal h2 {
-        margin:0;
-    }
-
-    #modal button {
-        display:inline-block;
-        width:100px;
-        margin-left:calc(100% - 100px - 10px);
-    }
-
-    #modal .modal_content {
-        width:300px;
-        margin:100px auto;
-        padding:20px 10px;
-        background:#fff;
-        border:2px solid #666;
-    }
-
-    #modal .modal_layer {
-        position: fixed;
-        top: 0;
-        left: 0;
+    #modal.modal-overlay {
         width: 100%;
         height: 100%;
-        background: rgb(255, 255, 255);
-        z-index: -1;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(1.5px);
+        -webkit-backdrop-filter: blur(1.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        display: none;
+    }
+    #modal .modal-window {
+        background: rgba( 69, 139, 197, 0.70 );
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 13.5px );
+        -webkit-backdrop-filter: blur( 13.5px );
+        border-radius: 10px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+        width: 400px;
+        height: 500px;
+        position: relative;
+        top: -100px;
+        padding: 10px;
+        overflow-y: auto;
+    }
+    #modal .title {
+        padding-left: 10px;
+        display: inline;
+        text-shadow: 1px 1px 2px gray;
+        color: white;
+
+    }
+    #modal .title h2 {
+        display: inline;
+    }
+    #modal .close-area {
+        display: inline;
+        float: right;
+        padding-right: 10px;
+        cursor: pointer;
+        text-shadow: 1px 1px 2px gray;
+        color: white;
     }
 
+    #modal .content {
+        margin-top: 20px;
+        padding: 0px 10px;
+        text-shadow: 1px 1px 2px gray;
+        color: white;
+
+    }
 </style>
 <body>
 
@@ -150,7 +150,19 @@
     </tr>
 
 </table>
-
+<div id="container">
+    <div id="lorem-ipsum"></div>
+</div>
+<div id="modal" class="modal-overlay" role="dialog">
+    <div class="modal-window">
+        <div class="title">
+            <h2 id="modalTitle"></h2>
+        </div>
+        <div class="close-area">X</div>
+        <div class="content" id="content">
+        </div>
+    </div>
+</div>
 
 
 <input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
@@ -372,6 +384,63 @@
 
 
     });
+
+    $("#muLike").click(function(){
+
+        const muCode = document.getElementById('muCode').value;
+
+        console.log(muCode);
+        $.ajax({
+            type : "POST",
+            url : "MusicLikeList",
+            data : {"mulmuCode" : muCode},
+            dataType: "json",
+            success: function (LikeList) {
+
+                var output = "";
+                var output1 = "좋아요";
+
+                for(var i in LikeList){
+                    if(LikeList.length > 0){
+                        output += "<p><img src='/profile/"+ LikeList[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + LikeList[i].mId + "</p>"
+                    }
+                }
+                const modalContent = document.getElementById("content");
+                modalContent.innerHTML = output;
+
+                var modalTitle = document.getElementById("modalTitle");
+                modalTitle.innerHTML = output1;
+
+                const modal = document.getElementById("modal")
+
+                modal.style.display = "flex"
+
+                const closeBtn = modal.querySelector(".close-area")
+                closeBtn.addEventListener("click", e => {
+                    modal.style.display = "none"
+                });
+
+                modal.addEventListener("click", e => {
+                    const evTarget = e.target
+                    if(evTarget.classList.contains("modal-overlay")) {
+                        modal.style.display = "none"
+                    }
+                });
+
+                window.addEventListener("keyup", e => {
+                    if(modal.style.display === "flex" && e.key === "Escape") {
+                        modal.style.display = "none"
+                    }
+                });
+
+                console.log(subr);
+            },
+            error : function(){
+                alert('구독자 목록 불러오기 실패');
+            }
+        });
+    });
+
 
 
     // 댓글 목록 조회

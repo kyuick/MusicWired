@@ -57,7 +57,7 @@ public interface uploadDao {
 	
 	List<uploadDto> boardWriterView(String boWriter);
 
-
+	List<MusicLikeDto> MusicLikeList(int mulmuCode);
 
 
 ////////////////////////////////////////////////////////////
