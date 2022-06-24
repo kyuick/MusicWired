@@ -530,27 +530,27 @@
     //
     //     });
     // }
-  var audio = document.getElementById("audio"); //오디오 id 값으로 변수 지정
+    var audio = document.getElementById("audio"); //오디오 id 값으로 변수 지정
 
     audio.addEventListener("play", playList); //변수 audio에 addEventListener 이벤트로 "play" 되었을 때 'playList' 함수 실행
 
-    function playList(){
+    function playList() {
         var loginId = $("#mId").val();
         const muCode = document.getElementById('muCode').value; // 음악 코드 값
 
         $.ajax({
-            type:"POST",
-            url:"MusicPlayList",
-            data:{
-            "plmuCode":muCode,
-                "plMid":loginId
+            type: "POST",
+            url: "playList",
+            data: {
+                "plmuCode": muCode,
+                "plMid": loginId
             },
-            dataType:"json",
-            success:function (playListInsert){
+            dataType: "json",
+            success: function (playListInsert) {
 
             },
-            error:function (){
-                
+            error: function () {
+                console.log("에러에러!!")
             }
         });
 
