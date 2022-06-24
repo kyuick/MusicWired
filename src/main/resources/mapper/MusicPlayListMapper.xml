@@ -8,4 +8,11 @@
         VALUES (PLAY_SEQ.NEXTVAL, #{plmuCode}, #{plMid})
     </insert>
 
+    <select id="playListView" parameterType="String" resultType="audio">
+        SELECT A.MUSINGER, A.MUNAME, A.MUIMAGE, A.MFILE
+        FROM MUSIC A,
+             PLAYLIST
+        WHERE  MUCODE=PLMUCODE AND PLMID = #{plMid}
+    </select>
+
 </mapper>

@@ -9,4 +9,6 @@ import java.util.List;
 public interface MusicPlayListDao {
 
     int playList(MusicPlayListDto mpDto);
+
+    List<MusicPlayListDto> playListView(String mId);
 }
