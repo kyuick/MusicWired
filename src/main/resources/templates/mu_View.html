@@ -28,13 +28,14 @@
         border: 1px solid rgba(255, 255, 255, 0.18);
         display: none;
     }
+
     #modal .modal-window {
-        background: rgba( 69, 139, 197, 0.70 );
-        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-        backdrop-filter: blur( 13.5px );
-        -webkit-backdrop-filter: blur( 13.5px );
+        background: rgba(69, 139, 197, 0.70);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
         border-radius: 10px;
-        border: 1px solid rgba( 255, 255, 255, 0.18 );
+        border: 1px solid rgba(255, 255, 255, 0.18);
         width: 400px;
         height: 500px;
         position: relative;
@@ -42,6 +43,7 @@
         padding: 10px;
         overflow-y: auto;
     }
+
     #modal .title {
         padding-left: 10px;
         display: inline;
@@ -49,9 +51,11 @@
         color: white;
 
     }
+
     #modal .title h2 {
         display: inline;
     }
+
     #modal .close-area {
         display: inline;
         float: right;
@@ -76,14 +80,15 @@
     <tr>
         <th>번호</th>
         <td><input type="hidden" th:value="${muView.muCode}" th:id="muCode" th:text="${muView.muCode}">
-       
+
         <td>
     </tr>
     <tr>
         <th>가수</th>
 
         <td>
-       <a th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=${session.login.mId})}" th:text="${muView.muSinger}"></a>
+            <a th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=${session.login.mId})}"
+               th:text="${muView.muSinger}"></a>
 
         <td>
     </tr>
@@ -121,7 +126,7 @@
     <tr>
         <th>음악파일</th>
         <td>
-            <audio controls="controls">
+            <audio controls="controls" th:id="audio">
                 <source th:src="@{/audio/{mFile}(mFile=${muView.mFile})}" style="width:200px;" type="audio/mpeg">
             </audio>
         <td>
@@ -133,12 +138,18 @@
     </tr>
     <tr>
         <th>좋아요
-            <button th:if="${LikeCheck eq 0}"  style="width:30px;" HEIGHT="30"
-                    th:id="LikeImg" th:value="Like">👍</button>
-            <button th:if="${LikeCheck eq 1}"  style="width:30px;" HEIGHT="30"
-                    th:id="LikeImg" th:value="LikeDown">👍</button>
+            <button th:if="${LikeCheck eq 0}" style="width:30px;" HEIGHT="30"
+                    th:id="LikeImg" th:value="Like">👍
+            </button>
+            <button th:if="${LikeCheck eq 1}" style="width:30px;" HEIGHT="30"
+                    th:id="LikeImg" th:value="LikeDown">👍
+            </button>
         </th>
-        <td><div th:id="root"><button th:type="button" th:text="${list}+'명이 좋아합니다.'" th:id="muLike"></button></div></td>
+        <td>
+            <div th:id="root">
+                <button th:type="button" th:text="${list}+'명이 좋아합니다.'" th:id="muLike"></button>
+            </div>
+        </td>
     </tr>
     <tr>
         <td><a th:href="@{fileModiForm(muCode=${muView.muCode})}">
@@ -179,13 +190,15 @@
     <textarea rows="5" cols="20" th:id=mcContent></textarea>
     <button th:id="mcCommBtn">댓글 입력</button>
 </div>
+<!--규익 - 내가 실수로 div 지웠던 같음. 혹시 머지때 곂치면 내가 쓴거 지우면 됨.-->
+<div th:id="mucommentArea"></div>
 
 
 </body>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>
 <script th:inline="javascript">
 
@@ -197,6 +210,7 @@
     //const mId = document.getElementById('mId').value; // 아이디 값
 
     $(document).ready(function () {
+
         //댓글 div 실행
         var mcCode = $("#muCode").val();
         $.ajax({
@@ -246,193 +260,6 @@
         });
 
     });
-    // 댓글 목록 조회
-    function commentList(list){
-    	var output = "";
-    	console.log("댓댓 리스트" + list);
-    	output += "<table>";
-    	output += "<tr>";
-    	output +="<th>작성자</th>";
-    	output +="<th>내용</th>";
-    	output +="<th>작성일</th>";
-    	output +="<th>수정</th>";
-    	output +="<th>삭제</th>";
-    	output += "</tr>";
-    	
-    	for(var i in list){
-    		output += "<tr>";
-    		output += "<td>"+list[i].mcMid + "</td>";
-    		output += "<td>"+list[i].mcContent + "</td>";
-    		output += "<td>"+list[i].mcDate + "</td>";
-    		output += "<td>"+"</td>";
-    		if(list[i].mcMid ==  loginId){
-    		output += "<td><button onclick='mcCommentModify("+ list[i].mcCode +","+list[i].mcMuNum+")'>수정</button></td>";
-    		}else{
-    			output += "<td><button disabled>수정</button></td>";
-    			}
-    		if(list[i].mcMid ==  loginId || loginId == 'admin'){
-        		output += "<td><button onclick = 'muCommentDelete(mcCode="+ list[i].mcCode +",mcMuNum="+list[i].mcMuNum +")'>삭제</button></td>";
-        		}else{
-        			output += "<td><button disabled>삭제</button></td>";
-        			}
-        		
-    		output +="</tr>";
-    	}
-    	output += "</table>";
-    	var mucommentArea = document.getElementById('mucommentArea');
-    	mucommentArea.innerHTML = output;
-    }
-    function mcCommentModify(mcCode, mcMuNum){
-		var check = confirm('댓글을 수정하시겠습니까?');
-		var mcContent = $('#mcContent').val();
-		if(check){
-			$.ajax({
-				type : "POST",
-				url : "mcModify",
-				data : {"mcCode" : mcCode,
-						"mcMuNum" : mcMuNum,
-						"mcContent" : mcContent},
-				dataType : "json",
-				success : function(list){
-					commentList(list);
-					$('#mcContent').val(""); //작성한 내용 을 댓글입력과 동시에 내용을 "";
-				},
-				error : function(){
-					alert('댓글 수정 실패');
-				}
-			 });
-		 }
-	}
-    	
-    function muCommentDelete(mcCode, mcMuNum){
-    	var check = confirm('댓글을 삭제하시겠습니까?');
-    	
-    	$.ajax({
-    		type : "POST",
-    		url : "mcDelete",
-    		data : {"mcCode" : mcCode , "mcMuNum" : mcMuNum},
-    		dataType : "json",
-    		success : function(list){
-    			commentList(list);
-    		},
-    		error : function(){
-    			alert('삭제 실패');
-    		}
-    		
-    	});
-    }
-
-    //좋아요 버튼을 클릭 시 실행되는 코드
-    $("#LikeImg").click(function () {
-        var loginId = $("#mId").val();
-        const muCode = document.getElementById('muCode').value; // 음악 코드 값
-        var LikeImg = $("#LikeImg").val();
-
-        console.log('코드' + muCode);
-        console.log('아이디 : ' + loginId);
-        console.log('LikeImg : ' + LikeImg);
-
-        if ($("#LikeImg").val() == "Like") {
-            $.ajax({
-                type: "POST",
-                url: "LikeUp",
-                data: {
-                    "mulmuCode": muCode,
-                    "mulMid": loginId
-                },
-                dataType: "json",
-                success: function (likeUpCount) {
-                    console.log("업 : " + likeUpCount)
-                    $("#muLike").empty().append(likeUpCount + '명이 좋아합니다.');
-                    $("#LikeImg").attr('value', 'LikeDown');
-
-                },
-                error: function () {
-                    console.log('오타가 숨어있다.');
-                }
-            });
-        } else {
-            $.ajax({
-                type: "POST",
-                url: "LikeDown",
-                data: {
-                    "mulmuCode": muCode,
-                    "mulMid": loginId
-                },
-                dataType: "json",
-                success: function (likeDownCount) {
-                    console.log('다운: ' + likeDownCount)
-                    $("#muLike").empty().append(likeDownCount + '명이 좋아합니다.');
-                    $("#LikeImg").attr('value', 'Like');
-                },
-                error: function () {
-                    console.log('오타가 숨어있다.!!!');
-                }
-            });
-
-        }
-
-
-    });
-
-    $("#muLike").click(function(){
-
-        const muCode = document.getElementById('muCode').value;
-        console.log(loginId);
-        console.log(muCode);
-        $.ajax({
-            type : "POST",
-            url : "MusicLikeList",
-            data : {"mulmuCode" : muCode},
-            dataType: "json",
-            success: function (LikeList) {
-
-                var output = "";
-                var output1 = "좋아요";
-
-                for(var i in LikeList){
-                    if(LikeList.length > 0){
-                        output += "<a href='boardWriterView?boWriter="+LikeList[i].mId+"'><p><img src='/profile/"+ LikeList[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + LikeList[i].mId + "</p></a>"
-                            // <a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+loginId+"'>" + list[i].boWriter + "</a>
-                    }
-                }
-                const modalContent = document.getElementById("content");
-                modalContent.innerHTML = output;
-
-                var modalTitle = document.getElementById("modalTitle");
-                modalTitle.innerHTML = output1;
-
-                const modal = document.getElementById("modal")
-
-                modal.style.display = "flex"
-
-                const closeBtn = modal.querySelector(".close-area")
-                closeBtn.addEventListener("click", e => {
-                    modal.style.display = "none"
-                });
-
-                modal.addEventListener("click", e => {
-                    const evTarget = e.target
-                    if(evTarget.classList.contains("modal-overlay")) {
-                        modal.style.display = "none"
-                    }
-                });
-
-                window.addEventListener("keyup", e => {
-                    if(modal.style.display === "flex" && e.key === "Escape") {
-                        modal.style.display = "none"
-                    }
-                });
-
-
-            },
-            error : function(){
-                alert('구독자 목록 불러오기 실패');
-            }
-        });
-    });
-
-
 
     // 댓글 목록 조회
     function commentList(list) {
@@ -513,22 +340,232 @@
         });
     }
 
+    //좋아요 버튼을 클릭 시 실행되는 코드
+    $("#LikeImg").click(function () {
+        var loginId = $("#mId").val();
+        const muCode = document.getElementById('muCode').value; // 음악 코드 값
+        var LikeImg = $("#LikeImg").val();
+
+        console.log('코드' + muCode);
+        console.log('아이디 : ' + loginId);
+        console.log('LikeImg : ' + LikeImg);
+
+        if ($("#LikeImg").val() == "Like") {
+            $.ajax({
+                type: "POST",
+                url: "LikeUp",
+                data: {
+                    "mulmuCode": muCode,
+                    "mulMid": loginId
+                },
+                dataType: "json",
+                success: function (likeUpCount) {
+                    console.log("업 : " + likeUpCount)
+                    $("#muLike").empty().append(likeUpCount + '명이 좋아합니다.');
+                    $("#LikeImg").attr('value', 'LikeDown');
+
+                },
+                error: function () {
+                    console.log('오타가 숨어있다.');
+                }
+            });
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "LikeDown",
+                data: {
+                    "mulmuCode": muCode,
+                    "mulMid": loginId
+                },
+                dataType: "json",
+                success: function (likeDownCount) {
+                    console.log('다운: ' + likeDownCount)
+                    $("#muLike").empty().append(likeDownCount + '명이 좋아합니다.');
+                    $("#LikeImg").attr('value', 'Like');
+                },
+                error: function () {
+                    console.log('오타가 숨어있다.!!!');
+                }
+            });
+
+        }
 
 
+    });
+
+    $("#muLike").click(function () {
+        const muCode = document.getElementById('muCode').value;
+        console.log(loginId);
+        console.log(muCode);
+        $.ajax({
+            type: "POST",
+            url: "MusicLikeList",
+            data: {"mulmuCode": muCode},
+            dataType: "json",
+            success: function (LikeList) {
+
+                var output = "";
+                var output1 = "좋아요";
+
+                for (var i in LikeList) {
+                    if (LikeList.length > 0) {
+                        output += "<a href='boardWriterView?boWriter=" + LikeList[i].mId + "'><p><img src='/profile/" + LikeList[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + LikeList[i].mId + "</p></a>"
+                        // <a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+loginId+"'>" + list[i].boWriter + "</a>
+                    }
+                }
+                const modalContent = document.getElementById("content");
+                modalContent.innerHTML = output;
+
+                var modalTitle = document.getElementById("modalTitle");
+                modalTitle.innerHTML = output1;
+
+                const modal = document.getElementById("modal")
+
+                modal.style.display = "flex"
+
+                const closeBtn = modal.querySelector(".close-area")
+                closeBtn.addEventListener("click", e => {
+                    modal.style.display = "none"
+                });
+
+                modal.addEventListener("click", e => {
+                    const evTarget = e.target
+                    if (evTarget.classList.contains("modal-overlay")) {
+                        modal.style.display = "none"
+                    }
+                });
+
+                window.addEventListener("keyup", e => {
+                    if (modal.style.display === "flex" && e.key === "Escape") {
+                        modal.style.display = "none"
+                    }
+                });
 
 
+            },
+            error: function () {
+                alert('구독자 목록 불러오기 실패');
+            }
+        });
+    });
+
+
+    // 댓글 목록 조회
+    function commentList(list) {
+        var output = "";
+        console.log("댓댓 리스트" + list);
+        output += "<table>";
+        output += "<tr>";
+        output += "<th>작성자</th>";
+        output += "<th>내용</th>";
+        output += "<th>작성일</th>";
+        output += "<th>수정</th>";
+        output += "<th>삭제</th>";
+        output += "</tr>";
+
+        for (var i in list) {
+            output += "<tr>";
+            output += "<td>" + list[i].mcMid + "</td>";
+            output += "<td>" + list[i].mcContent + "</td>";
+            output += "<td>" + list[i].mcDate + "</td>";
+            output += "<td>" + "</td>";
+            if (list[i].mcMid == loginId) {
+                output += "<td><button onclick='mcCommentModify(" + list[i].mcCode + "," + list[i].mcMuNum + ")'>수정</button></td>";
+            } else {
+                output += "<td><button disabled>수정</button></td>";
+            }
+            if (list[i].mcMid == loginId || loginId == 'admin') {
+                output += "<td><button onclick = 'muCommentDelete(mcCode=" + list[i].mcCode + ",mcMuNum=" + list[i].mcMuNum + ")'>삭제</button></td>";
+            } else {
+                output += "<td><button disabled>삭제</button></td>";
+            }
+
+            output += "</tr>";
+        }
+        output += "</table>";
+        var mucommentArea = document.getElementById('mucommentArea');
+        mucommentArea.innerHTML = output;
+
+    }
+
+
+    function mcCommentModify(mcCode, mcMuNum) {
+        var check = confirm('댓글을 수정하시겠습니까?');
+        var mcContent = $('#mcContent').val();
+        if (check) {
+            $.ajax({
+                type: "POST",
+                url: "mcModify",
+                data: {
+                    "mcCode": mcCode,
+                    "mcMuNum": mcMuNum,
+                    "mcContent": mcContent
+                },
+                dataType: "json",
+                success: function (list) {
+                    commentList(list);
+                    $('#mcContent').val(""); //작성한 내용 을 댓글입력과 동시에 내용을 "";
+                },
+                error: function () {
+                    alert('댓글 수정 실패');
+                }
+            });
+        }
+    }
+
+    // function muCommentDelete(mcCode, mcMuNum) {
+    //     var check = confirm('댓글을 삭제하시겠습니까?');
+    //
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "mcDelete",
+    //         data: {"mcCode": mcCode, "mcMuNum": mcMuNum},
+    //         dataType: "json",
+    //         success: function (list) {
+    //             commentList(list);
+    //         },
+    //         error: function () {
+    //             alert('삭제 실패');
+    //         }
+    //
+    //     });
+    // }
+  var audio = document.getElementById("audio"); //오디오 id 값으로 변수 지정
+
+    audio.addEventListener("play", playList); //변수 audio에 addEventListener 이벤트로 "play" 되었을 때 'playList' 함수 실행
+
+    function playList(){
+        var loginId = $("#mId").val();
+        const muCode = document.getElementById('muCode').value; // 음악 코드 값
+
+        $.ajax({
+            type:"POST",
+            url:"MusicPlayList",
+            data:{
+            "plmuCode":muCode,
+                "plMid":loginId
+            },
+            dataType:"json",
+            success:function (playListInsert){
+
+            },
+            error:function (){
+                
+            }
+        });
+
+    }
 
 </script>
 <script>
-    $("#muLike").click(function(){
+    $("#muLike").click(function () {
         $("#modal").fadeIn();
     });
 
-    $("#modal_close_btn").click(function(){
+    $("#modal_close_btn").click(function () {
         $("#modal").fadeOut();
     });
 </script>
-
 
 
 </html>
