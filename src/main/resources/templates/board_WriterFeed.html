@@ -98,10 +98,6 @@
       <input type="button" th:if="${subCheck eq 1}" th:id="subcheck" th:value="팔로우취소"> 
    </div>
    
-
-   
-   
-   
    <table>
       <tr>
          <td>팔로우</td>
@@ -155,7 +151,7 @@
 	    </tr>
 	    <tr th:each="mulist : ${muViewList}">
 	    <td th:text="${mulist.muSinger}"></td>
-	        <td><a th:href="@{muView(muCode=${mulist.muCode})}" th:text="${mulist.muName}" id="audio"></a></td>
+	        <td><a th:href="@{muView(muCode=${mulist.muCode},mId=${session.login.mId})}" th:text="${mulist.muName}" id="audio"></a></td>
 	        <td th:text="${mulist.muGanre}"></td>
 	        <td th:text="${mulist.muDate}"></td>
 	        <td th:text="${mulist.muHit}"></td>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+table, tr, td, th {
+	border: 1px solid;
+	border-collapse: collapse;
+	padding: 10px;
+	text-align: center;
+}
+</style>
+</head>
+<script th:if="${session.login eq null}">
+	alert('로그인 이후 이용해주세요');
+	location.href="memberLogin";
+</script>
+<body>
+	<div>
+		<button onclick="location.href='index'">홈페이지</button>
+	</div>
+	<div id="buyListArea"></div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script type="text/javascript" th:inline="javascript">
+
+	var CheckLogin = [[${session.login}]]
+	
+	if(CheckLogin != null){
+		var sessionId = [[${session.login.mId}]]
+	}
+	
+	$(document).ready(function(){
+		$.ajax({
+			type : "POST",
+			url : "buyList",
+			data : {"psMid" : sessionId},
+			dataType : "json",
+			success : function(list){
+				buy(list);
+			},
+			error : function(){
+				console.log("실패");
+			}
+		});
+		
+		function buy(list){
+			var output = "";
+			var buyTheNumber = list.length;
+			
+			if(buyTheNumber <= 0){
+				output += "<table>";
+				output += "<tr>";
+				output += "<th>구매하신 음악이 없습니다.</th>";
+				output += "</tr>";
+			}	else{
+				output += "<table>";
+				output += "<tr>";
+				output += "<th colspan = 5 style='text-align:right;'>총 구매개수</th>";
+				output += "<th colspan = 2 name='price' value='"+buyTheNumber+"' id='totalPrice'>"+buyTheNumber+"곡</th>";
+				output += "<tr>";
+				output += "<tr>";
+				output += "<th colspan = 5 style='text-align:right;'>총 결제금액</th>";
+				output += "<th colspan = 2 name='price' value='"+buyTheNumber * 500+"' id='totalPrice'>"+buyTheNumber * 500+"원</th>";
+				output += "<tr>";
+				output += "<tr>";
+				output += "<th>프로필</th>";
+				output += "<th>제목</th>";
+				output += "<th>가수</th>";
+				output += "<th>좋아요수</th>";
+				output += "<th>조회수</th>";
+				output += "<th>구매일시</th>";
+				output += "</tr>";
+			}
+			
+			for(var i in list){
+				output += "<tr>";
+				output += "<td><img src='/muImage/"+list[i].muImage+"' style='width: 200px;'></td>";
+				output += "<td><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span>"+list[i].muName+"</span></a></td>";
+				output += "<td>"+list[i].muSinger+"</td>";
+				output += "<td>"+list[i].muLike+"</td>";
+				output += "<td>"+list[i].muHit+"</td>";
+				output += "<td>"+list[i].pDate+"</td>";
+				output += "</tr>";
+			}
+			output += "</table>";
+			
+			var buyListArea = document.getElementById('buyListArea');
+			buyListArea.innerHTML = output;
+		}
+		
+	});
+</script>
+</html>

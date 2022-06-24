@@ -33,6 +33,8 @@
 	<button onclick="location.href='genre'">장르 목록</button>
 	<button onclick="location.href='genie'">크롤링</button>
 	 <a href="/crawling/save">크롤링!</a>
+	<button onclick="location.href='cartList'">장바구니</button>
+	<button onclick="location.href='buyListPage'">구매목록</button>
 	
 	<button th:if="${session.login ne null} and ${session.login.mId ne 'admin'}" th:onclick="'location.href=\'' + @{moveChating(mId=${session.login.mId})} + '\''">채팅하기</button>
 	<button th:if="${session.login ne null} and ${session.login.mId eq 'admin'}"  onclick="location.href='chatlist'">채팅방목록보기</button>
@@ -43,8 +45,6 @@
 	
 	<p th:if="${session.login ne null}" th:text="${session.login.mId}+'님 로그인 성공'"></p>
 
-	<hr/>
-	<button onclick="location.href='kakaoPayTestPage'">결제테스트</button>
 
 	
 </body>

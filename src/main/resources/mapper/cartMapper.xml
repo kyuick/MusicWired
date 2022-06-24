@@ -22,5 +22,11 @@
 		ORDER BY CARCODE
 	</select>
 	
+	<!-- 장바구니 목록 출력 -->
+	<select id="ajaxCartList" parameterType="String" resultType="audio">
+		SELECT M.MUCODE, M.MUSINGER, M.MUNAME, M.MUGANRE, M.MUDATE, M.MUIMAGE, M.MULYRICS, M.MUHIT, M.MUPRICE, M.MFILE
+		FROM CART C, MUSIC M
+		WHERE M.MUCODE = C.CAMUCODE AND CAMID = #{mId}
+	</select>
 	
 </mapper>

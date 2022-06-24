@@ -23,6 +23,24 @@ public class uploadDto {
     private String mFile; //음악 파일 이름
     private MultipartFile muFile;  //음원
     private MultipartFile mImage;  //포스터
+    private Date pDate;
+    private int muLike;
+
+	public int getMuLike() {
+		return muLike;
+	}
+
+	public void setMuLike(int muLike) {
+		this.muLike = muLike;
+	}
+
+	public Date getpDate() {
+		return pDate;
+	}
+
+	public void setpDate(Date pDate) {
+		this.pDate = pDate;
+	}
 
 	public int getMuCode() {
 		return muCode;
@@ -135,25 +153,15 @@ public class uploadDto {
 		this.mImage = mImage;
 	}
 
-
 	@Override
 	public String toString() {
-		return "uploadDto{" +
-				"muCode=" + muCode +
-				", muSinger='" + muSinger + '\'' +
-				", mId='" + mId + '\'' +
-				", muName='" + muName + '\'' +
-				", muGanre='" + muGanre + '\'' +
-				", muDate=" + muDate +
-				", muImage='" + muImage + '\'' +
-				", muLyrics='" + muLyrics + '\'' +
-				", muHit=" + muHit +
-				", muPrice=" + muPrice +
-				", mFile='" + mFile + '\'' +
-				", muFile=" + muFile +
-				", mImage=" + mImage +
-				'}';
+		return "uploadDto [muCode=" + muCode + ", muSinger=" + muSinger + ", mId=" + mId + ", muName=" + muName
+				+ ", muGanre=" + muGanre + ", muDate=" + muDate + ", muImage=" + muImage + ", muLyrics=" + muLyrics
+				+ ", muHit=" + muHit + ", muPrice=" + muPrice + ", mFile=" + mFile + ", muFile=" + muFile + ", mImage="
+				+ mImage + ", pDate=" + pDate + ", muLike=" + muLike + "]";
 	}
+
+	
 }
 
 
