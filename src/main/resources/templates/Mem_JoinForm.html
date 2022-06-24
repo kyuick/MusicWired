@@ -25,7 +25,8 @@
 		이름 : <input type="text" name="mName" placeholder="이름 입력"/><br/>
 		성별 : <input type="radio" name="mGender" value="남"/>남
 			  <input type="radio" name="mGender" value="여"/>여<br/>
-		이메일 : <input type="email" name="mEmail" id="mEmail" placeholder="이메일 입력"/><br/>
+		이메일 : <input type="email" name="mEmail" id="mEmail" placeholder="이메일 입력" onkeyup="checkEmail()"/><br/>
+		<span id="confirmEmail"></span><br/>
 		프로필 : <input type="file" name="mProfile"/><br/>
 		<input type="submit" value="가입"/><br/>
 	</form>
@@ -55,6 +56,7 @@ function checkId(){
 			} else{
 				confirmId.style.color="#ff0000";
 				confirmId.innerHTML = "사용중인 아이디";
+				$("#mId").val("");
 			}
 		},
 		error : function(){			
@@ -64,6 +66,33 @@ function checkId(){
 	
 }
 
+
+function checkEmail(){
+	var mEmail = document.getElementById('mEmail').value;
+	var confirmEmail = document.getElementById('confirmEmail');
+	
+	console.log("mEmail : " + mEmail);
+	$.ajax({
+		type : "POST",
+		url : "checkEmail",
+		data : { "mEmail" : mEmail},
+		dataType : "text",
+		
+		success : function(msg){
+			if(msg=="OK"){
+				confirmEmail.style.color="#0000ff";
+				confirmEmail.innerHTML = "사용가능 이메일";
+			} else{
+				confirmEmail.style.color="#ff0000";
+				confirmEmail.innerHTML = "이미 가입한 회원입니다";
+				$("#mEmail").val("");
+			}
+		},
+		error : function(){
+			alert('실패!');
+		}
+	});
+}
 
 </script>
 </html>

@@ -28,4 +28,6 @@ public interface MemberService {
 
 	ModelAndView memPwfind(MemberDTO member);
 
+	String checkEmail(String mEmail);
+
 }
