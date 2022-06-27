@@ -30,15 +30,33 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
         return playList;
     }
 
+//    @Override
+//    public ModelAndView playListView(String mId) {
+//        System.out.println("2"+mId);
+//        List<MusicPlayListDto> playListView = mpDao.playListView(mId);
+//        System.out.println("4"+playListView);
+//        mav.setViewName("play_List");
+//        mav.addObject("list",playListView);
+//        return mav;
+//    }
+
+    // playList : 리스트 출력
     @Override
-    public ModelAndView playListView(String mId) {
-        System.out.println("2"+mId);
-        List<MusicPlayListDto> playListView = mpDao.playListView(mId);
-        System.out.println("4"+playListView);
-        mav.setViewName("play_List");
-        mav.addObject("list",playListView);
-        return mav;
+    public List<MusicPlayListDto> playListPrint(String mId) {
+
+        List<MusicPlayListDto>playListPrint = mpDao.playListPrint(mId);
+
+        return playListPrint;
     }
+
+    @Override
+    public List<uploadDto> playListSearch(String muName) {
+        List<uploadDto> playListSearch = mpDao.playListSearch(muName);
+
+        return playListSearch;
+    }
+
+
 
 
 }
