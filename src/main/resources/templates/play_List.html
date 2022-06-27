@@ -11,48 +11,31 @@
 
 <body>
 <div>
-    <input id="playListSearch" type="text" placeholder="음악 제목 검색"><button th:id="searchBtn">검색</button>
+    <input id="playListSearch" type="text" placeholder="음악 제목 검색">
+    <button th:id="searchBtn">검색</button>
 </div>
-<div>
-<table>
 
-    <tr th:each="list : ${list}">
-
-        <td><img th:src="@{/muImage/{muImage}(muImage=${list.muImage})}" style="width:200px;"/></td>
-
-        <td th:text="${list.muSinger}"></td>
-        <td th:text="${list.muName}" th:id="muName"></td>
-
-        <td>
-            <audio controls="controls" th:id="audio">
-                <source th:src="@{/audio/{mFile}(mFile=${list.mFile})}" style="width:200px;" type="audio/mpeg">
-            </audio>
-        <td>
-
-    </tr>
-
-</table>
-</div>
 <div th:id="SearchList"></div>
 <input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script type="text/javascript" th:inline="javascript">
-    $(document).ready(function (){
+    $(document).ready(function () {
         var loginId = $("#mId").val();
         console.log(loginId);
         $.ajax({
-            type:"POST",
-            url:"playListPrint",
+            type: "POST",
+            url: "playListPrint",
             data: {
-              "mId" : loginId
+                "mId": loginId
             },
             dataType: "json",
-            success:function (result){
+            success: function (result) {
                 console.log(result)
                 playList(result)
             },
-            error:function (){
+            error: function () {
 
             }
         });
@@ -60,42 +43,67 @@
         //searchBtn
         $("#searchBtn").click(function () {
             var playListSearch = $("#playListSearch").val();
-            console.log('gd'+playListSearch);
+            console.log('gd' + playListSearch);
             var muName = $("#muName").val();
-            console.log('gd'+muName);
+            console.log('gd' + muName);
             $.ajax({
-               type:"POST",
-               url:"playListSearch",
-               data:{
-                   "muName" : playListSearch
-               },
-               dataType:"json",
-               success:function (result){
-                   console.log(result);
+                type: "POST",
+                url: "playListSearch",
+                data: {
+                    "muName": playListSearch
+                },
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
                     playList(result);
-               },
-               error:function (){
+                },
+                error: function () {
                     console.log("ㅜㅜ")
-               }
+                }
             });
         })
     });
-    function playList(result){
-    var output = "";
-    for(var i in result){
-        output += "<div>"
-        output += "<table>"
-        output += "<tr>"
-        output += "<th><img src='/muImage/"+result[i].muImage+"' style='width:200px;'/></th>";
-        output += "<th>" + result[i].muSinger + "</th>";
-        output += "<th>" + result[i].muName + "</th>";
-        output += "<th><audio controls='controls' src='/audio/"+result[i].mFile+"'></audio></th>"
-        output += "</tr>"
-        output += "</table>"
-        output += "<div>"
-    }
-    var SearchList = document.getElementById("SearchList");
-    SearchList.innerHTML = output;
+
+    function playList(result) {
+        var output = "";
+        for (var i in result) {
+            output += "<div>"
+            output += "<table>"
+            output += "<tr>"
+            output += "<th><img src='/muImage/" + result[i].muImage + "' style='width:200px;'/></th>";
+            output += "<th>" + result[i].muSinger + "</th>";
+            output += "<th>" + result[i].muName + "</th>";
+            output += "<th><audio controls='controls' src='/audio/" + result[i].mFile + "'></audio></th>"
+            output += "</tr>"
+            output += "</table>"
+            output += "<div>"
+        }
+
+        for (var j in result) {
+            (function (j) {
+                var output = "";
+                $.ajax({
+                    type: "POST",
+                    url: "playListDeleteAjax",
+                    data: {
+                        "muSinger": result[i].muSinger
+                    },
+                    dataType: "json",
+                    success: function (playListDeleteResult) {
+                        console.log(playListDeleteResult);
+                        for (var k in playListDeleteResult) {
+                            output += "<a href='PlayListDelete?plMid=" + playListDeleteResult[k].plMid + "'>삭제</a>";
+                        }
+                    },
+                    error: function () {
+                        console.log("ㅜㅜ")
+                    }
+                });
+            })(i);
+        }
+
+        var SearchList = document.getElementById("SearchList");
+        SearchList.innerHTML = output;
     }
 
 </script>

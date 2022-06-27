@@ -17,8 +17,10 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
     @Autowired
     private MusicPlayListDao mpDao;
     List<MusicPlayListDto> playList = new ArrayList<MusicPlayListDto>();
+
     private ModelAndView mav = new ModelAndView();
 
+    //playList : playList 테이블에 insert
     @Override
     public List<MusicPlayListDto> playList(MusicPlayListDto mpDto) {
 
@@ -30,16 +32,6 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
         return playList;
     }
 
-//    @Override
-//    public ModelAndView playListView(String mId) {
-//        System.out.println("2"+mId);
-//        List<MusicPlayListDto> playListView = mpDao.playListView(mId);
-//        System.out.println("4"+playListView);
-//        mav.setViewName("play_List");
-//        mav.addObject("list",playListView);
-//        return mav;
-//    }
-
     // playList : 리스트 출력
     @Override
     public List<MusicPlayListDto> playListPrint(String mId) {
@@ -49,6 +41,7 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
         return playListPrint;
     }
 
+    // playListSearch : 리스트 검색
     @Override
     public List<uploadDto> playListSearch(String muName) {
         List<uploadDto> playListSearch = mpDao.playListSearch(muName);
@@ -56,7 +49,26 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
         return playListSearch;
     }
 
+    @Override
+    public List<MusicPlayListDto> playListDeleteAjax(String muSinger) {
 
+        List<MusicPlayListDto> playListDeleteAjax = mpDao.playListDeleteAjax(muSinger);
+
+        return playListDeleteAjax;
+    }
+
+    // PlayListDelete : 플레이리스트 목록 삭제
+    @Override
+    public ModelAndView PlayListDelete(String muSinger) {
+
+        int result = mpDao.PlayListDelete(muSinger);
+
+        if(result>0){
+            mav.setViewName("redirect:/play_List.html");
+        }
+
+        return mav;
+    }
 
 
 }

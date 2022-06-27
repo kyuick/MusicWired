@@ -8,15 +8,17 @@ import java.util.List;
 
 @Mapper
 public interface MusicPlayListDao {
-
+    //playList : playList 테이블에 insert
     int playList(MusicPlayListDto mpDto);
-
-//    List<MusicPlayListDto> playListView(String mId);
 
     //리스트 출력
     List<MusicPlayListDto> playListPrint(String mId);
 
+    //리스트 검색
     List<uploadDto> playListSearch(String muName);
 
+    List<MusicPlayListDto> playListDeleteAjax(String muSinger);
 
+
+    int PlayListDelete(String muSinger);
 }

@@ -17,10 +17,11 @@ import java.util.List;
 public class MusicPlayListController {
     @Autowired
     private MusicPlayListService mpsvc;
+
+    private ModelAndView mav = new ModelAndView();
     List<MusicPlayListDto> playList = new ArrayList<MusicPlayListDto>();
     List<uploadDto> uploadDto = new ArrayList<>();
 
-    private ModelAndView mav = new ModelAndView();
     //playList : playList 테이블에 insert
     @RequestMapping(value="playList", method= RequestMethod.POST)
     public @ResponseBody List<MusicPlayListDto> bcList(@ModelAttribute MusicPlayListDto mpDto){
@@ -29,19 +30,12 @@ public class MusicPlayListController {
         return playList;
     }
 
+    //리스트 페이지 열기
     @RequestMapping(value = "/playListView", method = RequestMethod.GET)
     public String playListView(@RequestParam ("mId") String mId) {
 
         return "play_List.html";
     }
-//    //playListView : 재생목록 조회 페이지
-//    @GetMapping("/playListView")
-//    public ModelAndView playListView(@RequestParam ("mId") String mId) {
-//        System.out.println("1"+mId);
-//        mav = mpsvc.playListView(mId);
-//        System.out.println("5"+mav);
-//        return mav;
-//    }
 
     //playList : 리스트 출력
     @PostMapping("playListPrint")
@@ -61,4 +55,27 @@ public class MusicPlayListController {
         System.out.println("[4] 게시글 muName C : " + muName);
         return uploadDto;
     }
+
+
+    //playListDeleteAjax : 플레이어리스트 목록 삭제를 하기 위해 playList 테이블 select 를 하기 위한 join 쿼리 사용 메소드
+    @PostMapping("playListDeleteAjax")
+    public @ResponseBody List<MusicPlayListDto> playListDeleteAjax(@RequestParam ("muSinger")String muSinger) {
+
+        playList = mpsvc.playListDeleteAjax(muSinger);
+
+        return playList;
+    }
+
+
+
+
+    //PlayListDelete : 플레이리스트 목록 삭제
+    @RequestMapping(value = "/PlayListDelete", method = RequestMethod.GET)
+    public ModelAndView fileDelete(@RequestParam("muSinger") String muSinger) {
+        System.out.println("1삭제" + muSinger);
+        mav = mpsvc.PlayListDelete(muSinger);
+        System.out.println("5삭제" + muSinger);
+        return mav;
+    }
+
 }
