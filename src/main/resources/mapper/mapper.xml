@@ -7,13 +7,11 @@
     <insert id="fileUpload" parameterType="audio">
         INSERT INTO MUSIC
         VALUES (MUSIC_SEQ.NEXTVAL, #{muSinger}, #{muName}, #{muGanre},
-                SYSDATE, #{muImage}, 0,0,#{mFile},#{muLyrics})
+                SYSDATE, #{muImage}, 0,0,#{mFile},#{muLyrics},0)
 
     </insert>
-    <select id="fileList" resultType="audio">
-        SELECT *
-        FROM PAGING
-        WHERE RN BETWEEN #{startRow} AND #{endRow}
+    <select id="fileList" parameterType="paging" resultType="audio">
+        SELECT * FROM ( SELECT ROWNUM NUM, MYPAGING.* FROM MYPAGING WHERE MUSINGER = #{mId}) WHERE NUM BETWEEN #{startRow} AND #{endRow}
     </select>
     <select id="muView" parameterType="audio" resultType="audio">
 
@@ -22,9 +20,6 @@
         WHERE MUCODE = #{muCode}
     </select>
  
-    
-
-
     <!--좋아요 상태 확인 -->
     <select id="LikeCheck" parameterType="mulike" resultType="String">
         SELECT MULMID
@@ -46,6 +41,10 @@
     <select id="muListCount" resultType="int">
         SELECT COUNT(*)
         FROM MUSIC
+    </select>
+       <select id="muListCount1" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM MUSIC WHERE MUSINGER = #{mId}
     </select>
     <update id="fileModify" parameterType="audio">
         UPDATE MUSIC

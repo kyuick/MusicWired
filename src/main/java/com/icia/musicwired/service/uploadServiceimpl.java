@@ -78,21 +78,21 @@ public class uploadServiceimpl implements uploadService {
 	}
 
 	@Override
-	public ModelAndView fileList(int page, int limit) {
+	public ModelAndView fileList(int page, int limit ,String mId) {
     	System.out.println("페이징 되라 서비스: "+page);
     	System.out.println("페이징 되라 서비스: "+limit);
-    	System.out.println("페이징 되라 서비스: "+mav);
+    	System.out.println("페이징 되라 서비스: "+mId);
 
 		// 한 화면에 보여줄 페이지 번호 갯수
 		int block = 5;
 
 		// 전체 음원목록 갯수
-		int muListCount = dao.muListCount();
+		int muListCount1 = dao.muListCount1(mId);
 
 		int startRow = (page - 1) * limit + 1;
 		int endRow = page * limit;
 
-		int maxPage = (int) (Math.ceil((double) muListCount / limit)); // Math.ceil 올림
+		int maxPage = (int) (Math.ceil((double) muListCount1/ limit)); // Math.ceil 올림
 		int startPage = (((int) (Math.ceil((double) page / block))) - 1) * block + 1;
 		int endPage = startPage + block - 1;
 		// 오류 방지
@@ -109,6 +109,7 @@ public class uploadServiceimpl implements uploadService {
 		paging.setStartPage(startPage);
 		paging.setEndPage(endPage);
 		paging.setLimit(limit);
+		paging.setmId(mId);
 		List<uploadDto> upList = dao.fileList(paging);
 		System.out.println("paging : " +paging);
 		

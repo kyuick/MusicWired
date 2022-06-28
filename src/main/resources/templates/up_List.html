@@ -3,6 +3,9 @@
 <head>
 
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="No-Cache">
+
+<meta http-equiv="Pragma" content="No-Cache">
 <title>Insert title here</title>
 <style>
 table, tr, td, th {
@@ -11,6 +14,24 @@ table, tr, td, th {
 	padding: 10px;
 	text-align: center;
 }
+body{
+ -ms-overflow-style: none;
+ }
+ 
+::-webkit-scrollbar {
+  display: none;
+}
+
+/*특정 부분 스크롤바 없애기*/
+
+.box{
+   -ms-overflow-style: none;
+}
+.box::-webkit-scrollbar{
+  display:none;
+}
+
+
 </style>
 
 </head>
@@ -32,7 +53,7 @@ table, tr, td, th {
         <th>게시일</th>
         <th>조회 수</th>
         <th>가격</th>
-        <th colspan="2">장바구니</th>
+        
     </tr>
     
     <tr th:each="list : ${upList}">
@@ -44,10 +65,7 @@ table, tr, td, th {
         <td th:text="${list.muHit}"></td>
         <td th:text="500"></td>
         <!-- <td th:id="check+${list.muCode}"><span style="background-color: gray; color: white;" th:id="${list.muCode}" th:class="cartChange" th:value="check1">장바구니 추가1</span></td> -->
-        <td style="background-color: gray; color: white;" th:id="${list.muCode}" th:class="cartChange" th:value="check1">장바구니 추가</td>     
-        <!-- <td style="background-color: red; color: white;" th:id="${list.muCode}" th:class="cartChange" th:value="check2">추가완료</td> -->
-        <td th:text="${list.muPrice}"></td>
-        <td><button th:id="${list.muCode}" th:class="cartAdd">장바구니 추가</button></td>
+       
 
     </tr>
 
@@ -55,17 +73,17 @@ table, tr, td, th {
 <code th:if="${paging.page <= 1}" th:text="이전"></code>
 
 <code th:if="${paging.page > 1}">
-    <a th:href="@{fileList(page=${paging.page-1},limit=${paging.limit})}" th:text="이전"></a>
+    <a th:href="@{fileList(page=${paging.page-1},limit=${paging.limit},mId=${session.login.mId})}" th:text="이전"></a>
 </code>
 
 
 <th:block th:each="i : ${#numbers.sequence(paging.startPage , paging.endPage)}">
     <code  th:if= "${paging.page eq i}" th:text="${i}"></code>
-    <a th:unless="${paging.page eq i}" th:href="@{fileList(page=${i},limit=${paging.limit})}" ><code th:text="${i}"></code></a>
+    <a th:unless="${paging.page eq i}" th:href="@{fileList(page=${i},limit=${paging.limit},mId=${session.login.mId})}" ><code th:text="${i}"></code></a>
 </th:block>
 <code th:if="${paging.page >= paging.maxPage}" th:text="다음"></code>
 <code th:if="${paging.page < paging.maxPage}">
-    <a th:href="@{fileList(page=${paging.page+1},limit=${paging.limit})}" th:text="다음"></a>
+    <a th:href="@{fileList(page=${paging.page+1},limit=${paging.limit},mId=${session.login.mId})}" th:text="다음"></a>
 </code>
 
 </body>
@@ -74,86 +92,6 @@ table, tr, td, th {
 
 <script type="text/javascript" th:inline="javascript">
 
-	var CheckLogin = [[${session.login}]]
 	
-	if(CheckLogin != null){
-		var sessionId = [[${session.login.mId}]]
-	}
-	
-	console.log('sessionId = ' + sessionId);
-	
-	$(".cartChange").click(function(){
-		
-		var muCode = $(this).attr('id');
-		console.log("muCode : "+muCode);
-		
-		var cartCheck = $(this).attr('value');
-		
-		var checktest = "check" + muCode;
-		
-		console.log("checktest : " + checktest);
-		
-		if(cartCheck == "check1"){
-			$.ajax({
-				type : "POST",
-				url : "cartListAdd",
-				data : {"caMuCode" : muCode,
-						"caMid" : sessionId
-						},
-				dataType : "json",
-				success : function(list){
-					CartAddSuccess(list);
-				},
-				error : function(){
-					alert('장바구니 추가 실패');
-				}
-			});
-			
-			function CartAddSuccess(list){
-				
-				var output = "";
-				
-				output += "<td style='background-color: red; color: white;' th:id='"+list.muCode+"'>추가완료</td>";
-				
-				var td22 = document.getElementById(muCode);
-				console.log(td22);
-				td22.innerHTML = output;
-			}
-			$(this).css('background-color','red');
-			cartCheck = $(this).attr('value','check2');
-			
-		}else if(cartCheck == "check2"){
-			$.ajax({
-				type : "POST",
-				url : "cartListDelete",
-				data : {"caMuCode" : muCode,
-						"caMid" : sessionId
-						},
-				dataType : "json",
-				success : function(list){
-					CartDeleteSuccess(list);
-				},
-				error : function(){
-					alert('장바구니 삭제 실패');
-				}
-			});
-			
-			function CartDeleteSuccess(list){
-				
-				var output = "";
-				
-				output += "<td style='background-color: red; color: white;' th:id='"+list.muCode+"'>장바구니 추가</td>";
-				
-				var td22 = document.getElementById(muCode);
-				console.log(td22);
-				td22.innerHTML = output;
-			}
-			
-			$(this).css('background-color','gray');
-			cartCheck = $(this).attr('value','check1');
-			
-		}
-	});
-
 </script>
 </html>
