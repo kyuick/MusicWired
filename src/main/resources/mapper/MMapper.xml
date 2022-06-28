@@ -5,7 +5,7 @@
 		
 	
 	<insert id="createRoom" parameterType="String">
-	 INSERT INTO CHATROOM VALUES(CHATRMNUM_SEQ.NEXTVAL, #{mId},'새메시지')
+	 INSERT INTO CHATROOM VALUES(CRNUM_SEQ.NEXTVAL, #{mId},'새메시지')
 	</insert>
 	
 	<select id="getRoom" parameterType="String" resultType="chatRoom">
@@ -16,8 +16,8 @@
 		SELECT * FROM CHATROOM ORDER BY CRREAD
 	</select>
 	
-	<insert id="chatSave" parameterType="chatSave">
-	 INSERT INTO CHATSAVE VALUES(#{csNum}, #{csContent},SYSDATE,#{csId})
+		<insert id="chatSave" parameterType="chatSave">
+	 INSERT INTO CHATSAVE VALUES(#{csNum},#{csId},#{csContent},SYSDATE)
 	</insert>
 	
 	<select id="getSaveChat" parameterType="int" resultType="chatSave">
