@@ -37,4 +37,9 @@
   		FROM PAY P, MUSIC M
   		WHERE P.PMUCODE = M.MUCODE AND PSMID = #{psMid}
 	</select>
+	
+<!-- 음원목록에서 바로 구매할 경우 작동하는 메소드 -->
+	<insert id="selestPayInsert" parameterType="Pay">
+		INSERT INTO PAY VALUES(PAY_SEQ.NEXTVAL,#{pMuCode},#{pbMid},#{psMid},500,SYSDATE)
+	</insert>
 </mapper>

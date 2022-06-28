@@ -12,4 +12,5 @@ public interface PayService {
 
 	List<PayDTO> buyList(String psMid);
 
+
 }

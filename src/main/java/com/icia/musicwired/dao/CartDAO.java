@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.icia.musicwired.dto.CartDTO;
-import com.icia.musicwired.dto.PayDTO;
 
 @Mapper
 public interface CartDAO {
