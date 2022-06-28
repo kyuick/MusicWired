@@ -72,6 +72,9 @@
         color: white;
 
     }
+    #LikeImg{
+        display: none;
+    }
 </style>
 <body>
 
@@ -138,12 +141,10 @@
     </tr>
     <tr>
         <th>좋아요
-            <button th:if="${LikeCheck eq 0}" style="width:30px;" HEIGHT="30"
-                    th:id="LikeImg" th:value="Like">👍
-            </button>
-            <button th:if="${LikeCheck eq 1}" style="width:30px;" HEIGHT="30"
-                    th:id="LikeImg" th:value="LikeDown">👍
-            </button>
+            <label th:if="${LikeCheck eq 0}"><img th:src="@{/heart/heart1.png}" th:width="30px"/><button th:if="${LikeCheck eq 0}" style="width:30px;" HEIGHT="30"
+                    th:id="LikeImg" th:value="Like"> </button></label>
+            <label th:if="${LikeCheck eq 1}"><img th:src="@{/heart/heart2.png}" th:width="30px"/><button th:if="${LikeCheck eq 1}" style="width:30px;" HEIGHT="30"
+                    th:id="LikeImg" th:value="LikeDown"> </button></label>
         </th>
         <td>
             <div th:id="root">
@@ -363,7 +364,7 @@
                     console.log("업 : " + likeUpCount)
                     $("#muLike").empty().append(likeUpCount + '명이 좋아합니다.');
                     $("#LikeImg").attr('value', 'LikeDown');
-
+                    location.reload();
                 },
                 error: function () {
                     console.log('오타가 숨어있다.');
@@ -379,9 +380,11 @@
                 },
                 dataType: "json",
                 success: function (likeDownCount) {
+
                     console.log('다운: ' + likeDownCount)
                     $("#muLike").empty().append(likeDownCount + '명이 좋아합니다.');
                     $("#LikeImg").attr('value', 'Like');
+                    location.reload();
                 },
                 error: function () {
                     console.log('오타가 숨어있다.!!!');
