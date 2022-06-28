@@ -29,7 +29,7 @@
     </select>
 
     <!--리스트 목록 삭제-->
-    <delete id="PlayListDelete" parameterType="String">
-        DELETE FROM PLAYLIST WHERE PLMID = #{plMid}
+    <delete id="PlayListDelete" parameterType="MusicPlayList">
+        DELETE FROM PLAYLIST WHERE PLMID = #{mId} AND PLMUCODE =#{plmuCode}
     </delete>
 </mapper>

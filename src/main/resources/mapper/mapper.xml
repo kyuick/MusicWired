@@ -7,8 +7,7 @@
     <insert id="fileUpload" parameterType="audio">
         INSERT INTO MUSIC
         VALUES (MUSIC_SEQ.NEXTVAL, #{muSinger}, #{muName}, #{muGanre},
-                SYSDATE, #{muImage}, 0, 0, #{mFile}, #{muLyrics})
-
+                SYSDATE, #{muImage}, 0, 0, #{mFile}, #{muLyrics},0)
     </insert>
     <select id="fileList" resultType="audio">
         SELECT *

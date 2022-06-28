@@ -54,7 +54,7 @@
                 },
                 dataType: "json",
                 success: function (result) {
-                    console.log(result);
+
                     playList(result);
                 },
                 error: function () {
@@ -66,22 +66,9 @@
 
     function playList(result) {
         var output = "";
+        var loginId = $("#mId").val();
         for (var i in result) {
-            output += "<div>"
-            output += "<table>"
-            output += "<tr>"
-            output += "<th><img src='/muImage/" + result[i].muImage + "' style='width:200px;'/></th>";
-            output += "<th>" + result[i].muSinger + "</th>";
-            output += "<th>" + result[i].muName + "</th>";
-            output += "<th><audio controls='controls' src='/audio/" + result[i].mFile + "'></audio></th>"
-            output += "</tr>"
-            output += "</table>"
-            output += "<div>"
-        }
-
-        for (var j in result) {
-            (function (j) {
-                var output = "";
+            (function (i) {
                 $.ajax({
                     type: "POST",
                     url: "playListDeleteAjax",
@@ -89,21 +76,32 @@
                         "muSinger": result[i].muSinger
                     },
                     dataType: "json",
+                    async:false, //반복문 할 때 사용. ajax를 동기식으로 변환
                     success: function (playListDeleteResult) {
                         console.log(playListDeleteResult);
-                        for (var k in playListDeleteResult) {
-                            output += "<a href='PlayListDelete?plMid=" + playListDeleteResult[k].plMid + "'>삭제</a>";
-                        }
+                        output += "<div>"
+                        output += "<table>"
+                        output += "<tr>"
+                        output += "<th><img src='/muImage/" + result[i].muImage + "' style='width:200px;'/></th>";
+                        output += "<th>" + result[i].muSinger + "</th>";
+                        output += "<th>" + result[i].muName + "</th>";
+                        output += "<th><audio controls='controls' src='/audio/" + result[i].mFile + "'></audio></th>"
+                        output += "<th><a href='PlayListDelete?mId=" +loginId +"&plmuCode="+playListDeleteResult[i].plmuCode+"'>삭제</a></th>";
+                        output += "</tr>"
+                        output += "</table>"
+                        output += "<div>"
                     },
                     error: function () {
                         console.log("ㅜㅜ")
                     }
                 });
-            })(i);
-        }
 
+            })(i);
+
+        }
         var SearchList = document.getElementById("SearchList");
         SearchList.innerHTML = output;
+
     }
 
 </script>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
     @Autowired
     private MusicPlayListDao mpDao;
     List<MusicPlayListDto> playList = new ArrayList<MusicPlayListDto>();
+    @Autowired
+    private HttpSession session;
 
     private ModelAndView mav = new ModelAndView();
 
@@ -59,12 +62,12 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
 
     // PlayListDelete : 플레이리스트 목록 삭제
     @Override
-    public ModelAndView PlayListDelete(String muSinger) {
+    public ModelAndView PlayListDelete(MusicPlayListDto mpDto) {
 
-        int result = mpDao.PlayListDelete(muSinger);
+        int result = mpDao.PlayListDelete(mpDto);
 
         if(result>0){
-            mav.setViewName("redirect:/play_List.html");
+            mav.setViewName("redirect:/playListView?mId="+mpDto.getMId());
         }
 
         return mav;

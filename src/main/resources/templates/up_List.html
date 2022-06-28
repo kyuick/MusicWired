@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
 
 <meta charset="UTF-8">
@@ -24,9 +24,10 @@ table, tr, td, th {
 	<div>
 		<button onclick="location.href='index'">홈페이지</button>
 	</div>
-
+<form>
 <table>
     <tr>
+        <th></th>
         <th>가수 이름</th>
         <th>음악 이름</th>
         <th>음악 장르</th>
@@ -34,10 +35,12 @@ table, tr, td, th {
         <th>조회 수</th>
         <th>가격</th>
         <th colspan="2">장바구니</th>
+<!--        <th></th>-->
+<!--        <th>플레이리스트 추가</th>-->
     </tr>
     
     <tr th:each="list : ${upList}">
-
+        <th><input type="radio" th:value="HI" th:id="radioCheck"></th>
         <td th:text="${list.muSinger}"></td>
         <td><a th:href="@{muView(muCode=${list.muCode},mId=${session.login.mId})}" th:text="${list.muName}" id="audio"></a></td>
         <td th:text="${list.muGanre}"></td>
@@ -49,10 +52,12 @@ table, tr, td, th {
         <!-- <td style="background-color: red; color: white;" th:id="${list.muCode}" th:class="cartChange" th:value="check2">추가완료</td> -->
         <td th:text="${list.muPrice}"></td>
         <td><button th:id="${list.muCode}" th:class="cartAdd">장바구니 추가</button></td>
+<!--        <td><button th:id="${list.muCode}" th:class="PlayListAdd">플레이리스트 추가</button></td>-->
 
     </tr>
 
 </table>
+    <button type="submit" th:id="PlayListAddBtn">플레이 리스트 추가</button> </br>
 <code th:if="${paging.page <= 1}" th:text="이전"></code>
 
 <code th:if="${paging.page > 1}">
@@ -68,7 +73,7 @@ table, tr, td, th {
 <code th:if="${paging.page < paging.maxPage}">
     <a th:href="@{fileList(page=${paging.page+1},limit=${paging.limit})}" th:text="다음"></a>
 </code>
-
+</form>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -103,6 +108,7 @@ table, tr, td, th {
 						},
 				dataType : "json",
 				success : function(list){
+
 					CartAddSuccess(list);
 				},
 				error : function(){
@@ -156,5 +162,9 @@ table, tr, td, th {
 		}
 	});
 
+    $("#PlayListAddBtn").click(function (){
+        var radioCheck = $("#radioCheck").val();
+        console.log(radioCheck);
+    });
 </script>
 </html>
