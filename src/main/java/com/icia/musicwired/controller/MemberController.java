@@ -81,6 +81,15 @@ public class MemberController {
 		return msg;
 	}
 
+	// checkEmail
+	@RequestMapping(value = "/checkEmail", method = RequestMethod.POST)
+	public @ResponseBody String checkEmail(@RequestParam("mEmail") String mEmail) {
+		
+		String msg =msvc.checkEmail(mEmail);
+		
+		return msg;
+	}
+	
 	// memberViewMe
 	@RequestMapping(value = "/memberViewMe", method = RequestMethod.GET)
 	public String memberViewMe() {

@@ -1,4 +1,4 @@
-package com.icia.musicwired.service;
+ package com.icia.musicwired.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -101,6 +101,19 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public String checkEmail(String mEmail) {
+		String id = mdao.checkEmail(mEmail);
+		
+		String msg = null;
+		if(id == null) {
+			msg = "OK";
+		} else {
+			msg = "NO";
+		}
+		return msg;
+	}
+	
+	@Override
 	public ModelAndView memberView(String mId) {
 		MemberDTO member = mdao.memberView(mId);
 
@@ -145,7 +158,7 @@ public class MemberServiceImpl implements MemberService {
 		int result = mdao.memberModify(member);
 
 		if (result > 0) {
-			mav.setViewName("redirect:/memberViewMe");
+			mav.setViewName("Mem_Login");
 		} else {
 			mav.setViewName("Mem_Modi");
 		}
@@ -215,5 +228,7 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return mav;
 	}
+
+	
 
 }
