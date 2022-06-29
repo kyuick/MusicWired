@@ -98,10 +98,6 @@
       <input type="button" th:if="${subCheck eq 1}" th:id="subcheck" th:value="팔로우취소"> 
    </div>
    
-
-   
-   
-   
    <table>
       <tr>
          <td>팔로우</td>
@@ -155,7 +151,7 @@
 	    </tr>
 	    <tr th:each="mulist : ${muViewList}">
 	    <td th:text="${mulist.muSinger}"></td>
-	        <td><a th:href="@{muView(muCode=${mulist.muCode})}" th:text="${mulist.muName}" id="audio"></a></td>
+	        <td><a th:href="@{muView(muCode=${mulist.muCode},mId=${session.login.mId})}" th:text="${mulist.muName}" id="audio"></a></td>
 	        <td th:text="${mulist.muGanre}"></td>
 	        <td th:text="${mulist.muDate}"></td>
 	        <td th:text="${mulist.muHit}"></td>
@@ -264,7 +260,7 @@ $("#subList").click(function(){
         		if(subr.length <= 0){
         			output += "<p>구독을 눌러보세요<p>"
         		}else if(subr.length > 0){
-        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + subr[i].mId + "</p>"
+        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'><a href='boardWriterView?boWriter="+ subr[i].mId +"&mId="+loginId+"'>"+subr[i].mId+"</a></p>"
         		}
         	}
         	const modalContent = document.getElementById("content");
@@ -320,7 +316,7 @@ $("#subList").click(function(){
 	        		if(subr.length <= 0){
 	        			output += "<p>구독을 눌러보세요<p>"
 	        		}else if(subr.length > 0){
-	        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + subr[i].mId + "</p>"
+	        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'><a href='boardWriterView?boWriter="+ subr[i].mId +"&mId="+loginId+"'>"+subr[i].mId+"</a></p>"
 	        		}
 	        	}
 	        	const modalContent = document.getElementById("content");

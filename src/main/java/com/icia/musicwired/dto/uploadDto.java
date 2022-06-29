@@ -10,7 +10,6 @@ import java.sql.Date;
 @Alias("audio")
 public class uploadDto {
 	private int muCode;
-
     private String muSinger;
 	private String mId;
     private String muName;
@@ -24,6 +23,10 @@ public class uploadDto {
     private String mFile; //음악 파일 이름
     private MultipartFile muFile;  //음원
     private MultipartFile mImage;  //포스터
+
+    private Date pDate;
+    private Date mudDate;
+ 
 	public int getMuCode() {
 		return muCode;
 	}
@@ -78,12 +81,14 @@ public class uploadDto {
 	public void setMuHit(int muHit) {
 		this.muHit = muHit;
 	}
+
 	public int getMuLike() {
 		return muLike;
 	}
 	public void setMuLike(int muLike) {
 		this.muLike = muLike;
 	}
+
 	public int getMuPrice() {
 		return muPrice;
 	}
@@ -108,16 +113,35 @@ public class uploadDto {
 	public void setmImage(MultipartFile mImage) {
 		this.mImage = mImage;
 	}
+
+	public Date getpDate() {
+		return pDate;
+	}
+	public void setpDate(Date pDate) {
+		this.pDate = pDate;
+	}
+	public Date getMudDate() {
+		return mudDate;
+	}
+	public void setMudDate(Date mudDate) {
+		this.mudDate = mudDate;
+	}
+	public int getMuLike() {
+		return muLike;
+	}
+	public void setMuLike(int muLike) {
+		this.muLike = muLike;
+	}
+
 	@Override
 	public String toString() {
 		return "uploadDto [muCode=" + muCode + ", muSinger=" + muSinger + ", mId=" + mId + ", muName=" + muName
 				+ ", muGanre=" + muGanre + ", muDate=" + muDate + ", muImage=" + muImage + ", muLyrics=" + muLyrics
-				+ ", muHit=" + muHit + ", muLike=" + muLike + ", muPrice=" + muPrice + ", mFile=" + mFile + ", muFile="
-				+ muFile + ", mImage=" + mImage + "]";
+
+				+ ", muHit=" + muHit + ", muPrice=" + muPrice + ", mFile=" + mFile + ", muFile=" + muFile + ", mImage="
+				+ mImage + ", pDate=" + pDate + ", mudDate=" + mudDate + ", muLike=" + muLike + "]";
 	}
 
-	
-    
 }
 
 

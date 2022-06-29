@@ -14,6 +14,10 @@
 		SELECT MID FROM MEMBER WHERE MID=#{mId}
 	</select>
 	
+	<select id="checkEmail" parameterType="String" resultType="String">
+		SELECT MEMAIL FROM MEMBER WHERE MEMAIL =#{mEmail}
+	</select>
+	
 	<select id="memLogin" parameterType="member" resultType="member">
 		SELECT * FROM MEMBER WHERE MID=#{mId} AND MPW=#{mPw}
 	</select>

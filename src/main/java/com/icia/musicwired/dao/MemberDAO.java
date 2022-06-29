@@ -33,4 +33,6 @@ public interface MemberDAO {
 
 	MemberDTO boardWriterView(String boWriter);
 
+	String checkEmail(String mEmail);
+
 }

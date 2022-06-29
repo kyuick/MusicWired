@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.icia.musicwired.dto.MusicLikeDto;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,8 +21,6 @@ import com.icia.musicwired.dao.uploadDao;
 import com.icia.musicwired.dto.MusicLikeDto;
 import com.icia.musicwired.dto.pagingDto;
 import com.icia.musicwired.dto.uploadDto;
-
-import javax.servlet.http.HttpSession;
 
 @Service
 public class uploadServiceimpl implements uploadService {
@@ -35,6 +34,9 @@ public class uploadServiceimpl implements uploadService {
 
 	@Autowired
 	private HttpSession session;
+
+	//MUSICLike DTO
+	List<MusicLikeDto> MusicLikeDto = new ArrayList<MusicLikeDto>();
 
 	@Override
 	public ModelAndView fileUpload(uploadDto dto) throws IOException {
@@ -78,21 +80,21 @@ public class uploadServiceimpl implements uploadService {
 	}
 
 	@Override
-	public ModelAndView fileList(int page, int limit) {
+	public ModelAndView fileList(int page, int limit ,String mId) {
     	System.out.println("페이징 되라 서비스: "+page);
     	System.out.println("페이징 되라 서비스: "+limit);
-    	System.out.println("페이징 되라 서비스: "+mav);
+    	System.out.println("페이징 되라 서비스: "+mId);
 
 		// 한 화면에 보여줄 페이지 번호 갯수
 		int block = 5;
 
 		// 전체 음원목록 갯수
-		int muListCount = dao.muListCount();
+		int muListCount1 = dao.muListCount1(mId);
 
 		int startRow = (page - 1) * limit + 1;
 		int endRow = page * limit;
 
-		int maxPage = (int) (Math.ceil((double) muListCount / limit)); // Math.ceil 올림
+		int maxPage = (int) (Math.ceil((double) muListCount1/ limit)); // Math.ceil 올림
 		int startPage = (((int) (Math.ceil((double) page / block))) - 1) * block + 1;
 		int endPage = startPage + block - 1;
 		// 오류 방지
@@ -109,6 +111,7 @@ public class uploadServiceimpl implements uploadService {
 		paging.setStartPage(startPage);
 		paging.setEndPage(endPage);
 		paging.setLimit(limit);
+		paging.setmId(mId);
 		List<uploadDto> upList = dao.fileList(paging);
 		System.out.println("paging : " +paging);
 		
@@ -133,8 +136,6 @@ public class uploadServiceimpl implements uploadService {
 			mav.addObject("LikeCheck",0);
 		}
 
-
-		System.out.println("라이크업 인설트" + LikeUpInsert);
 		int LikeListCount = dao.LikeListCount(dto);
 		System.out.println("4서비스 : " + mav);
 		mav.setViewName("mu_View");
@@ -215,11 +216,6 @@ public class uploadServiceimpl implements uploadService {
 	public void muCount(int muCode) {
 		dao.muCount(muCode);
 	}
-
-	////////////////////////////////////////////
-	// 좋아요 구현
-	List<uploadDto> LikeList = new ArrayList<uploadDto>();
-	List<MusicLikeDto> LikeUpInsert = new ArrayList<MusicLikeDto>();
 
 
 
@@ -310,7 +306,19 @@ public class uploadServiceimpl implements uploadService {
 		return result;
 	}
 
-	
+
+
+	//MusicLikeList : 좋아요 한 사람들 목록
+	@Override
+	public List<MusicLikeDto> LikemodalList(int mulmuCode) {
+
+		MusicLikeDto= dao.LikemodalList(mulmuCode);
+
+		return MusicLikeDto;
+	}
+
+
+
 
 
 	

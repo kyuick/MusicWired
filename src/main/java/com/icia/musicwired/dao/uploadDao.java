@@ -3,6 +3,7 @@ package com.icia.musicwired.dao;
 import java.util.List;
 
 import com.icia.musicwired.dto.MusicLikeDto;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.icia.musicwired.dto.pagingDto;
@@ -56,10 +57,14 @@ public interface uploadDao {
 	int LikeTableDownCheck(MusicLikeDto musicLikeDto);
 	
 	List<uploadDto> boardWriterView(String boWriter);
+
 	int LikeUp2(MusicLikeDto musicLikeDto);
 	int LikeDown2(MusicLikeDto musicLikeDto);
 
+	int muListCount1(String mId);
 
+
+	List<MusicLikeDto> LikemodalList(int mulmuCode);
 
 
 ////////////////////////////////////////////////////////////

@@ -12,7 +12,16 @@ public class pagingDto {
 	private int startPage;
 	private int endPage;
 	private int limit;
+	private String mId;
 
+
+	public String getmId() {
+		return mId;
+	}
+
+	public void setmId(String mId) {
+		this.mId = mId;
+	}
 
 	public int getPage() {
 		return page;
@@ -73,7 +82,9 @@ public class pagingDto {
 	@Override
 	public String toString() {
 		return "pagingDto [page=" + page + ", startRow=" + startRow + ", endRow=" + endRow + ", maxPage=" + maxPage
-				+ ", startPage=" + startPage + ", endPage=" + endPage + ", limit=" + limit + "]";
+				+ ", startPage=" + startPage + ", endPage=" + endPage + ", limit=" + limit + ", mId=" + mId + "]";
 	}
+
+	
 
 }
