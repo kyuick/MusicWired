@@ -15,4 +15,7 @@ public interface CartDAO {
 
 	List<CartDTO> CartInCheck(CartDTO cart);
 
+	List<CartDTO> ajaxCartList(String mId);
+
+	int payCartAllDelete(String psMid);
 }

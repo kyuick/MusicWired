@@ -20,7 +20,6 @@ import com.icia.musicwired.dao.uploadDao;
 import com.icia.musicwired.dto.BoardDTO;
 import com.icia.musicwired.dto.BoardLikeDTO;
 import com.icia.musicwired.dto.MemberDTO;
-import com.icia.musicwired.dto.subDTO;
 import com.icia.musicwired.dto.uploadDto;
 
 @Service

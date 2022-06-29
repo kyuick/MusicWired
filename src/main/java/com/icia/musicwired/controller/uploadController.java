@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.icia.musicwired.dto.MemberDTO;
-import com.icia.musicwired.dto.MusicLikeDto;
+
+import com.icia.musicwired.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.musicwired.dto.MusicLikeDto;
-import com.icia.musicwired.dto.uploadDto;
 import com.icia.musicwired.service.uploadService;
 
 @Controller
@@ -39,7 +38,7 @@ public class uploadController {
 
     @Autowired
     private HttpSession session;
-    
+
     List<uploadDto> musicList = new ArrayList<uploadDto>();
 
     //MUSIC DTO
@@ -68,41 +67,41 @@ public class uploadController {
     //fileList 업로드 목록
     @GetMapping("/fileList")
     public ModelAndView fileList(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-                                 @RequestParam(value = "limit", required = false, defaultValue = "5") int limit) {
-        mav = svc.fileList(page, limit);
+                                 @RequestParam(value = "limit", required = false, defaultValue = "5") int limit,
+                                 @RequestParam("mId")String mId) {
+        mav = svc.fileList(page, limit,mId);
         System.out.println("페이징 되라 컨트롤러: " + page);
         System.out.println("페이징 되라 컨트롤러: " + limit);
         System.out.println("페이징 되라 컨트롤러: " + mav);
         return mav;
     }
 
-    
-    
-//  allfileList : 전체 음원 목록 페이지로 이동하는 메소드
+
+    //  allfileList : 전체 음원 목록 페이지로 이동하는 메소드
     @GetMapping("/allfileList")
     public String allfileList() {
-    	
-    	return "up_AllList";
+
+        return "up_AllList";
     }
-    
-//  ajaxFileList : 음악 목록 ajax
+
+    //  ajaxFileList : 음악 목록 ajax
     @PostMapping("/ajaxFileList")
     @ResponseBody
-    public Map<String, Object> testajaxFileList(@RequestParam(value="page",required = false,defaultValue="1")int page,
-    		@RequestParam(value="limit", required = false, defaultValue = "5")int limit){
-    	
-    	Map<String, Object> result = new HashMap<String, Object>();
-    	
-    	result = svc.ajaxFileList(page,limit);
-    	
-    	return result;
+    public Map<String, Object> testajaxFileList(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                                @RequestParam(value = "limit", required = false, defaultValue = "5") int limit) {
+
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        result = svc.ajaxFileList(page, limit);
+
+        return result;
     }
-    
-    
+
+
     //muView 
     @GetMapping("/muView")
     public ModelAndView muView(@ModelAttribute uploadDto dto, HttpServletRequest request, HttpServletResponse response,
-    		@RequestParam("muCode")int muCode) {
+                               @RequestParam("muCode") int muCode) {
 
         System.out.println("1con" + dto);
         Cookie viewCookie = null;
@@ -188,7 +187,7 @@ public class uploadController {
     @RequestMapping(value = "/LikeUp", method = RequestMethod.POST)
     public @ResponseBody int LikeUp(@ModelAttribute MusicLikeDto musicLikeDto) {
         System.out.println("[1] 좋아요:" + musicLikeDto);
-         int LikeUp  = svc.LikeUp(musicLikeDto);
+        int LikeUp = svc.LikeUp(musicLikeDto);
         System.out.println("[5] 좋아요 :" + LikeUp);
         return LikeUp;
     }
@@ -202,6 +201,16 @@ public class uploadController {
         System.out.println("[5] 좋아요 취소 :" + MusicUploadDto);
         return LikeDown;
     }
+
+    //MusicLikeList : 좋아요 한 사람들 목록
+    @RequestMapping(value = "/MusicLikeList", method = RequestMethod.POST)
+    public @ResponseBody List<MusicLikeDto> MusicLikeList(@RequestParam("mulmuCode") int mulmuCode) {
+        System.out.println("[1] 좋아요 리스트 : " + mulmuCode);
+        MusicLikeDto = svc.LikemodalList(mulmuCode);
+        System.out.println("[4] 좋아요 리스트: " + mulmuCode);
+        return MusicLikeDto;
+    }
+
 
 
 
