@@ -12,7 +12,7 @@
 </select>
 
 <select id="balgenre" resultType="audio">
-	SELECT * FROM JJJ WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC 
+	SELECT * FROM BAL WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC 
 </select>
 
     <select id="baladCount" resultType="int">
@@ -32,7 +32,7 @@
 </select>
 
 <select id="rockCount" resultType="int">
-	SELECT COUNT(*) FROM MUSIC WHERE MUGANRE='락'
+	SELECT COUNT(*) FROM MUSIC WHERE MUGANRE='록'
 </select>
 
 <select id="hiphopGenre" resultType="audio">
@@ -52,11 +52,11 @@
 </select>
 
 <select id="gitaGenre" resultType="audio">
-	SELECT * FROM GITA WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC
+	SELECT * FROM METC WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC
 </select>
 
 <select id="gitaCount" resultType="int">
-	SELECT COUNT(*) FROM MUSIC WHERE MUGANRE='기타'
+	SELECT COUNT(*) FROM MUSIC WHERE MUGANRE='그 외 장르'
 </select>
 
 

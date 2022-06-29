@@ -113,7 +113,7 @@ public class ChartServiceImpl implements ChartService{
 		int startRow = (page - 1) * limit + 1;
 		int endRow = page * limit;
 
-		int maxPage = (int) (Math.ceil((double) muListCount / limit)); // Math.ceil 올림 //수정 해야하지 않나?
+		int maxPage = (int) (Math.ceil((double) muListCount / limit)); // Math.ceil 올림 
 		int startPage = (((int) (Math.ceil((double) page / block))) - 1) * block + 1;
 		int endPage = startPage + block - 1;
 		//오류 방지

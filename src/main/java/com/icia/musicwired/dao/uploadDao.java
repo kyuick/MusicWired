@@ -56,6 +56,8 @@ public interface uploadDao {
 	int LikeTableDownCheck(MusicLikeDto musicLikeDto);
 	
 	List<uploadDto> boardWriterView(String boWriter);
+	int LikeUp2(MusicLikeDto musicLikeDto);
+	int LikeDown2(MusicLikeDto musicLikeDto);
 
 
 

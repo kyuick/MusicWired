@@ -340,6 +340,7 @@
                 },
                 dataType: "json",
                 success: function (likeUpCount) {
+                
                     console.log("업 : " + likeUpCount)
                     $("#muLike").empty().append(likeUpCount + '명이 좋아합니다.');
                     $("#LikeImg").attr('value', 'LikeDown');
@@ -359,6 +360,7 @@
                 },
                 dataType: "json",
                 success: function (likeDownCount) {
+                	
                     console.log('다운: ' + likeDownCount)
                     $("#muLike").empty().append(likeDownCount + '명이 좋아합니다.');
                     $("#LikeImg").attr('value', 'Like');
@@ -372,6 +374,7 @@
 
 
     });
+   
 
 
     // 댓글 목록 조회

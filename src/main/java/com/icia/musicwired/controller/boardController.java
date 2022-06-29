@@ -61,7 +61,7 @@ public class boardController {
 	}
 
 //	boardModiForm : 게시글 수정페이지 이동 메소드
-	@GetMapping("/boardModiForm")
+	@GetMapping("/boardModiForm") 
 	public ModelAndView boardModiForm(@RequestParam("boCode") int boCode) {
 		System.out.println("[1] 수정페이지 C : " + boCode);
 		mav = bosvc.boardModiForm(boCode);

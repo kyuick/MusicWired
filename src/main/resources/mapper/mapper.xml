@@ -145,8 +145,17 @@
           AND MULMID = #{mulMid}
     </select>
 
+<update id="LikeUp2" parameterType="mulike">
+		UPDATE MUSIC
+        SET MULIKE = MULIKE + 1
+        WHERE MUCODE = #{mulmuCode}
+</update>
 
-
+<update id="LikeDown2" parameterType="mulike">
+		UPDATE MUSIC
+        SET MULIKE = MULIKE -1
+        WHERE MUCODE = #{mulmuCode}
+</update>
    
 
 <select id="LikeMid" parameterType="int" resultType="mulike">

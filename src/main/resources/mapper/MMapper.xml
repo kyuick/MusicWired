@@ -17,7 +17,7 @@
 	</select>
 	
 	<insert id="chatSave" parameterType="chatSave">
-	 INSERT INTO CHATSAVE VALUES(#{csNum}, #{csContent},SYSDATE,#{csId})
+	 INSERT INTO CHATSAVE VALUES(#{csNum},#{csId} #{csContent},SYSDATE)
 	</insert>
 	
 	<select id="getSaveChat" parameterType="int" resultType="chatSave">
