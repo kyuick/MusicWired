@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,5 +54,18 @@ public class CartController {
 		System.out.println("[4] 장바구니 확인 C : " + cartList);
 		return cartList;
 	}
-
+//	cartList : 장바구니 페이지
+	@GetMapping("cartList") 
+	public String cartList() {
+		return "Cart_List";
+	}
+	
+//	ajaxCartList : 장바구니 목록 출력
+	@PostMapping("ajaxCartList") 
+	public @ResponseBody List<CartDTO> ajaxCartList(@RequestParam("caMid") String mId) {
+		System.out.println("[1] 장바구니 페이지 C : " + mId);
+		cartList = cartsvc.ajaxCartList(mId);
+		System.out.println("[4] 장바구니 페이지 C : " + mav);
+		return cartList;
+	}
 }

@@ -46,7 +46,8 @@ public class CartServiceIpml implements CartService{
 		System.out.println("[3] 장바구니 상품 삭제 S : " + cart);
 		
 		if(result > 0) {
-			
+			List<CartDTO> Cart = cartdao.ajaxCartList(cart.getCaMid());
+			cartList = Cart;
 		} else {
 			cartList = null;
 		}
@@ -67,6 +68,20 @@ public class CartServiceIpml implements CartService{
 		} else {
 			cartList = null;
 		}
+		
+		return cartList;
+	}
+	
+//	ajaxCartList : 장바구니 페이지
+	@Override
+	public List<CartDTO> ajaxCartList(String mId) {
+		System.out.println("[2] 장바구니 페이지 S : " + mId);
+		
+		List<CartDTO> Cart = cartdao.ajaxCartList(mId);
+		
+		System.out.println("[3] 장바구니 페이지 S : " + Cart);
+		
+		cartList = Cart;
 		
 		return cartList;
 	}

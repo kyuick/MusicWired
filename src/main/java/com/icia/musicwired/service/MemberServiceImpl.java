@@ -90,7 +90,7 @@ public class MemberServiceImpl implements MemberService {
 		String id = mdao.checkId(mId);
 
 		String msg = null;
-
+		
 		if (id == null) {
 			// 사용할 수 있는 아이디
 			msg = "OK";
@@ -103,6 +103,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ModelAndView memberView(String mId) {
 		MemberDTO member = mdao.memberView(mId);
+
+		Object loginId = session.getAttribute("login");
+		String ls_loginId = (String)loginId;
+		System.out.println(ls_loginId);
 
 		mav.setViewName("Mem_View");
 		mav.addObject("view", member);

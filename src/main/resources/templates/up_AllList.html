@@ -19,15 +19,16 @@ table, tr, td, th {
 <body>
 	<div>
 		<button onclick="location.href='index'">홈페이지</button>
+		<button onclick="location.href='cartList'">장바구니</button>
 	</div>
-
 	<div id="allMuListArea"></div>
 	<div id="pagingArea"></div>
+	<div id="musicPlayArea"></div>
         
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
+<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript" th:inline="javascript">
 
 	var CheckLogin = [[${session.login}]]
@@ -178,13 +179,12 @@ table, tr, td, th {
 			output += "<tr>";
 			output += "<th>가수 이름</th>";
 			output += "<th>음악 이름</th>";
+			output += "<th>미리 듣기</th>";
 			output += "<th>음악 장르</th>";
 			output += "<th>게시일</th>";
 			output += "<th>조회수</th>";
 			output += "<th>좋아요수</th>";
-			output += "<th>가격</th>";
-			output += "<th>장바구니</th>";
-			output += "<th>결제</th>";
+			output += "<th colspan='2'>구매여부</th>";
 			output += "</tr>";
 			
 			for(var i in musicList){
@@ -197,23 +197,42 @@ table, tr, td, th {
 						dataType: "json",
 						async: false,
 						success: function(result){
-							output += "<tr>";
-							output += "<td>"+musicList[i].muSinger+"</td>";
 
-							output += "<td><a href='muView?muCode="+musicList[i].muCode+"&mId="+musicList[i].muSinger+"'>"+musicList[i].muName+"</a></td>";
-
-							output += "<td>"+musicList[i].muGanre+"</td>";
-							output += "<td>"+musicList[i].muDate+"</td>";
-							output += "<td>"+musicList[i].muHit+"</td>";
-							output += "<td>"+musicList[i].muLike+"</td>";
-							output += "<td>500</td>";
-							if(result == ""){
-								output += "<td style='background-color: gray; color: white;' id='"+musicList[i].muCode+"' class='cartChange' value='check1'>장바구니 추가</td>";
-							} else if(result != ""){
-								output += "<td style='background-color: red; color: white;' id='"+musicList[i].muCode+"' class='cartChange' value='check2'>추가완료</td>";
-							}
-							output += "<td><button onclick='kakaoPay1()'>결제하기</button></td>";
-							output += "</tr>";
+							$.ajax({
+								type: "POST",
+								url: "PayInCheck",
+								data: {"pMuCode": musicList[i].muCode,
+									   "psMid": sessionId},
+								dataType: "json",
+								async: false,
+								success: function(check){
+									output += "<tr>";
+									output += "<td>"+musicList[i].muSinger+"</td>";
+									output += "<td><a href='muView?muCode="+musicList[i].muCode+"&mId="+musicList[i].muSinger+"'>"+musicList[i].muName+"</a></td>";
+									output += "<td><button class='musicPlay' value='"+musicList[i].mFile+"'>재생</button></td>";
+									output += "<td>"+musicList[i].muGanre+"</td>";
+									output += "<td>"+musicList[i].muDate+"</td>";
+									output += "<td>"+musicList[i].muHit+"</td>";
+									output += "<td>"+musicList[i].muLike+"</td>";
+									
+									if(check == ""){
+										if(result == ""){
+											output += "<td>500원</td>";
+											output += "<td style='background-color: gray; color: white;' id='"+musicList[i].muCode+"' class='cartChange' value='check1'>장바구니 추가</td>";
+										} else if(result != ""){
+											output += "<td>500원</td>";
+											output += "<td style='background-color: red; color: white;' id='"+musicList[i].muCode+"' class='cartChange' value='check2'>추가완료</td>";
+										}
+									} else if(check != ""){
+										output += "<td colspan='2'><a href='/audio/"+musicList[i].mFile+"' download='"+musicList[i].mFile+"'><button class='selectMusicDownload' id='"+musicList[i].muCode+"download'>음원다운</button></a></td>";
+									}
+									output += "</tr>";
+								},
+								error: function(){
+									console.log('실패');
+								},
+							});
+							
 						},
 						error: function(){
 							alert('장바구니에 담은 리스트 불러오기 실패');
@@ -225,7 +244,6 @@ table, tr, td, th {
 			output += "</table>";
 			
 			var allMuListArea = document.getElementById('allMuListArea');
-			
 			allMuListArea.innerHTML = output;
 			
 			$(".cartChange").click(function(){
@@ -296,13 +314,47 @@ table, tr, td, th {
 					
 				}
 			});
+			
+			$(".musicPlay").click(function(){
+				
+				var musicName = $(this).attr("value");
+				var output = "";
+				console.log(musicName);
+				
+				output += "<div><audio controls='controls'><source src='/audio/"+musicName+"' style='width:200px;' type='audio/mpeg''></audio></div>"
+				
+				var musicPlayArea = document.getElementById('musicPlayArea');
+				musicPlayArea.innerHTML = output;
+				
+			});
+			
+			$(".selectMusicDownload").click(function(){
+				
+				var selectDownloadMusicCode = $(this).attr("id");
+				console.log(selectDownloadMusicCode);
+				console.log(sessionId);
+				
+				var selectMusicCode = selectDownloadMusicCode.replace("download","");
+				console.log(selectMusicCode);
+				
+				$.ajax({
+					type: "POST",
+					url: "downloadTableInsert",
+					data: {"mudMuCode": selectMusicCode,
+						   "mudMid": sessionId},
+					dataType: "json",
+					success : function(list){
+					},
+					error : function(){
+						console.log('다운로드 테이블 등록 실패');
+					}
+				});
+				
+			});
+			
 		}
 		
 	});
-	function kakaoPay1(){
-		location.href="kakaoPayTestPage/kakaoPay";
-	}
-	
 	
 </script>
 </html>

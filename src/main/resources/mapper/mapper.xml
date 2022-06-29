@@ -7,7 +7,7 @@
     <insert id="fileUpload" parameterType="audio">
         INSERT INTO MUSIC
         VALUES (MUSIC_SEQ.NEXTVAL, #{muSinger}, #{muName}, #{muGanre},
-                SYSDATE, #{muImage}, 0, 0, #{mFile}, #{muLyrics},0)
+                SYSDATE, #{muImage}, 0,500,#{mFile},#{muLyrics},0)
     </insert>
     <select id="fileList" parameterType="paging" resultType="audio">
         SELECT * FROM ( SELECT ROWNUM NUM, MYPAGING.* FROM MYPAGING WHERE MUSINGER = #{mId}) WHERE NUM BETWEEN #{startRow} AND #{endRow}

@@ -16,7 +16,9 @@
 		SELECT * FROM CHATROOM ORDER BY CRREAD
 	</select>
 	
+
 		<insert id="chatSave" parameterType="chatSave">
+
 	 INSERT INTO CHATSAVE VALUES(#{csNum},#{csId},#{csContent},SYSDATE)
 	</insert>
 	
