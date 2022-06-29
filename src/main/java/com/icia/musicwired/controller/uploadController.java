@@ -66,8 +66,9 @@ public class uploadController {
     //fileList 업로드 목록
     @GetMapping("/fileList")
     public ModelAndView fileList(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-                                 @RequestParam(value = "limit", required = false, defaultValue = "5") int limit) {
-        mav = svc.fileList(page, limit);
+                                 @RequestParam(value = "limit", required = false, defaultValue = "5") int limit,
+                                 @RequestParam("mId")String mId) {
+        mav = svc.fileList(page, limit,mId);
         System.out.println("페이징 되라 컨트롤러: " + page);
         System.out.println("페이징 되라 컨트롤러: " + limit);
         System.out.println("페이징 되라 컨트롤러: " + mav);
