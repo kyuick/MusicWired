@@ -23,8 +23,11 @@
 	<button th:if="${session.login ne null}" onclick="location.href='memberLogout'">로그아웃</button>
 	<button th:if="${session.login ne null}" onclick="location.href='memberViewMe'">내정보</button>
 	<button onclick="location.href='fUpload'">음원등록</button>
+
+	<button th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{playListView(mId=${session.login.mId})} + '\''">재생목록조회</button>
+
 	<button th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{fileList(mId=${session.login.mId})} + '\''">내가 등록한 음원목록</button>
-	
+
 	<button onclick="location.href='allfileList'">전체음원목록</button>
 	
 	<button onclick="location.href='boardUploadPage'">게시글 업로드</button>

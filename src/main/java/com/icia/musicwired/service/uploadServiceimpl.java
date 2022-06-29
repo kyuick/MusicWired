@@ -36,6 +36,9 @@ public class uploadServiceimpl implements uploadService {
 	@Autowired
 	private HttpSession session;
 
+	//MUSICLike DTO
+	List<MusicLikeDto> MusicLikeDto = new ArrayList<MusicLikeDto>();
+
 	@Override
 	public ModelAndView fileUpload(uploadDto dto) throws IOException {
 		System.out.println("2ser" + dto);
@@ -134,8 +137,6 @@ public class uploadServiceimpl implements uploadService {
 			mav.addObject("LikeCheck",0);
 		}
 
-
-		System.out.println("라이크업 인설트" + LikeUpInsert);
 		int LikeListCount = dao.LikeListCount(dto);
 		System.out.println("4서비스 : " + mav);
 		mav.setViewName("mu_View");
@@ -216,11 +217,6 @@ public class uploadServiceimpl implements uploadService {
 	public void muCount(int muCode) {
 		dao.muCount(muCode);
 	}
-
-	////////////////////////////////////////////
-	// 좋아요 구현
-	List<uploadDto> LikeList = new ArrayList<uploadDto>();
-	List<MusicLikeDto> LikeUpInsert = new ArrayList<MusicLikeDto>();
 
 
 
@@ -308,7 +304,19 @@ public class uploadServiceimpl implements uploadService {
 		return result;
 	}
 
-	
+
+
+	//MusicLikeList : 좋아요 한 사람들 목록
+	@Override
+	public List<MusicLikeDto> LikemodalList(int mulmuCode) {
+
+		MusicLikeDto= dao.LikemodalList(mulmuCode);
+
+		return MusicLikeDto;
+	}
+
+
+
 
 
 	

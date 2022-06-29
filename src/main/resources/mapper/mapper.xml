@@ -7,34 +7,35 @@
     <insert id="fileUpload" parameterType="audio">
         INSERT INTO MUSIC
         VALUES (MUSIC_SEQ.NEXTVAL, #{muSinger}, #{muName}, #{muGanre},
-                SYSDATE, #{muImage}, 0,0,#{mFile},#{muLyrics},0)
-
+                SYSDATE, #{muImage}, 0, 0, #{mFile}, #{muLyrics},0)
     </insert>
     <select id="fileList" parameterType="paging" resultType="audio">
         SELECT * FROM ( SELECT ROWNUM NUM, MYPAGING.* FROM MYPAGING WHERE MUSINGER = #{mId}) WHERE NUM BETWEEN #{startRow} AND #{endRow}
     </select>
     <select id="muView" parameterType="audio" resultType="audio">
-
         SELECT *
         FROM MUSIC
         WHERE MUCODE = #{muCode}
     </select>
- 
     <!--좋아요 상태 확인 -->
     <select id="LikeCheck" parameterType="mulike" resultType="String">
         SELECT MULMID
         FROM MUSICLIKE
-        WHERE MULMUCODE = #{muCode} AND MULMID =#{mId}
+        WHERE MULMUCODE = #{muCode}
+          AND MULMID = #{mId}
     </select>
 
     <!--음악 좋아요 테이블에서 좋아요 개수 확인-->
     <select id="LikeListCount" parameterType="mulike" resultType="int">
         SELECT COUNT(*)
-        FROM MUSICLIKE WHERE MULMUCODE = #{muCode}
+        FROM MUSICLIKE
+        WHERE MULMUCODE = #{muCode}
     </select>
 
     <select id="memberView" parameterType="String" resultType="member">
-        SELECT * FROM MEMBER WHERE MID = #{mId}
+        SELECT *
+        FROM MEMBER
+        WHERE MID = #{mId}
     </select>
 
 
@@ -62,7 +63,7 @@
         WHERE MUCODE = #{muCode}
     </delete>
 
-<update id="muCount" parameterType="int">
+    <update id="muCount" parameterType="int">
         UPDATE MUSIC
         SET MUHIT = MUHIT + 1
         WHERE MUCODE = #{muCode}
@@ -75,8 +76,8 @@
     </select>
 
 
-<!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!-- 좋아요 +1 sql-->
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <!-- 좋아요 +1 sql-->
     <insert id="LikeUp" parameterType="mulike">
 
         INSERT INTO MUSICLIKE
@@ -85,29 +86,36 @@
 
 
     <select id="LikeTableUpCheck" parameterType="mulike" resultType="int">
-       SELECT COUNT(*)
-        FROM MUSICLIKE WHERE MULMUCODE = #{mulmuCode}
+        SELECT COUNT(*)
+        FROM MUSICLIKE
+        WHERE MULMUCODE = #{mulmuCode}
     </select>
 
 
-<!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
     <!--좋아요 취소 sql -->
     <delete id="LikeDown" parameterType="mulike">
-        DELETE FROM MUSICLIKE WHERE MULMUCODE = #{mulmuCode} AND MULMID =#{mulMid}
+        DELETE
+        FROM MUSICLIKE
+        WHERE MULMUCODE = #{mulmuCode}
+          AND MULMID = #{mulMid}
     </delete>
 
     <select id="LikeTableDownCheck" parameterType="mulike" resultType="int">
         SELECT COUNT(*)
-        FROM MUSICLIKE WHERE MULMUCODE = #{mulmuCode}
+        FROM MUSICLIKE
+        WHERE MULMUCODE = #{mulmuCode}
     </select>
 
-<!--/////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-    <select id="mlList" parameterType="int" resultType="member">
-        SELECT M.MID, M.MPROFILENAME
-        FROM MEMBER M,MUSICLIKE
-        WHERE MID=MULMID AND MULMUCODE =#{mulmuCode}
-    </select>
+    <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <!--    <select id="mlList" parameterType="int" resultType="member">-->
+    <!--        SELECT M.MID, M.MPROFILENAME-->
+    <!--        FROM MEMBER M,-->
+    <!--             MUSICLIKE-->
+    <!--        WHERE MID = MULMID-->
+    <!--          AND MULMUCODE = #{mulmuCode}-->
+    <!--    </select>-->
 
     <select id="MusicLikeList" parameterType="int" resultType="mulike">
         SELECT *
@@ -121,20 +129,25 @@
     </select>
 
 
-	<select id="boardWriterView" parameterType="String" resultType="audio">
-		SELECT * FROM MUSIC WHERE MUSINGER = #{boWriter}
-	</select>
-	
-	<!-- 전체 음악 목록 메소드 -->
-	<select id="ajaxFileList" resultType="audio">
-		SELECT * FROM PAGING WHERE RN BETWEEN #{startRow} AND #{endRow}
-	</select>
+    <select id="boardWriterView" parameterType="String" resultType="audio">
+        SELECT *
+        FROM MUSIC
+        WHERE MUSINGER = #{boWriter}
+    </select>
 
-
+    <!-- 전체 음악 목록 메소드 -->
+    <select id="ajaxFileList" resultType="audio">
+        SELECT *
+        FROM PAGING
+        WHERE RN BETWEEN #{startRow} AND #{endRow}
+    </select>
 
 
     <delete id="LikeDelete" parameterType="mulike">
-        DELETE FROM MUSICLIKE WHERE MULMUCODE = #{mulmuCode} AND MULMID =#{mulMid}
+        DELETE
+        FROM MUSICLIKE
+        WHERE MULMUCODE = #{mulmuCode}
+          AND MULMID = #{mulMid}
     </delete>
 
     <select id="LikeDeleteCheck" parameterType="mulike" resultType="mulike">
@@ -145,14 +158,21 @@
     </select>
 
 
+    <select id="LikeMid" parameterType="int" resultType="mulike">
+        SELECT MULMID
+        FROM MUSICLIKE
+        WHERE MULCODE = #{mulCode}
+    </select>
 
-   
-
-<select id="LikeMid" parameterType="int" resultType="mulike">
-    SELECT MULMID FROM MUSICLIKE WHERE MULCODE = #{mulCode}
-</select>
-<!--<select id="LikeListCount" parameterType="int" >-->
-<!--    SELECT COUNT(*)-->
-<!--    FROM MUSICLIKE WHERE MULMUCODE = #{mulCode}-->
-<!--</select>-->
+    <select id="LikemodalList" parameterType="int" resultType="member">
+        SELECT M.MID, M.MPROFILENAME
+        FROM MEMBER M,
+             MUSICLIKE
+        WHERE MID = MULMID
+          AND MULMUCODE = #{mulmuCode}
+    </select>
+    <!--<select id="LikeListCount" parameterType="int" >-->
+    <!--    SELECT COUNT(*)-->
+    <!--    FROM MUSICLIKE WHERE MULMUCODE = #{mulCode}-->
+    <!--</select>-->
 </mapper>

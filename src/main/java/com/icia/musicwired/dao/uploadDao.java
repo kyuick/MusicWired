@@ -59,7 +59,7 @@ public interface uploadDao {
 	List<uploadDto> boardWriterView(String boWriter);
 	int muListCount1(String mId);
 
-
+	List<MusicLikeDto> LikemodalList(int mulmuCode);
 
 
 ////////////////////////////////////////////////////////////
