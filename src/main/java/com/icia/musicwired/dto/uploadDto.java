@@ -10,7 +10,6 @@ import java.sql.Date;
 @Alias("audio")
 public class uploadDto {
 	private int muCode;
-
     private String muSinger;
 	private String mId;
     private String muName;

@@ -260,7 +260,7 @@ $("#subList").click(function(){
         		if(subr.length <= 0){
         			output += "<p>구독을 눌러보세요<p>"
         		}else if(subr.length > 0){
-        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + subr[i].mId + "</p>"
+        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'><a href='boardWriterView?boWriter="+ subr[i].mId +"&mId="+loginId+"'>"+subr[i].mId+"</a></p>"
         		}
         	}
         	const modalContent = document.getElementById("content");
@@ -316,7 +316,7 @@ $("#subList").click(function(){
 	        		if(subr.length <= 0){
 	        			output += "<p>구독을 눌러보세요<p>"
 	        		}else if(subr.length > 0){
-	        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + subr[i].mId + "</p>"
+	        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'><a href='boardWriterView?boWriter="+ subr[i].mId +"&mId="+loginId+"'>"+subr[i].mId+"</a></p>"
 	        		}
 	        	}
 	        	const modalContent = document.getElementById("content");
