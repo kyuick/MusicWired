@@ -82,13 +82,7 @@ public class uploadDto {
 		this.muHit = muHit;
 	}
 
-	public int getMuLike() {
-		return muLike;
-	}
-	public void setMuLike(int muLike) {
-		this.muLike = muLike;
-	}
-
+	
 	public int getMuPrice() {
 		return muPrice;
 	}

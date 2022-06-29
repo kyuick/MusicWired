@@ -9,7 +9,7 @@ import com.icia.musicwired.dto.CSDTO;
 import com.icia.musicwired.dto.MemberDTO;
 
 @Mapper
-public interface MDAO {
+public interface chatDAO {
 
 	int createRoom(String mId);
 

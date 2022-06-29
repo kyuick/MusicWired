@@ -21,82 +21,79 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.icia.musicwired.dao.MDAO;
+import com.icia.musicwired.dao.chatDAO;
 import com.icia.musicwired.dto.CRDTO;
 import com.icia.musicwired.dto.CSDTO;
 import com.icia.musicwired.dto.MemberDTO;
 
 @Service
-public class MServiceImpl implements MService {
+public class chatServiceImpl implements chatService {
 
 	private ModelAndView mav = new ModelAndView();
 	@Autowired
-	private MDAO mdao;
+	private chatDAO mdao;
 
 	@Autowired
 	private HttpSession session;
-	
-	
-	
+
 	@Override
 	public ModelAndView createRoom(String mId) {
 		CRDTO crdto1 = mdao.getRoom(mId);
-		
-	
-		if(crdto1==null) { //crdto1 이 널이라면
-			int result = mdao.createRoom(mId); 	
+
+		if (crdto1 == null) {
+			int result = mdao.createRoom(mId);
 			CRDTO crdto = mdao.getRoom(mId);
 			System.out.println("채팅결과: " + result);
 			if (result > 0) {
 				mav.setViewName("Chat");
-				mav.addObject("crdto",crdto);
+				mav.addObject("crdto", crdto);
 			} else {
-			
+
 				mav.setViewName("index");
 			}
-		}else {
-			System.out.println("crdtio1"+crdto1.getCrNum());
+		} else {
+			System.out.println("crdtio1" + crdto1.getCrNum());
 			List<CSDTO> csdto = mdao.getSaveChat(crdto1.getCrNum());
 			System.out.println("채팅결과2: " + csdto);
-			
+
 			mav.setViewName("Chat");
-			mav.addObject("crdto",crdto1);
-			mav.addObject("csdto",csdto);
+			mav.addObject("crdto", crdto1);
+			mav.addObject("csdto", csdto);
 		}
-	
-		
-		
-		
+
 		return mav;
 	}
-	List<CSDTO> chatsave  = new ArrayList<CSDTO>();
-	
+
+	List<CSDTO> chatsave = new ArrayList<CSDTO>();
+
 	@Override
 	public ModelAndView chatlist() {
-	
+
 		List<CRDTO> crlist = mdao.chatlist();
-	
+
 		mav.setViewName("CRList");
-		mav.addObject("crlist",crlist);
-		
+		mav.addObject("crlist", crlist);
+
 		return mav;
 	}
-	
 
-	
 	@Override
 	public List<CSDTO> chatSave(CSDTO csdto) {
+		System.out.println("123"+csdto);
 		int result = mdao.chatSave(csdto);
 		
-		return null;
+		if(!csdto.getCsId().equals("admin")) {
+		int result1 = mdao.readupdate1(csdto.getCsNum()); 
+		}
+		
+		return chatsave;
+		
 	}
 
 	@Override
 	public int readupdate(String crId) {
-		int result = mdao.readupdate(crId); 
+		int result = mdao.readupdate(crId);
 		return result;
 	}
-
-
 
 }

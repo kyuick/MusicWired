@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.musicwired.dto.CSDTO;
-import com.icia.musicwired.service.MService;
+import com.icia.musicwired.service.chatService;
 
 @Controller
-public class MController {
+public class chatController {
 
 	private ModelAndView mav = new ModelAndView();
 	@Autowired
-	private MService msvc;
+	private chatService msvc;
 	@Autowired
 	private HttpSession session;
 

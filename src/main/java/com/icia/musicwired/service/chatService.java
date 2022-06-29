@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.icia.musicwired.dto.CSDTO;
 import com.icia.musicwired.dto.MemberDTO;
 
-public interface MService {
+public interface chatService {
 
 	ModelAndView createRoom(String mId);
 
