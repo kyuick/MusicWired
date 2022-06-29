@@ -157,12 +157,27 @@
           AND MULMID = #{mulMid}
     </select>
 
+<update id="LikeUp2" parameterType="mulike">
+		UPDATE MUSIC
+        SET MULIKE = MULIKE + 1
+        WHERE MUCODE = #{mulmuCode}
+</update>
 
-    <select id="LikeMid" parameterType="int" resultType="mulike">
-        SELECT MULMID
-        FROM MUSICLIKE
-        WHERE MULCODE = #{mulCode}
-    </select>
+<update id="LikeDown2" parameterType="mulike">
+		UPDATE MUSIC
+        SET MULIKE = MULIKE -1
+        WHERE MUCODE = #{mulmuCode}
+</update>
+   
+
+<select id="LikeMid" parameterType="int" resultType="mulike">
+    SELECT MULMID FROM MUSICLIKE WHERE MULCODE = #{mulCode}
+</select>
+<!--<select id="LikeListCount" parameterType="int" >-->
+<!--    SELECT COUNT(*)-->
+<!--    FROM MUSICLIKE WHERE MULMUCODE = #{mulCode}-->
+<!--</select>-->
+
 
     <select id="LikemodalList" parameterType="int" resultType="member">
         SELECT M.MID, M.MPROFILENAME
@@ -175,4 +190,5 @@
     <!--    SELECT COUNT(*)-->
     <!--    FROM MUSICLIKE WHERE MULMUCODE = #{mulCode}-->
     <!--</select>-->
+
 </mapper>

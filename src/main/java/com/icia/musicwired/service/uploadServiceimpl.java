@@ -226,7 +226,9 @@ public class uploadServiceimpl implements uploadService {
 	public int LikeUp(MusicLikeDto musicLikeDto) {
 		System.out.println("[2] 좋아요:" + musicLikeDto);
 		int result = dao.LikeUp(musicLikeDto);
-
+		//추가
+		int result1 =dao.LikeUp2(musicLikeDto);
+		System.out.println("좋아영 : "+result1);
 		int LikeTableUpCheck = dao.LikeTableUpCheck(musicLikeDto);
 
 		return LikeTableUpCheck;
@@ -248,6 +250,7 @@ public class uploadServiceimpl implements uploadService {
 	public int LikeDown(MusicLikeDto musicLikeDto) {
 		System.out.println("[2] 좋아요:" + musicLikeDto);
 		int result = dao.LikeDown(musicLikeDto);
+		int result2= dao.LikeDown2(musicLikeDto);
 		int LikeTableDownCheck = dao.LikeTableDownCheck(musicLikeDto);
 		System.out.println("[4] 좋아요:" + LikeTableDownCheck);
 

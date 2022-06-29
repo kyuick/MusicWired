@@ -35,59 +35,68 @@ public class MServiceImpl implements MService {
 
 	@Autowired
 	private HttpSession session;
-
+	
+	
+	
 	@Override
 	public ModelAndView createRoom(String mId) {
 		CRDTO crdto1 = mdao.getRoom(mId);
-
-		if (crdto1 == null) {
-			int result = mdao.createRoom(mId);
+		
+	
+		if(crdto1==null) { //crdto1 이 널이라면
+			int result = mdao.createRoom(mId); 	
 			CRDTO crdto = mdao.getRoom(mId);
 			System.out.println("채팅결과: " + result);
 			if (result > 0) {
 				mav.setViewName("Chat");
-				mav.addObject("crdto", crdto);
+				mav.addObject("crdto",crdto);
 			} else {
-
+			
 				mav.setViewName("index");
 			}
-		} else {
-			System.out.println("crdtio1" + crdto1.getCrNum());
+		}else {
+			System.out.println("crdtio1"+crdto1.getCrNum());
 			List<CSDTO> csdto = mdao.getSaveChat(crdto1.getCrNum());
 			System.out.println("채팅결과2: " + csdto);
-
+			
 			mav.setViewName("Chat");
-			mav.addObject("crdto", crdto1);
-			mav.addObject("csdto", csdto);
+			mav.addObject("crdto",crdto1);
+			mav.addObject("csdto",csdto);
 		}
-
+	
+		
+		
+		
 		return mav;
 	}
-
-	List<CSDTO> chatsave = new ArrayList<CSDTO>();
-
+	List<CSDTO> chatsave  = new ArrayList<CSDTO>();
+	
 	@Override
 	public ModelAndView chatlist() {
-
+	
 		List<CRDTO> crlist = mdao.chatlist();
-
+	
 		mav.setViewName("CRList");
-		mav.addObject("crlist", crlist);
-
+		mav.addObject("crlist",crlist);
+		
 		return mav;
 	}
+	
 
+	
 	@Override
 	public List<CSDTO> chatSave(CSDTO csdto) {
 		int result = mdao.chatSave(csdto);
-
+		
 		return null;
 	}
 
 	@Override
 	public int readupdate(String crId) {
-		int result = mdao.readupdate(crId);
+		int result = mdao.readupdate(crId); 
 		return result;
 	}
+
+
 
 }

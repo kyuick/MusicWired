@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<head>	
+</head>
+<body>
+    <form id="searchForm" action="/search" method="GET">
+    	<div class="search_input">
+			<input type="text" name="keyword" placeholder="입력바람 ">
+			<button class="btn_search">검색</button>    	
+    	</div>
+    </form>
+
+
+
+<table>
+		<caption th:text="'음악 이름검색 총('+${nCount}+')개'">음악이름 검색 </caption>
+		<tr>
+			<th>no</th>
+			<th>음악이름</th>
+			<th>가수</th>
+			<th>장르</th>
+			<th>날짜</th>
+		</tr>
+		<!-- 
+		<c:forEach var="data" items="idto">
+		
+		</c:forEach> -->
+		<tr th:each="search, i : ${search}">
+			 <td th:text="${i.index+1}"></td>
+			<td><a th:href="@{muView(muCode=${search.muCode})}" th:text="${search.muName}"></a></td>
+			<td th:text="${search.muSinger}"></td>
+			<td th:text="${search.muGanre}"></td>
+			<td th:text="${search.muDate}"></td>
+		</tr>
+	</table>
+									 <a href="/searchSong">음악이름 검색 더보기</a>
+	
+	<br/><br/>
+	
+	
+	<table>
+		<caption th:text="'가수 이름 검색 총('+${sCount}+')개'">가수 검색</caption>
+		<tr>
+			<th>no</th>
+			<th>음악이름</th>
+			<th>가수</th>
+			<th>장르</th>
+			<th>날짜</th>
+		</tr>
+		<!-- 
+		<c:forEach var="data" items="idto">
+		
+		</c:forEach> -->
+		
+		
+		
+		<tr th:each="singerList , c : ${singerList}">
+			 <td th:text="${c.count}"></td>
+			<td><a th:href="@{muView(muCode=${singerList.muCode})}" th:text="${singerList.muName}"></a></td>
+			<td th:text="${singerList.muSinger}"></td>
+			<td th:text="${singerList.muGanre}"></td>
+			<td th:text="${singerList.muDate}"></td>
+		</tr>
+	</table>
+				  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="/searchSinger">가수이름 검색 더보기</a>
+</body>
+</html>
