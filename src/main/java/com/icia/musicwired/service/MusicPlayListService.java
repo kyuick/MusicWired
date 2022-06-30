@@ -18,6 +18,8 @@ public interface MusicPlayListService {
 
     List<MusicPlayListDto> playListDeleteAjax(String muSinger);
 
+    List<MusicPlayListDto> PlayListDelete(MusicPlayListDto mpDto);
 
-    ModelAndView PlayListDelete(MusicPlayListDto mpDto);
+
+//    ModelAndView PlayListDelete(MusicPlayListDto mpDto);
 }
