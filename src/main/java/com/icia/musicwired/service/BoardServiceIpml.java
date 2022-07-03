@@ -293,6 +293,8 @@ public class BoardServiceIpml implements BoardService {
 		int memCount = bodao.memCount(boWriter);  
 		int memCount1 = bodao.memCount1(boWriter);  
 		int muTrack = bodao.muTrack(boWriter);
+		int boaCount = bodao.boaCount(boWriter);
+		
 		   String subCheck = bodao.subCheck(boWriter,mId);
 		      System.out.println("확인"+subCheck);
 		      
@@ -309,6 +311,7 @@ public class BoardServiceIpml implements BoardService {
 		      mav.addObject("memCount", memCount);
 		      mav.addObject("memCount1", memCount1);
 		      mav.addObject("muTrack", muTrack);
+		      mav.addObject("boaCount", boaCount);
 		      
 		      System.out.println("[3] 게시글 작성자 피드 이동 S : " + mav);
 

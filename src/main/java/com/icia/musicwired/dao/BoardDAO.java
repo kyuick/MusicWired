@@ -52,5 +52,6 @@ public interface BoardDAO {
 
 	int muTrack(String boWriter);
 
-
+	int boaCount(String boWriter);
+	
 }

@@ -1,370 +1,722 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta name="author" content="kooky"/>
-   <meta name="description" content="inputBoot index"/>
-   <title>Spring Boot Index</title>
-   <style>
-      th, td, table{
-         border : 1px solid black;
-         border-collapse : collapse;
-      }
-   </style>
-   <style>
-#modal.modal-overlay {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            left: 0;
-            top: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            backdrop-filter: blur(1.5px);
-            -webkit-backdrop-filter: blur(1.5px);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            display: none;
-        }
-        #modal .modal-window {
-            background: rgba( 69, 139, 197, 0.70 );
-            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-            backdrop-filter: blur( 13.5px );
-            -webkit-backdrop-filter: blur( 13.5px );
-            border-radius: 10px;
-            border: 1px solid rgba( 255, 255, 255, 0.18 );
-            width: 400px;
-            height: 500px;
-            position: relative;
-            top: -100px;
-            padding: 10px;
-            overflow-y: auto;
-        }
-        #modal .title {
-            padding-left: 10px;
-            display: inline;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
-            
-        }
-        #modal .title h2 {
-            display: inline;
-        }
-        #modal .close-area {
-            display: inline;
-            float: right;
-            padding-right: 10px;
-            cursor: pointer;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
-        }
-        
-        #modal .content {
-            margin-top: 20px;
-            padding: 0px 10px;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
-           
-        }
-</style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="css/select2.min.css">
+	<link rel="stylesheet" href="css/paymentfont.min.css">
+	<link rel="stylesheet" href="css/slider-radio.css">
+	<link rel="stylesheet" href="css/plyr.css">
+	<link rel="stylesheet" href="css/main.css">
+
+	<!-- Favicons -->
+	<link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
+	<link rel="apple-touch-icon" href="icon/favicon-32x32.png">
+
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="author" content="Dmitry Volkov">
+	<title>Volna – Record label & Music streaming HTML Template</title>
+
+	<style type="text/css">
+		#MyMusicArea{
+			overflow: auto;
+		}
+		#MyMusicArea::-webkit-scrollbar{
+			width: 4px;
+		}
+		#MyMusicArea::-webkit-scrollbar-track {
+		  	background: #222227;
+		}
+		#MyMusicArea::-webkit-scrollbar-thumb {
+		  	background-color: #25a56a;
+		  	outline: 1px solid #222227;
+		  	border-radius: 10px;
+		}
+	</style>
+
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script th:if="${session.login eq null}">
+	alert('로그인 이후 이용해주세요');
+	location.href="memberLogin";
+</script>
 <body>
-   <div id="container">
-        <div id="lorem-ipsum"></div>
-    </div>
-    <div id="modal" class="modal-overlay" role="dialog">
-        <div class="modal-window">
-            <div class="title">
-                <h2 id="modalTitle"></h2>
-            </div>
-            <div class="close-area">X</div>
-            <div class="content" id="content">
-            </div>
-        </div>
-    </div>
-   <div>
-      <button onclick="location.href='index'">홈페이지</button>
-      <button onclick="location.href='boardList'">목록으로</button>
-   </div>
-   <div th:if="${session.login.mId ne memView.mId}">   
-      <input type="button" th:if="${subCheck eq 0}" th:id="subcheck" th:value="팔로우하기"> 
-      <input type="button" th:if="${subCheck eq 1}" th:id="subcheck" th:value="팔로우취소"> 
-   </div>
-   
-   <table>
-      <tr>
-         <td>팔로우</td>
-         <td>팔로잉</td>
-         <td>트랙</td>
-      </tr>
-      <tr>
-      <td ><a href="#"><span th:id="subList" th:text="${memCount}" th:value="${memCount}"></span></a></td>
-      <td><a href="#"><span  th:id="suberList" th:text="${memCount1}" th:value="${memCount1}"></span></a></td>
-      <td th:id="muTrack" th:text="${muTrack}"></td>
-      </tr>
-   </table>
-   <table>
-      <caption>작성자 정보</caption>
-      <tr>
-         <th>아이디</th>
-         <td th:text="${memView.mId}" th:id="sid" th:value="${memView.mId}"></td>
-      </tr>
-      
-      <tr>
-         <th>이름</th>
-         <td th:text="${memView.mName}"></td>
-      </tr>
-      
-      <tr>
-         <th>이메일</th>
-         <td th:text="${memView.mEmail}"></td>
-      </tr>
-      
-      <tr>
-         <th>성별</th>
-         <td th:text="${memView.mGender}"></td>
-      </tr>
-      
-      <tr>
-         <th>프로필 사진</th>
-         <td><img th:src="@{/profile/{aa}(aa=${memView.mProfileName})}" style="width:200px;"/></td>
-      </tr>
-   </table>
-<hr/>
+	<!-- header -->
+	<header th:replace="header.html :: header"></header>
+	<!-- end header -->
 
-	<table>
-		<caption>등록한 음악</caption>
-	    <tr>
-	       <th>가수 이름</th>
-	        <th>음악 이름</th>
-	        <th>음악 장르</th>
-	        <th>게시일</th>
-	        <th>조회 수</th>
-	        <th>가격</th>
-	    </tr>
-	    <tr th:each="mulist : ${muViewList}">
-	    <td th:text="${mulist.muSinger}"></td>
-	        <td><a th:href="@{muView(muCode=${mulist.muCode},mId=${session.login.mId})}" th:text="${mulist.muName}" id="audio"></a></td>
-	        <td th:text="${mulist.muGanre}"></td>
-	        <td th:text="${mulist.muDate}"></td>
-	        <td th:text="${mulist.muHit}"></td>
-	        <td th:text="500"></td>
-	    </tr>
-	</table>
+	<!-- sidebar -->
+	<aside th:replace="sidebar.html :: aside"></aside>
+	<!-- end sidebar -->
+	
+	<!-- player -->
+	<div class="player">
+		<div class="player__cover">
+			<img src="img/covers/cover.svg" alt="">
+		</div>
 
-<hr/>
-   <table>
-      <caption>등록한 게시글</caption>
-       <tr>
-           <th>글번호</th>
-           <th>제목</th>
-           <th>내용</th>
-           <th>이미지</th>
-           <th>좋아요수</th>
-           <th>작성일</th>
-       </tr>
-       <tr th:each="bolist : ${boViewList}">
-          <td th:text="${bolist.boCode}"></td>
-          <td th:text="${bolist.boTitle}"></td>
-           <td th:text="${bolist.boContent}"></td>
-           <td><img th:src="@{/ImageUpload/{aa}(aa=${bolist.boImage})}" style="width:200px;"/></td>
-           <td th:text="${bolist.boLike}"></td>
-           <td th:text="${bolist.boDate}"></td>
-       </tr>
-   </table>
-   <input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
+		<div class="player__content">
+			<span class="player__track"><b class="player__title">Epic Cinematic</b> – <span class="player__artist">AudioPizza</span></span>
+			<audio src="https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3" id="audio" controls></audio>
+		</div>
+	</div>
+
+	<button class="player__btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z"/></svg> Player</button>
+	<!-- end player -->
+
+	<!-- main content -->
+	<main class="main">
+		<div class="container-fluid">
+			<div class="row row--grid">
+				<!-- breadcrumb -->
+				<div class="col-12">
+					<ul class="breadcrumb">
+						<li class="breadcrumb__item"><a href="/index">Home</a></li>
+						<li class="breadcrumb__item breadcrumb__item--active">Profile</li>
+					</ul>
+				</div>
+				<!-- end breadcrumb -->
+
+				<!-- title -->
+				<div class="col-12">
+					<div class="main__title main__title--page">
+						<h1>Profile</h1>
+					</div>
+				</div>
+				<!-- end title -->
+			</div>
+
+			<div class="row row--grid">
+				<div class="col-12">
+					<div class="profile">
+						<div class="profile__user">
+							<div class="profile__avatar">
+								<img th:src="@{/profile/{aa}(aa=${memView.mProfileName})}" alt="">
+							</div>
+							<div class="profile__meta">
+								<h3 th:text="${memView.mName}"></h3>
+							</div>
+						</div>
+
+						<!-- tabs nav -->
+						<ul class="nav nav-tabs profile__tabs" id="profile__tabs" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Profile</a>
+							</li>
+
+							<li th:if="${session.login.mId eq memView.mId}" class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">구매목록</a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Pricing plan</a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">Settings</a>
+							</li>
+						</ul>
+						<!-- end tabs nav -->
+
+						<button class="profile__logout" type="button" onclick="location.href='memberLogout'">
+							<span>Sign out</span>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z"/></svg>
+						</button>
+					</div>
+
+					<!-- content tabs -->
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+							<div class="row row--grid">
+								<div class="col-12 col-lg-6 col-xl-3">
+									<div class="stats">
+										<span>팔로우 </span>
+					                    <p><a href="#"><span th:id="subList" th:text="${memCount}" th:value="${memCount}"></span></a></p>
+					                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6,11a1,1,0,1,0,1,1A1,1,0,0,0,6,11Zm12,0a1,1,0,1,0,1,1A1,1,0,0,0,18,11Zm2-6H4A3,3,0,0,0,1,8v8a3,3,0,0,0,3,3H20a3,3,0,0,0,3-3V8A3,3,0,0,0,20,5Zm1,11a1,1,0,0,1-1,1H4a1,1,0,0,1-1-1V8A1,1,0,0,1,4,7H20a1,1,0,0,1,1,1ZM12,9a3,3,0,1,0,3,3A3,3,0,0,0,12,9Zm0,4a1,1,0,1,1,1-1A1,1,0,0,1,12,13Z"/></svg>
+									</div>
+								</div>
+
+								<div class="col-12 col-lg-6 col-xl-3">
+									<div class="stats">
+										<span>팔로잉</span>
+					                    <p><a href="#"><span th:id="suberList" th:text="${memCount1}" th:value="${memCount1}"></span></a></p>
+					                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,10a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V11A1,1,0,0,0,9,10Zm12,1a1,1,0,0,0,1-1V6a1,1,0,0,0-1-1H3A1,1,0,0,0,2,6v4a1,1,0,0,0,1,1,1,1,0,0,1,0,2,1,1,0,0,0-1,1v4a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1,1,1,0,0,1,0-2ZM20,9.18a3,3,0,0,0,0,5.64V17H10a1,1,0,0,0-2,0H4V14.82A3,3,0,0,0,4,9.18V7H8a1,1,0,0,0,2,0H20Z"/></svg>
+					                </div>
+								</div>
+
+								<div class="col-12 col-lg-6 col-xl-3">
+									<div class="stats">
+										<span>게시글 수</span>
+					                    <p><a href="#"><span th:id="board" th:text="${boaCount}" th:value="${boaCount}"></span></a></p>
+					                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,10a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V11A1,1,0,0,0,9,10Zm12,1a1,1,0,0,0,1-1V6a1,1,0,0,0-1-1H3A1,1,0,0,0,2,6v4a1,1,0,0,0,1,1,1,1,0,0,1,0,2,1,1,0,0,0-1,1v4a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1,1,1,0,0,1,0-2ZM20,9.18a3,3,0,0,0,0,5.64V17H10a1,1,0,0,0-2,0H4V14.82A3,3,0,0,0,4,9.18V7H8a1,1,0,0,0,2,0H20Z"/></svg>
+					                </div>
+								</div>
+
+								<div class="col-12 col-lg-6 col-xl-3">
+									<div class="stats">
+										<span>트랙</span>
+					                    <p><a href="#"><span th:id="muTrack" th:text="${muTrack}" th:value="${muTrack}"></span></a></p>
+					                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg>
+					                </div>
+								</div>
+							</div>
+
+							<div class="row row--grid">
+								<!-- dashbox -->
+								<div class="col-12 col-lg-6">
+									<div class="dashbox">
+										<div class="dashbox__title">
+											<h3><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.05566,2h-14a3.00328,3.00328,0,0,0-3,3V19a3.00328,3.00328,0,0,0,3,3h14a3.00328,3.00328,0,0,0,3-3V5A3.00328,3.00328,0,0,0,19.05566,2Zm-14,2h14a1.001,1.001,0,0,1,1,1v8H17.59082a1.99687,1.99687,0,0,0-1.66406.89062L14.52051,16H9.59082L8.18457,13.89062A1.99687,1.99687,0,0,0,6.52051,13H4.05566V5A1.001,1.001,0,0,1,5.05566,4Zm14,16h-14a1.001,1.001,0,0,1-1-1V15H6.52051l1.40625,2.10938A1.99687,1.99687,0,0,0,9.59082,18h4.92969a1.99687,1.99687,0,0,0,1.66406-.89062L17.59082,15h2.46484v4A1.001,1.001,0,0,1,19.05566,20Z"/></svg>등록한 게시글 <span th:text="${boaCount}"></span></h3>
+
+											<div class="dashbox__wrap">
+												<a class="dashbox__refresh" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,0,0,5.12,4.77V3a1,1,0,0,0-2,0V7.5a1,1,0,0,0,1,1H8.62a1,1,0,0,0,0-2H6.22A8,8,0,1,1,4,12a1,1,0,0,0-2,0A10,10,0,1,0,12,2Zm0,6a1,1,0,0,0-1,1v3a1,1,0,0,0,1,1h2a1,1,0,0,0,0-2H13V9A1,1,0,0,0,12,8Z"/></svg></a>
+											</div>
+										</div>
+
+										<div class="dashbox__list-wrap">
+											<div class="dashbox__scroll">
+											<div th:each="bolist : ${boViewList}" style="padding-bottom: 6%; padding-top: 4%">
+												<div class="dashbox__note dashbox__note--succ">
+													<ul class="main__list main__list--dashbox">
+						                            <li class="single-item">
+					                                    <img th:src="@{/ImageUpload/{aa}(aa=${bolist.boImage})}" style="width: 87px; height: 87px;"/>
+						                                <div class="single-item__title">
+						                                    <h4><a th:text="${bolist.boTitle}"></a></h4>
+						                                    <span th:text="${bolist.boContent}"></span>
+						                                </div>
+						                            </li>
+						                            </ul>
+												</div>
+											</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- end dashbox -->
+
+								<!-- dashbox -->
+								<div class="col-12 col-lg-6">
+									<div class="dashbox">
+										<div class="dashbox__title">
+											<h3><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z"/></svg> 등록한 음악 <span th:text="${muTrack}"></span></h3>
+
+											<div class="dashbox__wrap">
+												<a class="dashbox__refresh" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,0,0,5.12,4.77V3a1,1,0,0,0-2,0V7.5a1,1,0,0,0,1,1H8.62a1,1,0,0,0,0-2H6.22A8,8,0,1,1,4,12a1,1,0,0,0-2,0A10,10,0,1,0,12,2Zm0,6a1,1,0,0,0-1,1v3a1,1,0,0,0,1,1h2a1,1,0,0,0,0-2H13V9A1,1,0,0,0,12,8Z"/></svg></a>
+											</div>
+										</div>
+
+										<div class="dashbox__list-wrap">
+											<div class="dashbox__scroll" id="MyMusicArea" style="padding-bottom: 2%; padding-top: 2%">
+												<div class="scroll-content">
+													<ul class="main__list main__list--dashbox">
+											            <li class="single-item" th:each="mulist : ${muViewList}" style="padding-bottom: 5%; padding-top: 4%">
+											                <a data-playlist data-title="1. Got What I Got" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
+											                    <img th:src="@{/muImage/{muImage}(muImage=${mulist.muImage})}" style="width: 70px;">
+											                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+											                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+											                </a>
+											                <div class="single-item__title">
+											                    <h4><a th:href="@{muView(muCode=${mulist.muCode},mId=${session.login.mId})}" th:text="${mulist.muName}" id="audio"></a></h4>
+											                    <span th:text="${mulist.muSinger}"></span>
+											                </div>
+											                <a href="#" class="single-item__add">
+											                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg>
+											                </a>
+											                <a href="#" class="single-item__export">
+											                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"></path></svg>
+											                </a>
+											            </li>
+											        </ul>
+										        </div>
+									        </div>
+										</div>
+									</div>
+								</div>
+								<!-- end dashbox -->
+							</div>
+						</div>
+						
+						<div class="tab-pane fade" id="tab-2" role="tabpanel">
+							<div class="row row--grid" id="buyContentArea"></div>
+							<div class="row row--grid">
+								<div class="col-12">
+									<div class="release">
+										<div class="release__list" style="width: 120%;">
+											<div class="scroll-content" id="buyListArea"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="tab-pane fade" id="tab-3" role="tabpanel">
+							<div class="row row--grid">
+								<div class="col-12 col-md-6 col-lg-4 order-md-2 order-lg-1">
+									<div class="plan plan--green">
+										<h3 class="plan__title">Free</h3>
+										<span class="plan__price">$0<span>/month</span></span>
+										<ul class="plan__list">
+											<li class="green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z"/></svg> Volna Originals</li>
+											<li class="green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z"/></svg> Switch plans or cancel anytime</li>
+											<li class="red"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg> Stream 65+ top Live</li>
+											<li class="red"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg> Music channels</li>
+										</ul>
+										<button class="plan__btn" type="button">Select plan</button>
+									</div>
+								</div>
+
+								<div class="col-12 col-lg-4 order-md-1 order-lg-2">
+									<div class="plan plan--red">
+										<h3 class="plan__title">Starter</h3>
+										<span class="plan__price">$14.99<span>/month</span></span>
+										<ul class="plan__list">
+											<li class="green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z"/></svg> Volna Originals</li>
+											<li class="green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z"/></svg> Switch plans or cancel anytime</li>
+											<li class="green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z"/></svg> Stream 65+ top Live</li>
+											<li class="red"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg> Music channels</li>
+										</ul>
+										<button class="plan__btn" type="button">Select plan</button>
+									</div>
+								</div>
+
+								<div class="col-12 col-md-6 col-lg-4 order-md-3 order-lg-3">
+									<div class="plan plan--purple">
+										<h3 class="plan__title">Premium</h3>
+										<span class="plan__price">$39.99<span>/month</span></span>
+										<ul class="plan__list">
+											<li class="green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z"/></svg> Volna Originals</li>
+											<li class="green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z"/></svg> Switch plans or cancel anytime</li>
+											<li class="green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z"/></svg> Stream 65+ top Live</li>
+											<li class="green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z"/></svg> Music channels</li>
+										</ul>
+										<button class="plan__btn" type="button">Select plan</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="tab-pane fade" id="tab-4" role="tabpanel">
+							<div class="row row--grid">
+								<!-- details form -->
+								<div class="col-12 col-lg-6">
+									<form action="#" class="sign__form sign__form--profile">
+										<div class="row">
+											<div class="col-12">
+												<h4 class="sign__title">Profile details</h4>
+											</div>
+
+											<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+												<div class="sign__group">
+													<label class="sign__label" for="username">Login</label>
+													<input id="username" type="text" name="username" class="sign__input" placeholder="User123">
+												</div>
+											</div>
+
+											<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+												<div class="sign__group">
+													<label class="sign__label" for="email">Email</label>
+													<input id="email" type="text" name="email" class="sign__input" placeholder="email@email.com">
+												</div>
+											</div>
+
+											<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+												<div class="sign__group">
+													<label class="sign__label" for="firstname">First name</label>
+													<input id="firstname" type="text" name="firstname" class="sign__input" placeholder="John">
+												</div>
+											</div>
+
+											<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+												<div class="sign__group">
+													<label class="sign__label" for="lastname">Last name</label>
+													<input id="lastname" type="text" name="lastname" class="sign__input" placeholder="Doe">
+												</div>
+											</div>
+
+											<div class="col-12">
+												<button class="sign__btn" type="button">Save</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<!-- end details form -->
+
+								<!-- password form -->
+								<div class="col-12 col-lg-6">
+									<form action="#" class="sign__form sign__form--profile">
+										<div class="row">
+											<div class="col-12">
+												<h4 class="sign__title">Change password</h4>
+											</div>
+
+											<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+												<div class="sign__group">
+													<label class="sign__label" for="oldpass">Old password</label>
+													<input id="oldpass" type="password" name="oldpass" class="sign__input">
+												</div>
+											</div>
+
+											<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+												<div class="sign__group">
+													<label class="sign__label" for="newpass">New password</label>
+													<input id="newpass" type="password" name="newpass" class="sign__input">
+												</div>
+											</div>
+
+											<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+												<div class="sign__group">
+													<label class="sign__label" for="confirmpass">Confirm new password</label>
+													<input id="confirmpass" type="password" name="confirmpass" class="sign__input">
+												</div>
+											</div>
+
+											<div class="col-12 col-md-6 col-lg-12 col-xl-6">
+												<div class="sign__group">
+													<label class="sign__label" for="select">Select</label>
+													<select name="select" id="select" class="sign__select">
+														<option value="0">Option</option>
+														<option value="1">Option 2</option>
+														<option value="2">Option 3</option>
+														<option value="3">Option 4</option>
+													</select>
+												</div>
+											</div>
+
+											<div class="col-12">
+												<button class="sign__btn" type="button">Change</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<!-- end password form -->
+							</div>
+						</div>
+					</div>
+					<!-- end content tabs -->
+				</div>
+			</div>	
+		</div>
+	</main>
+	<!-- end main content -->
+
+	<!-- footer -->
+	<footer th:replace="footer.html :: footer"></footer>
+	<!-- end footer -->
+
+	<!-- modal top-up -->
+	<form action="#" id="modal-topup" class="zoom-anim-dialog mfp-hide modal modal--form">
+		<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
+
+		<h4 class="sign__title">Replenishment</h4>
+
+		<div class="sign__group sign__group--row">
+			<label class="sign__label">Your balance:</label>
+			<span class="sign__value">$90.99</span>
+		</div>
+
+		<div class="sign__group sign__group--row">
+			<label class="sign__label" for="value">Choose amount:</label>
+			<select class="sign__select" name="value" id="value">
+				<option value="50">$49</option>
+				<option value="100">$99</option>
+				<option value="200">$169</option>
+			</select>
+
+			<span class="sign__text sign__text--small">You can spend money from your account on the renewal of the connected packages, or on the purchase of goods on our website.</span>
+		</div>
+
+		<div class="sign__group sign__group--row">
+			<label class="sign__label">Payment method:</label>
+
+			<ul class="sign__radio">
+				<li>
+					<input id="type1" type="radio" name="type" checked="">
+					<label for="type1">Visa</label>
+				</li>
+				<li>
+					<input id="type2" type="radio" name="type">
+					<label for="type2">Mastercard</label>
+				</li>
+				<li>
+					<input id="type3" type="radio" name="type">
+					<label for="type3">Paypal</label>
+				</li>
+			</ul>
+		</div>
+
+		<button class="sign__btn" type="button">Proceed</button>
+	</form>
+	<!-- end modal top-up -->
+
+	<!-- modal info -->
+	<div id="modal-info" class="zoom-anim-dialog mfp-hide modal modal--info">
+		<span class="modal__icon">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13,16H7a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2ZM9,10h2a1,1,0,0,0,0-2H9a1,1,0,0,0,0,2Zm12,2H18V3a1,1,0,0,0-.5-.87,1,1,0,0,0-1,0l-3,1.72-3-1.72a1,1,0,0,0-1,0l-3,1.72-3-1.72a1,1,0,0,0-1,0A1,1,0,0,0,2,3V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V13A1,1,0,0,0,21,12ZM5,20a1,1,0,0,1-1-1V4.73L6,5.87a1.08,1.08,0,0,0,1,0l3-1.72,3,1.72a1.08,1.08,0,0,0,1,0l2-1.14V19a3,3,0,0,0,.18,1Zm15-1a1,1,0,0,1-2,0V14h2Zm-7-7H7a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2Z"/></svg>
+		</span>
+
+		<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
+
+		<h4 class="sign__title">Receipt</h4>
+
+		<div class="sign__group sign__group--row">
+			<label class="sign__label" for="value">Total cost:</label>
+			<span class="sign__value">$290.99</span>
+		</div>
+
+		<div class="sign__group sign__group--row">
+			<label class="sign__label" for="value">Payment method: <b>Paypal</b></label>
+
+			<span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
+		</div>
+	</div>
+	<!-- end modal info -->
+
+	<!-- modal info -->
+	<div id="modal-info2" class="zoom-anim-dialog mfp-hide modal modal--info">
+		<span class="modal__icon modal__icon--green">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.72,8.79l-4.29,4.3L8.78,11.44a1,1,0,1,0-1.41,1.41l2.35,2.36a1,1,0,0,0,.71.29,1,1,0,0,0,.7-.29l5-5a1,1,0,0,0,0-1.42A1,1,0,0,0,14.72,8.79ZM12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"></path></svg>
+		</span>
+		
+		<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
+
+		<h4 class="sign__title">Payment #51 was successful!</h4>
+
+		<div class="sign__group sign__group--row">
+			<label class="sign__label">Total cost:</label>
+			<span class="sign__value">$18.00</span>
+		</div>
+
+		<div class="sign__group sign__group--row">
+			<label class="sign__label">Payment method: <b>Paypal</b></label>
+
+			<span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
+		</div>
+	</div>
+	<!-- end modal info -->
+
+	<!-- modal info -->
+	<div id="modal-info3" class="zoom-anim-dialog mfp-hide modal modal--info">
+		<span class="modal__icon modal__icon--red">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.71,8.29a1,1,0,0,0-1.42,0L12,10.59,9.71,8.29A1,1,0,0,0,8.29,9.71L10.59,12l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L13.41,12l2.3-2.29A1,1,0,0,0,15.71,8.29Zm3.36-3.36A10,10,0,1,0,4.93,19.07,10,10,0,1,0,19.07,4.93ZM17.66,17.66A8,8,0,1,1,20,12,7.95,7.95,0,0,1,17.66,17.66Z"></path></svg>
+		</span>
+		
+		<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
+
+		<h4 class="sign__title">Payment #50 failed!</h4>
+
+		<div class="sign__group sign__group--row">
+			<label class="sign__label">Total cost:</label>
+			<span class="sign__value">$18.00</span>
+		</div>
+
+		<div class="sign__group sign__group--row">
+			<label class="sign__label">Payment method: <b>Paypal</b></label>
+
+			<span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
+		</div>
+	</div>
+	<!-- end modal info -->
+
+	<!-- modal info -->
+	<div id="modal-info4" class="zoom-anim-dialog mfp-hide modal modal--info">
+		<span class="modal__icon">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20Zm0-8.5a1,1,0,0,0-1,1v3a1,1,0,0,0,2,0v-3A1,1,0,0,0,12,11.5Zm0-4a1.25,1.25,0,1,0,1.25,1.25A1.25,1.25,0,0,0,12,7.5Z"></path></svg>
+		</span>
+		
+		<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
+
+		<h4 class="sign__title">Example of notification.</h4>
+
+		<div class="sign__group sign__group--row">
+			<label class="sign__label">Amount to auto-renew:</label>
+			<span class="sign__value">$18.00</span>
+		</div>
+
+		<div class="sign__group sign__group--row">
+			<span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
+		</div>
+	</div>
+	<!-- end modal info -->
+
+	<!-- modal info -->
+	<div id="modal-info5" class="zoom-anim-dialog mfp-hide modal modal--info">
+		<span class="modal__icon modal__icon--purple">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18,7h-.35A3.45,3.45,0,0,0,18,5.5a3.49,3.49,0,0,0-6-2.44A3.49,3.49,0,0,0,6,5.5,3.45,3.45,0,0,0,6.35,7H6a3,3,0,0,0-3,3v2a1,1,0,0,0,1,1H5v6a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V13h1a1,1,0,0,0,1-1V10A3,3,0,0,0,18,7ZM11,20H8a1,1,0,0,1-1-1V13h4Zm0-9H5V10A1,1,0,0,1,6,9h5Zm0-4H9.5A1.5,1.5,0,1,1,11,5.5Zm2-1.5A1.5,1.5,0,1,1,14.5,7H13ZM17,19a1,1,0,0,1-1,1H13V13h4Zm2-8H13V9h5a1,1,0,0,1,1,1Z"></path></svg>
+		</span>
+		
+		<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
+
+		<h4 class="sign__title">You have received a gift!</h4>
+
+		<div class="sign__group sign__group--row">
+			<span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
+
+			<span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
+		</div>
+	</div>
+	<!-- end modal info -->
+
+	<!-- JS -->
+	<script src="js/jquery-3.5.1.min.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/smooth-scrollbar.js"></script>
+	<script src="js/select2.min.js"></script>
+	<script src="js/slider-radio.js"></script>
+	<script src="js/jquery.inputmask.min.js"></script>
+	<script src="js/plyr.min.js"></script>
+	<script src="js/main.js"></script>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>
-<script th:inline="javascript">
 
-var loginId = $("#mId").val();
-$(document).ready(function () {
-   
-});
+<script type="text/javascript" th:inline="javascript">
 
-
-$("#subcheck").click(function() {
-   
-   var ssMid = loginId;
-   var sserMid = $("#sid").attr("value");
-   console.log('로그인 아이디 : ' + ssMid);
-   console.log('구독당한 아이디 : ' + sserMid);
-   
-   if($("#subcheck").val() == "팔로우하기"){
-       $.ajax({
-            type: "POST",
-            url: "subreg",
-            data: {
-                "ssMid": ssMid ,
-                "sserMid": sserMid
-            },
-            dataType: "json",
-            success: function (subr) {
-            $("#subList").empty().append(subr);
-            $("#subcheck").attr('value','팔로우취소');
-
-            },
-            error: function () {
-                alert('파이팅!!');
-            }
-        }); 
-   }else{
-        $.ajax({
-            type: "POST",
-            url: "subcancel",
-            data: {
-                "ssMid": ssMid ,
-                "sserMid": sserMid
-            },
-            dataType: "json",
-            success: function (subr) {
-            $("#subList").empty().append(subr);
-            $("#subcheck").attr('value','팔로우하기');
-
-            
-            },
-            error: function () {
-                alert('파이팅!!');
-            }
-        }); 
-   }
-   
-   
-
-});
-$("#subList").click(function(){
-	  console.log("모달되냐?");
-	  var sserMid = $("#sid").attr("value");
-	  
-	  console.log(sserMid);
-	  $.ajax({
-		  type : "POST",
-		  url : "submodalList",
-		  data : {"sserMid" : sserMid},
-		  dataType: "json",
-          success: function (subr) {
-        	  
-        	var output = "";
-        	var output1 = "구독자";
-        	
-        	for(var i in subr){
-        		if(subr.length <= 0){
-        			output += "<p>구독을 눌러보세요<p>"
-        		}else if(subr.length > 0){
-        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'><a href='boardWriterView?boWriter="+ subr[i].mId +"&mId="+loginId+"'>"+subr[i].mId+"</a></p>"
-        		}
-        	}
-        	const modalContent = document.getElementById("content");
-			modalContent.innerHTML = output;
+	var CheckLogin = [[${session.login}]]
+	
+	if(CheckLogin != null){
+		var sessionId = [[${session.login.mId}]]
+	}
+	
+	$(document).ready(function(){
+		$.ajax({
+			type : "POST",
+			url : "buyList",
+			data : {"psMid" : sessionId},
+			dataType : "json",
+			success : function(list){
+				buy(list);
+			},
+			error : function(){
+				console.log("실패");
+			}
+		});
+		
+		function buy(list){
+			var output = "";
+			var output1 = "";
+			var buyTheNumber = list.length;
 			
-			var modalTitle = document.getElementById("modalTitle");
-			modalTitle.innerHTML = output1;
+			if(buyTheNumber <= 0){
+			    output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+			    output1 += "<span>총 구매개수</span>";
+			    output1 += "<p><b name='price' value='"+buyTheNumber+"' id='totalPrice'>"+buyTheNumber+"곡</b></p>";
+			    output1 += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z'/></svg>";
+			    output1 += "</div></div>";
+			    
+			    output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+			    output1 += "<span>총 결제금액</span>";
+			    output1 += "<p><b name='price' value='"+buyTheNumber * 500+"' id='totalPrice'>"+buyTheNumber * 500+"원</b></p>";
+			    output1 += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6,11a1,1,0,1,0,1,1A1,1,0,0,0,6,11Zm12,0a1,1,0,1,0,1,1A1,1,0,0,0,18,11Zm2-6H4A3,3,0,0,0,1,8v8a3,3,0,0,0,3,3H20a3,3,0,0,0,3-3V8A3,3,0,0,0,20,5Zm1,11a1,1,0,0,1-1,1H4a1,1,0,0,1-1-1V8A1,1,0,0,1,4,7H20a1,1,0,0,1,1,1ZM12,9a3,3,0,1,0,3,3A3,3,0,0,0,12,9Zm0,4a1,1,0,1,1,1-1A1,1,0,0,1,12,13Z'/></svg>";
+			    output1 += "</div></div>";
+			    
+				output += "<table id='buyListTable' class='cart__table'>";
+				output += "<thead>"
+				output += "<tr>";
+				output += "<th>구매하신 음악이 없습니다.<br/><a href='/allfileList' class='hero__btn hero__btn--green'>음원목록으로</a></th>";
+				output += "</tr>";
+				output += "</thead>"
+			}	else{
+				output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+			    output1 += "<span>총 구매개수</span>";
+			    output1 += "<p><b name='price' value='"+buyTheNumber+"' id='totalPrice'>"+buyTheNumber+"곡</b></p>";
+			    output1 += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z'/></svg>";
+			    output1 += "</div></div>";
+			    
+			    output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+			    output1 += "<span>총 결제금액</span>";
+			    output1 += "<p><b name='price' value='"+buyTheNumber * 500+"' id='totalPrice'>"+buyTheNumber * 500+"원</b></p>";
+			    output1 += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6,11a1,1,0,1,0,1,1A1,1,0,0,0,6,11Zm12,0a1,1,0,1,0,1,1A1,1,0,0,0,18,11Zm2-6H4A3,3,0,0,0,1,8v8a3,3,0,0,0,3,3H20a3,3,0,0,0,3-3V8A3,3,0,0,0,20,5Zm1,11a1,1,0,0,1-1,1H4a1,1,0,0,1-1-1V8A1,1,0,0,1,4,7H20a1,1,0,0,1,1,1ZM12,9a3,3,0,1,0,3,3A3,3,0,0,0,12,9Zm0,4a1,1,0,1,1,1-1A1,1,0,0,1,12,13Z'/></svg>";
+			    output1 += "</div></div>";
+			    
+			    output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+			    output1 += "<span><button type='button' style='color:#25a56a;' class='allMusicDownload'>구매목록 모두받기</button></span>";
+			    output1 += "</div></div>";
+			    
+				output += "<table id='buyListTable' class='main__table'>";
+				output += "<thead>"
+				output += "<tr>";
+				output += "<th>결제번호</th>";
+				output += "<th>프로필</th>";
+				output += "<th>제목</th>";
+				output += "<th>가수</th>";
+				output += "<th>좋아요수</th>";
+				output += "<th>조회수</th>";
+				output += "<th>구매일시</th>";
+				output += "<th>다운로드</th>";
+				output += "</tr>";
+				output += "</thead>"
+			}
 			
-			const modal = document.getElementById("modal")
+			for(var i in list){
+				output += "<tbody>"
+				output += "<tr>";
+				output += "<td><div class='main__table-text main__table-text--number'><a class='open-modal'>"+list[i].pCode+"</a></div></td>";
+				output += "<td><div class='main__table-img'><img src='/muImage/"+list[i].muImage+"'></div></td>";
+				output += "<td><div class='main__table-text'><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span>"+list[i].muName+"</span></a></div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].muSinger+"</div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].muLike+"</div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].muHit+"</div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].pDate+"</div></td>";
+				output += "<td><a href='/audio/"+list[i].mFile+"' download='"+list[i].mFile+"' class='single-item__export' id='"+list[i].muCode+"download'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+				output += "</tr>";
+				output += "</tbody>"
+	
+			}
+			output += "</table>";
 			
-			modal.style.display = "flex"
+			var buyListArea = document.getElementById('buyListArea');
+			buyListArea.innerHTML = output;
 			
-			const closeBtn = modal.querySelector(".close-area")
-			closeBtn.addEventListener("click", e => {
-				modal.style.display = "none"
-			});	
+			var buyContentArea = document.getElementById('buyContentArea');
+			buyContentArea.innerHTML = output1;
 			
-			modal.addEventListener("click", e => {
-			    const evTarget = e.target
-			    if(evTarget.classList.contains("modal-overlay")) {
-			        modal.style.display = "none"
-			    }
+			$(".allMusicDownload").click(function(){
+				for(var i in list){
+					var UserName = list[i].mFile;
+					var filepath = "/audio/"+list[i].mFile;
+					download(UserName,filepath);
+				}
+				
+				function download(filename, filepath) {
+					var element = document.createElement('a');
+					element.setAttribute('href',filepath);
+					element.setAttribute('download', filename);
+					document.body.appendChild(element);
+					element.click();
+					document.body.removeChild(element);
+				}
 			});
 			
-			window.addEventListener("keyup", e => {
-			    if(modal.style.display === "flex" && e.key === "Escape") {
-			        modal.style.display = "none"
-			    }
+			$(".single-item__export").click(function(){
+				
+				var selectDownloadMusicCode = $(this).attr("id");
+				console.log(selectDownloadMusicCode);
+				console.log(sessionId);
+				
+				var selectMusicCode = selectDownloadMusicCode.replace("download","");
+				console.log(selectMusicCode);
+				
+				$.ajax({
+					type: "POST",
+					url: "downloadTableInsert",
+					data: {"mudMuCode": selectMusicCode,
+						   "mudMid": sessionId},
+					dataType: "json",
+					success : function(list){
+					},
+					error : function(){
+						console.log('다운로드 테이블 등록 실패');
+					}
+				});
 			});
-			
-			console.log(subr);
-          },
-          error : function(){
-        	  alert('구독자 목록 불러오기 실패');
-          }
-	  });
-});
-	  $("#suberList").click(function(){
-		  console.log("모달되냐?");
-		  var ssMid = $("#sid").attr("value");
-		  
-		  console.log(ssMid);
-		  $.ajax({
-			  type : "POST",
-			  url : "subermodalList",
-			  data : {"ssMid" : ssMid},
-			  dataType: "json",
-	          success: function (subr) {
-	        	  
-	        	var output = "";
-	        	var output1 = "구독한 목록";
-	        	for(var i in subr){
-	        		if(subr.length <= 0){
-	        			output += "<p>구독을 눌러보세요<p>"
-	        		}else if(subr.length > 0){
-	        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'><a href='boardWriterView?boWriter="+ subr[i].mId +"&mId="+loginId+"'>"+subr[i].mId+"</a></p>"
-	        		}
-	        	}
-	        	const modalContent = document.getElementById("content");
-				modalContent.innerHTML = output;
-				
-				var modalTitle = document.getElementById("modalTitle");
-				modalTitle.innerHTML = output1;
-				
-				const modal = document.getElementById("modal")
-				
-				modal.style.display = "flex"
-				
-				const closeBtn = modal.querySelector(".close-area")
-				closeBtn.addEventListener("click", e => {
-					modal.style.display = "none"
-				});	
-				
-				modal.addEventListener("click", e => {
-				    const evTarget = e.target
-				    if(evTarget.classList.contains("modal-overlay")) {
-				        modal.style.display = "none"
-				    }
-				});
-				
-				window.addEventListener("keyup", e => {
-				    if(modal.style.display === "flex" && e.key === "Escape") {
-				        modal.style.display = "none"
-				    }
-				});
-				
-				console.log(subr);
-	          },
-	          error : function(){
-	        	  alert('구독자 목록 불러오기 실패');
-	          }
-		  });	  
-	  
-});
-
-/* $("#subcheck1").click(function() {
-   
-   var ssMid = loginId;
-   var sserMid = $("#sid").attr("value");
-   console.log('로그인 아이디 : ' + ssMid);
-   console.log('구독당한 아이디 : ' + sserMid);
- 
-}); */
-
-
+		}
+	});
 </script>
 </html>

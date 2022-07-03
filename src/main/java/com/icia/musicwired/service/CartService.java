@@ -14,5 +14,7 @@ public interface CartService {
 
 	List<CartDTO> ajaxCartList(String mId);
 
+
 	List<CartDTO> CartAddPlayList(CartDTO cart);
+
 }

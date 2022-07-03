@@ -62,12 +62,13 @@ public class CartController {
 	
 //	ajaxCartList : 장바구니 목록 출력
 	@PostMapping("ajaxCartList") 
-	public @ResponseBody List<CartDTO> ajaxCartList(@RequestParam("caMid") String mId) {
+	public @ResponseBody List<CartDTO> ajaxCartList(@RequestParam("caMid") String mId){
 		System.out.println("[1] 장바구니 페이지 C : " + mId);
 		cartList = cartsvc.ajaxCartList(mId);
 		System.out.println("[4] 장바구니 페이지 C : " + mav);
 		return cartList;
 	}
+
 
 
 	//CartAddPlayList : 플레이리스트에서 장바구니 인설프
@@ -78,4 +79,5 @@ public class CartController {
 
 		return cartList;
 	}
+
 }
