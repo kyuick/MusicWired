@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<head>	
+    <style type="text/css"> 
+ marquee{
+ 		height:20px;
+ 		}
+/* marquee a{display:block;} */
+
+/*#ba1,#ba2,#ba3{display:none;}*/
+
+    </style> 
+</head>
+   <script type="text/javascript">
+
+   </script>
+        
+<body>
+
+<!--marquee 텍스트를 상하좌우 움직이는 태그 scrollamount: 스크롤 픽셀수 behavior: 스크롤 방식 direction :스크롤 방향-->
+	<marquee behavior="scroll" direction="up" scrollamount="2">
+   
+		<ul th:each="searchRank , b : ${searchRank}">
+			<li  th:text="${b.count}+'. '+${searchRank}"></li>
+		</ul> 
+		
+    </marquee> 
+    
+    
+ 
+</body>
+</html>
