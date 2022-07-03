@@ -103,5 +103,9 @@
 	<select id="muTrack" resultType="int">
 		SELECT COUNT(*) FROM MUSIC WHERE MUSINGER = #{boWriter}
 	</select>
+	
+	<select id="boaCount" resultType="int">
+		SELECT COUNT (*) FROM BOARD WHERE BOWRITER = #{boWriter}
+	</select>
 
 </mapper>
