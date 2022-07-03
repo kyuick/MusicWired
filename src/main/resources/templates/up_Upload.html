@@ -11,13 +11,13 @@
 </script>
 <body>
 <form ACTION="fileUpload" METHOD="POST" ENCTYPE="multipart/form-data">
-    가수 이름 : <span th:text="${session.login.mId}"></span><br/>
+    가수 이름 : <span th:if='${session.login ne null}' th:text="${session.login.mId}"></span><br/>
     음악 이름 : <input type="text" name="muName"><br/>
     가사 : <input type="text" name="muLyrics"><br/>
     장르 : <input type="text" name="muGanre"><br/>
     음원 : <input type="file" name="muFile"><br/>
     포스터 : <input type="file" name="mImage"><br/>
-    <input type="hidden" name="muSinger" th:value="${session.login.mId}">
+    <input th:if='${session.login ne null}' type="hidden" name="muSinger" th:value="${session.login.mId}">
     <input type="submit" value="등록"><br/>
     <input type="reset" value="다시작성">
 </form>
