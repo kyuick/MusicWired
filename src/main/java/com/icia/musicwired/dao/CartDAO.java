@@ -19,4 +19,7 @@ public interface CartDAO {
 
 	int payCartAllDelete(String psMid);
 
+
+    int CartAddPlayList(CartDTO cart);
+
 }

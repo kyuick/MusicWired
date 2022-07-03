@@ -60,18 +60,29 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
         return playListDeleteAjax;
     }
 
-    // PlayListDelete : 플레이리스트 목록 삭제
     @Override
-    public ModelAndView PlayListDelete(MusicPlayListDto mpDto) {
+    public List<MusicPlayListDto> PlayListDelete(MusicPlayListDto mpDto) {
 
         int result = mpDao.PlayListDelete(mpDto);
-
         if(result>0){
-            mav.setViewName("redirect:/playListView?mId="+mpDto.getMId());
+
         }
 
-        return mav;
+        return playList;
     }
+
+    // PlayListDelete : 플레이리스트 목록 삭제
+//    @Override
+//    public ModelAndView PlayListDelete(MusicPlayListDto mpDto) {
+//
+//        int result = mpDao.PlayListDelete(mpDto);
+//
+//        if(result>0){
+//            mav.setViewName("redirect:/playListView?mId="+mpDto.getMId());
+//        }
+//
+//        return mav;
+//    }
 
 
 }

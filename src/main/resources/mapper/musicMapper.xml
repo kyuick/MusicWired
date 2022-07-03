@@ -79,7 +79,6 @@
     <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
     <!-- 좋아요 +1 sql-->
     <insert id="LikeUp" parameterType="mulike">
-
         INSERT INTO MUSICLIKE
         VALUES (MULIKE_SEQ.NEXTVAL, #{mulmuCode}, #{mulMid})
     </insert>
