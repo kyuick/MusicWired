@@ -53,10 +53,10 @@
 	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='cartList'">장바구니</button> -->
 	<button class="hero__btn hero__btn--green" onclick="location.href='buyListPage'">구매목록</button>
 	<button class="hero__btn hero__btn--green" onclick="location.href='downListPage'">다운로드목록</button>
-	
-	<button class="hero__btn hero__btn--green" onclick="location.href='tetete'">테스트</button>
-	
-  	<button class="hero__btn hero__btn--green" th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{playListView(mId=${session.login.mId})} + '\''">재생목록조회</button>
+
+	<button class="hero__btn hero__btn--green" onclick="location.href='test'">테스트</button>
+  <button class="hero__btn hero__btn--green" th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{playListView(mId=${session.login.mId})} + '\''">재생목록조회</button>
+
 	<button class="hero__btn hero__btn--green" th:if="${session.login ne null} and ${session.login.mId ne 'admin'}" th:onclick="'location.href=\'' + @{moveChating(mId=${session.login.mId})} + '\''">채팅하기</button>
 	<button class="hero__btn hero__btn--green" th:if="${session.login ne null} and ${session.login.mId eq 'admin'}"  onclick="location.href='chatlist'">채팅방목록보기</button>
 	
@@ -67,12 +67,12 @@
 
 
         <!-- 통합검색 -->        		
-    <form id="searchForm" action="/search" method="GET">
+<!--     <form id="searchForm" action="/search" method="GET">
     	<div class="search_input">
 			<input type="text" name="keyword" value="" placeholder="입력바람 ">
 			<button class="btn_search">검색</button>    	
     	</div>
-    </form>
+    </form> -->
 	
 
 	<p th:if="${session.login ne null}" th:text="${session.login.mId}+'님 로그인 성공'"></p>
