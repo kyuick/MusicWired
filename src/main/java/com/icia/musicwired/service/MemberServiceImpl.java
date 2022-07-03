@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.icia.musicwired.dao.CartDAO;
 import com.icia.musicwired.dao.MemberDAO;
 import com.icia.musicwired.dto.MemberDTO;
 
@@ -28,7 +29,6 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private HttpSession session;
-
 
 	@Autowired
 	private PasswordEncoder pwEnc;
