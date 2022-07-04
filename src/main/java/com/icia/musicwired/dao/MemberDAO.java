@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.icia.musicwired.dto.CrawlingDTO;
 import com.icia.musicwired.dto.MemberDTO;
 
 @Mapper
@@ -34,5 +35,7 @@ public interface MemberDAO {
 	MemberDTO boardWriterView(String boWriter);
 
 	String checkEmail(String mEmail);
+
+
 
 }
