@@ -31,18 +31,33 @@
 
 </head>
 <style>
-    .div1 {
-        display: table;
-        table-layout: fixed;
-        text-align: center;
-        overflow: scroll;
+    #SearchList{
+        overflow: auto;
+    }
+    #SearchList::-webkit-scrollbar{
+        width: 4px;
+    }
+    #SearchList::-webkit-scrollbar-track {
+        background: #222227;
+    }
+    #SearchList::-webkit-scrollbar-thumb{
+        background-color: #25a56a;
+        outline: 1px solid #222227;
+        border-radius: 10px;
     }
 
-    .div {
-        display: table-cell;
-        vertical-align: middle;
-        overflow: scroll;
-    }
+    /*.div1 {*/
+    /*    display: table;*/
+    /*    table-layout: fixed;*/
+    /*    text-align: center;*/
+    /*    overflow: auto;*/
+    /*}*/
+
+    /*.div {*/
+    /*    display: table-cell;*/
+    /*    vertical-align: middle;*/
+    /*    overflow: scroll;*/
+    /*}*/
 
     #PlayListCart{
         display: none;
@@ -356,7 +371,7 @@
 <!--                        <a href="#modal-buy" class="release__buy open-modal">Buy album – $18</a>-->
 <!--                    </div>-->
 
-                    <div class="release__list" th:id="SearchList" th:class="div1" style="overflow: scroll">
+                    <div class="release__list" id="SearchList" th:class="div1" style="overflow: scroll">
                         <!--                        <ul class="main__list main__list&#45;&#45;playlist main__list&#45;&#45;dashbox">-->
                         <!--                            <li class="single-item">-->
                         <!--                                <a data-playlist data-title="1. Got What I Got" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">-->
