@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.icia.musicwired.dto.likecountDTO;
 import com.icia.musicwired.dto.pagingDto;
 import com.icia.musicwired.dto.uploadDto;
 
@@ -39,6 +40,18 @@ public interface ChartDAO {
 	int gitaCount();
 
 	List<uploadDto> gitaGenre(pagingDto paging);
+
+	List<likecountDTO> likecount(pagingDto paging);
+
+	List<likecountDTO> likecount1(pagingDto paging);
+
+	List<likecountDTO> likecount2(pagingDto paging);
+
+	List<likecountDTO> likecount3(pagingDto paging);
+
+	List<likecountDTO> likecount4(pagingDto paging);
+
+	List<likecountDTO> likecount5(pagingDto paging);
 
 
 

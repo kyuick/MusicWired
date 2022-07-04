@@ -4,6 +4,14 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+	<style>
+		marquee{
+			height:20px;
+		}
+	
+	</style>
+
+
 	<!-- CSS -->
 	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
 	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
@@ -29,22 +37,31 @@
 	<header class="header">
 		<div class="header__content">
 			<div class="header__logo">
-				<a href="index.html">
+				<a href="/index">
 					<img src="img/logo.svg" alt="">
 				</a>
 			</div>
 
 			<nav class="header__nav">
-				<a href="profile.html">Profile</a>
+				<a th:if="${session.login ne null}" th:href="@{boardWriterView(boWriter=${session.login.mId}, mId=${session.login.mId})}">Profile</a>
 				<a href="about.html">About</a>
 				<a href="contacts.html">Contacts</a>
 			</nav>
 
-			<form action="#" class="header__search">
-				<input type="text" placeholder="Artist, track or podcast">
-				<button type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/></svg></button>
+			<form action="/search" method="GET" class="header__search">
+				<input type="text" name="keyword" placeholder="검색 해보세용">
+				<button type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/></svg></button>
 				<button type="button" class="close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
 			</form>
+			
+			
+	<div>
+		<marquee behavior="scroll" direction="up" scrollamount="2">
+			<ul th:each="searchRank , b : ${searchRank}">
+				<li  th:text="${b.count}+'. '+${searchRank}"></li>
+			</ul> 
+  	  </marquee> 
+	</div>
 
 			<div class="header__actions">
 				<div class="header__action header__action--search">
@@ -81,29 +98,10 @@
 				</div>
 
 				<div class="header__action header__action--cart">
-					<span></span>
-					<a class="header__action-btn" href="cart.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.5,19A1.5,1.5,0,1,0,10,20.5,1.5,1.5,0,0,0,8.5,19ZM19,16H7a1,1,0,0,1,0-2h8.49121A3.0132,3.0132,0,0,0,18.376,11.82422L19.96143,6.2749A1.00009,1.00009,0,0,0,19,5H6.73907A3.00666,3.00666,0,0,0,3.92139,3H3A1,1,0,0,0,3,5h.92139a1.00459,1.00459,0,0,1,.96142.7251l.15552.54474.00024.00506L6.6792,12.01709A3.00006,3.00006,0,0,0,7,18H19a1,1,0,0,0,0-2ZM17.67432,7l-1.2212,4.27441A1.00458,1.00458,0,0,1,15.49121,12H8.75439l-.25494-.89221L7.32642,7ZM16.5,19A1.5,1.5,0,1,0,18,20.5,1.5,1.5,0,0,0,16.5,19Z"/></svg></a>
+					<span id="cartCountArea"></span>
+					<a class="header__action-btn" href="/cartList"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.5,19A1.5,1.5,0,1,0,10,20.5,1.5,1.5,0,0,0,8.5,19ZM19,16H7a1,1,0,0,1,0-2h8.49121A3.0132,3.0132,0,0,0,18.376,11.82422L19.96143,6.2749A1.00009,1.00009,0,0,0,19,5H6.73907A3.00666,3.00666,0,0,0,3.92139,3H3A1,1,0,0,0,3,5h.92139a1.00459,1.00459,0,0,1,.96142.7251l.15552.54474.00024.00506L6.6792,12.01709A3.00006,3.00006,0,0,0,7,18H19a1,1,0,0,0,0-2ZM17.67432,7l-1.2212,4.27441A1.00458,1.00458,0,0,1,15.49121,12H8.75439l-.25494-.89221L7.32642,7ZM16.5,19A1.5,1.5,0,1,0,18,20.5,1.5,1.5,0,0,0,16.5,19Z"/></svg></a>
 
-					<div class="header__drop">
-						<a href="cart.html" class="header__all">Go to cart</a>
-						<div class="header__product">
-							<img src="img/store/item4.jpg" alt="">
-							<p><a href="product.html">Headphones ZR-991</a></p>
-							<span>$199</span>
-							<button type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
-						</div>
-						<div class="header__product">
-							<img src="img/store/item3.jpg" alt="">
-							<p><a href="product.html">Music Blank</a></p>
-							<span>$3.99</span>
-							<button type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
-						</div>
-						<div class="header__product">
-							<img src="img/store/item2.jpg" alt="">
-							<p><a href="product.html">Microphone R4</a></p>
-							<span>$799</span>
-							<button type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
-						</div>
+					<div class="header__drop" id="smallCartListArea">
 					</div>
 				</div>
 
@@ -125,6 +123,91 @@
 				<span></span>
 			</button>
 		</div>
+	<script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
+		var CheckLogin = [[${session.login}]]
+		
+		if(CheckLogin != null){
+			var sessionId = [[${session.login.mId}]]
+		}
+		
+		$(document).ready(function(){
+			$.ajax({
+				type : "POST",
+				url : "ajaxCartList",
+				data : {"caMid" : sessionId},
+				dataType : "json",
+				success : function(list){
+					smallCart(list);
+				},
+				error : function(){
+					console.log("장바구니 개수 출력 실패");
+				}
+			});
+			
+			function smallCart(list){
+				var cartCountArea = document.getElementById('cartCountArea');
+				
+				if(list.length <= 0){
+					cartCountArea.innerHTML = "";
+				} else{
+					cartCountArea.innerHTML = list.length;
+				}
+				
+				var output = "";
+				
+				if(list.length > 4){
+					output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+					for(var i=0; i<4; i++){
+						output += "<div class='header__product'>";
+						output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+						output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+						output += "<span>"+list[i].muSinger+"</span>";
+						output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+					}
+				}else if(list.length == 0){
+					output += "<div class='header__product' style='padding-left:33px; padding-right:33px;'>";
+					output += "<span>장바구니가 비어있습니다.</span></div>"
+				}else{
+					output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+					for(var i in list){
+						output += "<div class='header__product'>";
+						output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+						output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+						output += "<span>"+list[i].muSinger+"</span>";
+						output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+					}
+				}
+				
+				
+				var smallCartListArea = document.getElementById('smallCartListArea');
+				smallCartListArea.innerHTML = output;
+				
+				$(".cartDelete").click(function(){
+					
+					var muCode = $(this).attr('id');
+					console.log("muCode : "+muCode);
+					
+					$.ajax({
+						type : "POST",
+						url : "cartListDelete",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
+								},
+						dataType : "json",
+						success : function(list){
+							smallCart(list);
+							$("#cartListArea").load(window.location.href + "#cartListArea");
+						},
+						error : function(){
+							alert('장바구니 삭제 실패');
+						}
+					});
+				});
+			}
+			
+		});
+		
+	</script>
 	</header>
 </body>
 	<script src="js/jquery-3.5.1.min.js"></script>
@@ -137,4 +220,5 @@
 	<script src="js/jquery.inputmask.min.js"></script>
 	<script src="js/plyr.min.js"></script>
 	<script src="js/main.js"></script>
+
 </html>

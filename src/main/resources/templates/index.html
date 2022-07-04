@@ -33,6 +33,7 @@
 <body>
 <header th:replace="header.html :: header"></header>
 <aside th:replace="sidebar.html :: aside"></aside>
+<!-- <footer th:replace="footer.html :: footer"></footer> -->
 
 	<div class="main">
 	<button class="hero__btn hero__btn--green" th:if="${session.login eq null}" onclick="location.href='memberJoinForm'">회원가입</button>
@@ -49,13 +50,16 @@
 	<button class="hero__btn hero__btn--green" onclick="location.href='boardList'">게시글 목록</button>
 	<button class="hero__btn hero__btn--green" onclick="location.href='chart'">차트 목록</button>
 	<button class="hero__btn hero__btn--green" onclick="location.href='genre'">장르 목록</button>
-	<button class="hero__btn hero__btn--green" onclick="location.href='cartList'">장바구니</button>
+	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='cartList'">장바구니</button> -->
 	<button class="hero__btn hero__btn--green" onclick="location.href='buyListPage'">구매목록</button>
 	<button class="hero__btn hero__btn--green" onclick="location.href='downListPage'">다운로드목록</button>
+
+	<button class="hero__btn hero__btn--green" onclick="location.href='test'">테스트</button>
   <button class="hero__btn hero__btn--green" th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{playListView(mId=${session.login.mId})} + '\''">재생목록조회</button>
+
 	<button class="hero__btn hero__btn--green" th:if="${session.login ne null} and ${session.login.mId ne 'admin'}" th:onclick="'location.href=\'' + @{moveChating(mId=${session.login.mId})} + '\''">채팅하기</button>
 	<button class="hero__btn hero__btn--green" th:if="${session.login ne null} and ${session.login.mId eq 'admin'}"  onclick="location.href='chatlist'">채팅방목록보기</button>
-	
+	<button class="hero__btn hero__btn--green" onclick="location.href='Crawling'">크롤링</button>
 	<span th:if='${session.login ne null}'>
 	<button class="hero__btn hero__btn--green" th:if ="${session.login.mId == 'admin'}" onclick="location.href='memberList'">회원정보</button>
 	</span>
@@ -63,12 +67,12 @@
 
 
         <!-- 통합검색 -->        		
-    <form id="searchForm" action="/search" method="GET">
+<!--     <form id="searchForm" action="/search" method="GET">
     	<div class="search_input">
 			<input type="text" name="keyword" value="" placeholder="입력바람 ">
 			<button class="btn_search">검색</button>    	
     	</div>
-    </form>
+    </form> -->
 	
 
 	<p th:if="${session.login ne null}" th:text="${session.login.mId}+'님 로그인 성공'"></p>
@@ -83,7 +87,7 @@
 
 		<div class="player__content">
 			<span class="player__track"><b class="player__title">Epic Cinematic</b> – <span class="player__artist">AudioPizza</span></span>
-			<audio src="https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3" id="audio" controls></audio>
+			<audio src="audio/PalletTown.mp3" id="audio" controls></audio>
 		</div>
 	</div>
 
@@ -1189,5 +1193,5 @@
 	<script src="js/jquery.inputmask.min.js"></script>
 	<script src="js/plyr.min.js"></script>
 	<script src="js/main.js"></script>
-
+	
 </html>

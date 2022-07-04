@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.icia.musicwired.dao.CartDAO;
 import com.icia.musicwired.dao.MemberDAO;
 import com.icia.musicwired.dto.MemberDTO;
 
@@ -28,7 +29,6 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private HttpSession session;
-
 
 	@Autowired
 	private PasswordEncoder pwEnc;
@@ -59,9 +59,9 @@ public class MemberServiceImpl implements MemberService {
 		int result = mdao.memberJoin(member);
 
 		if (result > 0) {
-			mav.setViewName("index");
+			mav.setViewName("redirect:/");
 		} else {
-			mav.setViewName("index");
+			mav.setViewName("redirect:/");
 		}
 
 		return mav;
@@ -74,7 +74,7 @@ public class MemberServiceImpl implements MemberService {
 		if (pwEnc.matches(member.getmPw(), ePw)) {
 			MemberDTO loginMember = mdao.memberView(member.getmId());
 			session.setAttribute("login", loginMember);
-			mav.setViewName("index");
+			mav.setViewName("redirect:/");
 		} else {
 			session.invalidate();
 			mav.addObject("error", "아이디/비밀번호가 틀립니다.");
@@ -172,9 +172,9 @@ public class MemberServiceImpl implements MemberService {
 		int result = mdao.memberDelete(mId);
 		System.out.println("4" + result);
 		if (result > 0) {
-			mav.setViewName("index");
+			mav.setViewName("redirect:/");
 		} else {
-			mav.setViewName("index");
+			mav.setViewName("redirect:/");
 			System.out.println("수정실패");
 		}
 

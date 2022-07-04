@@ -26,7 +26,8 @@ public class uploadDto {
 
     private Date pDate;
     private Date mudDate;
- 
+    private int pCode;
+    
 	public int getMuCode() {
 		return muCode;
 	}
@@ -81,8 +82,12 @@ public class uploadDto {
 	public void setMuHit(int muHit) {
 		this.muHit = muHit;
 	}
-
-	
+	public int getMuLike() {
+		return muLike;
+	}
+	public void setMuLike(int muLike) {
+		this.muLike = muLike;
+	}
 	public int getMuPrice() {
 		return muPrice;
 	}
@@ -107,7 +112,6 @@ public class uploadDto {
 	public void setmImage(MultipartFile mImage) {
 		this.mImage = mImage;
 	}
-
 	public Date getpDate() {
 		return pDate;
 	}
@@ -120,21 +124,22 @@ public class uploadDto {
 	public void setMudDate(Date mudDate) {
 		this.mudDate = mudDate;
 	}
-	public int getMuLike() {
-		return muLike;
+	public int getpCode() {
+		return pCode;
 	}
-	public void setMuLike(int muLike) {
-		this.muLike = muLike;
+	public void setpCode(int pCode) {
+		this.pCode = pCode;
 	}
-
 	@Override
 	public String toString() {
 		return "uploadDto [muCode=" + muCode + ", muSinger=" + muSinger + ", mId=" + mId + ", muName=" + muName
 				+ ", muGanre=" + muGanre + ", muDate=" + muDate + ", muImage=" + muImage + ", muLyrics=" + muLyrics
-
-				+ ", muHit=" + muHit + ", muPrice=" + muPrice + ", mFile=" + mFile + ", muFile=" + muFile + ", mImage="
-				+ mImage + ", pDate=" + pDate + ", mudDate=" + mudDate + ", muLike=" + muLike + "]";
+				+ ", muHit=" + muHit + ", muLike=" + muLike + ", muPrice=" + muPrice + ", mFile=" + mFile + ", muFile="
+				+ muFile + ", mImage=" + mImage + ", pDate=" + pDate + ", mudDate=" + mudDate + ", pCode=" + pCode
+				+ "]";
 	}
+ 
+	
 
 }
 

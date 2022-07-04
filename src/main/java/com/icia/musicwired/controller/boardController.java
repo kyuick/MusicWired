@@ -37,6 +37,12 @@ public class boardController {
 	public String boardUploadPage() {
 		return "board_UploadPage";
 	}
+	
+//	tetete : 테스트트트트트트트
+	@GetMapping("/tetete")
+	public String tetete() {
+		return "AAAAAAA";
+	}
 
 //	boardUpload : 게시글 업로드 메소드
 	@PostMapping("/boardUpload")
