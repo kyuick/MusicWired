@@ -24,7 +24,7 @@ table, tr, td, th {
 	<div id="allMuListArea"></div>
 	<div id="pagingArea"></div>
 	<div id="musicPlayArea"></div>
-        
+	<input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -170,6 +170,7 @@ table, tr, td, th {
 			
 			var paging = list.paging;
             var musicList = list.musicList;
+			var loginId = $("#mId").val();
             
             console.log("paging : " + paging +", musicList : " + musicList)
 
@@ -208,7 +209,7 @@ table, tr, td, th {
 								success: function(check){
 									output += "<tr>";
 									output += "<td>"+musicList[i].muSinger+"</td>";
-									output += "<td><a href='muView?muCode="+musicList[i].muCode+"&mId="+musicList[i].muSinger+"'>"+musicList[i].muName+"</a></td>";
+									output += "<td><a href='muView?muCode="+musicList[i].muCode+"&mId="+sessionId+"'>"+musicList[i].muName+"</a></td>";
 									output += "<td><button class='musicPlay' value='"+musicList[i].mFile+"'>재생</button></td>";
 									output += "<td>"+musicList[i].muGanre+"</td>";
 									output += "<td>"+musicList[i].muDate+"</td>";
