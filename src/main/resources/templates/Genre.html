@@ -4,9 +4,29 @@
 <meta charset="UTF-8">
 <title>장르</title>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+<!-- CSS -->
+	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="css/select2.min.css">
+	<link rel="stylesheet" href="css/paymentfont.min.css">
+	<link rel="stylesheet" href="css/slider-radio.css">
+	<link rel="stylesheet" href="css/plyr.css">
+	<link rel="stylesheet" href="css/main.css">
+	
 <style type="text/css">
+/* #mplayArea {
+  position: fixed; 
+  bottom: 0; 
+  width: 100%; 
+} */
+
+/* #audoiplay{
+ background-color: green;
+ width: 100%;
+
+} */
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
@@ -23,15 +43,59 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
+
+
 </style>
 </head>
 
+<body>
+
+	
+		<h1>Ganre</h1>
+		<h2>장르 조회</h2>
+		<button  onclick="on3()">발라드</button>
+		<button onclick="on4()">댄스</button>
+		<button onclick="on5()">록</button>
+		<button onclick="on6()">힙합</button>
+		<button onclick="on7()">인디</button>
+		<button onclick="on8()">그 외 장르</button>
+
+
+	<div id="genreArea">
+
+
+	
+	</div>
+
+	   <input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
+	
+
+	
+	
+	<div id="mplayArea">
+	</div>
+	
+</body>
+	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
 </script>
+<script th:if="${session.login eq null}">
+	alert('로그인 이후 이용해주세요');
+	location.href="memberLogin";
+</script>
 
-<script type="text/javascript">
 
 
+<script type="text/javascript" th:inline="javascript">
+
+
+
+
+var CheckLogin = [[${session.login}]]
+
+if(CheckLogin != null){
+	var sessionId = [[${session.login.mId}]]
+}
 
 $(document).ready(function(){
 
@@ -40,21 +104,18 @@ $(document).ready(function(){
 });
 
 
-
-
-
 function on3(){
-	console.log('시발!');
+
 	
  	$.ajax({
 			type : "POST",
 			url : "balGenre",
 			dataType:'json',
 			success : function(list){
+
 				
 				genrelist(list);
 			
-				console.log("성공");
 			},
 			error : function(){
 				alert("실패");
@@ -67,10 +128,37 @@ function on3(){
 	function genrelist(list){
 	 var GenreChart = list.GenreChart;
 	 var paging = list.paging;
-   
+	
 
 		var output="";
 
+		output +="<h2>발라드 차트</h2>";
+		output +="<table>";
+		output +="<tr>";
+		output +="<th>가수이름</th>";
+		output +="<th>음악이름</th>";
+		output +="<th>듣기</th>";
+		output +="<th>음악장르</th>";
+		output +="<th>게시일</th>";
+		output +="<th>조회수</th>";
+		output +="<th>좋아요수</th>";
+		output +="<th>가격</th>";
+		output +="</tr>	";
+	
+		for(var i in GenreChart){
+		output +="<td>"+GenreChart[i].muSinger+"</td>";
+		output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</td>";
+		output +="<td><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+"'></button ></label></td>";
+		output +="<td>"+GenreChart[i].muGanre+"</td>";
+		output +="<td>"+GenreChart[i].muDate+"</td>";
+		output +="<td>"+GenreChart[i].muHit+"</td>";
+		output +="<td>"+GenreChart[i].muLike+"</td>";
+		output +="<td>"+GenreChart[i].muPrice+"</td>";
+		output +="</tr>";
+		
+	
+		}
+		output +="</table>";
 		if(paging.page <= 1){
 			output += "<span>[이전] </span>"
 		} else if(paging.page > 1){
@@ -91,38 +179,10 @@ function on3(){
 			output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
 		}
 		
-		
-		output +="<table>";
-		output +="<tr>";
-		output +="<th>가수이름</th>";
-		output +="<th>음악이름</th>";
-		output +="<th>음악장르</th>";
-		output +="<th>게시일</th>";
-		output +="<th>조회수</th>";
-		output +="<th>좋아요수</th>";
-		output +="<th>가격</th>";
-		output +="</tr>	";
-	
-		for(var i in GenreChart){
-		output +="<td>"+GenreChart[i].muSinger+"</td>";
-		output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
-		output +="<td>"+GenreChart[i].muGanre+"</td>";
-		output +="<td>"+GenreChart[i].muDate+"</td>";
-		output +="<td>"+GenreChart[i].muHit+"</td>";
-		output +="<td>"+GenreChart[i].muLike+"</td>";
-		output +="<td>"+GenreChart[i].muPrice+"</td>";
-		output +="</tr> ";
-		
 		var genreArea=document.getElementById('genreArea');
 		
 		genreArea.innerHTML=output;
 	
-	
-		}
-			
-		
-		output +="</table>";
-		
 		
 		$(".previousPage").click(function(){
 			var page = $(this).attr('id');
@@ -151,6 +211,196 @@ function on3(){
 		});
 		
 		
+
+
+$(".play").click(function(){
+			
+			var aa = new Array();
+			console.log(aa);
+			
+			var playlength = $(".play").length;
+			console.log(playlength);
+			
+			var idx = $(this).attr('name');
+			console.log(idx);
+			
+			for(var i=0; i < playlength; i++){
+				aa[i] = i;
+
+				if(idx == aa[i]){
+					var aaa = idx;
+				}
+			}
+			console.log(aa);
+			console.log(aaa);
+			
+			
+			$(".player").remove();
+			var head= document.getElementsByTagName('html')[0];
+			var script= document.createElement('script');
+			var script1= document.createElement('script');
+			var script2= document.createElement('script');
+			var script3= document.createElement('script');
+			var script4= document.createElement('script');
+			var script5= document.createElement('script');
+		
+			script.src= 'js/owl.carousel.min.js';
+			head.appendChild(script);
+			
+			script1.src= 'js/jquery.magnific-popup.min.js';
+			head.appendChild(script1);
+			
+			script2.src= 'js/select2.min.js"';
+			head.appendChild(script2);
+			
+			script3.src= 'js/jquery.inputmask.min.js';
+			head.appendChild(script3);
+		
+			script4.src= 'js/plyr.min.js';
+			head.appendChild(script4);
+			
+			script5.src= 'js/main.js';
+			head.appendChild(script5);
+		
+			var mContent = $(this).attr('value');
+			var array = mContent.split(",");
+		    var mFile = array[0];
+		    var muName = array[1]; 
+		    var muSinger = array[2]; 
+			console.log(mFile);
+			console.log(muName);
+			
+		/* 	var mfile = $(this).attr('value'); */
+			 var output="<div class='player'>"
+			output+="<div class='player__cover'>"
+			output+="<img src='img/covers/cover.svg' alt=''></div>";
+			output+="<div class='player__content'>";
+			output+="<span class='player__track'><b class='player__title'>"+muName+"</b>-<span class='player__artist'>"+muSinger+"</span></span>";
+			output+="<audio src='/audio/"+mFile+"' id='audio' controls></audio></div></div>"
+			output+="<button class='player__btn' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg> Player</button>";
+			
+			var mplayArea= document.getElementsByTagName('body')[0];
+			mplayArea.insertAdjacentHTML("afterend", output);
+	
+			/* var mplayArea=document.getElementById('mplayArea');
+			mplayArea.innerHTML=output;  */
+			audio.play();
+			//.plyr__control--prev
+			$(document).on('click','.plyr__control--next', function(e){ //동적으로 생성이되서 이벤트를 사용하지 못하여 document 추가
+				
+				aaa++;
+				
+				var idx2 = parseInt(aaa);
+			
+				console.log(idx2);
+				
+				var playlist1 = $('.play')[idx2];
+				console.log(playlist1);
+				
+				$(".player").remove();
+				var head= document.getElementsByTagName('html')[0];
+				var script= document.createElement('script');
+				var script1= document.createElement('script');
+				var script2= document.createElement('script');
+				var script3= document.createElement('script');
+				var script4= document.createElement('script');
+				var script5= document.createElement('script');
+			
+				script.src= 'js/owl.carousel.min.js';
+				head.appendChild(script);
+				
+				script1.src= 'js/jquery.magnific-popup.min.js';
+				head.appendChild(script1);
+				
+				script2.src= 'js/select2.min.js"';
+				head.appendChild(script2);
+				
+				script3.src= 'js/jquery.inputmask.min.js';
+				head.appendChild(script3);
+			
+				script4.src= 'js/plyr.min.js';
+				head.appendChild(script4);
+				
+				script5.src= 'js/main.js';
+				head.appendChild(script5);
+				
+				var testtt = $(playlist1).attr('value');
+				var array = testtt.split(",");
+			    var mFile = array[0];
+			    var muName = array[1]; 
+			    var muSinger = array[2]; 
+				
+				
+				var output1="<div class='player'>"
+				output1+="<div class='player__cover'>"
+				output1+="<img src='img/covers/cover.svg' alt=''></div>";
+				output1+="<div class='player__content'>";
+				output1+="<span class='player__track'><b class='player__title'>"+muName+"</b>-<span class='player__artist'>"+muSinger+"</span></span>";
+				output1+="<audio src='/audio/"+mFile+"' id='audio' controls></audio></div></div>"
+				output1+="<button class='player__btn' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg> Player</button>";
+				
+				var mplayArea= document.getElementsByTagName('body')[0];
+				mplayArea.insertAdjacentHTML("afterend", output1);
+				audio.play();
+			});
+				$(document).on('click','.plyr__control--prev', function(e){ //동적으로 생성이되서 이벤트를 사용하지 못하여 document 추가
+				
+				aaa--;
+				
+				var idx2 = parseInt(aaa);
+			
+				console.log(idx2);
+				
+				var playlist1 = $('.play')[idx2];
+				console.log(playlist1);
+				
+				$(".player").remove();
+				var head= document.getElementsByTagName('html')[0];
+				var script= document.createElement('script');
+				var script1= document.createElement('script');
+				var script2= document.createElement('script');
+				var script3= document.createElement('script');
+				var script4= document.createElement('script');
+				var script5= document.createElement('script');
+			
+				script.src= 'js/owl.carousel.min.js';
+				head.appendChild(script);
+				
+				script1.src= 'js/jquery.magnific-popup.min.js';
+				head.appendChild(script1);
+				
+				script2.src= 'js/select2.min.js"';
+				head.appendChild(script2);
+				
+				script3.src= 'js/jquery.inputmask.min.js';
+				head.appendChild(script3);
+			
+				script4.src= 'js/plyr.min.js';
+				head.appendChild(script4);
+				
+				script5.src= 'js/main.js';
+				head.appendChild(script5);
+				
+				var testtt = $(playlist1).attr('value');
+				var array = testtt.split(",");
+			    var mFile = array[0];
+			    var muName = array[1]; 
+			    var muSinger = array[2]; 
+				
+				
+				var output1="<div class='player'>"
+				output1+="<div class='player__cover'>"
+				output1+="<img src='img/covers/cover.svg' alt=''></div>";
+				output1+="<div class='player__content'>";
+				output1+="<span class='player__track'><b class='player__title'>"+muName+"</b>-<span class='player__artist'>"+muSinger+"</span></span>";
+				output1+="<audio src='/audio/"+mFile+"' id='audio' controls></audio></div></div>"
+				output1+="<button class='player__btn' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg> Player</button>";
+				
+				var mplayArea= document.getElementsByTagName('body')[0];
+				mplayArea.insertAdjacentHTML("afterend", output1);
+				audio.play();
+			});
+		});
 		
 		
 		
@@ -230,10 +480,35 @@ function on3(){
 	function dancelist(list){
 		 var GenreChart = list.GenreChart;
 		 var paging = list.paging;
-	   
+		
 
 			var output="";
 
+			output +="<h2>댄스 차트</h2>";
+			output +="<table>";
+			output +="<tr>";
+			output +="<th>가수이름</th>";
+			output +="<th>음악이름</th>";
+			output +="<th>음악장르</th>";
+			output +="<th>게시일</th>";
+			output +="<th>조회수</th>";
+			output +="<th>좋아요수</th>";
+			output +="<th>가격</th>";
+			output +="</tr>	";
+		
+			for(var i in GenreChart){
+			output +="<td>"+GenreChart[i].muSinger+"</td>";
+			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</td>";
+			output +="<td>"+GenreChart[i].muGanre+"</td>";
+			output +="<td>"+GenreChart[i].muDate+"</td>";
+			output +="<td>"+GenreChart[i].muHit+"</td>";
+			output +="<td>"+GenreChart[i].muLike+"</td>";
+			output +="<td>"+GenreChart[i].muPrice+"</td>";
+			output +="</tr> ";
+			
+		
+			}
+			output +="</table>";
 			if(paging.page <= 1){
 				output += "<span>[이전] </span>"
 			} else if(paging.page > 1){
@@ -254,37 +529,9 @@ function on3(){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
 			}
 			
-			
-			output +="<table>";
-			output +="<tr>";
-			output +="<th>가수이름</th>";
-			output +="<th>음악이름</th>";
-			output +="<th>음악장르</th>";
-			output +="<th>게시일</th>";
-			output +="<th>조회수</th>";
-			output +="<th>좋아요수</th>";
-			output +="<th>가격</th>";
-			output +="</tr>	";
-		
-			for(var i in GenreChart){
-			output +="<td>"+GenreChart[i].muSinger+"</td>";
-			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
-			output +="<td>"+GenreChart[i].muGanre+"</td>";
-			output +="<td>"+GenreChart[i].muDate+"</td>";
-			output +="<td>"+GenreChart[i].muHit+"</td>";
-			output +="<td>"+GenreChart[i].muLike+"</td>";
-			output +="<td>"+GenreChart[i].muPrice+"</td>";
-			output +="</tr> ";
-			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
-		
-		
-			}
-				
-			
-			output +="</table>";
 			
 			
 			$(".previousPage").click(function(){
@@ -397,6 +644,31 @@ function on3(){
 
 			var output="";
 
+			output +="<h2>락 차트</h2>";
+			output +="<table>";
+			output +="<tr>";
+			output +="<th>가수이름</th>";
+			output +="<th>음악이름</th>";
+			output +="<th>음악장르</th>";
+			output +="<th>게시일</th>";
+			output +="<th>조회수</th>";
+			output +="<th>좋아요수</th>";
+			output +="<th>가격</th>";
+			output +="</tr>	";
+		
+			for(var i in GenreChart){
+			output +="<td>"+GenreChart[i].muSinger+"</td>";
+			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</td>";
+			output +="<td>"+GenreChart[i].muGanre+"</td>";
+			output +="<td>"+GenreChart[i].muDate+"</td>";
+			output +="<td>"+GenreChart[i].muHit+"</td>";
+			output +="<td>"+GenreChart[i].muLike+"</td>";
+			output +="<td>"+GenreChart[i].muPrice+"</td>";
+			output +="</tr> ";
+			
+		
+			}
+			output +="</table>";
 			if(paging.page <= 1){
 				output += "<span>[이전] </span>"
 			} else if(paging.page > 1){
@@ -417,37 +689,10 @@ function on3(){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
 			}
 			
-			
-			output +="<table>";
-			output +="<tr>";
-			output +="<th>가수이름</th>";
-			output +="<th>음악이름</th>";
-			output +="<th>음악장르</th>";
-			output +="<th>게시일</th>";
-			output +="<th>조회수</th>";
-			output +="<th>좋아요수</th>";
-			output +="<th>가격</th>";
-			output +="</tr>	";
-		
-			for(var i in GenreChart){
-			output +="<td>"+GenreChart[i].muSinger+"</td>";
-			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
-			output +="<td>"+GenreChart[i].muGanre+"</td>";
-			output +="<td>"+GenreChart[i].muDate+"</td>";
-			output +="<td>"+GenreChart[i].muHit+"</td>";
-			output +="<td>"+GenreChart[i].muLike+"</td>";
-			output +="<td>"+GenreChart[i].muPrice+"</td>";
-			output +="</tr> ";
-			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
 		
-		
-			}
-				
-			
-			output +="</table>";
 			
 			
 			$(".previousPage").click(function(){
@@ -556,10 +801,36 @@ function on3(){
 	function hiphoplist(list){
 		 var GenreChart = list.GenreChart;
 		 var paging = list.paging;
-	   
+		 var likecount = list.likecount;
+
 
 			var output="";
 
+			output +="<h2>힙합 차트</h2>";
+			output +="<table>";
+			output +="<tr>";
+			output +="<th>가수이름</th>";
+			output +="<th>음악이름</th>";
+			output +="<th>음악장르</th>";
+			output +="<th>게시일</th>";
+			output +="<th>조회수</th>";
+			output +="<th>좋아요수</th>";
+			output +="<th>가격</th>";
+			output +="</tr>	";
+		
+			for(var i in GenreChart){
+			output +="<td>"+GenreChart[i].muSinger+"</td>";
+			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</td>";
+			output +="<td>"+GenreChart[i].muGanre+"</td>";
+			output +="<td>"+GenreChart[i].muDate+"</td>";
+			output +="<td>"+GenreChart[i].muHit+"</td>";
+			output +="<td>"+GenreChart[i].muLike+"</td>";
+			output +="<td>"+GenreChart[i].muPrice+"</td>";
+			output +="</tr> ";
+			
+		
+			}
+			output +="</table>";
 			if(paging.page <= 1){
 				output += "<span>[이전] </span>"
 			} else if(paging.page > 1){
@@ -580,37 +851,9 @@ function on3(){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
 			}
 			
-			
-			output +="<table>";
-			output +="<tr>";
-			output +="<th>가수이름</th>";
-			output +="<th>음악이름</th>";
-			output +="<th>음악장르</th>";
-			output +="<th>게시일</th>";
-			output +="<th>조회수</th>";
-			output +="<th>좋아요수</th>";
-			output +="<th>가격</th>";
-			output +="</tr>	";
-		
-			for(var i in GenreChart){
-			output +="<td>"+GenreChart[i].muSinger+"</td>";
-			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
-			output +="<td>"+GenreChart[i].muGanre+"</td>";
-			output +="<td>"+GenreChart[i].muDate+"</td>";
-			output +="<td>"+GenreChart[i].muHit+"</td>";
-			output +="<td>"+GenreChart[i].muLike+"</td>";
-			output +="<td>"+GenreChart[i].muPrice+"</td>";
-			output +="</tr> ";
-			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
-		
-		
-			}
-				
-			
-			output +="</table>";
 			
 			
 			$(".previousPage").click(function(){
@@ -719,10 +962,36 @@ function on3(){
 	function indilist(list){
 		 var GenreChart = list.GenreChart;
 		 var paging = list.paging;
-	   
+		 var likecount = list.likecount;
+
 
 			var output="";
 
+			output +="<h2>인디 차트</h2>";
+			output +="<table>";
+			output +="<tr>";
+			output +="<th>가수이름</th>";
+			output +="<th>음악이름</th>";
+			output +="<th>음악장르</th>";
+			output +="<th>게시일</th>";
+			output +="<th>조회수</th>";
+			output +="<th>좋아요수</th>";
+			output +="<th>가격</th>";
+			output +="</tr>	";
+		
+			for(var i in GenreChart){
+			output +="<td>"+GenreChart[i].muSinger+"</td>";
+			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</td>";
+			output +="<td>"+GenreChart[i].muGanre+"</td>";
+			output +="<td>"+GenreChart[i].muDate+"</td>";
+			output +="<td>"+GenreChart[i].muHit+"</td>";
+			output +="<td>"+GenreChart[i].muLike+"</td>";
+			output +="<td>"+GenreChart[i].muPrice+"</td>";
+			output +="</tr> ";
+			
+		
+			}
+			output +="</table>";
 			if(paging.page <= 1){
 				output += "<span>[이전] </span>"
 			} else if(paging.page > 1){
@@ -743,37 +1012,9 @@ function on3(){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
 			}
 			
-			
-			output +="<table>";
-			output +="<tr>";
-			output +="<th>가수이름</th>";
-			output +="<th>음악이름</th>";
-			output +="<th>음악장르</th>";
-			output +="<th>게시일</th>";
-			output +="<th>조회수</th>";
-			output +="<th>좋아요수</th>";
-			output +="<th>가격</th>";
-			output +="</tr>	";
-		
-			for(var i in GenreChart){
-			output +="<td>"+GenreChart[i].muSinger+"</td>";
-			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
-			output +="<td>"+GenreChart[i].muGanre+"</td>";
-			output +="<td>"+GenreChart[i].muDate+"</td>";
-			output +="<td>"+GenreChart[i].muHit+"</td>";
-			output +="<td>"+GenreChart[i].muLike+"</td>";
-			output +="<td>"+GenreChart[i].muPrice+"</td>";
-			output +="</tr> ";
-			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
-		
-		
-			}
-				
-			
-			output +="</table>";
 			
 			
 			$(".previousPage").click(function(){
@@ -881,10 +1122,36 @@ function on3(){
 	function gitalist(list){
 		 var GenreChart = list.GenreChart;
 		 var paging = list.paging;
-	   
+		 var likecount = list.likecount;
+
 
 			var output="";
 
+			output +="<h2>그 외 장르</h2>";
+			output +="<table>";
+			output +="<tr>";
+			output +="<th>가수이름</th>";
+			output +="<th>음악이름</th>";
+			output +="<th>음악장르</th>";
+			output +="<th>게시일</th>";
+			output +="<th>조회수</th>";
+			output +="<th>좋아요수</th>";
+			output +="<th>가격</th>";
+			output +="</tr>	";
+		
+			for(var i in GenreChart){
+			output +="<td>"+GenreChart[i].muSinger+"</td>";
+			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</td>";
+			output +="<td>"+GenreChart[i].muGanre+"</td>";
+			output +="<td>"+GenreChart[i].muDate+"</td>";
+			output +="<td>"+GenreChart[i].muHit+"</td>";
+			output +="<td>"+GenreChart[i].muLike+"</td>";
+			output +="<td>"+GenreChart[i].muPrice+"</td>";
+			output +="</tr> ";
+			
+		
+			}
+			output +="</table>";
 			if(paging.page <= 1){
 				output += "<span>[이전] </span>"
 			} else if(paging.page > 1){
@@ -905,37 +1172,9 @@ function on3(){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
 			}
 			
-			
-			output +="<table>";
-			output +="<tr>";
-			output +="<th>가수이름</th>";
-			output +="<th>음악이름</th>";
-			output +="<th>음악장르</th>";
-			output +="<th>게시일</th>";
-			output +="<th>조회수</th>";
-			output +="<th>좋아요수</th>";
-			output +="<th>가격</th>";
-			output +="</tr>	";
-		
-			for(var i in GenreChart){
-			output +="<td>"+GenreChart[i].muSinger+"</td>";
-			output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
-			output +="<td>"+GenreChart[i].muGanre+"</td>";
-			output +="<td>"+GenreChart[i].muDate+"</td>";
-			output +="<td>"+GenreChart[i].muHit+"</td>";
-			output +="<td>"+GenreChart[i].muLike+"</td>";
-			output +="<td>"+GenreChart[i].muPrice+"</td>";
-			output +="</tr> ";
-			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
-		
-		
-			}
-				
-			
-			output +="</table>";
 			
 			
 			$(".previousPage").click(function(){
@@ -1022,125 +1261,17 @@ function on3(){
 		}
 	
 	
-	
-	
-	/* 	
-		function allFileList(list){
-			 var GenreChart = list.GenreChart;
-			 var paging = list.paging;
-		   
-
-				var output="";
-				
-				output +="<table>";
-				output +="<tr>";
-				output +="<th>가수이름</th>";
-				output +="<th>음악이름</th>";
-				output +="<th>음악장르</th>";
-				output +="<th>게시일</th>";
-				output +="<th>조회수</th>";
-				output +="<th>좋아요수</th>";
-				output +="<th>가격</th>";
-				output +="</tr>	";
-			
-				for(var i in GenreChart){
-				output +="<td>"+GenreChart[i].muSinger+"</td>";
-				output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"'>"+GenreChart[i].muName+"</td>";
-				output +="<td>"+GenreChart[i].muGanre+"</td>";
-				output +="<td>"+GenreChart[i].muDate+"</td>";
-				output +="<td>"+GenreChart[i].muHit+"</td>";
-				output +="<td>"+GenreChart[i].muLike+"</td>";
-				output +="<td>"+GenreChart[i].muPrice+"</td>";
-				output +="</tr> ";
-				
-				var genreArea=document.getElementById('genreArea');
-				
-				genreArea.innerHTML=output;
-			
-			
-				}
-					
-				
-				output +="</table>";
-				
-			
-		}
-		
-		
-		
-		function filePaging(list){
-			 var GenreChart = list.GenreChart;
-			 var paging = list.paging;
-		   
-
-				var output="";
-
-				if(paging.page <= 1){
-					output += "<span>[이전] </span>"
-				} else if(paging.page > 1){
-					output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>[이전] </a></span>";
-				}
-				
-				for(var i=paging.startPage; i<=paging.endPage; i++){
-					if(paging.page == i){
-						output += "<span> ["+i+"] </span>";
-					} else if(paging.page != i){
-						output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-					}
-				}
-			
-				if(paging.page >= paging.maxPage){
-					output += "<span> [다음]</span>"
-				} else if(paging.page < paging.maxPage){
-					output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
-				}
-				
-			
-				var genreArea=document.getElementById('genreArea');
-				
-				genreArea.innerHTML=output;
-			
-			
-				} */
-					
-				
-			
-				
-
-		
-		
-
-	
-	
-
 </script>
-<body>
-		<h1>Ganre</h1>
-		<h2>장르 조회</h2>
-		<button  onclick="on3()">발라드</button>
-		<button onclick="on4()">댄스</button>
-		<button onclick="on5()">락</button>
-		<button onclick="on6()">랩</button>
-		<button onclick="on7()">인디</button>
-		<button onclick="on8()">기타</button>
-
-
-	<div id="genreArea">
+<!-- JS -->
+	 <script src="js/jquery-3.5.1.min.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/smooth-scrollbar.js"></script>
+	<script src="js/select2.min.js"></script>
+	<script src="js/slider-radio.js"></script>
+	<script src="js/jquery.inputmask.min.js"></script>
+	<script src="js/plyr.min.js"></script>
+	<script src="js/main.js"></script> 
 	
-	</div>
-	<div id="genreArea1">
-	
-	</div>
-	<!-- <code th:if="${paging.page <= 1}" th:text="이전"></code>
-        <code th:if="${paging.page > 1}">
-            <a th:href="@{balGenre(page=${paging.page-1},limit=${paging.limit})}" th:text="이전"></a></code>
-        <th:block th:each="i : ${#numbers.sequence(paging.startPage , paging.endPage)}">
-          <code  th:if= "${paging.page eq i}" th:text="${i}"></code>
-            <a th:unless="${paging.page eq i}" th:href="@{balGenre(page=${i},limit=${paging.limit})}" ><code th:text="${i}"></code></a>
-		 </th:block>
-		<code th:if="${paging.page >= paging.maxPage}" th:text="다음"></code>
-      <code th:if="${paging.page < paging.maxPage}">
-            <a th:href="@{balGenre(page=${paging.page+1},limit=${paging.limit})}" th:text="다음"></a>
-        </code>  -->
-</body>
 </html>
