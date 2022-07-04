@@ -430,7 +430,7 @@ $(document).ready(function () {
 		$('a[data-link].active, a[data-playlist].active').addClass('pause');
 	});
 	
-	
+
 
 	/* single */
 	$('a[data-link]').on('click', function(e){

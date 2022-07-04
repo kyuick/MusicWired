@@ -215,21 +215,7 @@ function on3(){
 
 	$(".play").click(function(){
 			
-		  $.ajax({
-	            type: "POST",
-	            url: "playList",
-	            data: {
-	                "plmuCode": muCode,
-	                "plMid": loginId
-	            },
-	            dataType: "json",
-	            success: function (playListInsert) {
-
-	            },
-	            error: function () {
-	                console.log("에러에러!!")
-	            }
-	        });
+		
 
 		  
 			var aa = new Array();
