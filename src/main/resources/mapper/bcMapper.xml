@@ -13,4 +13,10 @@
 	<delete id="bcDelete" parameterType="BoComment">
 		DELETE FROM BOCOMMENT WHERE BCCODE =#{bcCode}
 	</delete>
+	
+	<select id="boardWriterView" parameterType="String" resultType="BoComment">
+		SELECT * FROM BOCOMMENT WHERE BCMID = #{boWriter}
+	</select>
+	
+	
 </mapper>
