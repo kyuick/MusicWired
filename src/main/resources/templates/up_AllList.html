@@ -206,25 +206,26 @@ table, tr, td, th {
 								dataType: "json",
 								async: false,
 								success: function(check){
-									output += "<tr>";
-									output += "<td>"+musicList[i].muSinger+"</td>";
-									output += "<td><a href='muView?muCode="+musicList[i].muCode+"&mId="+musicList[i].muSinger+"'>"+musicList[i].muName+"</a></td>";
-									output += "<td><button class='musicPlay' value='"+musicList[i].mFile+"'>재생</button></td>";
-									output += "<td>"+musicList[i].muGanre+"</td>";
-									output += "<td>"+musicList[i].muDate+"</td>";
-									output += "<td>"+musicList[i].muHit+"</td>";
-									output += "<td>"+musicList[i].muLike+"</td>";
+									
+									output +="<td>"+GenreChart[i].rn+"</td>";
+									output +="<td>"+GenreChart[i].muSinger+"</td>";
+									output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</td>";
+									output +="<td><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+"'></button ></label></td>";
+									output +="<td>"+GenreChart[i].muGanre+"</td>";
+									output +="<td>"+GenreChart[i].muDate+"</td>";
+									output +="<td>"+GenreChart[i].muHit+"</td>";
+									output +="<td>"+GenreChart[i].muLike+"</td>";
 									
 									if(check == ""){
 										if(result == ""){
 											output += "<td>500원</td>";
-											output += "<td style='background-color: gray; color: white;' id='"+musicList[i].muCode+"' class='cartChange' value='check1'>장바구니 추가</td>";
+											output += "<td style='background-color: gray; color: white;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'>장바구니 추가</td>";
 										} else if(result != ""){
 											output += "<td>500원</td>";
-											output += "<td style='background-color: red; color: white;' id='"+musicList[i].muCode+"' class='cartChange' value='check2'>추가완료</td>";
+											output += "<td style='background-color: red; color: white;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'>추가완료</td>";
 										}
 									} else if(check != ""){
-										output += "<td colspan='2'><a href='/audio/"+musicList[i].mFile+"' download='"+musicList[i].mFile+"'><button class='selectMusicDownload' id='"+musicList[i].muCode+"download'>음원다운</button></a></td>";
+										output += "<td colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
 									}
 									output += "</tr>";
 								},
