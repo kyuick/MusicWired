@@ -5,7 +5,11 @@
 <mapper namespace="com.icia.musicwired.dao.MusicCommentDAO">
 
 	<select id="mcList" parameterType="int" resultType="mucomment">
-		SELECT * FROM MUCOMMENT WHERE MCMUNUM = #{mcMuNum}
+		SELECT M.MPROFILENAME, C.MCDATE, C.MCCONTENT, C.MCMID, C.MCMUNUM, C.MCCODE
+		FROM MEMBER M,
+			 MUCOMMENT C
+		WHERE M.MID = C.MCMID
+		  AND MCMUNUM = #{mcMuNum}
 	</select>
 	<insert id="mcWrite" parameterType="mucomment">
 		INSERT INTO MUCOMMENT VALUES(MUCO_SEQ.NEXTVAL,#{mcMid},#{mcMuNum},#{mcContent},SYSDATE)
@@ -18,3 +22,9 @@
 	</delete>
 
 </mapper>
+<!--		SELECT * FROM MUCOMMENT WHERE MCMUNUM = #{mcMuNum}-->
+<!--		SELECT M.MPROFILENAME, C.MCDATE, C.MCCONTENT, C.MCMID-->
+<!--		FROM MEMBER M,-->
+<!--		MUCOMMENT C-->
+<!--		WHERE M.MID = C.MCMID-->
+<!--		AND MCMUNUM = #{mcMuNum}-->
