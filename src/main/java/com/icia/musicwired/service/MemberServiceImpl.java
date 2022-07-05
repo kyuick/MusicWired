@@ -51,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
 			mProfile.transferTo(new File(savePath));
 			member.setmProfileName(mProfileName);
 		} else {
-			member.setmProfileName("default.png");
+			member.setmProfileName("default_profile.png");
 		}
 
 		member.setmPw(pwEnc.encode(member.getmPw()));
@@ -150,7 +150,7 @@ public class MemberServiceImpl implements MemberService {
 			mProfile.transferTo(new File(savePath));
 			member.setmProfileName(mProfileName);
 		} else {
-			member.setmProfileName("default.png");
+			member.setmProfileName("default_profile.png");
 		}
 
 		member.setmPw(pwEnc.encode(member.getmPw()));

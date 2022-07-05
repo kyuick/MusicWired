@@ -25,8 +25,9 @@ public class uploadDto {
     private MultipartFile mImage;  //포스터
 
     private Date pDate;
-    private Date mudDate;
+    private String mudDate;
     private int pCode;
+    private int mudCode;
     
 	public int getMuCode() {
 		return muCode;
@@ -118,10 +119,10 @@ public class uploadDto {
 	public void setpDate(Date pDate) {
 		this.pDate = pDate;
 	}
-	public Date getMudDate() {
+	public String getMudDate() {
 		return mudDate;
 	}
-	public void setMudDate(Date mudDate) {
+	public void setMudDate(String mudDate) {
 		this.mudDate = mudDate;
 	}
 	public int getpCode() {
@@ -130,17 +131,22 @@ public class uploadDto {
 	public void setpCode(int pCode) {
 		this.pCode = pCode;
 	}
+	public int getMudCode() {
+		return mudCode;
+	}
+	public void setMudCode(int mudCode) {
+		this.mudCode = mudCode;
+	}
+	
 	@Override
 	public String toString() {
 		return "uploadDto [muCode=" + muCode + ", muSinger=" + muSinger + ", mId=" + mId + ", muName=" + muName
 				+ ", muGanre=" + muGanre + ", muDate=" + muDate + ", muImage=" + muImage + ", muLyrics=" + muLyrics
 				+ ", muHit=" + muHit + ", muLike=" + muLike + ", muPrice=" + muPrice + ", mFile=" + mFile + ", muFile="
 				+ muFile + ", mImage=" + mImage + ", pDate=" + pDate + ", mudDate=" + mudDate + ", pCode=" + pCode
-				+ "]";
+				+ ", mudCode=" + mudCode + "]";
 	}
- 
-	
-
+    
 }
 
 

@@ -30,10 +30,10 @@
         WHERE MID = SSMID
           AND SSERMID = #{sserMid}
     </select>
-    <!--	<select id="subermodalList" resultType="Member" parameterType="String">-->
-    <!--	SELECT M.MID, M.MPROFILENAME-->
-    <!--FROM MEMBER M, SUBSCRIPTION S-->
-    <!--WHERE MID = SSERMID AND SSMID = #{ssMid}-->
-    <!--</select>-->
+    <select id="subermodalList" resultType="Member" parameterType="String">
+    	SELECT M.MID, M.MPROFILENAME
+	    FROM MEMBER M, SUBSCRIPTION S
+	    WHERE MID = SSERMID AND SSMID = #{ssMid}
+    </select>
 
 </mapper>

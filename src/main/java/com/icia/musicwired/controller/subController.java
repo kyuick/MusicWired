@@ -58,10 +58,10 @@ public class subController {
 	//subermodalList 내가 구독한 구독자 목록 불러오기
 		@PostMapping("subermodalList")
 		public @ResponseBody List<subDTO> subermodalList(@RequestParam("ssMid")String ssMid){
-			System.out.println(ssMid);
+			System.out.println("[1] 내가 구독 C : "+ssMid);
 			
 			subList = svc.subermodalList(ssMid);
-			
+			System.out.println("[4] 내가 구독 S : " + subList);
 			return subList;
 			
 		}
