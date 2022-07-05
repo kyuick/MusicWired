@@ -31,7 +31,7 @@
 	</select>
 	
 	<update id="memberModify" parameterType="member">
-		UPDATE MEMBER SET MPW=#{mPw}, MNAME=#{mName}, MGENDER=#{mGender}, MEMAIL=#{mEmail},
+		UPDATE MEMBER SET MPW=#{mPw}, MNAME=#{mName}, MEMAIL=#{mEmail},
 						  MPROFILENAME=#{mProfileName} WHERE MID=#{mId}
 	</update>
 	

@@ -408,10 +408,10 @@
             data: {"mulmuCode": muCode},
             dataType: "json",
             success: function (LikeList) {
-
+			
                 var output = "";
                 var output1 = "좋아요";
-
+				
                 for (var i in LikeList) {
                     if (LikeList.length > 0) {
                         output += "<a href='boardWriterView?boWriter=" + LikeList[i].mId + "'><p><img src='/profile/" + LikeList[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + LikeList[i].mId + "</p></a>"
