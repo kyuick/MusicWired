@@ -9,23 +9,69 @@
 
 <head>	
 <style type="text/css">
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+
+
+
+/* #aa{
+ padding-left:0px;
 }
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
+#bb{
+ padding-left:300px;
+ padding-right:300px;
 }
 
-tr:nth-child(even) {
-    background-color: #dddddd;
+#gg{
+	padding-right:0px;
+	padding-left:20px;
 }
 
+#trd{
+	padding-right:0px;
+}
+
+#ff{
+	padding-right:0px;
+	padding-left:20px;
+}
+
+#cc{
+	padding-left:170px;
+	padding-right:0px;
+}
+
+#dd{
+	padding-left:40px;
+	padding-right:0px;
+}
+
+#ee{
+	padding-left:40px;
+	padding-right:0px;
+} */
 </style>
+
+<!--boot css  -->
+<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="css/select2.min.css">
+	<link rel="stylesheet" href="css/paymentfont.min.css">
+	<link rel="stylesheet" href="css/slider-radio.css">
+	<link rel="stylesheet" href="css/plyr.css">
+	<link rel="stylesheet" href="css/main.css">
+	
+	<link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
+	<link rel="apple-touch-icon" href="icon/favicon-32x32.png">
+
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="author" content="Dmitry Volkov">
+
+
+
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -62,34 +108,39 @@ function on1(){
 		
 		var output="";
 		
-		output +="<table>";
+		
+		output +="<table class='main__table'>";
+		output +="<thead>";
 		output +="<tr>";
-		output +="<th>순위</th>";
-		output +="<th>가수이름</th>";
-		output +="<th>음악이름</th>";
-		output +="<th>음악장르</th>";
-		output +="<th>게시일</th>";
-		output +="<th>조회수</th>";
-		output +="<th>좋아요수</th>";
-		output +="<th>가격</th>";
+		output +="<th class='main__table-text'>순위</th>";
+		output +="<th class='main__table-text'>곡정보</th>";
+		output +="<th class='main__table-text'>재생</th>"; 
+		output +="<th class='main__table-text'>음악장르</th>";
+		output +="<th class='main__table-text'>게시일</th>";
+		output +="<th class='main__table-text'>조회수</th>";
+		output +="<th class='main__table-text'>좋아요</th>";
+		output +="<th class='main__table-text'>가격</th>";
 		output +="</tr>	";
+		output +="</thead>	";
 		
 		var arr = [1,2,3,4,5,6,7,8,9,10];
 	
-	
-			output +="<tr> ";
+		
+			
 			for(var i in list){
 			for(var i in arr ){
-			output +="<td>"+arr[i]+"</td>";
-			output +="<td>"+list[i].muSinger+"</td>";
-			output +="<td><a href='muView?muCode="+list[i].muCode+"'>"+list[i].muName+"</td>";
-			output +="<td>"+list[i].muGanre+"</td>";
-			output +="<td>"+list[i].muDate+"</td>";
-			output +="<td>"+list[i].muHit+"</td>";
-			output +="<td>"+list[i].muLike+"</td>";
-			output +="<td>"+list[i].muPrice+"</td>";
-			output +="</tr> ";
-	
+			output +="<tr>";
+			output +="<td><span class='single-item__number'>"+arr[i]+"</span></td>";
+			output +="<td class='main__table-text'> <h4><a href='muView?muCode="+list[i].muCode+"'>"+list[i].muName+"</a></h4><span>"+list[i].muSinger+"</span></td>'";
+			output +="<td class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+list[i].mFile+","+list[i].muName+","+list[i].muSinger+"'></button ></label></td>";
+			output +="<td><div class='main__table-text'>"+list[i].muGanre+"</div></td>";
+			output +="<td><div class='main__table-text'>"+list[i].muDate+"</div></td>";
+			output +="<td><div class='main__table-text'>"+list[i].muHit+"</div></div></td>";
+			output +="<td><div class='main__table-text'>"+list[i].muLike+"</div></td>";
+			output +="<td><div class='main__table-text main__table-text--price'>$"+list[i].muPrice+"</div></td>";
+			
+			output +="</tr>";
+		
 		
 			
 		
@@ -101,6 +152,7 @@ function on1(){
 			}
 			}
 			output +="</table>";
+			
 			
 
 
@@ -128,7 +180,7 @@ function on1(){
 				
 				output +="<table>";
 				output +="<tr>";
-				output +="<th>순위</th>";
+				output +="<th >순위</th>";
 				output +="<th>가수이름</th>";
 				output +="<th>음악이름</th>";
 				output +="<th>음악장르</th>";
@@ -168,18 +220,33 @@ function on1(){
 
 </script>
 <body>
+
+	<!-- 헤더 사이드 -->
+<header th:replace="header.html :: header"></header>
+<aside th:replace="sidebar.html :: aside"></aside>
+  
+<div class="main">
+
 		<h1>Chart</h1>
 		<h2> 조회수 순위 top 10</h2>
 		<button id="hit" onclick="on1()">조회수차트</button> 
 		<button id="like" onclick="on2()">좋아요차트</button><br/><br/>
 		<form><input type="button" value="페이지 새로 고침" onClick="window.location.reload()"></form>
 		
-		<div id="hitArea">
-	
-	
-		</div>
-		
-	
+
+	<div class="row row--grid">
+		<div class="col-12">
+			<div class="dashbox">
+				<div class="dashbox__table-wrap">		
+			<div id="hitArea"  class="dashbox__table-scroll">
+			
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			
+
 <!-- <table> -->
     <!-- <tr>
     	<th>순위</th>
@@ -205,8 +272,82 @@ function on1(){
     </tr>
     
 </table> -->
-	
-		
+	<div class="col-12">
+							<ul class="main__list">
+								<li class="single-item">
+									<span class="single-item__number">1</span>
+									<span class="single-item__rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.71,12.54a1,1,0,0,0-1.42,0l-3,3A1,1,0,0,0,9.71,17L12,14.66,14.29,17a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm-3-1.08L12,9.16l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Z"/></svg> 1</span>
+									<a data-link data-title="Cinematic" data-artist="AudioPizza" data-img="img/covers/cover1.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
+										<img src="img/covers/cover1.jpg" alt="">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+									</a>
+									<div class="single-item__title">
+										<h4><a href="#">Cinematic</a></h4>
+										<span><a href="artist.html">AudioPizza</a></span>
+									</div>
+									<span class="single-item__time">2:35</span>
+								</li>
+								<li class="single-item">
+									<span class="single-item__number">2</span>
+									<span class="single-item__rate single-item__rate--red"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.29,11.46a1,1,0,0,0,1.42,0l3-3A1,1,0,1,0,14.29,7L12,9.34,9.71,7A1,1,0,1,0,8.29,8.46Zm3,1.08L12,14.84l-2.29-2.3A1,1,0,0,0,8.29,14l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z"/></svg> 1</span>
+									<a data-link data-title="Adventure" data-artist="AudioPizza" data-img="img/covers/cover2.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/9106709_epic-adventure-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
+										<img src="img/covers/cover2.jpg" alt="">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+									</a>
+									<div class="single-item__title">
+										<h4><a href="#">Adventure</a></h4>
+										<span><a href="artist.html">AudioPizza</a></span>
+									</div>
+									<span class="single-item__time">3:37</span>
+								</li>
+								<li class="single-item">
+									<span class="single-item__number">3</span>
+									<span class="single-item__rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.71,12.54a1,1,0,0,0-1.42,0l-3,3A1,1,0,0,0,9.71,17L12,14.66,14.29,17a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm-3-1.08L12,9.16l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Z"/></svg> 15</span>
+									<a data-link data-title="Epic Motivational" data-artist="AudioPizza" data-img="img/covers/cover3.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/10938456_inspiring-epic-motivational-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
+										<img src="img/covers/cover3.jpg" alt="">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+									</a>
+									<div class="single-item__title">
+										<h4><a href="#">Epic Motivational</a></h4>
+										<span><a href="artist.html">AudioPizza</a></span>
+									</div>
+									<span class="single-item__time">5:30</span>
+								</li>
+								<li class="single-item">
+									<span class="single-item__number">4</span>
+									<span class="single-item__rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.71,12.54a1,1,0,0,0-1.42,0l-3,3A1,1,0,0,0,9.71,17L12,14.66,14.29,17a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm-3-1.08L12,9.16l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Z"/></svg> 11</span>
+									<a data-link data-title="Upbeat Rock" data-artist="AudioPizza" data-img="img/covers/cover4.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/16412111_upbeat-rock_by_audiopizza_preview.mp3" class="single-item__cover">
+										<img src="img/covers/cover4.jpg" alt="">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+									</a>
+									<div class="single-item__title">
+										<h4><a href="#">Upbeat Rock</a></h4>
+										<span><a href="artist.html">AudioPizza</a></span>
+									</div>
+									<span class="single-item__time">3:42</span>
+								</li>
+								<li class="single-item">
+									<span class="single-item__number">5</span>
+									<span class="single-item__rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.71,12.54a1,1,0,0,0-1.42,0l-3,3A1,1,0,0,0,9.71,17L12,14.66,14.29,17a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm-3-1.08L12,9.16l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Z"/></svg> 2</span>
+									<a data-link data-title="Ambient Pop" data-artist="AudioPizza" data-img="img/covers/cover5.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/19478377_ambient-pop_by_audiopizza_preview.mp3" class="single-item__cover">
+										<img src="img/covers/cover5.jpg" alt="">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+									</a>
+									<div class="single-item__title">
+										<h4><a href="#">Ambient Pop</a></h4>
+										<span><a href="artist.html">AudioPizza</a></span>
+									</div>
+									<span class="single-item__time">3:02</span>
+								</li>
+							</ul>
+						</div>
+						</div>
+			
 
 
 
