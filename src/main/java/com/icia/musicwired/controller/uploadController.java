@@ -88,7 +88,7 @@ public class uploadController {
     @PostMapping("/ajaxFileList")
     @ResponseBody
     public Map<String, Object> testajaxFileList(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-                                                @RequestParam(value = "limit", required = false, defaultValue = "5") int limit) {
+                                                @RequestParam(value = "limit", required = false, defaultValue = "25") int limit) {
 
         Map<String, Object> result = new HashMap<String, Object>();
 
@@ -211,7 +211,14 @@ public class uploadController {
         return MusicLikeDto;
     }
 
-
+//	MyMusicList : 내가 올린 음악 리스트(ajax)
+    @PostMapping("MyMusicList")
+    public @ResponseBody List<uploadDto> MyMusicList(@RequestParam("muSinger") String muSinger){
+    	System.out.println("[1] 내가 올린 음악 리스트 C : " + muSinger);
+    	musicList = svc.MyMusicList(muSinger);
+    	System.out.println("[4] 내가 올린 음악 리스트 C : " + musicList);
+    	return musicList;
+    }
 
 
 }

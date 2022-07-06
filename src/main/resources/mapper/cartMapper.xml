@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -28,7 +29,6 @@
 		FROM CART C, MUSIC M
 		WHERE M.MUCODE = C.CAMUCODE AND CAMID = #{mId}
 	</select>
-
 	<insert id="CartAddPlayList" parameterType="Cart">
 		INSERT INTO CART VALUES(CART_SEQ.NEXTVAL,#{caMid},#{caMuCode},500)
 	</insert>
@@ -44,4 +44,5 @@
 	<delete id="CartAddPlayListDelete" parameterType="Cart">
 		DELETE FROM CART WHERE CAMID = #{caMid} AND CAMUCODE = #{caMuCode}
 	</delete>
+
 </mapper>

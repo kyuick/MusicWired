@@ -7,7 +7,7 @@
     <insert id="fileUpload" parameterType="audio">
         INSERT INTO MUSIC
         VALUES (MUSIC_SEQ.NEXTVAL, #{muSinger}, #{muName}, #{muGanre},
-                SYSDATE, #{muImage}, 0,500,#{mFile},#{muLyrics},0)
+                SYSDATE, #{muImage, jdbcType=VARCHAR}, 0,500,#{mFile},#{muLyrics},0)
     </insert>
     <select id="fileList" parameterType="paging" resultType="audio">
         SELECT * FROM ( SELECT ROWNUM NUM, MYPAGING.* FROM MYPAGING WHERE MUSINGER = #{mId}) WHERE NUM BETWEEN #{startRow} AND #{endRow}
@@ -51,7 +51,7 @@
         UPDATE MUSIC
         SET MUNAME   =#{muName},
             MUGANRE  =#{muGanre},
-            MUIMAGE  =#{muImage},
+            MUIMAGE  =#{muImage, jdbcType=VARCHAR},
             MULYRICS =#{muLyrics},
             MUPRICE  =#{muPrice},
             MFILE    =#{mFile}
@@ -79,6 +79,7 @@
     <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
     <!-- 좋아요 +1 sql-->
     <insert id="LikeUp" parameterType="mulike">
+
         INSERT INTO MUSICLIKE
         VALUES (MULIKE_SEQ.NEXTVAL, #{mulmuCode}, #{mulMid})
     </insert>
@@ -189,5 +190,10 @@
     <!--    SELECT COUNT(*)-->
     <!--    FROM MUSICLIKE WHERE MULMUCODE = #{mulCode}-->
     <!--</select>-->
+    
+<!-- 내가 올린 음악 리스트(ajax) -->
+	<select id="MyMusicList" parameterType="String" resultType="audio">
+		SELECT * FROM MUSIC WHERE MUSINGER = #{muSinger}
+	</select>
 
 </mapper>

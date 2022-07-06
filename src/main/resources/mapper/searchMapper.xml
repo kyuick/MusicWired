@@ -20,20 +20,5 @@
 	SELECT COUNT(*) FROM MUSIC WHERE MUSINGER LIKE '%'||#{keyword}||'%'
 </select>
 
-<select id="songSearch" parameterType="paging" resultType="audio">
- SELECT * FROM(SELECT MUSIC.*,ROW_NUMBER() OVER(ORDER BY MUNAME ASC) AS RN FROM MUSIC WHERE MUNAME LIKE '%'||#{mId}||'%')WHERE RN BETWEEN  #{startRow} AND #{endRow}
-</select>
-
-<select id="singerSearch" parameterType="paging" resultType="audio">
-SELECT * FROM(SELECT MUSIC.*,ROW_NUMBER() OVER(ORDER BY MUNAME ASC) AS RN FROM MUSIC WHERE MUSINGER LIKE '%'||#{mId}||'%')WHERE RN BETWEEN  #{startRow} AND #{endRow}
-</select>
-
-<insert id="searchInsert" parameterType="String"  >
-	INSERT INTO SEARCH VALUES(#{keyword},SYSDATE)
-</insert>
-
-<select id="searchRank"  resultType="search">
-	  SELECT * FROM(SELECT KEYWORD , COUNT(KEYWORD)FROM  SEARCH  GROUP BY KEYWORD ORDER BY COUNT(KEYWORD) DESC)WHERE ROWNUM<![CDATA[ < ]]>=10
-</select>
 
 </mapper>

@@ -36,7 +36,7 @@ public class DownServiceImpl implements DownService{
 	public List<DownDTO> ajaxDownList(String mudMid) {
 		System.out.println("[2] 다운로드 목록 출력 S : " + mudMid);
 		List<DownDTO> Down = downdao.ajaxDownList(mudMid);
-		System.out.println("[3] 다운로드 목록 출력 S : " + mudMid);
+		System.out.println("[3] 다운로드 목록 출력 S : " + Down);
 		
 		if(Down != null) {
 			downList = Down;

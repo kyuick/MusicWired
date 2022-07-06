@@ -69,8 +69,6 @@ public class CartController {
 		return cartList;
 	}
 
-
-
 	//CartAddPlayList : 플레이리스트에서 장바구니 인설트
 	@PostMapping("CartAddPlayList")
 	public @ResponseBody List<CartDTO> CartAddPlayList(@ModelAttribute CartDTO cart) {
@@ -97,4 +95,5 @@ public class CartController {
 		System.out.println("[4] 장바구니 상품 삭제 C : " + cartList);
 		return cartList;
 	}
+
 }

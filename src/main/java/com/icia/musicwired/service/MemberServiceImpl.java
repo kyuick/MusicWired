@@ -51,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
 			mProfile.transferTo(new File(savePath));
 			member.setmProfileName(mProfileName);
 		} else {
-			member.setmProfileName("default.png");
+			member.setmProfileName("default_profile.png");
 		}
 
 		member.setmPw(pwEnc.encode(member.getmPw()));
@@ -59,9 +59,9 @@ public class MemberServiceImpl implements MemberService {
 		int result = mdao.memberJoin(member);
 
 		if (result > 0) {
-			mav.setViewName("redirect:/");
+			mav.setViewName("index");
 		} else {
-			mav.setViewName("redirect:/");
+			mav.setViewName("index");
 		}
 
 		return mav;
@@ -74,7 +74,7 @@ public class MemberServiceImpl implements MemberService {
 		if (pwEnc.matches(member.getmPw(), ePw)) {
 			MemberDTO loginMember = mdao.memberView(member.getmId());
 			session.setAttribute("login", loginMember);
-			mav.setViewName("redirect:/");
+			mav.setViewName("index");
 		} else {
 			session.invalidate();
 			mav.addObject("error", "아이디/비밀번호가 틀립니다.");
@@ -150,7 +150,7 @@ public class MemberServiceImpl implements MemberService {
 			mProfile.transferTo(new File(savePath));
 			member.setmProfileName(mProfileName);
 		} else {
-			member.setmProfileName("default.png");
+			member.setmProfileName("default_profile.png");
 		}
 
 		member.setmPw(pwEnc.encode(member.getmPw()));
@@ -172,9 +172,9 @@ public class MemberServiceImpl implements MemberService {
 		int result = mdao.memberDelete(mId);
 		System.out.println("4" + result);
 		if (result > 0) {
-			mav.setViewName("redirect:/");
+			mav.setViewName("index");
 		} else {
-			mav.setViewName("redirect:/");
+			mav.setViewName("index");
 			System.out.println("수정실패");
 		}
 

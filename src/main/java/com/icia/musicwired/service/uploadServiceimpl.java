@@ -67,7 +67,7 @@ public class uploadServiceimpl implements uploadService {
 			dto.setMuImage(aFileName1);
 			aFile1.transferTo(new File(savePath1));
 		} else {
-			dto.setMuImage("default.png");
+			dto.setMuImage("default_musicImage.jpg");
 		}
 		System.out.println("4ser" + mav);
 		int result = dao.fileUpload(dto);
@@ -187,7 +187,7 @@ public class uploadServiceimpl implements uploadService {
 			dto.setMuImage(aFileName1);
 			aFile1.transferTo(new File(savePath1));
 		} else {
-			dto.setMuImage("default.png");
+			dto.setMuImage("default_musicImage.jpg");
 		}
 		System.out.println("4moid" + mav);
 		int result = dao.fileModify(dto);
@@ -315,6 +315,21 @@ public class uploadServiceimpl implements uploadService {
 		MusicLikeDto= dao.LikemodalList(mulmuCode);
 		
 		return MusicLikeDto;
+	}
+
+//	MyMusicList : 내가 올린 음악 리스트(ajax)
+	@Override
+	public List<uploadDto> MyMusicList(String muSinger) {
+		System.out.println("[2] 내가 올린 음악 리스트 S : " + muSinger);
+		List<uploadDto> myMusicList = dao.MyMusicList(muSinger);
+		System.out.println("[3] 내가 올린 음악 리스트 S : " + myMusicList);
+		
+		if(myMusicList != null) {
+			musicList = myMusicList;
+		}else {
+			musicList = null;
+		}
+		return musicList;
 	}
 
 

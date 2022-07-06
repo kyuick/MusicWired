@@ -65,6 +65,7 @@ public interface uploadDao {
 
 
 	List<MusicLikeDto> LikemodalList(int mulmuCode);
+	List<uploadDto> MyMusicList(String muSinger);
 
 
 ////////////////////////////////////////////////////////////

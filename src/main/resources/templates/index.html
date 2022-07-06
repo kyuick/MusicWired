@@ -30,6 +30,7 @@
 </script>
 
 
+
 <body>
 <header th:replace="header.html :: header"></header>
 <aside th:replace="sidebar.html :: aside"></aside>
@@ -39,7 +40,7 @@
 	<button class="hero__btn hero__btn--green" th:if="${session.login eq null}" onclick="location.href='memberJoinForm'">회원가입</button>
 	<!-- <button class="hero__btn hero__btn--green" th:if="${session.login eq null}" onclick="location.href='memberLogin'">로그인</button> -->
 	<!-- <button class="hero__btn hero__btn--green" th:if="${session.login ne null}" onclick="location.href='memberLogout'">로그아웃</button> -->
-	<button class="hero__btn hero__btn--green" th:if="${session.login ne null}" onclick="location.href='memberViewMe'">내정보</button>
+	<!-- <button class="hero__btn hero__btn--green" th:if="${session.login ne null}" onclick="location.href='memberViewMe'">내정보</button> -->
 	<button class="hero__btn hero__btn--green" onclick="location.href='fUpload'">음원등록</button>
 	<button class="hero__btn hero__btn--green" th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{fileList(mId=${session.login.mId})} + '\''">내가 등록한 음원목록</button>
 	
@@ -51,15 +52,15 @@
 	<button class="hero__btn hero__btn--green" onclick="location.href='chart'">차트 목록</button>
 	<button class="hero__btn hero__btn--green" onclick="location.href='genre'">장르 목록</button>
 	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='cartList'">장바구니</button> -->
-	<button class="hero__btn hero__btn--green" onclick="location.href='buyListPage'">구매목록</button>
-	<button class="hero__btn hero__btn--green" onclick="location.href='downListPage'">다운로드목록</button>
-
-	<button class="hero__btn hero__btn--green" onclick="location.href='test'">테스트</button>
-  <button class="hero__btn hero__btn--green" th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{playListView(mId=${session.login.mId})} + '\''">재생목록조회</button>
-
+	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='buyListPage'">구매목록</button> -->
+	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='downListPage'">다운로드목록</button> -->
+	
+	<button class="hero__btn hero__btn--green" onclick="location.href='tetete'">테스트</button>
+	
+  	<button class="hero__btn hero__btn--green" th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{playListView(mId=${session.login.mId})} + '\''">재생목록조회</button>
 	<button class="hero__btn hero__btn--green" th:if="${session.login ne null} and ${session.login.mId ne 'admin'}" th:onclick="'location.href=\'' + @{moveChating(mId=${session.login.mId})} + '\''">채팅하기</button>
 	<button class="hero__btn hero__btn--green" th:if="${session.login ne null} and ${session.login.mId eq 'admin'}"  onclick="location.href='chatlist'">채팅방목록보기</button>
-	<button class="hero__btn hero__btn--green" onclick="location.href='Crawling'">크롤링</button>
+	
 	<span th:if='${session.login ne null}'>
 	<button class="hero__btn hero__btn--green" th:if ="${session.login.mId == 'admin'}" onclick="location.href='memberList'">회원정보</button>
 	</span>
@@ -67,33 +68,17 @@
 		
 
         <!-- 통합검색 -->        		
-<!--     <form id="searchForm" action="/search" method="GET">
+    <form id="searchForm" action="/search" method="GET">
     	<div class="search_input">
 			<input type="text" name="keyword" value="" placeholder="입력바람 ">
 			<button class="btn_search">검색</button>    	
     	</div>
-    </form> -->
+    </form>
 	
 
 	<p th:if="${session.login ne null}" th:text="${session.login.mId}+'님 로그인 성공'"></p>
 	</div>
 
-	
-	<!-- player -->
-	<div class="player">
-		<div class="player__cover">
-			<img src="img/covers/cover.svg" alt="">
-		</div>
-
-		<div class="player__content">
-			<span class="player__track"><b class="player__title">Epic Cinematic</b> – <span class="player__artist">AudioPizza</span></span>
-			<audio src="audio/PalletTown.mp3" id="audio" controls></audio>
-		</div>
-	</div>
-
-	<button class="player__btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z"/></svg> Player</button>
-	<!-- end player -->
-	
 	<!-- main content -->
 	<main class="main">
 		<div class="container-fluid">

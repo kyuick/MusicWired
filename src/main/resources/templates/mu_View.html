@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -953,6 +954,7 @@
                 },
                 dataType: "json",
                 success: function (likeUpCount) {
+                
                     console.log("업 : " + likeUpCount)
                     $("#muLike").empty().append(likeUpCount + '명이 좋아합니다.');
                     $("#LikeImg").attr('value', 'LikeDown');
@@ -987,7 +989,7 @@
 
 
     });
-
+   
 
     $("#muLike").click(function () {
         const muCode = document.getElementById('muCode').value;
