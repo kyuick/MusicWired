@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
+    
     <title>Insert title here</title>
 </head>
 <script th:if="${session.login eq null}">
@@ -264,40 +264,40 @@
     });
 
     // 댓글 목록 조회
-    function commentList(list){
-    	var output = "";
-    	console.log("댓댓 리스트" + list);
-    	output += "<table>";
-    	output += "<tr>";
-    	output +="<th>작성자</th>";
-    	output +="<th>내용</th>";
-    	output +="<th>작성일</th>";
-    	output +="<th>수정</th>";
-    	output +="<th>삭제</th>";
-    	output += "</tr>";
-    	
-    	for(var i in list){
-    		output += "<tr>";
-    		output += "<td>"+list[i].mcMid + "</td>";
-    		output += "<td>"+list[i].mcContent + "</td>";
-    		output += "<td>"+list[i].mcDate + "</td>";
-    		output += "<td>"+"</td>";
-    		if(list[i].mcMid ==  loginId){
-    		output += "<td><button onclick='mcCommentModify("+ list[i].mcCode +","+list[i].mcMuNum+")'>수정</button></td>";
-    		}else{
-    			output += "<td><button disabled>수정</button></td>";
-    			}
-    		if(list[i].mcMid ==  loginId || loginId == 'admin'){
-        		output += "<td><button onclick = 'muCommentDelete(mcCode="+ list[i].mcCode +",mcMuNum="+list[i].mcMuNum +")'>삭제</button></td>";
-        		}else{
-        			output += "<td><button disabled>삭제</button></td>";
-        			}
-        		
-    		output +="</tr>";
-    	}
-    	output += "</table>";
-    	var mucommentArea = document.getElementById('mucommentArea');
-    	mucommentArea.innerHTML = output;
+    function commentList(list) {
+        var output = "";
+        console.log("댓댓 리스트" + list);
+        output += "<table>";
+        output += "<tr>";
+        output += "<th>작성자</th>";
+        output += "<th>내용</th>";
+        output += "<th>작성일</th>";
+        output += "<th>수정</th>";
+        output += "<th>삭제</th>";
+        output += "</tr>";
+
+        for (var i in list) {
+            output += "<tr>";
+            output += "<td>" + list[i].mcMid + "</td>";
+            output += "<td>" + list[i].mcContent + "</td>";
+            output += "<td>" + list[i].mcDate + "</td>";
+            output += "<td>" + "</td>";
+            if (list[i].mcMid == loginId) {
+                output += "<td><button onclick='mcCommentModify(" + list[i].mcCode + "," + list[i].mcMuNum + ")'>수정</button></td>";
+            } else {
+                output += "<td><button disabled>수정</button></td>";
+            }
+            if (list[i].mcMid == loginId || loginId == 'admin') {
+                output += "<td><button onclick = 'muCommentDelete(mcCode=" + list[i].mcCode + ",mcMuNum=" + list[i].mcMuNum + ")'>삭제</button></td>";
+            } else {
+                output += "<td><button disabled>삭제</button></td>";
+            }
+
+            output += "</tr>";
+        }
+        output += "</table>";
+        var mucommentArea = document.getElementById('mucommentArea');
+        mucommentArea.innerHTML = output;
     }
 
     function mcCommentModify(mcCode, mcMuNum) {
@@ -362,6 +362,7 @@
                 },
                 dataType: "json",
                 success: function (likeUpCount) {
+                
                     console.log("업 : " + likeUpCount)
                     $("#muLike").empty().append(likeUpCount + '명이 좋아합니다.');
                     $("#LikeImg").attr('value', 'LikeDown');
@@ -396,7 +397,7 @@
 
 
     });
-
+   
 
     $("#muLike").click(function () {
         const muCode = document.getElementById('muCode').value;

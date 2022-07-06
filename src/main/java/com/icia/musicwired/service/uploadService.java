@@ -49,4 +49,6 @@ public interface uploadService {
 	Map<String, Object> ajaxFileList(int page,int limit);
 
 	List<MusicLikeDto> LikemodalList(int mulmuCode);
+
+	List<uploadDto> MyMusicList(String muSinger);
 }

@@ -5,108 +5,54 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-
-
-
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-<!-- boot -->
-	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
-	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
-	<link rel="stylesheet" href="css/owl.carousel.min.css">
-	<link rel="stylesheet" href="css/magnific-popup.css">
-	<link rel="stylesheet" href="css/select2.min.css">
-	<link rel="stylesheet" href="css/paymentfont.min.css">
-	<link rel="stylesheet" href="css/slider-radio.css">
-	<link rel="stylesheet" href="css/plyr.css">
-	<link rel="stylesheet" href="css/main.css">
-	
-	<link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
-	<link rel="apple-touch-icon" href="icon/favicon-32x32.png">
-
-	<meta name="description" content="">
-	<meta name="keywords" content="">
-	<meta name="author" content="Dmitry Volkov">
-
 
 <head>	
 </head>
 <body>
-
-
-<!-- 헤더 사이드 -->
-<header th:replace="header.html :: header"></header>
-<aside th:replace="sidebar.html :: aside"></aside>
-  
-  
-   <!--  <form id="searchForm" action="/search" method="GET">
+    <form id="searchForm" action="/search" method="GET">
     	<div class="search_input">
 			<input type="text" name="keyword" placeholder="입력바람 ">
 			<button class="btn_search">검색</button>    	
     	</div>
-    </form> -->
+    </form>
 
-<!-- 메인 -->
-<div class="main">
 
-<div class="row row--grid">
-		<div class="col-12">
-			<div class="dashbox">
-				<div class="dashbox__table-wrap">
-					<div class="dashbox__table-scroll">
 
-<table class="main__table">
+<table>
 		<caption th:text="'음악 이름검색 총('+${nCount}+')개'">음악이름 검색 </caption>
 		<tr>
-			<th class="main__table-text"  >no</th>
-			<th class="main__table-text" >음악이름</th>
-			<th class="main__table-text" >가수</th>
-			<th class="main__table-text" >장르</th>
-			<th class="main__table-text" >날짜</th>
+			<th>no</th>
+			<th>음악이름</th>
+			<th>가수</th>
+			<th>장르</th>
+			<th>날짜</th>
 		</tr>
 		<!-- 
 		<c:forEach var="data" items="idto">
 		
 		</c:forEach> -->
 		<tr th:each="search, i : ${search}">
-			 <td class="main__table-text main__table-text--number"><a href="#modal-info" class="open-modal" th:text="${i.index+1}"></a></td>
-			<td class="main__table-text"><a th:href="@{muView(muCode=${search.muCode})}" th:text="${search.muName}"></a></td>
-			<td class="main__table-text"  th:text="${search.muSinger}"></td>
-			<td class="main__table-text"  th:text="${search.muGanre}"></td>
-			<td class="main__table-text main__table-text--green" th:text="${search.muDate}"></td>
+			 <td th:text="${i.index+1}"></td>
+			<td><a th:href="@{muView(muCode=${search.muCode})}" th:text="${search.muName}"></a></td>
+			<td th:text="${search.muSinger}"></td>
+			<td th:text="${search.muGanre}"></td>
+			<td th:text="${search.muDate}"></td>
 		</tr>
 	</table>
-	  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-				   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-				    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-				      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-				   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-				    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-									 <a class="main__table-text"  th:href="@{songSearch(keyword=${keyword})}"th:text="'음악 제목 검색 더보기'"></a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+									 <a href="/searchSong">음악이름 검색 더보기</a>
 	
 	<br/><br/>
- 
-<div class="row row--grid">
-		<div class="col-12">
-			<div class="dashbox">
-				<div class="dashbox__table-wrap">
-					<div class="dashbox__table-scroll">
 	
-	<table class="main__table">
+	
+	<table>
 		<caption th:text="'가수 이름 검색 총('+${sCount}+')개'">가수 검색</caption>
 		<tr>
-			<th  class="main__table-text" >no</th>
-			<th  class="main__table-text">음악이름</th>
-			<th  class="main__table-text">가수</th>
-			<th  class="main__table-text">장르</th>
-			<th class="main__table-text">날짜</th>
+			<th>no</th>
+			<th>음악이름</th>
+			<th>가수</th>
+			<th>장르</th>
+			<th>날짜</th>
 		</tr>
 		<!-- 
 		<c:forEach var="data" items="idto">
@@ -116,174 +62,15 @@
 		
 		
 		<tr th:each="singerList , c : ${singerList}">
-			<td class="main__table-text main__table-text--number" th:text="${c.count}"></td>
-			<td  class="main__table-text"><a th:href="@{muView(muCode=${singerList.muCode})}" th:text="${singerList.muName}"></a></td>
-			<td  class="main__table-text" th:text="${singerList.muSinger}"></td>
-			<td  class="main__table-text" th:text="${singerList.muGanre}"></td>
-			<td class="main__table-text main__table-text--green" th:text="${singerList.muDate}"></td>
+			 <td th:text="${c.count}"></td>
+			<td><a th:href="@{muView(muCode=${singerList.muCode})}" th:text="${singerList.muName}"></a></td>
+			<td th:text="${singerList.muSinger}"></td>
+			<td th:text="${singerList.muGanre}"></td>
+			<td th:text="${singerList.muDate}"></td>
 		</tr>
 	</table>
 				  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 				   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-				    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-				     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-				   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-				    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-				    
-				     <a class="main__table-text" th:href="@{singerSearch(keyword=${keyword})}"th:text="'가수이름 검색 더보기'"></a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<table>
-		<caption>실신간 인기 검색어</caption>
-	<tr>
-		<th>no</th>
-		<th>순위</th>
-	</tr>
-	
-	
-		<tr th:each="searchRank , b : ${searchRank}">
-			<td th:text="${b.count}"></td>
-			<td th:text="${searchRank.keyword}"></td> 
-		</tr>
-	</table> 
-	
-	
-	
-	
-	<div class="row row--grid">
-		<div class="col-12">
-			<div class="dashbox">
-				<div class="dashbox__table-wrap">
-					<div class="dashbox__table-scroll">
-						<table class="main__table">
-							<thead>
-								<tr>
-									<th>№</th>
-									<th><a href="#">Product <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.71,10.21,12,7.91l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Zm4.58,4.58L12,17.09l-2.29-2.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z"/></svg></a></th>
-									<th><a href="#" class="active">Title <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,13.41,12.71,9.17a1,1,0,0,0-1.42,0L7.05,13.41a1,1,0,0,0,0,1.42,1,1,0,0,0,1.41,0L12,11.29l3.54,3.54a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29A1,1,0,0,0,17,13.41Z"/></svg></a></th>
-									<th><a href="#" class="active">Date <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"/></svg></a></th>
-									<th><a href="#">Quantity <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.71,10.21,12,7.91l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Zm4.58,4.58L12,17.09l-2.29-2.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z"/></svg></a></th>
-									<th><a href="#">Total <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.71,10.21,12,7.91l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Zm4.58,4.58L12,17.09l-2.29-2.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z"/></svg></a></th>
-									<th><a href="#">Status <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.71,10.21,12,7.91l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Zm4.58,4.58L12,17.09l-2.29-2.3a1,1,0,0,0-1.42,1.42l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z"/></svg></a></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>
-										<div class="main__table-text main__table-text--number"><a href="#modal-info" class="open-modal">631</a></div>
-									</td>
-									<td>
-										<div class="main__table-img">
-											<img src="img/store/item3.jpg" alt="">
-										</div>
-									</td>	
-									<td>
-										<div class="main__table-text"><a href="#">Music Blank</a></div>
-									</td>
-									<td>
-										<div class="main__table-text">Aug 21, 2021</div>
-									</td>
-									<td>
-										<div class="main__table-text">17</div>
-									</td>
-									<td>
-										<div class="main__table-text main__table-text--price">$67.83</div>
-									</td>
-									<td>
-										<div class="main__table-text main__table-text--green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.72,8.79l-4.29,4.3L8.78,11.44a1,1,0,1,0-1.41,1.41l2.35,2.36a1,1,0,0,0,.71.29,1,1,0,0,0,.7-.29l5-5a1,1,0,0,0,0-1.42A1,1,0,0,0,14.72,8.79ZM12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"/></svg>  Delivered</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="main__table-text main__table-text--number"><a href="#modal-info" class="open-modal">632</a></div>
-									</td>
-									<td>
-										<div class="main__table-img">
-											<img src="img/store/item3.jpg" alt="">
-										</div>
-									</td>
-									<td>
-										<div class="main__table-text"><a href="#">Music Blank</a></div>
-									</td>
-									<td>
-										<div class="main__table-text">Aug 21, 2021</div>
-									</td>
-									<td>
-										<div class="main__table-text">17</div>
-									</td>
-									<td>
-										<div class="main__table-text main__table-text--price">$67.83</div>
-									</td>
-									<td>
-										<div class="main__table-text main__table-text--red"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.71,8.29a1,1,0,0,0-1.42,0L12,10.59,9.71,8.29A1,1,0,0,0,8.29,9.71L10.59,12l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L13.41,12l2.3-2.29A1,1,0,0,0,15.71,8.29Zm3.36-3.36A10,10,0,1,0,4.93,19.07,10,10,0,1,0,19.07,4.93ZM17.66,17.66A8,8,0,1,1,20,12,7.95,7.95,0,0,1,17.66,17.66Z"/></svg> Canceled</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="main__table-text main__table-text--number"><a href="#modal-info" class="open-modal">708</a></div>
-									</td>
-									<td>
-										<div class="main__table-img">
-											<img src="img/store/item4.jpg" alt="">
-										</div>
-									</td>
-									<td>
-										<div class="main__table-text"><a href="#">Headphones ZR-991</a></div>
-									</td>
-									<td>
-										<div class="main__table-text">Aug 14, 2021</div>
-									</td>
-									<td>
-										<div class="main__table-text">1</div>
-									</td>
-									<td>
-										<div class="main__table-text main__table-text--price">$199</div>
-									</td>
-									<td>
-										<div class="main__table-text main__table-text--grey"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20ZM14.09814,9.63379,13,10.26807V7a1,1,0,0,0-2,0v5a1.00025,1.00025,0,0,0,1.5.86621l2.59814-1.5a1.00016,1.00016,0,1,0-1-1.73242Z"/></svg> On the way</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="main__table-text main__table-text--number"><a href="#modal-info" class="open-modal">750</a></div>
-									</td>
-									<td>
-										<div class="main__table-img">
-											<img src="img/store/item1.jpg" alt="">
-										</div>
-									</td>
-									<td>
-										<div class="main__table-text"><a href="#">Vinyl Player</a></div>
-									</td>
-									<td>
-										<div class="main__table-text">Aug 5, 2021</div>
-									</td>
-									<td>
-										<div class="main__table-text">1</div>
-									</td>
-									<td>
-										<div class="main__table-text main__table-text--price">$11 899</div>
-									</td>
-									<td>
-										<div class="main__table-text main__table-text--green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.72,8.79l-4.29,4.3L8.78,11.44a1,1,0,1,0-1.41,1.41l2.35,2.36a1,1,0,0,0,.71.29,1,1,0,0,0,.7-.29l5-5a1,1,0,0,0,0-1.42A1,1,0,0,0,14.72,8.79ZM12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"/></svg> Delivered</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-						
-	
-	
-
-</div>
-
+				    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="/searchSinger">가수이름 검색 더보기</a>
 </body>
 </html>

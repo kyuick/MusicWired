@@ -28,8 +28,5 @@
 		FROM CART C, MUSIC M
 		WHERE M.MUCODE = C.CAMUCODE AND CAMID = #{mId}
 	</select>
-
-	<insert id="CartAddPlayList" parameterType="Cart">
-		INSERT INTO CART VALUES(CART_SEQ.NEXTVAL,#{caMid},#{caMuCode},500)
-	</insert>
+	
 </mapper>

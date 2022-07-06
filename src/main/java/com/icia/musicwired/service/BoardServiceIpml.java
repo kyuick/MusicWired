@@ -66,6 +66,8 @@ public class BoardServiceIpml implements BoardService {
 		if (!boImageFile.isEmpty()) {
 			board.setBoImage(boImage);
 			boImageFile.transferTo(new File(savePath));
+		}else {
+			board.setBoImage("default_boardImage.png");
 		}
 
 		int result = bodao.boardUpload(board);
@@ -135,6 +137,8 @@ public class BoardServiceIpml implements BoardService {
 		if (!boImageFile.isEmpty()) {
 			board.setBoImage(boImage);
 			boImageFile.transferTo(new File(savePath));
+		}else {
+			board.setBoImage("default_boardImage.png");
 		}
 
 		int result = bodao.boardModify(board);

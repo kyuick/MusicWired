@@ -46,8 +46,9 @@ public class subServiceImpl implements subService {
 
 	@Override
 	public List<subDTO> subermodalList(String ssMid) {
+		System.out.println("[2] 내가 구독 S : " + ssMid);
 		subList = dao.subermodalList(ssMid);
-		
+		System.out.println("[3] 내가 구독 S : " + subList);
 		return subList;
 
 	}
