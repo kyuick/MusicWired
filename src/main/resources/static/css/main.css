@@ -1562,7 +1562,7 @@ body::-webkit-scrollbar-thumb {
   padding: 15px 20px 15px 0;
 }
 .main__table-text {
-  display: flex;
+  /* display: flex; */
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
