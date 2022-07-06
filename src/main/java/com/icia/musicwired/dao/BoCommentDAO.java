@@ -15,7 +15,10 @@ public interface BoCommentDAO {
 	
 	
 	int bcDelete(BoCommentDTO boComment);
-	
+
+	List<BoCommentDTO> boardWriterView(String boWriter);
+
+
 	
 
 }

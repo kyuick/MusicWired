@@ -32,7 +32,8 @@
 	
 	<update id="memberModify" parameterType="member">
 		UPDATE MEMBER SET MPW=#{mPw}, MNAME=#{mName}, MEMAIL=#{mEmail},
-						  MPROFILENAME=#{mProfileName, jdbcType=VARCHAR} WHERE MID=#{mId}
+		MPROFILENAME=#{mProfileName, jdbcType=VARCHAR} WHERE MID=#{mId}
+
 	</update>
 	
 	<delete id="memberDelete" parameterType="String">

@@ -19,5 +19,7 @@ public interface MusicCommentDAO {
 
 	int mcDelete(MusicCommentDTO mcomm);
 
+	List<MusicCommentDTO> boardWriterView(String boWriter);
+
 
 }

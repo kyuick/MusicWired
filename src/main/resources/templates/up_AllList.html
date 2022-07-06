@@ -175,6 +175,19 @@
 	alert('로그인 이후 이용해주세요');
 	location.href="memberLogin";
 </script>
+
+<body>
+	<div>
+		<button onclick="location.href='index'">홈페이지</button>
+		<button onclick="location.href='cartList'">장바구니</button>
+	</div>
+	<div id="allMuListArea"></div>
+	<div id="pagingArea"></div>
+	<div id="musicPlayArea"></div>
+	<input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript" th:inline="javascript">
 
@@ -208,6 +221,11 @@
             console.log(paging);
             console.log(paging.maxPage);
             console.log(paging.endPage);
+            if(paging.page <= 1){
+            	output += "<span>[처음]</span>"
+            }else if(paging.page > 1){
+            	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>[처음]</a></span>";
+            }
 
 			if(paging.page <= 1){
 				output += "<span>[이전] </span>"
@@ -228,11 +246,40 @@
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
 			}
-			
+			if(paging.page >= paging.maxPage){
+				output += "<span> [끝]</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'> [끝]</a></span>";
+			}
 			var pagingArea = document.getElementById('pagingArea');
 			
 			pagingArea.innerHTML = output;
-			
+			$(".homePage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "ajaxFileList",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						allFileList(list);
+						filePaging(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
 			$(".previousPage").click(function(){
 				var page = $(this).attr('id');
 				console.log("page : "+page);
@@ -310,6 +357,32 @@
 					}
 				});
 			});
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "ajaxFileList",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						allFileList(list);
+						filePaging(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 		}
 		
@@ -317,6 +390,7 @@
 			
 			var paging = list.paging;
             var musicList = list.musicList;
+			var loginId = $("#mId").val();
             
             console.log("paging : " + paging +", musicList : " + musicList)
 
@@ -355,6 +429,7 @@
 								dataType: "json",
 								async: false,
 								success: function(check){
+
 									output += "<tbody>"
 									output += "<tr>";
 									output += "<td class='main__table-text'><a href='muView?muCode="+musicList[i].muCode+"&mId="+sessionId+"' style='padding-top:10%;'><img class='single-item__cover' src='muImage/"+musicList[i].muImage+"' style='width:50px;'/></a></td>";

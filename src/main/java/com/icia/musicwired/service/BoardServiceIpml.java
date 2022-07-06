@@ -95,8 +95,10 @@ public class BoardServiceIpml implements BoardService {
 //	      }else { 
 //	         mav.addObject("subCheck", 0);
 //	      }
+		
 		mav.setViewName("board_list");
 		mav.addObject("boardList", boardList);
+		
 
 		return mav;
 	}

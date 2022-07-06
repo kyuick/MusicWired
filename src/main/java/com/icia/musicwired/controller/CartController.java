@@ -69,4 +69,31 @@ public class CartController {
 		return cartList;
 	}
 
+	//CartAddPlayList : 플레이리스트에서 장바구니 인설트
+	@PostMapping("CartAddPlayList")
+	public @ResponseBody List<CartDTO> CartAddPlayList(@ModelAttribute CartDTO cart) {
+
+		cartList = cartsvc.CartAddPlayList(cart);
+
+		return cartList;
+	}
+
+	//	CartAddCheck : 장바구니에 이미 담았는지 확인하는 메소드
+	@PostMapping("CartAddCheck")
+	public @ResponseBody List<CartDTO> CartAddCheck(@ModelAttribute CartDTO cart){
+
+		cartList = cartsvc.CartAddCheck(cart);
+
+		return cartList;
+	}
+
+	//CartAddPlayListDelete
+	@PostMapping("CartAddPlayListDelete")
+	public @ResponseBody List<CartDTO> CartAddPlayListDelete(@ModelAttribute CartDTO cart){
+		System.out.println("[1] 장바구니 상품 삭제 C : " + cart);
+		cartList = cartsvc.CartAddPlayListDelete(cart);
+		System.out.println("[4] 장바구니 상품 삭제 C : " + cartList);
+		return cartList;
+	}
+
 }

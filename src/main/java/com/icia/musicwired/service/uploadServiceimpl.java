@@ -313,7 +313,7 @@ public class uploadServiceimpl implements uploadService {
 	public List<MusicLikeDto> LikemodalList(int mulmuCode) {
 
 		MusicLikeDto= dao.LikemodalList(mulmuCode);
-
+		
 		return MusicLikeDto;
 	}
 

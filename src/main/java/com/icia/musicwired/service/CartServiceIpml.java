@@ -86,4 +86,53 @@ public class CartServiceIpml implements CartService{
 		return cartList;
 	}
 
+
+	@Override
+	public List<CartDTO> CartAddPlayList(CartDTO cart) {
+		System.out.println("[2] 장바구니 상품 추가 S : " + cart);
+
+		int result = cartdao.CartAddPlayList(cart);
+		System.out.println("[3] 장바구니 상품 추가 S : " + result);
+
+		if(result > 0) {
+
+		} else {
+			cartList = null;
+		}
+
+
+		return cartList;
+	}
+
+	@Override
+	public List<CartDTO> CartAddCheck(CartDTO cart) {
+
+		List<CartDTO> CartAddCheck = cartdao.CartAddCheck(cart);
+
+		if(CartAddCheck != null) {
+			cartList = CartAddCheck;
+		} else {
+			cartList = null;
+		}
+
+		return cartList;
+	}
+
+	@Override
+	public List<CartDTO> CartAddPlayListDelete(CartDTO cart) {
+		System.out.println("[2] 장바구니 상품 삭제 S : " + cart);
+
+		int result = cartdao.CartAddPlayListDelete(cart);
+		System.out.println("[3] 장바구니 상품 삭제 S : " + cart);
+
+		if(result > 0) {
+			List<CartDTO> Cart = cartdao.ajaxCartList(cart.getCaMid());
+			cartList = Cart;
+		} else {
+			cartList = null;
+		}
+		return cartList;
+	}
+
+
 }
