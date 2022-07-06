@@ -19,12 +19,12 @@ public class BoCommentController {
 
 	@Autowired
 	private BoCommentService bcsvc;
-
+	List<BoCommentDTO> commentList = new ArrayList<BoCommentDTO>();
 	
 	@RequestMapping(value="bcList", method=RequestMethod.POST)
 	public @ResponseBody List<BoCommentDTO> bcList(@RequestParam(value="bcBoCode", required = true)int bcBoCode){
 		System.out.println("[1] 댓글 목록 C : " + bcBoCode);
-		List<BoCommentDTO> commentList = new ArrayList<BoCommentDTO>();
+		
 		commentList = bcsvc.bcList(bcBoCode);
 		System.out.println("[4] 댓글 목록 C : " + commentList);
 		return commentList;

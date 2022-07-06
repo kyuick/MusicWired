@@ -3,6 +3,7 @@ package com.icia.musicwired.dto;
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -20,6 +21,9 @@ public class BoCommentDTO {
 	private String bcMid;
 	private int bcBoCode;
 	private String bcContent;
+	
+	private MultipartFile mProfile;
+	private String mProfileName;
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private Date bcDate;
@@ -62,6 +66,22 @@ public class BoCommentDTO {
 
 	public void setBcDate(Date bcDate) {
 		this.bcDate = bcDate;
+	}
+
+	public MultipartFile getmProfile() {
+		return mProfile;
+	}
+
+	public void setmProfile(MultipartFile mProfile) {
+		this.mProfile = mProfile;
+	}
+
+	public String getmProfileName() {
+		return mProfileName;
+	}
+
+	public void setmProfileName(String mProfileName) {
+		this.mProfileName = mProfileName;
 	}
 	
 	

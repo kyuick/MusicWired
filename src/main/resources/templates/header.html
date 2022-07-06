@@ -8,6 +8,7 @@
 		marquee{
 			height:20px;
 		}
+		
 	
 	</style>
 
@@ -38,13 +39,13 @@
 		<div class="header__content">
 			<div class="header__logo">
 				<a href="/index">
-					<img src="img/logo.svg" alt="">
+					<img src="icon/MUSICWIREDLOGO.png"  alt="">
 				</a>
 			</div>
 
 			<nav class="header__nav">
 				<a th:if="${session.login ne null}" th:href="@{boardWriterView(boWriter=${session.login.mId}, mId=${session.login.mId})}">Profile</a>
-				<a href="about.html">About</a>
+				<a th:href="@{moveChating(mId=${session.login.mId})}"  th:if="${session.login ne null} and ${session.login.mId ne 'admin'}">About</a>
 				<a href="contacts.html">Contacts</a>
 			</nav>
 

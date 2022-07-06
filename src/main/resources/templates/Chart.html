@@ -24,6 +24,7 @@
 #gg{
 	padding-right:0px;
 	padding-left:20px;
+
 }
 
 #trd{
@@ -49,6 +50,7 @@
 	padding-left:40px;
 	padding-right:0px;
 } */
+
 			input[id="cb1"] + label {
 				display: inline-block;
 				width: 20px;
@@ -135,6 +137,7 @@ function on1(){
 	function hitChart(list){
 		
 		var output="";
+
 		output +="<table class='main__table'>";
 		output +="<thead>";
 		output +="<tr>";
@@ -153,7 +156,6 @@ function on1(){
 		output +="</thead>	";
 		
 		var arr = [1,2,3,4,5,6,7,8,9,10];
-	
 	
 			for(var i in list){
 			for(var i in arr ){
@@ -176,9 +178,6 @@ function on1(){
 								async: false,
 								success: function(check){
 			output +="<tr>";
-			
-			
-			
 			output +="<td>	<input type='checkbox' id='cb1'>  <label for='cb1'></label></td>";
 			output +="<td><span class='single-item__number'>"+arr[i]+"</span></td>";
 			output +="<td class='main__table-text'><a href='muView?muCode="+list[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='/muImage/"+list[i].muImage+"'style='width:50px;height:50px';/></a></td>";
@@ -190,6 +189,7 @@ function on1(){
 			output +="<td><div class='main__table-text'>"+list[i].muLike+"</div></td>";
 			output +="<td><div class='main__table-text main__table-text--price'>$"+list[i].muPrice+"</div></td>";
 			
+
 			if(check == ""){
 				if(result == ""){
 					output += "<td><img src='/icon/cartCheck.png' style='width:25px;height:25px'; id='"+list[i].muCode+"' class='cartChange' value='check1' /></td>";
@@ -211,8 +211,7 @@ function on1(){
 						}
 					});
 				 })(i);
-			
-		
+
 			var hitArea=document.getElementById('hitArea');
 			
 			hitArea.innerHTML=output;
@@ -317,9 +316,6 @@ $(".cartChange").click(function(){
 			
 			
 			$(".play").click(function(){
-				
-				
-				
 
 				  
 				var aa = new Array();
@@ -546,6 +542,7 @@ $(".cartChange").click(function(){
 				output +="<table class='main__table'>";
 				output +="<thead>";
 				output +="<tr>";
+
 				output +="<th class='main__table-text'>순위</th>";
 				output +="<th class='main__table-text'>앨범</th>";
 				output +="<th class='main__table-text'>곡정보</th>";
@@ -926,9 +923,9 @@ $(".cartChange").click(function(){
 		<button id="like" onclick="on2()">좋아요차트</button><br/><br/>
 		<form><input type="button" value="페이지 새로 고침" onClick="window.location.reload()"></form>
 		
+
 		  <input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
-		
-		
+
 
 	<div class="row row--grid">
 		<div class="col-12">
@@ -942,9 +939,11 @@ $(".cartChange").click(function(){
 			</div>
 			</div>
 			
+
 			
 			<div id="mplayArea">
 			</div>
+
 
 <!-- <table> -->
     <!-- <tr>
@@ -971,7 +970,7 @@ $(".cartChange").click(function(){
     </tr>
     
 </table> -->
-	
+
 						</div>
 			
 

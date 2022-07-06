@@ -14,11 +14,16 @@ public class BoCommentServiceImpl implements BoCommentService{
 
 	@Autowired
 	private BoCommentDAO bcdao;
+	
+	List<BoCommentDTO> commentList = new ArrayList<BoCommentDTO>();
 
 	@Override
 	public List<BoCommentDTO> bcList(int bcBoCode) {
+		
 		System.out.println("[2] 댓글 목록 S : " + bcBoCode);
-		return bcdao.bcList(bcBoCode);
+		commentList = bcdao.bcList(bcBoCode);
+		System.out.println("[3] 댓글 목록 S : " + commentList);
+		return commentList;
 	}
 
 	@Override

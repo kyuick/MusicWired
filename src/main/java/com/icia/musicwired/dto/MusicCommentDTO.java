@@ -23,5 +23,5 @@ public class MusicCommentDTO {
 	private int mcMuNum;
 	private String mcContent;
 	private Date mcDate;
-
+	private String mProfileName;
 }
