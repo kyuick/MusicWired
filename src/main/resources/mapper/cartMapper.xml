@@ -32,4 +32,16 @@
 	<insert id="CartAddPlayList" parameterType="Cart">
 		INSERT INTO CART VALUES(CART_SEQ.NEXTVAL,#{caMid},#{caMuCode},500)
 	</insert>
+
+	<!-- 플레이 리스트에서 장바구니에 이미 담았는지 확인하는 메소드 -->
+	<select id="CartAddCheck" parameterType="Cart" resultType="Cart">
+		SELECT *
+		FROM CART
+		WHERE CAMUCODE = #{caMuCode} AND CAMID = #{caMid}
+		ORDER BY CARCODE
+	</select>
+
+	<delete id="CartAddPlayListDelete" parameterType="Cart">
+		DELETE FROM CART WHERE CAMID = #{caMid} AND CAMUCODE = #{caMuCode}
+	</delete>
 </mapper>

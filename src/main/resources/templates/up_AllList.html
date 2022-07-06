@@ -24,7 +24,7 @@ table, tr, td, th {
 	<div id="allMuListArea"></div>
 	<div id="pagingArea"></div>
 	<div id="musicPlayArea"></div>
-        
+	<input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
 </body>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -230,6 +230,7 @@ table, tr, td, th {
 			
 			var paging = list.paging;
             var musicList = list.musicList;
+			var loginId = $("#mId").val();
             
             console.log("paging : " + paging +", musicList : " + musicList)
 
@@ -266,15 +267,16 @@ table, tr, td, th {
 								dataType: "json",
 								async: false,
 								success: function(check){
-									
-									output +="<td>"+GenreChart[i].rn+"</td>";
-									output +="<td>"+GenreChart[i].muSinger+"</td>";
-									output +="<td><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</td>";
-									output +="<td><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+"'></button ></label></td>";
-									output +="<td>"+GenreChart[i].muGanre+"</td>";
-									output +="<td>"+GenreChart[i].muDate+"</td>";
-									output +="<td>"+GenreChart[i].muHit+"</td>";
-									output +="<td>"+GenreChart[i].muLike+"</td>";
+
+									output += "<tr>";
+									output += "<td>"+musicList[i].muSinger+"</td>";
+									output += "<td><a href='muView?muCode="+musicList[i].muCode+"&mId="+sessionId+"'>"+musicList[i].muName+"</a></td>";
+									output += "<td><button class='musicPlay' value='"+musicList[i].mFile+"'>재생</button></td>";
+									output += "<td>"+musicList[i].muGanre+"</td>";
+									output += "<td>"+musicList[i].muDate+"</td>";
+									output += "<td>"+musicList[i].muHit+"</td>";
+									output += "<td>"+musicList[i].muLike+"</td>";
+
 									
 									if(check == ""){
 										if(result == ""){
