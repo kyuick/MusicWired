@@ -12,7 +12,7 @@
 </select>
 
 <select id="balgenre" resultType="audio">
-	SELECT * FROM BAL WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC 
+	SELECT * FROM BAL WHERE RN BETWEEN #{startRow} AND #{endRow}  
 </select>
 
     <select id="baladCount" resultType="int">
@@ -20,7 +20,7 @@
 	</select>
 
 <select id="danceGenre" resultType="audio">
-	SELECT * FROM DANCE WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC
+	SELECT * FROM DANCE WHERE RN BETWEEN #{startRow} AND #{endRow} 
 </select>
 
 <select id="danceCount" resultType="int">
@@ -28,7 +28,7 @@
 </select>
 
 <select id="rockGenre" resultType="audio">
-	SELECT * FROM ROCK WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC
+	SELECT * FROM ROCK WHERE RN BETWEEN #{startRow} AND #{endRow} 
 </select>
 
 <select id="rockCount" resultType="int">
@@ -36,7 +36,7 @@
 </select>
 
 <select id="hiphopGenre" resultType="audio">
-	SELECT * FROM HIPHOP WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC
+	SELECT * FROM HIPHOP WHERE RN BETWEEN #{startRow} AND #{endRow} 
 </select>
 
 <select id="hiphopCount" resultType="int">
@@ -44,7 +44,7 @@
 </select>
 
 <select id="indiGenre" resultType="audio">
-	SELECT * FROM INDI WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC
+	SELECT * FROM INDI WHERE RN BETWEEN #{startRow} AND #{endRow} 
 </select>
 
 <select id="indiCount" resultType="int">
@@ -52,7 +52,7 @@
 </select>
 
 <select id="gitaGenre" resultType="audio">
-	SELECT * FROM METC WHERE RN BETWEEN #{startRow} AND #{endRow} ORDER BY MUDATE DESC
+	SELECT * FROM METC WHERE RN BETWEEN #{startRow} AND #{endRow} 
 </select>
 
 <select id="gitaCount" resultType="int">

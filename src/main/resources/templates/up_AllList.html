@@ -61,6 +61,11 @@ table, tr, td, th {
             console.log(paging);
             console.log(paging.maxPage);
             console.log(paging.endPage);
+            if(paging.page <= 1){
+            	output += "<span>[처음]</span>"
+            }else if(paging.page > 1){
+            	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>[처음]</a></span>";
+            }
 
 			if(paging.page <= 1){
 				output += "<span>[이전] </span>"
@@ -81,11 +86,40 @@ table, tr, td, th {
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'> [다음]</a></span>";
 			}
-			
+			if(paging.page >= paging.maxPage){
+				output += "<span> [끝]</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'> [끝]</a></span>";
+			}
 			var pagingArea = document.getElementById('pagingArea');
 			
 			pagingArea.innerHTML = output;
-			
+			$(".homePage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "ajaxFileList",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						allFileList(list);
+						filePaging(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
 			$(".previousPage").click(function(){
 				var page = $(this).attr('id');
 				console.log("page : "+page);
@@ -163,6 +197,32 @@ table, tr, td, th {
 					}
 				});
 			});
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "ajaxFileList",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						allFileList(list);
+						filePaging(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 		}
 		
@@ -207,6 +267,7 @@ table, tr, td, th {
 								dataType: "json",
 								async: false,
 								success: function(check){
+
 									output += "<tr>";
 									output += "<td>"+musicList[i].muSinger+"</td>";
 									output += "<td><a href='muView?muCode="+musicList[i].muCode+"&mId="+sessionId+"'>"+musicList[i].muName+"</a></td>";
@@ -215,17 +276,18 @@ table, tr, td, th {
 									output += "<td>"+musicList[i].muDate+"</td>";
 									output += "<td>"+musicList[i].muHit+"</td>";
 									output += "<td>"+musicList[i].muLike+"</td>";
+
 									
 									if(check == ""){
 										if(result == ""){
 											output += "<td>500원</td>";
-											output += "<td style='background-color: gray; color: white;' id='"+musicList[i].muCode+"' class='cartChange' value='check1'>장바구니 추가</td>";
+											output += "<td style='background-color: gray; color: white;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'>장바구니 추가</td>";
 										} else if(result != ""){
 											output += "<td>500원</td>";
-											output += "<td style='background-color: red; color: white;' id='"+musicList[i].muCode+"' class='cartChange' value='check2'>추가완료</td>";
+											output += "<td style='background-color: red; color: white;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'>추가완료</td>";
 										}
 									} else if(check != ""){
-										output += "<td colspan='2'><a href='/audio/"+musicList[i].mFile+"' download='"+musicList[i].mFile+"'><button class='selectMusicDownload' id='"+musicList[i].muCode+"download'>음원다운</button></a></td>";
+										output += "<td colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
 									}
 									output += "</tr>";
 								},

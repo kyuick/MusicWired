@@ -27,7 +27,7 @@ public class uploadDto {
     private Date pDate;
     private Date mudDate;
     private int pCode;
-    
+    private int rn;
 	public int getMuCode() {
 		return muCode;
 	}
@@ -130,14 +130,22 @@ public class uploadDto {
 	public void setpCode(int pCode) {
 		this.pCode = pCode;
 	}
+	public int getRn() {
+		return rn;
+	}
+	public void setRn(int rn) {
+		this.rn = rn;
+	}
 	@Override
 	public String toString() {
 		return "uploadDto [muCode=" + muCode + ", muSinger=" + muSinger + ", mId=" + mId + ", muName=" + muName
 				+ ", muGanre=" + muGanre + ", muDate=" + muDate + ", muImage=" + muImage + ", muLyrics=" + muLyrics
 				+ ", muHit=" + muHit + ", muLike=" + muLike + ", muPrice=" + muPrice + ", mFile=" + mFile + ", muFile="
 				+ muFile + ", mImage=" + mImage + ", pDate=" + pDate + ", mudDate=" + mudDate + ", pCode=" + pCode
-				+ "]";
+				+ ", rn=" + rn + "]";
 	}
+    
+
  
 	
 
