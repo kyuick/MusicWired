@@ -176,25 +176,36 @@
 
 								<div class="post__content" style="height:200px;">
 									
-									<h3 class="post__title" th:text="${boardList.boContent}"></h3>
+									<h1 class="post__title" th:text="${boardList.boTitle}"></h1>
+									<h3 style="color:black;" th:text="${boardList.boContent}"></h3>
+									<h4 style="color:black;" th:text="${boardList.boWriter}"></h4>
 									
 									<div class="post__meta">
 										<span th:class="post__date" th:text="${boardList.boDate}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20ZM14.09814,9.63379,13,10.26807V7a1,1,0,0,0-2,0v5a1.00025,1.00025,0,0,0,1.5.86621l2.59814-1.5a1.00016,1.00016,0,1,0-1-1.73242Z"/></svg></span>
-										<!-- <button th:if="${boardList.boLike}<=0" th:id="${boardList.boCode}+check" th:class="likeUserList"><img th:id="${boardList.boCode}" th:class="heartChange" th:value="check1" th:src="@{/heart/love.png}" th:width="30px"/></button>
-										<button th:if="${boardList.boLike}>0" th:id="${boardList.boCode}+check" th:class="likeUserList"><img th:id="${boardList.boCode}" th:class="heartChange" th:value="check1" th:src="@{/heart/heart2.png}" th:width="30px"/><strong th:text="${boardList.boLike}"></strong></button>
-										 -->
-										<label th:if="${boardList.boLike}<=0"><img th:id="${boardList.boCode}" th:class="heartChange" th:value="check1" th:src="@{/heart/love.png}" th:width="30px"/><button th:if="${boardList.boLike}<=0" style="width:30px;" HEIGHT="30"
-                    					th:id="${boardList.boCode}+check" th:class="likeUserList"> </button></label>
-                    					<label th:if="${boardList.boLike}>0"><img th:id="${boardList.boCode}" th:class="heartChange" th:value="check1" th:src="@{/heart/heart2.png}" th:width="30px"/><button th:if="${boardList.boLike}<=0" style="width:30px;" HEIGHT="30"
-                    					th:id="${boardList.boCode}+check" th:class="likeUserList"></button></label>
-										<button th:type="button" th:text="${boardList.boLike}+'명이 좋아합니다.'" th:id="muLike"></button>
 										
+										<!-- if(result == ""){
+												if(list[i].boLike <= 0){
+													output += "<td><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'></span></td>"
+												} else if(list[i].boLike > 0){
+													output += "<td><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'><strong>" + list[i].boLike + "명이 좋아합니다.</strong></span></td>"
+												}
+											} else if(result != ""){
+												output += "<td><img id='"+ list[i].boCode +"' class='heartChange' value='check2' src='/heart/heart2.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'><strong>" + list[i].boLike + "명이 좋아합니다.</strong></span></td>"
+											} -->
+										<div th:if="${boardList.boLike}<=0"><img th:id="${boardList.boCode}" th:class="heartChange" th:value="check1" th:src="@{/heart/love.png}" style="width: 25px;"/><span th:id="${boardList.boCode}+check" th:class="likeUserList"></span>
+										</div>
+										<div th:if="${boardList.boLike}>0"><img th:id="${boardList.boCode}" th:class="heartChange" th:value="check1" th:src="@{/heart/love.png}" style="width: 25px;"/><span th:id="${boardList.boCode}+check" th:class="likeUserList"><strong style="color:white;" text="${boardList.boLike}"></strong></span>
+										</div>
+										<div><img th:id="${boardList.boCode}" th:class="heartChange" th:value="check2" th:src="@{/heart/heart2.png}" style="width: 25px;"><span th:id="${boardList.boCode}+check" th:class="likeUserList"></span><strong style="color:white;" th:text="${boardList.boLike}"></strong></div>
 										
 										<div th:id="root">
 										
 										<span th:type="button" th:class="post__comments" th:id="bccomment" th:value="${boardList.boCode}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9H7a1,1,0,0,0,0,2H17a1,1,0,0,0,0-2Zm-4,4H7a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2ZM12,2A10,10,0,0,0,2,12a9.89,9.89,0,0,0,2.26,6.33l-2,2a1,1,0,0,0-.21,1.09A1,1,0,0,0,3,22h9A10,10,0,0,0,12,2Zm0,18H5.41l.93-.93a1,1,0,0,0,0-1.41A8,8,0,1,1,12,20Z"/></svg></span>
 										</div>
+										
+										
 									</div>
+									
 								</div>
 							</div>
 							
@@ -356,9 +367,10 @@ var CheckLogin = [[${session.login}]]
 							output += "<a href='boardWriterView?boWriter=" + list[comment].mId + "'><p><img src='/profile/" + list[comment].mProfileName + "' style=width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + list[comment].mId + list[comment].bcContent +" </p></a>"
 						}
 					} */
+					console.log(commentList.length)
 					output += "<table>";
 					 for(var comment in commentList){
-						 if(commentList.length>0){
+						if(commentList.length > 0){
 							 
 						output += "<tr>";
 						
@@ -375,18 +387,14 @@ var CheckLogin = [[${session.login}]]
 						output += "<td colspan='2'><button class ='commentDelete' id='"+commentList[comment].bcCode+"'>삭제</button></td>";
 					}  
 						output += "</tr>";
-					}  else{
-						output += "<tr>";
-						output += "<td>댓글을 입력해주세요" + "</td>";
+					}  
+						
+					 }
+					 	
+					 output += "<tr>";
+						output += "<td colspan='8'><textarea rows=4 cols=50 id='"+bcBoCode+"check2' class='TestCheck'></textarea></td>";
+						output += "<td><button class='commBtn' id='"+bcBoCode+"' value='"+bcBoCode+"'>등록</button></td>";
 						output += "</tr>";
-					}
-						 
-					}
-					 	output += "<tr>";
-						output += "<td colspan='8'><textarea rows=4 cols=50 id='"+commentList[comment].bcBoCode+"check2' class='TestCheck'></textarea></td>";
-						output += "<td><button class='commBtn' id='"+commentList[comment].bcBoCode+"' value='"+commentList[comment].bcBoCode+"'>등록</button></td>";
-						output += "</tr>";
-					 
 					 	output += "</table>";
 					 
 				
@@ -475,7 +483,7 @@ var CheckLogin = [[${session.login}]]
 						if(list[i].boLike <= 0){
 							output1 += "<span></span>";
 						} else if(list[i].boLike > 0){
-							output1 += "<span id='"+list[i].boCode+"check'><strong>" + list[i].boLike + "명이 좋아합니다.</strong></span>";
+							output1 += "<span id='"+list[i].boCode+"check'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span>";
 						}
 						
 					}
@@ -524,7 +532,7 @@ var CheckLogin = [[${session.login}]]
 						if(list[i].boLike <= 0){
 							output2 += "<span></span>"
 						} else if(list[i].boLike > 0){
-							output2 += "<span id='"+list[i].boCode+"check'><strong>" + list[i].boLike + "명이 좋아합니다.</strong></span>"
+							output2 += "<span id='"+list[i].boCode+"check'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span>"
 						}
 					}
 					
@@ -538,7 +546,7 @@ var CheckLogin = [[${session.login}]]
 				}
 			
 				CheckHeart = $(this).attr('value',"check1");
-				$(this).attr("src","/heart/heart1.png");
+				$(this).attr("src","/heart/love.png");
 				
 			}
 			
