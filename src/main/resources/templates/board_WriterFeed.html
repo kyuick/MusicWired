@@ -274,11 +274,11 @@
 
 										<div class="dashbox__list-wrap">
 											<div class="dashbox__scroll">
-											<div th:each="bolist : ${boViewList}">
+											<div th:each="bolist : ${boViewList}" style="padding-top: 4%; padding-bottom: 4%">
 												<div class="dashbox__note dashbox__note--succ">
 													<ul class="main__list main__list--dashbox">
 						                            <li class="single-item">
-					                                    <img th:src="@{/ImageUpload/{aa}(aa=${bolist.boImage})}"/>
+					                                    <img th:src="@{/ImageUpload/{aa}(aa=${bolist.boImage})}" style="width: 87px; height: 87px;"/>
 						                                <div class="single-item__title">
 						                                    <h4><a th:text="${bolist.boTitle}"></a></h4>
 						                                    <span th:text="${bolist.boContent}"></span>
