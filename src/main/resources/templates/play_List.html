@@ -357,20 +357,20 @@
                                 output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z'/></svg>"
                                 output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z'/></svg>"
                                 output += "</a>"
-                                output += "<div class='single-item__title' style='margin-right: 900px;'>"
+                                output += "<div class='single-item__title' >"
                                 output += "<h4>" + result[i].muSinger + "</h4>"
                                 output += "<span>" + result[i].muName + "</span>"
                                 //output += "<a href='PlayListDelete?mId=" + loginId + "&plmuCode=" + playListDeleteResult[i].plmuCode + "'>삭제</a>"
                                 output += "</div>"
-                                output += "<a href='#' class='single-item__add'>";
-                                output += "<button class ='PlayListDelete' type = 'button' value='"+playListDeleteResult[i].plmuCode+"' id='playListDelete'><svg xmlns = 'http://www.w3.org/2000/svg' viewBox = '0 0 24 24'><path d ='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button>"
+                                output += "<a href='#' class='single-item__add' style='position: absolute; right: 60px'>";
+                                output += "<button class ='PlayListDelete'  type = 'button' value='"+playListDeleteResult[i].plmuCode+"' id='playListDelete'><svg xmlns = 'http://www.w3.org/2000/svg' viewBox = '0 0 24 24'><path d ='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button>"
                                 output += "</a>"
                                 if(cartAddCheck=="") {
-                                    output += "<a href='#' class='single-item__add'>";
+                                    output += "<a href='#' class='single-item__add' style='position: absolute; right: 20px;'>";
                                     output += "<label><img id='"+playListDeleteResult[i].plmuCode+"' src='/img/cartCheck.png' style='width:30px; height: 30px;' class ='PlayListCart' name='" + playListDeleteResult[i].plmuCode + "' value ='Check1'></img></label>";
                                     output += "</a>"
                                 }else if (cartAddCheck != ""){
-                                    output += "<a href='#' class='single-item__add'>";
+                                    output += "<a href='#' class='single-item__add' style='position: absolute; right: 20px; '>";
                                     output += "<label><img id='"+playListDeleteResult[i].plmuCode+"' src='/img/cartDelete.png' style='width:30px; height: 30px;' class ='PlayListCart' name='" + playListDeleteResult[i].plmuCode + "' value ='Check2'></img></label>";
                                     output += "</a>"
                                 }
