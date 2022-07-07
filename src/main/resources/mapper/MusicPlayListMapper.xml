@@ -10,9 +10,9 @@
 
     <!--리스트 내용 출력-->
     <select id="playListPrint" parameterType="String" resultType="audio">
-        SELECT A.MUSINGER, A.MUNAME, A.MUIMAGE, A.MFILE
+        SELECT A.MUSINGER, A.MUNAME, A.MUIMAGE, A.MFILE, p.PLMUCODE, p.PLMID
         FROM MUSIC A,
-             PLAYLIST
+             PLAYLIST p
         WHERE  MUCODE=PLMUCODE AND PLMID = #{plMid}
     </select>
 
