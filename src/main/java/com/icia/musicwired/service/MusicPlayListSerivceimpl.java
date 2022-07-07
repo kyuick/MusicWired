@@ -26,21 +26,21 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
     //playList : playList 테이블에 insert
     @Override
     public List<MusicPlayListDto> playList(MusicPlayListDto mpDto) {
-        System.out.println("[2] playList : "+mpDto);
+
         int result = mpDao.playList(mpDto);
-        System.out.println("[3] result : "+result);
+
         if(result>0) {
 
         }
         return playList;
     }
 
-    // playListPrint : 리스트 출력
+    // playList : 리스트 출력
     @Override
     public List<MusicPlayListDto> playListPrint(String mId) {
-        System.out.println("[2] mId : " + mId);
+
         List<MusicPlayListDto>playListPrint = mpDao.playListPrint(mId);
-        System.out.println("[3] playListPrint : " + playListPrint);
+
         return playListPrint;
     }
 
@@ -60,18 +60,17 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
         return playListDeleteAjax;
     }
 
-    // PlayListDelete : 플레이리스트 목록 삭제
     @Override
-    public ModelAndView PlayListDelete(MusicPlayListDto mpDto) {
+    public List<MusicPlayListDto> PlayListDelete(MusicPlayListDto mpDto) {
 
         int result = mpDao.PlayListDelete(mpDto);
-
         if(result>0){
-            mav.setViewName("redirect:/playListView?mId="+mpDto.getMId());
+
         }
 
-        return mav;
+        return playList;
     }
+
 
 
 
