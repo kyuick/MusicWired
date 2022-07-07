@@ -368,7 +368,10 @@
 
     <div class="player__content">
         <span class="player__track" th:text="${muView.muName}"><b class="player__title"></b></span>
-        <audio th:src="@{/audio/{mFile}(mFile=${muView.mFile})}" id="audio" controls></audio>
+<!--        <audio th:src="@{/audio/{mFile}(mFile=${muView.mFile})}" id="audio" controls></audio>-->
+        <audio controls="controls" th:id="audio">
+            <source th:src="@{/audio/{mFile}(mFile=${muView.mFile})}" style="width:200px;" type="audio/mpeg">
+        </audio>
         <!--        <audio controls="controls" th:src="@{/audio/{mFile}(mFile=${muView.mFile})}" style="width:200px;" type="audio/mpeg">-->
     </div>
 </div>

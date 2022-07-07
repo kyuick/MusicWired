@@ -26,21 +26,21 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
     //playList : playList 테이블에 insert
     @Override
     public List<MusicPlayListDto> playList(MusicPlayListDto mpDto) {
-
+        System.out.println("[2] playList : "+mpDto);
         int result = mpDao.playList(mpDto);
-
+        System.out.println("[3] result : "+result);
         if(result>0) {
 
         }
         return playList;
     }
 
-    // playList : 리스트 출력
+    // playListPrint : 리스트 출력
     @Override
     public List<MusicPlayListDto> playListPrint(String mId) {
-
+        System.out.println("[2] mId : " + mId);
         List<MusicPlayListDto>playListPrint = mpDao.playListPrint(mId);
-
+        System.out.println("[3] playListPrint : " + playListPrint);
         return playListPrint;
     }
 
