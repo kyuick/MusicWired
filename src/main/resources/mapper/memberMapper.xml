@@ -55,4 +55,9 @@
 	<select id="boardWriterView" parameterType="String" resultType="member">
 		SELECT * FROM MEMBER WHERE MID = #{boWriter}
 	</select>
+	
+	
+	<select id="ajaxIdSearch" parameterType="String" resultType="member">
+		SELECT * FROM MEMBER WHERE MID LIKE '%' ||#{mId}||'%'
+	</select>
 </mapper>

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,6 +36,8 @@ public class MemberServiceImpl implements MemberService {
 
 //	@Autowired
 //	private JavaMailSender mailsender;
+	
+	List<MemberDTO> memberList = new ArrayList<MemberDTO>();
 
 	@Override
 	public ModelAndView memberJoin(MemberDTO member) throws IllegalStateException, IOException {
@@ -228,6 +231,18 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return mav;
 	}
+
+	@Override
+	public List<MemberDTO> ajaxIdSearch(String mId) {
+		System.out.println("[2] : " + mId);
+		
+		List<MemberDTO> memberList = mdao.ajaxIdSearch(mId);
+		
+		System.out.println("[3] : " + mId);
+		return memberList;
+	}
+
+	
 
 	
 

@@ -1,6 +1,7 @@
 package com.icia.musicwired.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,5 +30,9 @@ public interface MemberService {
 	ModelAndView memPwfind(MemberDTO member);
 
 	String checkEmail(String mEmail);
+
+	List<MemberDTO> ajaxIdSearch(String mId);
+
+	
 
 }
