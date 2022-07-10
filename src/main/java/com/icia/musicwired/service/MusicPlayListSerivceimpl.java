@@ -67,7 +67,7 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
         int result = mpDao.PlayListDelete(mpDto);
 
         if(result>0){
-            mav.setViewName("redirect:/playListView?mId="+mpDto.getMId());
+            mav.setViewName("redirect:/playListView?mId="+mpDto.getmId());
         }
 
         return mav;

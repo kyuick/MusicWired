@@ -14,5 +14,25 @@ public class CRDTO {
 	int crNum;
 	String crId;
 	String crRead;
+	public int getCrNum() {
+		return crNum;
+	}
+	public void setCrNum(int crNum) {
+		this.crNum = crNum;
+	}
+	public String getCrId() {
+		return crId;
+	}
+	public void setCrId(String crId) {
+		this.crId = crId;
+	}
+	public String getCrRead() {
+		return crRead;
+	}
+	public void setCrRead(String crRead) {
+		this.crRead = crRead;
+	}
+	
+	
 
 }
