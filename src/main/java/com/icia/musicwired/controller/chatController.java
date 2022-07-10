@@ -1,7 +1,9 @@
 package com.icia.musicwired.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.musicwired.dto.CSDTO;
+import com.icia.musicwired.dto.MusicLikeDto;
 import com.icia.musicwired.service.chatService;
 
 @Controller
@@ -62,11 +65,44 @@ public class chatController {
 	}
 
 	@RequestMapping(value = "/readupdate", method = RequestMethod.POST)
-	public @ResponseBody int readupdate(@RequestParam("crId") String crId) {
-		System.out.println("새메세지" + crId);
-		int readupdate = msvc.readupdate(crId);
+	public @ResponseBody int readupdate(@RequestParam("crNum") int crNum) {
+		System.out.println("새메세지11" + crNum);
+		int readupdate = msvc.readupdate(crNum);
 
 		return readupdate;
 
 	}
+	
+	
+	 @RequestMapping(value = "/newMessage", method = RequestMethod.POST)
+	    public @ResponseBody int newMessage(@RequestParam("crId") String crId) {
+	      System.out.println("12"+crId);
+	        int newMessage = msvc.newMessage(crId);
+	        System.out.println("123"+newMessage);
+	        return newMessage;
+	    }
+	 
+	 @RequestMapping(value = "/sidebar", method = RequestMethod.GET)
+		public String index() {
+
+			return "sidebar";
+		}
+	 
+	 @RequestMapping(value = "/newMessageUp", method = RequestMethod.POST)
+	    public @ResponseBody int newMessageUp(@RequestParam("csNum") int csNum) {
+	  
+	        int newMessageUp = msvc.newMessageUp(csNum);
+	    
+	        return newMessageUp;
+	    }
+	 
+	 @RequestMapping(value = "/delMessage", method = RequestMethod.POST)
+	    public @ResponseBody int delMessage(@RequestParam("crId") String crId) {
+	  
+	        int delMessage = msvc.delMessage(crId);
+	    
+	        return delMessage;
+	    }
+	 
+	 
 }

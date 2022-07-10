@@ -52,7 +52,23 @@ Primary use:	Volna HTML Template
 /*==============================
 	Common styles
 ==============================*/
-
+.messagecount span{
+	 
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    min-width: 25px;
+    color: #fff;
+    padding: 0 5px;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    pointer-events: none;
+    background-color: #0099FF;
+    margin-bottom: auto;
+    margin-left: 5px;
+	}
 
 .playaddbtn {
   background-color: #0099FF;
