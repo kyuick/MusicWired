@@ -219,6 +219,15 @@ public class uploadController {
     	System.out.println("[4] 내가 올린 음악 리스트 C : " + musicList);
     	return musicList;
     }
+    
+//	musicDelete : 음악 삭제 메소드(ajax)
+    @PostMapping("ajaxMusicDelete")
+    public @ResponseBody List<uploadDto> ajaxMusicDelete(@RequestParam("muCode") int muCode){
+    	System.out.println("[1] 음악 삭제 C : " + muCode);
+    	musicList = svc.ajaxMusicDelete(muCode);
+    	System.out.println("[4] 음악 삭제 C : " + musicList);
+    	return musicList;
+    }
 
 
 }
