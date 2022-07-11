@@ -39,9 +39,8 @@ public class serchDTO {
 	}
 	@Override
 	public String toString() {
-		return keyword;
+		return "serchDTO [keyword=" + keyword + ", keyworddate=" + keyworddate + "]";
 	}
-	
 	
 	
 }

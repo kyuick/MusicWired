@@ -4,11 +4,11 @@
 
 <mapper namespace="com.icia.musicwired.dao.ChartDAO">
 <select id="hitChart" resultType="audio">
-	  	SELECT * FROM  (SELECT *FROM MUSIC ORDER BY MUHIT DESC)WHERE ROWNUM <![CDATA[ < ]]>=10
+	  	SELECT * FROM  (SELECT *FROM MUSIC ORDER BY MUHIT DESC)WHERE ROWNUM <![CDATA[ < ]]>=30
 </select>
 
 <select id="likeChart" resultType="audio">
- 	SELECT * FROM  (SELECT *FROM MUSIC ORDER BY MULIKE DESC)WHERE ROWNUM <![CDATA[ < ]]>=10
+ 	SELECT * FROM  (SELECT *FROM MUSIC ORDER BY MULIKE DESC)WHERE ROWNUM <![CDATA[ < ]]>=30
 </select>
 
 <select id="balgenre" resultType="audio">

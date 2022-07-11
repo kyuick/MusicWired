@@ -1,8 +1,11 @@
 package com.icia.musicwired.service;
 
+import java.util.List;
+
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.musicwired.dto.serchDTO;
+import com.icia.musicwired.dto.uploadDto;
 
 
 
@@ -14,6 +17,10 @@ public interface searchService {
 
 	ModelAndView singerSearch(String keyword,int page,int limit);
 
-	ModelAndView test(serchDTO search); //테스트
+	List<serchDTO> test(); 
+
+	List<uploadDto> search1(String keyword);
+
+	List<uploadDto> search2(String keyword);
 
 }

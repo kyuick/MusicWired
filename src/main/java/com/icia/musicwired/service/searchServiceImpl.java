@@ -1,5 +1,6 @@
 package com.icia.musicwired.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,19 +149,34 @@ public class searchServiceImpl implements searchService {
 	}
 
 		//테스트
+	List<serchDTO>searchRank=new ArrayList<serchDTO>();
+	
 	@Override
-	public ModelAndView test(serchDTO search) {
-		ModelAndView mav = new ModelAndView();
+	public List<serchDTO> test() {
+		
 			
-		List<serchDTO>searchRank=dao.searchRank();
+		searchRank=dao.searchRank();
 		
-		System.out.println("searchRank s : "+searchRank);
 		
-		mav.addObject("searchRank",searchRank);
+		return searchRank;
+	}
+	List<uploadDto> search1  = new ArrayList<uploadDto>();
+	@Override
+	public List<uploadDto> search1(String keyword) {
+		search1=dao.search10(keyword);
+		System.out.println("서치 : "+search1);
+		return search1;
 		
-		mav.setViewName("Test");
 		
-		return mav;
+	
+	}
+
+	List<uploadDto> search2  = new ArrayList<uploadDto>();
+	@Override
+	public List<uploadDto> search2(String keyword) {
+		search2=dao.search11(keyword);
+		System.out.println("서치 : "+search1);
+		return search2;
 	}
 }
 
