@@ -61,7 +61,7 @@
 		
 		
 		<tr th:each="list:${member}">
-			<td class="main__table-text main__table-text--number"><a th:href="@{memberView(mId=${list.mId})}" th:text="${list.mId}"></a></td>
+			<td class="main__table-text main__table-text--number"th:text="${list.mId}"></td>
 			<td class="main__table-text" th:text="${list.mName}"></td>
 			<td class="main__table-text" th:text="${list.mEmail}"></td>
 			<td class="main__table-text" th:text="${list.mGender}"></td>

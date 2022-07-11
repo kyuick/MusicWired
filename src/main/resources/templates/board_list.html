@@ -31,45 +31,44 @@
 		margin-right: 10px;
 	}
 #modal.modal-overlay {
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	left: 0;
-	top: 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background: rgba(255, 255, 255, 0.25);
-	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-	backdrop-filter: blur(1.5px);
-	-webkit-backdrop-filter: blur(1.5px);
-	border-radius: 10px;
-	border: 1px solid rgba(255, 255, 255, 0.18);
-	display: none;
-	z-index: 500;
+	 		width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(1.5px);
+            -webkit-backdrop-filter: blur(1.5px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            display: none;
+            z-index: 1050;
 }
 
 #modal .modal-window {
-	background: rgba(69, 139, 197, 0.70);
-	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-	backdrop-filter: blur(13.5px);
-	-webkit-backdrop-filter: blur(13.5px);
-	border-radius: 10px;
-	border: 1px solid rgba(255, 255, 255, 0.18);
-	width: 500px;
-	height: 500px;
-	position: relative;
-	top: -100px;
-	padding: 10px;
-	z-index: 1;
+	  		position: relative;
+            box-shadow: 0 8px 32px 0 rgba(88, 88, 88, 0.37);
+            backdrop-filter: blur( 13.5px );
+			display: block;
+			background-color: #16151a;
+			margin: 40px auto;
+			width: 100%;
+			max-width: 420px;
+			padding: 20px;
+			border-radius: 12px;
+			overflow: hidden;
 }
 
 #modal .title {
-	padding-left: 10px;
-	display: inline;
-	text-shadow: 1px 1px 2px gray;
-	color: white;
+	 padding-left: 10px;
+            display: inline;
+            text-shadow: 1px 1px 2px gray;
+            color: white;
 }
 
 #modal .title h2 {
@@ -86,13 +85,10 @@
 }
 
 #modal .content {
-	width: 100%;
-	height: 90%;
-	margin-top: 20px;
-	padding: 0px 10px;
-	text-shadow: 1px 1px 2px gray;
-	color: white;
-	overflow: auto;
+	 margin-top: 20px;
+            padding: 0px 10px;
+            text-shadow: 1px 1px 2px gray;
+            color: white;
 }
 
 .search_box{
@@ -152,11 +148,11 @@ background-color: #008CBA;
 					<div class="main__title main__title--page">
 						<h1>게시글 목록</h1>
 					</div>
-					<div class="header__search"> 
-					<input id="search" type="text" placeholder="Search" class="header__search" style="color:white;">
-					 </div>
-					 <button id="searchBtn" class="searchBtn" style="color:white;">검색<img src="/img/searching.png" style="width:40px;"></button> 
-					
+					 <div class="header__search">
+			<input id="search" type="text" name="keyword" placeholder="Search">
+				<button type="submit" id="searchBtn" class="searchBtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/></svg></button>
+				<button type="button" class="close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
+			</div>
 					<button id="LikeBoardListBtn" class="LikeBtn" style="color:white;">좋아요한 글목록<img src="/img/love-message.png" style="width:40px;"></button>
 					<a class="uploadBtn" style="color:white; padding:20px; margin-left: 91.5%; margin-bottom: 90%;"  onclick="location.href='boardUploadPage'">글쓰기  <img src="/img/add-list.png" style="width:40px; height:40px;"></a>
 				</div>
@@ -387,7 +383,7 @@ var CheckLogin = [[${session.login}]]
 							output += "<div class='col-12 col-sm-6 col-lg-4' style='padding-top:2%;'>";
 							output += "<img src='/ImageUpload/"+ list[i].boImage + "' style='width:490px; height:300px;'>";
 							
-							output += "<div class='post__content' style='height:200px;'>";
+							output += "<div class='post__content' style='height:300px;'>";
 							output += "<h3 style='color:white;'>" + list[i].boTitle + "</h3>";
 							output += "<h4 style='color:white;'>" + list[i].boContent + "</h4>";
 							output += "</br>";
@@ -475,7 +471,7 @@ var CheckLogin = [[${session.login}]]
 							
 							
 						 if(commentList[comment].bcMid == sessionId || sessionId == 'admin'){
-							output += "<td colspan='2'><button class ='commentDelete' id='"+commentList[comment].bcCode+"'>삭제</button></td>";
+							output += "<td colspan='2' ><button class ='commentDelete' id='"+commentList[comment].bcCode+"' style='color:white;'>삭제</button></td>";
 						}  
 							output += "</tr>";
 						}  
@@ -483,8 +479,8 @@ var CheckLogin = [[${session.login}]]
 						 }
 						 	
 						 output += "<tr>";
-							output += "<td colspan='8'><textarea rows=4 cols=50 id='"+bcBoCode+"check2' class='TestCheck'></textarea></td>";
-							output += "<td><button class='commBtn' id='"+bcBoCode+"' value='"+bcBoCode+"'>등록</button></td>";
+							output += "<td colspan='8'><textarea id='"+bcBoCode+"check2' class='TestCheck'></textarea></td>";
+							output += "<td><button class='commBtn' id='"+bcBoCode+"' value='"+bcBoCode+"' style='color:white;'>등록</button></td>";
 							output += "</tr>";
 						 	output += "</table>";
 						 
@@ -957,7 +953,7 @@ $(document).ready(function(){
 						
 						
 					 if(commentList[comment].bcMid == sessionId || sessionId == 'admin'){
-						output += "<td colspan='2'><button class ='commentDelete' id='"+commentList[comment].bcCode+"'>삭제</button></td>";
+						output += "<td colspan='2' ><button class ='commentDelete' id='"+commentList[comment].bcCode+"' style='color:white;'>삭제</button></td>";
 					}  
 						output += "</tr>";
 					}  
@@ -965,8 +961,8 @@ $(document).ready(function(){
 					 }
 					 	
 					 output += "<tr>";
-						output += "<td colspan='8'><textarea rows=4 cols=50 id='"+bcBoCode+"check2' class='TestCheck'></textarea></td>";
-						output += "<td><button class='commBtn' id='"+bcBoCode+"' value='"+bcBoCode+"'>등록</button></td>";
+						output += "<td colspan='8'><textarea id='"+bcBoCode+"check2' class='TestCheck'></textarea></td>";
+						output += "<td><button class='commBtn' id='"+bcBoCode+"' value='"+bcBoCode+"' style='color:white;'>등록</button></td>";
 						output += "</tr>";
 					 	output += "</table>";
 					 
