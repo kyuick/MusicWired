@@ -1,6 +1,10 @@
 package com.icia.musicwired.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +33,8 @@ public class MemberController {
 
 	@Autowired
 	private HttpSession session;
+	
+	List<MemberDTO> memList = new ArrayList<MemberDTO>();
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index() {
@@ -156,11 +163,22 @@ public class MemberController {
 	}
 
 	// memIdfind
-	@RequestMapping(value = "/memIdfind", method = RequestMethod.POST)
-	public ModelAndView memIdfind(@RequestParam("mEmail") String mEmail) {
-		mav = msvc.memIdfind(mEmail);
-		return mav;
+//	@RequestMapping(value = "/memIdfind", method = RequestMethod.POST)
+//	public @ResponseBody ModelAndView memIdfind(@RequestParam("mEmail") String mEmail) {
+//		mav = msvc.memIdfind(mEmail);
+//		return mav;
+//	}
+	
+//	memIdfind : 아이디찾기
+	@PostMapping("memIdfind")
+	public @ResponseBody List<MemberDTO> memIdfind(@RequestParam("mEmail") String mEmail){
+		System.out.println("[1] 아이디 찾기 C : " + mEmail);
+		memList = msvc.memIdfind(mEmail);
+		System.out.println("[4] 아이디 찾기 C : " + memList);
+		
+		return memList;
 	}
+	
 
 	// memberPwfind
 	@RequestMapping(value = "/memberPwfind", method = RequestMethod.GET)
@@ -170,9 +188,24 @@ public class MemberController {
 	}
 
 	// memPwfind
-	@RequestMapping(value = "/memPwfind", method = RequestMethod.POST)
-	public ModelAndView memPwfind(@ModelAttribute MemberDTO member) {
-		mav = msvc.memPwfind(member);
-		return mav;
+//	@RequestMapping(value = "/memPwfind", method = RequestMethod.POST)
+//	public ModelAndView memPwfind(@ModelAttribute MemberDTO member) {
+//		mav = msvc.memPwfind(member);
+//		return mav;
+//	}
+	
+//	memPwfind : 비번찾기
+	@PostMapping("memPwfind")
+	@ResponseBody
+	public Map<String,Object> memPwfind(@ModelAttribute MemberDTO member){
+		System.out.println("[1] 비번찾기 C : " + member);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result = msvc.memPwfind(member);
+		
+		System.out.println("[5] 비번찾기 C : " + result);
+		
+		return result;
 	}
 }
