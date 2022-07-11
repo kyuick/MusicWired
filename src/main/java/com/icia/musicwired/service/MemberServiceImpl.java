@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.icia.musicwired.dao.CartDAO;
 import com.icia.musicwired.dao.MemberDAO;
 import com.icia.musicwired.dto.MemberDTO;
 
@@ -83,7 +82,7 @@ public class MemberServiceImpl implements MemberService {
 		} else {
 			session.invalidate();
 			mav.addObject("error", "아이디/비밀번호가 틀립니다.");
-			mav.setViewName("Mem_Login");
+			mav.setViewName("index");
 		}
 		System.out.println(member);
 		System.out.println(mav);
@@ -198,6 +197,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public List<MemberDTO> memIdfind(String mEmail) {
+
 		System.out.println("[2] 아이디 찾기 S : " + mEmail);
 		List<MemberDTO> mId = mdao.memIdfind(mEmail);
 
@@ -209,7 +209,7 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return memList;
 	}
-
+	
 	@Override
 	public Map<String, Object> memPwfind(MemberDTO member) {
 		System.out.println("[2] 비번찾기 S : " + member);
@@ -224,17 +224,15 @@ public class MemberServiceImpl implements MemberService {
 			System.out.println("[4-1] 비번찾기 실패 S : " + result);
 		} else {
 			String mPw = "";
-			
+
 			for (int i = 0; i < 12; i++) { 
+
 				mPw += (char) ((Math.random() * 26) + 97);
 			}
 			
 			member.setmPw(mPw);
-			
 			String memMpw = member.getmPw();
-			
 			result.put("memMpw", memMpw);
-			
 			result.put("member", member);
 			
 			System.out.println("[4] 비번찾기 성공 S : " + result);
@@ -245,7 +243,6 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return result;
 	}
-
 	
 
 }

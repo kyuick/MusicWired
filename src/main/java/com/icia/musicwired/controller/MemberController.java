@@ -181,18 +181,13 @@ public class MemberController {
 	
 
 	// memberPwfind
-	@RequestMapping(value = "/memberPwfind", method = RequestMethod.GET)
-	public String memberPwfind() {
-
-		return "Mem_Pwfind";
-	}
-
-	// memPwfind
-//	@RequestMapping(value = "/memPwfind", method = RequestMethod.POST)
-//	public ModelAndView memPwfind(@ModelAttribute MemberDTO member) {
-//		mav = msvc.memPwfind(member);
-//		return mav;
+//	@RequestMapping(value = "/memberPwfind", method = RequestMethod.GET)
+//	public String memberPwfind() {
+//
+//		return "index";
 //	}
+
+
 	
 //	memPwfind : 비번찾기
 	@PostMapping("memPwfind")
@@ -208,4 +203,5 @@ public class MemberController {
 		
 		return result;
 	}
+
 }

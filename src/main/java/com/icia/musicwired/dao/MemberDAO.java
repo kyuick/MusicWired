@@ -29,15 +29,17 @@ public interface MemberDAO {
 
 	List<MemberDTO> memIdfind(String mEmail);
 
+	void memPwfindUpdate(MemberDTO member);
+
+	List<MemberDTO> memPwfindSelect(MemberDTO member);
+
 	List<MemberDTO> memPwfind(MemberDTO member);
 
 	MemberDTO boardWriterView(String boWriter);
 
 	String checkEmail(String mEmail);
 
-	void memPwfindUpdate(MemberDTO member);
 
-	List<MemberDTO> memPwfindSelect(MemberDTO member);
 
 
 }
