@@ -5,7 +5,7 @@
 		
 	
 	<insert id="createRoom" parameterType="String">
-	 INSERT INTO CHATROOM VALUES(CRNUM_SEQ.NEXTVAL, #{mId},'새메시지')
+	 INSERT INTO CHATROOM VALUES(CRNUM_SEQ.NEXTVAL, #{mId},'새메시지',0)
 	</insert>
 	
 	<select id="getRoom" parameterType="String" resultType="chatRoom">
@@ -26,10 +26,24 @@
 	
 	
 	<update id="readupdate" parameterType="chatRoom">
-		UPDATE CHATROOM SET CRREAD='읽음' WHERE CRID=#{crId}
+		UPDATE CHATROOM SET CRREAD='읽음' WHERE CRNUM=#{crNum}
 	</update>
 	
 	<update id="readupdate1" parameterType="int">
 		UPDATE CHATROOM SET CRREAD='새메시지' WHERE CRNUM=#{csNum}
 	</update>
+	
+	<select id="newMessage" parameterType="string" resultType="int">
+		SELECT CRNEWMG FROM CHATROOM WHERE CRID=#{crId}
+	</select>
+	
+	<update id="newMessageUp" parameterType="int">
+		UPDATE CHATROOM SET CRNEWMG = CRNEWMG+1 WHERE CRNUM=#{csNum}
+	</update>
+	
+	<update id="delMessage" parameterType="String">
+		UPDATE CHATROOM SET CRNEWMG = 0  WHERE CRID=#{crId}
+	</update>
+	
+	
 </mapper>

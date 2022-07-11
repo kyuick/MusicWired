@@ -181,11 +181,45 @@ font-size: 15px;
 <aside th:replace="sidebar.html :: aside"></aside>
 <script type="text/javascript">
 	var ws;
-
 	$(document).ready(function() {
 
 		wsOpen();
+	
+		/* if($("#loginId").val() != "admin"){
+			$.ajax({
+				type : "POST",
+				url : "delMessage",
+				data : { "crId" : sessionId},
+				dataType : "json",
+				success : function(list){
+					
+				},
+				error : function(){
+					alert('fail');
+				}
+			});
+		} */
 
+		if($("#loginId").val() == "admin") {
+			console.log("1");
+			$.ajax({
+
+				type : "POST",
+				url : "readupdate",
+				data : {
+					"crNum" : $("#roomNumber").val()
+				},
+				dataType : "json",
+				success : function() {
+
+				},
+				error : function() {
+
+				}
+
+			});
+		} 
+		
 	});
 
 	function wsOpen() {
@@ -202,27 +236,8 @@ font-size: 15px;
 
 	}
 
-	if ($("#loginId").val() == "admin") {
 
-		var crId = $("#loginId").val();
-
-		$.ajax({
-
-			type : "POST",
-			url : "/readupdate",
-			data : {
-				"crId" : crId
-			},
-			dataType : "json",
-			success : function() {
-
-			},
-			error : function() {
-
-			}
-
-		});
-	}
+	
 
 	function wsEvt() {
 		ws.onopen = function(data) {
@@ -243,7 +258,9 @@ font-size: 15px;
 				if(si != ''){
 					$("#sessionId").val(si);
 				}
-			}else */if (d.type == "message") {
+			}else */
+		
+			if (d.type == "message") {
 				if (d.userName == $("#loginId").val()) {
 					$("#chating").append(
 							"<p class='me'>" + $("#loginId").val() + ": "
@@ -323,11 +340,31 @@ font-size: 15px;
 			}
 
 		});
+		
+		if($("#loginId").val()=="admin"){
+				 $.ajax({
+
+				type : "POST",
+				url : "/newMessageUp",
+				data : {
+					"csNum" : $("#roomNumber").val()
+				},
+				dataType : "json",
+				success : function() {
+
+				},
+				error : function() {
+
+				}
+
+			});
+		}
 
 		$('#chatting').val("");
 
 	}
-
+	
+	
 	window.onload = function() {
 		if (window.Notification) {
 			Notification.requestPermission();
@@ -350,6 +387,46 @@ font-size: 15px;
 			};
 		}
 	}
+	
+	
+	if($("#loginId").val() == "admin") {
+		console.log("1");
+		$.ajax({
+
+			type : "POST",
+			url : "readupdate",
+			data : {
+				"crNum" : $("#roomNumber").val()
+			},
+			dataType : "json",
+			success : function() {
+
+			},
+			error : function() {
+
+			}
+
+		});
+	} else{
+		
+		console.log("2");
+			$.ajax({
+				type : "POST",
+				url : "delMessage",
+				data : { "crId" : sessionId},
+				dataType : "json",
+				success : function(list){
+					
+				},
+				error : function(){
+					alert('fail');
+				}
+			});
+			
+		
+		
+		
+	} 
 </script>
 
 <body>
