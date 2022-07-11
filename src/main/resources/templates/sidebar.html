@@ -22,6 +22,7 @@
 	<meta name="description" content="">
 	<meta name="keywords" content="">
 	<meta name="author" content="Dmitry Volkov">
+	
 	<title>Volna – Record label & Music streaming HTML Template</title>
 </head>
 	<script src="js/jquery-3.5.1.min.js"></script>
@@ -39,7 +40,7 @@
 	<div class="sidebar">
 		<!-- sidebar logo -->
 		<div class="sidebar__logo">
-			<img  src="icon/MUSICWIREDLOGO2.png" alt="">
+			<img src="icon/MUSICWIREDLOGO2.png" alt="" class="sideberLogo" style="cursor: pointer;">
 		</div>
 		<!-- end sidebar logo -->
 
@@ -66,7 +67,9 @@
 			<!-- end collapse -->
 
 			<li class="sidebar__nav-item">
-				<a href="cartList" class="sidebar__nav-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.5,19A1.5,1.5,0,1,0,10,20.5,1.5,1.5,0,0,0,8.5,19ZM19,16H7a1,1,0,0,1,0-2h8.49121A3.0132,3.0132,0,0,0,18.376,11.82422L19.96143,6.2749A1.00009,1.00009,0,0,0,19,5H6.73907A3.00666,3.00666,0,0,0,3.92139,3H3A1,1,0,0,0,3,5h.92139a1.00459,1.00459,0,0,1,.96142.7251l.15552.54474.00024.00506L6.6792,12.01709A3.00006,3.00006,0,0,0,7,18H19a1,1,0,0,0,0-2ZM17.67432,7l-1.2212,4.27441A1.00458,1.00458,0,0,1,15.49121,12H8.75439l-.25494-.89221L7.32642,7ZM16.5,19A1.5,1.5,0,1,0,18,20.5,1.5,1.5,0,0,0,16.5,19Z"/></svg> <span>장바구니</span></a>
+
+				<a href="/cartList" class="sidebar__nav-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.5,19A1.5,1.5,0,1,0,10,20.5,1.5,1.5,0,0,0,8.5,19ZM19,16H7a1,1,0,0,1,0-2h8.49121A3.0132,3.0132,0,0,0,18.376,11.82422L19.96143,6.2749A1.00009,1.00009,0,0,0,19,5H6.73907A3.00666,3.00666,0,0,0,3.92139,3H3A1,1,0,0,0,3,5h.92139a1.00459,1.00459,0,0,1,.96142.7251l.15552.54474.00024.00506L6.6792,12.01709A3.00006,3.00006,0,0,0,7,18H19a1,1,0,0,0,0-2ZM17.67432,7l-1.2212,4.27441A1.00458,1.00458,0,0,1,15.49121,12H8.75439l-.25494-.89221L7.32642,7ZM16.5,19A1.5,1.5,0,1,0,18,20.5,1.5,1.5,0,0,0,16.5,19Z"/></svg> <span>장바구니</span></a>
+
 			</li>
 
 			<li class="sidebar__nav-item">
@@ -77,6 +80,11 @@
 		</ul>
 		<!-- end sidebar nav -->
 	</div>
+	<script type="text/javascript">
+		$(".sideberLogo").click(function(){
+			location.href='/index';
+		});
+	</script>
 </aside>
 </body>
 </html>

@@ -28,7 +28,7 @@ public interface MemberService {
 
 	List<MemberDTO> memIdfind(String mEmail);
 
-	Map<String, Object> memPwfind(MemberDTO mId);
+	Map<String, Object> memPwfind(MemberDTO member);
 
 	String checkEmail(String mEmail);
 

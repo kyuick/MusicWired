@@ -71,7 +71,7 @@
 	
 <!-- 게시글 작성자 피드 이동 -->
 	<select id="boardWriterView" parameterType="String" resultType="Board">
-		SELECT * FROM BOARD WHERE BOWRITER = #{boWriter}
+		SELECT * FROM BOARD WHERE BOWRITER = #{boWriter} ORDER BY BOCODE DESC
 	</select>
 	
 <!-- 좋아요한 게시글만 출력하는 메소드 -->
@@ -107,5 +107,15 @@
 	<select id="boaCount" resultType="int">
 		SELECT COUNT (*) FROM BOARD WHERE BOWRITER = #{boWriter}
 	</select>
+	
+<!-- 내가 올린 게시글 리스트(ajax) -->
+	<select id="myBoardList" parameterType="String" resultType="Board">
+		SELECT * FROM BOARD WHERE BOWRITER = #{boWriter} ORDER BY BOCODE DESC
+	</select>
+
+<!-- 게시글 삭제(ajax) -->
+	<delete id="ajaxBoardDelete" parameterType="int">
+		DELETE FROM BOARD WHERE BOCODE = #{boCode}
+	</delete>
 
 </mapper>

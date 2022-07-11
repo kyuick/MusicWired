@@ -33,8 +33,13 @@ public interface MemberDAO {
 
 	List<MemberDTO> memPwfindSelect(MemberDTO member);
 
+	List<MemberDTO> memPwfind(MemberDTO member);
+
 	MemberDTO boardWriterView(String boWriter);
 
 	String checkEmail(String mEmail);
+
+
+
 
 }

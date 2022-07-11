@@ -35,7 +35,7 @@
 		  	background: #222227;
 		}
 		#downListArea1::-webkit-scrollbar-thumb, #MyMusicArea::-webkit-scrollbar-thumb {
-		  	background-color: #25a56a;
+		  	background-color: #0099FF;
 		  	outline: 1px solid #222227;
 		  	border-radius: 10px;
 		}
@@ -72,6 +72,11 @@
   			cursor: pointer;
 		}
 		
+		.modiDelBtn h4 a img:hover{
+			opacity:0.5;
+			-webkit-transition: 0.5s;
+		}
+		
 		#modal.modal-overlay {
             width: 100%;
             height: 100%;
@@ -90,7 +95,6 @@
             border: 1px solid rgba(255, 255, 255, 0.18);
             display: none;
             z-index: 1050;
-			-webkit-transition: all ease .3s;
         }
         #modal .modal-window {
             position: relative;
@@ -133,10 +137,7 @@
 
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script th:if="${session.login eq null}">
-	alert('로그인 이후 이용해주세요');
-	location.href="memberLogin";
-</script>
+
 <body>
 	<!-- modal -->
 	<div id="container">
@@ -192,7 +193,7 @@
 								<img th:src="@{/profile/{aa}(aa=${memView.mProfileName})}" alt="">
 							</div>
 							<div class="profile__meta" id="viewId" th:value="${memView.mId}">
-								<h3 th:text="${memView.mName}"></h3>
+								<h3 th:text="${memView.mId}"></h3>
 							</div>
 						</div>
 						
@@ -201,22 +202,22 @@
 							<li class="nav-item">
 								<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">프로필</a>
 							</li>
-
-							<li th:if="${session.login.mId eq memView.mId}" class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">구매목록</a>
-							</li>
-
-							<li th:if="${session.login.mId eq memView.mId}" class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">다운로드 목록</a>
-							</li>
-
-							<li th:if="${session.login.mId eq memView.mId}" class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">정보수정</a>
-							</li>
+							<th:block th:if="${session.login ne null}">
+								<li th:if="${session.login.mId eq memView.mId}" class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">구매목록</a>
+								</li>
+	
+								<li th:if="${session.login.mId eq memView.mId}" class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">다운로드 목록</a>
+								</li>
+	
+								<li th:if="${session.login.mId eq memView.mId}" class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">정보수정</a>
+								</li>
+							</th:block>
 						</ul>
 						<!-- end tabs nav -->
 
-					
 					</div>
 
 					<!-- content tabs -->
@@ -227,8 +228,12 @@
 									<div class="stats">
 										<span>팔로우</span>
 					                    <p><a href="#"><span th:id="subList" th:text="${memCount}" th:value="${memCount}"></span></a></p>
-					                    <img src="/icon/like.png" style="width: 32px; position: absolute; bottom: 15px; right: 20px; cursor: pointer;" th:if="${subCheck eq 0}" id="subcheck" value="팔로우하기">
-					                    <img src="/icon/dislike.png" style="width: 32px; position: absolute; bottom: 15px; right: 20px; cursor: pointer;" th:if="${subCheck eq 1}" id="subcheck" value="팔로우취소">
+					                    <th:block th:if="${session.login ne null}">
+						                    <th:block th:if="${memView.mId ne session.login.mId}">
+							                    <img src="/icon/like.png" style="width: 32px; position: absolute; bottom: 15px; right: 20px; cursor: pointer;" th:if="${subCheck eq 0}" id="subcheck" value="팔로우하기">
+							                    <img src="/icon/dislike.png" style="width: 32px; position: absolute; bottom: 15px; right: 20px; cursor: pointer;" th:if="${subCheck eq 1}" id="subcheck" value="팔로우취소">
+											</th:block>
+										</th:block>
 									</div>
 								</div>
 
@@ -271,18 +276,7 @@
 
 										<div class="dashbox__list-wrap">
 											<div class="dashbox__scroll">
-											<div th:each="bolist : ${boViewList}" style="padding-top: 4%; padding-bottom: 4%">
-												<div class="dashbox__note dashbox__note--succ">
-													<ul class="main__list main__list--dashbox">
-						                            <li class="single-item">
-					                                    <img th:src="@{/ImageUpload/{aa}(aa=${bolist.boImage})}" style="width: 87px; height: 87px;"/>
-						                                <div class="single-item__title">
-						                                    <h4><a th:text="${bolist.boTitle}"></a></h4>
-						                                    <span th:text="${bolist.boContent}"></span>
-						                                </div>
-						                            </li>
-						                            </ul>
-												</div>
+											<div style="padding-top: 1%; padding-bottom: 1%" id="myBoardListArea">
 											</div>
 											</div>
 										</div>
@@ -342,104 +336,106 @@
 								</div>
 							</div>
 						</div>
-
-						<div class="tab-pane fade" id="tab-4" role="tabpanel">
-						    <div class="row row--grid">
-						        <!-- details form -->
-						        <div class="col-12 col-lg-6">
-						            <form action="#" class="sign__form sign__form--profile">
-						                <div class="row">
-						                    <div class="col-12">
-						                        <h4 class="sign__title">내 정보</h4>
-						                    </div>
 						
-						                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-						                        <div class="sign__group">
-						                            <label class="sign__label" for="username">ID</label>
-						                            <input id="username" type="text" name="mId" class="sign__input" th:value="${session.login.mId}" disabled>
-						                        </div>
-						                    </div>
-						
-						                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-						                        <div class="sign__group">
-						                            <label class="sign__label" for="email">Email</label>
-						                            <input id="email" type="email" name="mEmail" class="sign__input" th:value="${session.login.mEmail}" disabled>
-						                        </div>
-						                    </div>
-						
-						                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-						                        <div class="sign__group">
-						                            <label class="sign__label" for="firstname">이름</label>
-						                            <input id="firstname" type="text" name="mName" class="sign__input" th:value="${session.login.mName}" disabled>
-						                        </div>
-						                    </div>
-						
-						                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-						                        <div class="sign__group">
-						                            <label class="sign__label" for="lastname">포인트</label>
-						                            <input id="lastname" type="text" name="mPw" class="sign__input" th:value="${session.login.mPoint} + ' P'" disabled>
-						                        </div>
-						                    </div>
-						                    
-						                    <div class="col-12">
-						                        <button class="sign__btn" th:href="@{memberDelete(mId=${session.login.mId})}">회원탈퇴</button>
-						                    </div>
-						                    
-						                </div>
-						            </form>
-						        </div>
-						        <!-- end details form -->
-						
-						        <!-- password form -->
-						        <div class="col-12 col-lg-6">
-						            <form action="memberModify"  class="sign__form sign__form--profile" method="post" enctype="multipart/form-data">
-						                <div class="row">
-						                    <div class="col-12">
-						                        <h4 class="sign__title">정보 변경</h4>
-						                    </div>
-						                    
-						                                                            
-						                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-						                        <div class="sign__group">
-						                            <label class="sign__label" for="oldpass">비밀번호</label>
-						                            <input id="oldpass" type="password" name="mPw" class="sign__input" required>
-						                        </div>
-						                    </div>
-						
-						                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-						                        <div class="sign__group">
-						                            <label class="sign__label" for="newpass">이름</label>
-						                            <input id="newpass" type="text" name="mName" class="sign__input" required>
-						                        </div>
-						                    </div>
-						
-						                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-						                        <div class="sign__group">
-						                            <label class="sign__label" for="confirmpass">이메일</label>
-						                            <input id="confirmpass" type="text" name="mEmail" class="sign__input" required>
-						                        </div>
-						                    </div>
-						
-						                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-						                        <div class="sign__group">
-						                            <label class="sign__label" for="select">프로필 사진</label>
-						                            <input id="memModiFile" type="file" name="mProfile" class="sign__input">
-						                            <label class="sign__label" id="select1" for="memModiFile">파일첨부</label>
-						                        </div>
-						                    </div>
-						
-						                    <div class="col-12">
-						                        <input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" name="mId">
-						                        <button class="sign__btn" type="submit" onclick="modify()">정보수정</button>
-						                    </div>
-						                </div>
-						                
-						            </form>
-						        </div>
-						        <!-- end password form -->
-						    </div>
-
-						</div>
+						<th:block th:if="${session.login ne null}">
+							<div class="tab-pane fade" id="tab-4" role="tabpanel">
+							    <div class="row row--grid">
+							        <!-- details form -->
+							        <div class="col-12 col-lg-6">
+							            <form action="#" class="sign__form sign__form--profile">
+							                <div class="row">
+							                    <div class="col-12">
+							                        <h4 class="sign__title">내 정보</h4>
+							                    </div>
+							
+							                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+							                        <div class="sign__group">
+							                            <label class="sign__label" for="username">ID</label>
+							                            <input id="username" type="text" name="mId" class="sign__input" th:value="${session.login.mId}" disabled>
+							                        </div>
+							                    </div>
+							
+							                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+							                        <div class="sign__group">
+							                            <label class="sign__label" for="email">Email</label>
+							                            <input id="email" type="email" name="mEmail" class="sign__input" th:value="${session.login.mEmail}" disabled>
+							                        </div>
+							                    </div>
+							
+							                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+							                        <div class="sign__group">
+							                            <label class="sign__label" for="firstname">이름</label>
+							                            <input id="firstname" type="text" name="mName" class="sign__input" th:value="${session.login.mName}" disabled>
+							                        </div>
+							                    </div>
+							
+							                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+							                        <div class="sign__group">
+							                            <label class="sign__label" for="lastname">포인트</label>
+							                            <input id="lastname" type="text" name="mPw" class="sign__input" th:value="${session.login.mPoint} + ' P'" disabled>
+							                        </div>
+							                    </div>
+							                    
+							                    <div class="col-12">
+							                        <button class="sign__btn" th:href="@{memberDelete(mId=${session.login.mId})}">회원탈퇴</button>
+							                    </div>
+							                    
+							                </div>
+							            </form>
+							        </div>
+							        <!-- end details form -->
+							
+							        <!-- password form -->
+							        <div class="col-12 col-lg-6">
+							            <form action="memberModify"  class="sign__form sign__form--profile" method="post" enctype="multipart/form-data">
+							                <div class="row">
+							                    <div class="col-12">
+							                        <h4 class="sign__title">정보 변경</h4>
+							                    </div>
+							                    
+							                                                            
+							                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+							                        <div class="sign__group">
+							                            <label class="sign__label" for="oldpass">비밀번호</label>
+							                            <input id="oldpass" type="password" name="mPw" class="sign__input" required>
+							                        </div>
+							                    </div>
+							
+							                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+							                        <div class="sign__group">
+							                            <label class="sign__label" for="newpass">이름</label>
+							                            <input id="newpass" type="text" name="mName" class="sign__input" required>
+							                        </div>
+							                    </div>
+							
+							                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+							                        <div class="sign__group">
+							                            <label class="sign__label" for="confirmpass">이메일</label>
+							                            <input id="confirmpass" type="text" name="mEmail" class="sign__input" required>
+							                        </div>
+							                    </div>
+							
+							                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+							                        <div class="sign__group">
+							                            <label class="sign__label" for="select">프로필 사진</label>
+							                            <input id="memModiFile" type="file" name="mProfile" class="sign__input">
+							                            <label class="sign__label" id="select1" for="memModiFile">파일첨부</label>
+							                        </div>
+							                    </div>
+							
+							                    <div class="col-12">
+							                        <input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" name="mId">
+							                        <button class="sign__btn" type="submit" onclick="modify()">정보수정</button>
+							                    </div>
+							                </div>
+							                
+							            </form>
+							        </div>
+							        <!-- end password form -->
+							    </div>
+	
+							</div>
+						</th:block>
 					</div>
 					<!-- end content tabs -->
 				</div>
@@ -618,7 +614,7 @@
 	<script src="js/main.js"></script>
 </body>
 
-<script type="text/javascript" th:inline="javascript">
+<script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
 
 	var CheckLogin = [[${session.login}]]
 	
@@ -668,6 +664,76 @@
 			}
 		});
 		
+		$.ajax({
+			type : "POST",
+			url : "myBoardList",
+			data : {"boWriter" : viewMid},
+			dataType : "json",
+			success : function(list){
+				myBoard(list);
+			},
+			error : function(){
+				console.log("실패");
+			}
+		});
+		
+		function myBoard(list){
+			var output = "";
+			console.log("씽나는 아웃풋 시간~~~~")
+			
+			for(var i in list){
+				output += "<div style='padding-top: 4%; padding-bottom: 4%' id='myBoardListArea'>"
+				output += "<div class='dashbox__note dashbox__note--succ'>";
+				output += "<ul class='main__list main__list--dashbox'>";
+				output += "<li class='single-item'>";
+				output += "<img src='/ImageUpload/"+ list[i].boImage +"' style='width: 87px; height: 87px;'/>";
+				output += "<div class='single-item__title'>";
+				output += "<h4><a>"+list[i].boTitle+"</a></h4>";
+				output += "<span>"+list[i].boContent+"</span>";
+				output += "</div>";
+				if(viewMid == sessionId){
+					output += "<div style='position: absolute; right: 10px;' class='modiDelBtn'>";
+					output += "<h4><a href='boardModiForm?boCode="+list[i].boCode+"'>[수정]</a> <a class='feedBoardDelete' id='"+list[i].boCode+"feedBoardNum' style='cursor : pointer;'><img src='/icon/boardDelete.png' style='width: 30px;'></a></h4></div>";
+				}
+				output += "</li></ul></div></div>";
+			}
+			var myBoardListArea = document.getElementById('myBoardListArea');
+			myBoardListArea.innerHTML = output;
+			
+			$(".feedBoardDelete").click(function(){
+				var feedBoardMuCode = $(this).attr('id');
+				var boCodeDe = feedBoardMuCode.replace("feedBoardNum","");
+				
+				console.log(feedBoardMuCode);
+				console.log(boCodeDe);
+				
+				$.ajax({
+					type : "POST",
+					url : "ajaxBoardDelete",
+					data : {"boCode" : boCodeDe},
+					dataType : "json",
+					success : function(list){
+						$.ajax({
+							type : "POST",
+							url : "myBoardList",
+							data : {"boWriter" : viewMid},
+							dataType : "json",
+							success : function(list){
+								myBoard(list);
+							},
+							error : function(){
+								console.log("실패");
+							}
+						});
+					},
+					error: function(){
+						console.log('실패');
+					}
+				});
+			});
+			
+		}
+		
 		function MyMusic(data){
 			var output = "";
 			
@@ -703,17 +769,25 @@
 									if(check == ""){
 										if(result == ""){
 											output += "<a href='#' style='width:32px; height:32px;'>";
-											output += "<img src='/img/cartCheck.png' style='width: 100%; opacity:0.4;' id='"+data[i].muCode+"' class='cartChange' value='check1'></a>";
+											output += "<img src='/img/cartCheck.png' style='width: 100%; opacity:0.8;' id='"+data[i].muCode+"' class='cartChange' value='check1'></a>";
 											
 										} else if(result != ""){
 											output += "<a href='#' style='width:32px; height:32px;'>";
-											output += "<img src='/img/cartDelete.png' style='width: 100%; opacity:0.4;' id='"+data[i].muCode+"' class='cartChange' value='check2'></a>";
+											output += "<img src='/img/cartDelete.png' style='width: 100%; opacity:0.8;' id='"+data[i].muCode+"' class='cartChange' value='check2'></a>";
 											
 										}
 									} else if(check != ""){
 										output += "<a href='/audio/"+data[i].mFile+"' download='"+data[i].mFile+"' class='single-item__export'>";
 										output += "<svg class='selectMusicDownload' id='"+data[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a>";
 										
+									}
+									
+									if(sessionId == data[i].muSinger){
+										output += "<img src='/icon/boardDelete.png' style='width: 30px; cursor: pointer;' id='"+data[i].muCode+"myMusic' class='musicDelete'>";
+										
+										/* <div th:if="${memView.mId eq session.login.mId}" style="position: absolute; right: 10px;" class="modiDelBtn">
+	                                	<a th:href="@{boardDelete(boCode=${bolist.boCode})}"><img src="/icon/boardDelete.png" style="width: 30px;"></a>
+	                                </div> */
 									}
 									output += "</li>";
 								},
@@ -730,6 +804,38 @@
 			}
 			var myMusicListArea = document.getElementById('myMusicListArea');
 			myMusicListArea.innerHTML = output;
+			
+			$(".musicDelete").click(function(){
+				var myMusicMuCode = $(this).attr('id');
+				var muCodeDe = myMusicMuCode.replace("myMusic","");
+				
+				console.log(myMusicMuCode);
+				console.log(muCodeDe);
+				
+				$.ajax({
+					type : "POST",
+					url : "ajaxMusicDelete",
+					data : {"muCode" : muCodeDe},
+					dataType : "json",
+					success : function(list){
+						$.ajax({
+							type : "POST",
+							url : "MyMusicList",
+							data : {"muSinger" : viewMid},
+							dataType : "json",
+							success : function(data){
+								MyMusic(data);
+							},
+							error : function(){
+								console.log("실패");
+							}
+						});
+					},
+					error: function(){
+						console.log('실패');
+					}
+				});
+			});
 			
 			$(".cartChange").click(function(){
 				
@@ -748,6 +854,18 @@
 						dataType : "json",
 						success : function(list){
 							CartAddSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
 						},
 						error : function(){
 							alert('장바구니 추가 실패');
@@ -777,13 +895,23 @@
 						dataType : "json",
 						success : function(list){
 							CartDeleteSuccess(list);
-							
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
 						},
 						error : function(){
 							alert('장바구니 삭제 실패');
 						}
 					});
-					
 					function CartDeleteSuccess(list){
 						
 						var output = "";
@@ -797,8 +925,79 @@
 					$(this).attr('src','/img/cartCheck.png');
 					cartCheck = $(this).attr('value','check1');
 				}
-				$("#cartCountArea").load(window.location.href + "#cartCountArea");
 			});
+			function smallCart(list){
+				var cartCountArea = document.getElementById('cartCountArea');
+				
+				if(list.length <= 0){
+					cartCountArea.innerHTML = "";
+				} else{
+					cartCountArea.innerHTML = list.length;
+				}
+				
+				var output = "";
+				
+				if(list.length > 4){
+					output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+					for(var i=0; i<4; i++){
+						output += "<div class='header__product'>";
+						output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+						output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+						output += "<span>"+list[i].muSinger+"</span>";
+						output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+					}
+				}else if(list.length == 0){
+					output += "<div class='header__product' style='padding-left:33px; padding-right:33px;'>";
+					output += "<span>장바구니가 비어있습니다.</span></div>"
+				}else{
+					output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+					for(var i in list){
+						output += "<div class='header__product'>";
+						output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+						output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+						output += "<span>"+list[i].muSinger+"</span>";
+						output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+					}
+				}
+				
+				
+				var smallCartListArea = document.getElementById('smallCartListArea');
+				smallCartListArea.innerHTML = output;
+				
+				$(".cartDelete").click(function(){
+					
+					var muCode = $(this).attr('id');
+					console.log("muCode : "+muCode);
+					
+					$.ajax({
+						type : "POST",
+						url : "cartListDelete",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
+								},
+						dataType : "json",
+						success : function(list){
+							smallCart(list);
+							
+							$.ajax({
+								type : "POST",
+								url : "MyMusicList",
+								data : {"muSinger" : viewMid},
+								dataType : "json",
+								success : function(data){
+									MyMusic(data);
+								},
+								error : function(){
+									console.log("실패");
+								}
+							});
+						},
+						error : function(){
+							alert('장바구니 삭제 실패');
+						}
+					});
+				});
+			}
 		}
 		
 		function buy(list){
@@ -1061,7 +1260,7 @@
 		   console.log('로그인 아이디 : ' + ssMid);
 		   console.log('구독당한 아이디 : ' + sserMid);
 		   
-		   if($("#subcheck").val() == "팔로우하기"){
+		   if($(this).attr('value') == "팔로우하기"){
 		       $.ajax({
 		            type: "POST",
 		            url: "subreg",
@@ -1073,12 +1272,12 @@
 		            success: function (subr) {
 			            $("#subList").empty().append(subr);
 			            $("#subcheck").attr('value','팔로우취소');
-			            $("#subcheck").attr('src','/icon/dislike.png');
 		            },
 		            error: function () {
 		                alert('파이팅!!');
 		            }
 		        }); 
+		       $(this).attr('src','/icon/dislike.png');
 		   }else{
 		        $.ajax({
 		            type: "POST",
@@ -1091,21 +1290,19 @@
 		            success: function (subr) {
 			            $("#subList").empty().append(subr);
 			            $("#subcheck").attr('value','팔로우하기');
-			            $("#subcheck").attr('src','/icon/like.png');
-		            
 		            },
 		            error: function () {
 		                alert('파이팅!!');
 		            }
 		        }); 
+		        $(this).attr('src','/icon/like.png');
 		   }
-		   
-		   
-
 		});
+	
 		$("#subList").click(function(){
 			  console.log("모달되냐?");
 			  var sserMid = $("#viewId").attr("value");
+			  $("#modal").fadeIn();
 			  
 			  console.log(sserMid);
 			  $.ajax({
@@ -1119,10 +1316,10 @@
 		        	var output1 = "구독자";
 		        	
 		        	for(var i in subr){
-		        		if(subr.length <= 0){
+		        		if(subr == ""){
 		        			output += "<p>구독을 눌러보세요<p>"
 		        		}else if(subr.length > 0){
-		        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'><a href='boardWriterView?boWriter="+ subr[i].mId +"&mId="+sessionId+"'>"+subr[i].mId+"</a></p>"
+		        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'> &nbsp;&nbsp;<a href='boardWriterView?boWriter="+ subr[i].mId +"&mId="+sessionId+"'>"+subr[i].mId+"</a></p>"
 		        		}
 		        	}
 		        	const modalContent = document.getElementById("content");
@@ -1159,10 +1356,12 @@
 		        	  alert('구독자 목록 불러오기 실패');
 		          }
 			  });
+			  
 		});
 			  $("#suberList").click(function(){
 				  console.log("모달되냐?");
 				  var ssMid = $("#viewId").attr("value");
+				  $("#modal").fadeIn();
 				  
 				  console.log(ssMid);
 				  $.ajax({
@@ -1175,10 +1374,10 @@
 			        	var output = "";
 			        	var output1 = "구독한 목록";
 			        	for(var i in subr){
-			        		if(subr.length <= 0){
-			        			output += "<p>구독을 눌러보세요<p>"
+			        		if(subr == ""){
+			        			output += "<p>구독한 사람이 없습니다.<p>"
 			        		}else if(subr.length > 0){
-			        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'><a href='boardWriterView?boWriter="+ subr[i].mId +"&mId="+sessionId+"'>"+subr[i].mId+"</a></p>"
+			        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'> &nbsp;&nbsp;<a href='boardWriterView?boWriter="+ subr[i].mId +"&mId="+sessionId+"'>"+subr[i].mId+"</a></p>"
 			        		}
 			        	}
 			        	const modalContent = document.getElementById("content");
@@ -1214,15 +1413,831 @@
 			          error : function(){
 			        	  alert('구독자 목록 불러오기 실패');
 			          }
-				  });	  
-			  
+				  });
 		});
 	
+	$("#modal_close_btn").click(function () {
+	    $("#modal").fadeOut();
+	});
 
-	
 	function modify(){
-		alert("정보가 수정되었습니다. 다시로그인 해주세욘")
+		alert("정보가 수정되었습니다. 다시로그인 해주세요")
 	}
+	
+	$(".dashbox__refresh").click(function(){
+		location.reload();
+	});
+	
+</script>
+	
+<script th:if="${session.login eq null}" type="text/javascript" th:inline="javascript">
+	var sessionId = "nullId";
+	
+	var viewMid = $("#viewId").attr("value");
+	
+	$(document).ready(function(){
+		$.ajax({
+			type : "POST",
+			url : "buyList",
+			data : {"psMid" : sessionId},
+			dataType : "json",
+			success : function(list){
+				buy(list);
+			},
+			error : function(){
+				console.log("실패");
+			}
+		});
+		
+		$.ajax({
+			type : "POST",
+			url : "MyMusicList",
+			data : {"muSinger" : viewMid},
+			dataType : "json",
+			success : function(data){
+				MyMusic(data);
+			},
+			error : function(){
+				console.log("실패");
+			}
+		});
+		
+		$.ajax({
+			type : "POST",
+			url : "ajaxDownList",
+			data : {"mudMid" : sessionId},
+			dataType : "json",
+			success : function(list){
+				down(list);
+			},
+			error : function(){
+				console.log("실패");
+			}
+		});
+		
+		$.ajax({
+			type : "POST",
+			url : "myBoardList",
+			data : {"boWriter" : viewMid},
+			dataType : "json",
+			success : function(list){
+				myBoard(list);
+			},
+			error : function(){
+				console.log("실패");
+			}
+		});
+		
+		function myBoard(list){
+			var output = "";
+			console.log("씽나는 아웃풋 시간~~~~")
+			
+			for(var i in list){
+				output += "<div class='dashbox__note dashbox__note--succ'>";
+				output += "<ul class='main__list main__list--dashbox'>";
+				output += "<li class='single-item'>";
+				output += "<img src='/ImageUpload/"+ list[i].boImage +"' style='width: 87px; height: 87px;'/>";
+				output += "<div class='single-item__title'>";
+				output += "<h4><a>"+list[i].boTitle+"</a></h4>";
+				output += "<span>"+list[i].boContent+"</span>";
+				output += "</div>";
+				if(viewMid == sessionId){
+					output += "<div style='position: absolute; right: 10px;' class='modiDelBtn'>";
+					output += "<h4><a href='boardModiForm?boCode="+list[i].boCode+"'>[수정]</a> <a class='feedBoardDelete' id='"+list[i].boCode+"feedBoardNum' style='cursor : pointer;'><img src='/icon/boardDelete.png' style='width: 30px;'></a></h4></div>";
+				}
+				output += "</li></ul></div>";
+			}
+			var myBoardListArea = document.getElementById('myBoardListArea');
+			myBoardListArea.innerHTML = output;
+			
+			$(".feedBoardDelete").click(function(){
+				var feedBoardMuCode = $(this).attr('id');
+				var boCodeDe = feedBoardMuCode.replace("feedBoardNum","");
+				
+				console.log(feedBoardMuCode);
+				console.log(boCodeDe);
+				
+				$.ajax({
+					type : "POST",
+					url : "ajaxBoardDelete",
+					data : {"boCode" : boCodeDe},
+					dataType : "json",
+					success : function(list){
+						$.ajax({
+							type : "POST",
+							url : "myBoardList",
+							data : {"boWriter" : viewMid},
+							dataType : "json",
+							success : function(list){
+								myBoard(list);
+							},
+							error : function(){
+								console.log("실패");
+							}
+						});
+					},
+					error: function(){
+						console.log('실패');
+					}
+				});
+			});
+			
+		}
+		
+		function MyMusic(data){
+			var output = "";
+			
+			for(var i in data){
+				(function(i){
+					$.ajax({
+						type: "POST",
+						url: "CartInCheck",
+						data: {"caMuCode" : data[i].muCode,
+							   "caMid" : sessionId},
+						dataType: "json",
+						async: false,
+						success: function(result){
+
+							$.ajax({
+								type: "POST",
+								url: "PayInCheck",
+								data: {"pMuCode": data[i].muCode,
+									   "psMid": sessionId},
+								dataType: "json",
+								async: false,
+								success: function(check){
+									output += "<li class='single-item' style='padding-bottom: 5%; padding-top: 4%'>";
+									output += "<a data-playlist data-title='"+data[i].muName+"' data-artist='"+data[i].muSinger+"' data-img='img/covers/cover.svg' href='https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3' class='single-item__cover'>";
+									output += "<img src='/muImage/"+data[i].muImage+"' style='width: 70px;'>";
+									output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z'/></svg>";
+									output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z'/></svg></a>";
+									
+									output += "<div class='single-item__title'>";
+									output += "<h4><a href='muView?muCode="+data[i].muCode+"&mId="+data[i].muSinger+"'>"+data[i].muName+"</a></h4>";
+									output += "<span>"+data[i].muSinger+"</span></div>";
+									
+									if(check == ""){
+										if(result == ""){
+											output += "<a href='#' style='width:32px; height:32px;'>";
+											output += "<img src='/img/cartCheck.png' style='width: 100%; opacity:0.8;' id='"+data[i].muCode+"' class='cartChange' value='check1'></a>";
+											
+										} else if(result != ""){
+											output += "<a href='#' style='width:32px; height:32px;'>";
+											output += "<img src='/img/cartDelete.png' style='width: 100%; opacity:0.8;' id='"+data[i].muCode+"' class='cartChange' value='check2'></a>";
+											
+										}
+									} else if(check != ""){
+										output += "<a href='/audio/"+data[i].mFile+"' download='"+data[i].mFile+"' class='single-item__export'>";
+										output += "<svg class='selectMusicDownload' id='"+data[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a>";
+										
+									}
+									
+									if(sessionId == data[i].muSinger){
+										output += "<img src='/icon/boardDelete.png' style='width: 30px; cursor: pointer;' id='"+data[i].muCode+"myMusic' class='musicDelete'>";
+										
+										/* <div th:if="${memView.mId eq session.login.mId}" style="position: absolute; right: 10px;" class="modiDelBtn">
+	                                	<a th:href="@{boardDelete(boCode=${bolist.boCode})}"><img src="/icon/boardDelete.png" style="width: 30px;"></a>
+	                                </div> */
+									}
+									output += "</li>";
+								},
+								error: function(){
+									console.log('실패');
+								},
+							});
+						},
+						error: function(){
+							alert('장바구니에 담은 리스트 불러오기 실패');
+						}
+					});
+				 })(i);
+			}
+			var myMusicListArea = document.getElementById('myMusicListArea');
+			myMusicListArea.innerHTML = output;
+			
+			$(".musicDelete").click(function(){
+				var myMusicMuCode = $(this).attr('id');
+				var muCodeDe = myMusicMuCode.replace("myMusic","");
+				
+				console.log(myMusicMuCode);
+				console.log(muCodeDe);
+				
+				$.ajax({
+					type : "POST",
+					url : "ajaxMusicDelete",
+					data : {"muCode" : muCodeDe},
+					dataType : "json",
+					success : function(list){
+						$.ajax({
+							type : "POST",
+							url : "MyMusicList",
+							data : {"muSinger" : viewMid},
+							dataType : "json",
+							success : function(data){
+								MyMusic(data);
+							},
+							error : function(){
+								console.log("실패");
+							}
+						});
+					},
+					error: function(){
+						console.log('실패');
+					}
+				});
+			});
+			
+			$(".cartChange").click(function(){
+				
+				var muCode = $(this).attr('id');
+				console.log("muCode : "+muCode);
+				
+				var cartCheck = $(this).attr('value');
+				
+				if(cartCheck == "check1"){
+					$.ajax({
+						type : "POST",
+						url : "cartListAdd",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
+								},
+						dataType : "json",
+						success : function(list){
+							CartAddSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
+						},
+						error : function(){
+							alert('장바구니 추가 실패');
+						}
+					});
+					
+					function CartAddSuccess(list){
+						
+						var output = "";
+						
+						output += "<img src='/img/cartDelete.png' style='width: 100%;' id='"+list.muCode+"' class='cartChange' value='check2'></a>";
+						
+						var td22 = document.getElementById(muCode);
+						console.log(td22);
+						td22.innerHTML = output;
+					}
+					$(this).attr('src','/img/cartDelete.png');
+					cartCheck = $(this).attr('value','check2');
+					
+				}else if(cartCheck == "check2"){
+					$.ajax({
+						type : "POST",
+						url : "cartListDelete",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
+								},
+						dataType : "json",
+						success : function(list){
+							CartDeleteSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
+						},
+						error : function(){
+							alert('장바구니 삭제 실패');
+						}
+					});
+					function CartDeleteSuccess(list){
+						
+						var output = "";
+						
+						output += "<img src='/img/cartCheck.png' style='width: 100%;' id='"+list.muCode+"' class='cartChange' value='check1'></a>";
+						
+						var td22 = document.getElementById(muCode);
+						console.log(td22);
+						td22.innerHTML = output;
+					}
+					$(this).attr('src','/img/cartCheck.png');
+					cartCheck = $(this).attr('value','check1');
+				}
+			});
+			function smallCart(list){
+				var cartCountArea = document.getElementById('cartCountArea');
+				
+				if(list.length <= 0){
+					cartCountArea.innerHTML = "";
+				} else{
+					cartCountArea.innerHTML = list.length;
+				}
+				
+				var output = "";
+				
+				if(list.length > 4){
+					output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+					for(var i=0; i<4; i++){
+						output += "<div class='header__product'>";
+						output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+						output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+						output += "<span>"+list[i].muSinger+"</span>";
+						output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+					}
+				}else if(list.length == 0){
+					output += "<div class='header__product' style='padding-left:33px; padding-right:33px;'>";
+					output += "<span>장바구니가 비어있습니다.</span></div>"
+				}else{
+					output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+					for(var i in list){
+						output += "<div class='header__product'>";
+						output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+						output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+						output += "<span>"+list[i].muSinger+"</span>";
+						output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+					}
+				}
+				
+				
+				var smallCartListArea = document.getElementById('smallCartListArea');
+				smallCartListArea.innerHTML = output;
+				
+				$(".cartDelete").click(function(){
+					
+					var muCode = $(this).attr('id');
+					console.log("muCode : "+muCode);
+					
+					$.ajax({
+						type : "POST",
+						url : "cartListDelete",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
+								},
+						dataType : "json",
+						success : function(list){
+							smallCart(list);
+							
+							$.ajax({
+								type : "POST",
+								url : "MyMusicList",
+								data : {"muSinger" : viewMid},
+								dataType : "json",
+								success : function(data){
+									MyMusic(data);
+								},
+								error : function(){
+									console.log("실패");
+								}
+							});
+						},
+						error : function(){
+							alert('장바구니 삭제 실패');
+						}
+					});
+				});
+			}
+		}
+		
+		function buy(list){
+			var output = "";
+			var output1 = "";
+			var buyTheNumber = list.length;
+			
+			if(buyTheNumber <= 0){
+			    output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+			    output1 += "<span>총 구매개수</span>";
+			    output1 += "<p><b name='price' value='"+buyTheNumber+"' id='totalPrice'>"+buyTheNumber+"곡</b></p>";
+			    output1 += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z'/></svg>";
+			    output1 += "</div></div>";
+			    
+			    output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+			    output1 += "<span>총 결제금액</span>";
+			    output1 += "<p><b name='price' value='"+buyTheNumber * 500+"' id='totalPrice'>"+buyTheNumber * 500+"원</b></p>";
+			    output1 += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6,11a1,1,0,1,0,1,1A1,1,0,0,0,6,11Zm12,0a1,1,0,1,0,1,1A1,1,0,0,0,18,11Zm2-6H4A3,3,0,0,0,1,8v8a3,3,0,0,0,3,3H20a3,3,0,0,0,3-3V8A3,3,0,0,0,20,5Zm1,11a1,1,0,0,1-1,1H4a1,1,0,0,1-1-1V8A1,1,0,0,1,4,7H20a1,1,0,0,1,1,1ZM12,9a3,3,0,1,0,3,3A3,3,0,0,0,12,9Zm0,4a1,1,0,1,1,1-1A1,1,0,0,1,12,13Z'/></svg>";
+			    output1 += "</div></div>";
+			    
+				output += "<table id='buyListTable' class='cart__table'>";
+				output += "<thead>"
+				output += "<tr>";
+				output += "<th>구매하신 음악이 없습니다.<br/><a href='/allfileList' class='hero__btn hero__btn--green'>음원목록으로</a></th>";
+				output += "</tr>";
+				output += "</thead>"
+			}	else{
+				output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+			    output1 += "<span>총 구매개수</span>";
+			    output1 += "<p><b name='price' value='"+buyTheNumber+"' id='totalPrice'>"+buyTheNumber+"곡</b></p>";
+			    output1 += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z'/></svg>";
+			    output1 += "</div></div>";
+			    
+			    output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+			    output1 += "<span>총 결제금액</span>";
+			    output1 += "<p><b name='price' value='"+buyTheNumber * 500+"' id='totalPrice'>"+buyTheNumber * 500+"원</b></p>";
+			    output1 += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6,11a1,1,0,1,0,1,1A1,1,0,0,0,6,11Zm12,0a1,1,0,1,0,1,1A1,1,0,0,0,18,11Zm2-6H4A3,3,0,0,0,1,8v8a3,3,0,0,0,3,3H20a3,3,0,0,0,3-3V8A3,3,0,0,0,20,5Zm1,11a1,1,0,0,1-1,1H4a1,1,0,0,1-1-1V8A1,1,0,0,1,4,7H20a1,1,0,0,1,1,1ZM12,9a3,3,0,1,0,3,3A3,3,0,0,0,12,9Zm0,4a1,1,0,1,1,1-1A1,1,0,0,1,12,13Z'/></svg>";
+			    output1 += "</div></div>";
+			    
+			    output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+			    output1 += "<span><button type='button' style='color:#25a56a;' class='allMusicDownload'>구매목록 모두받기</button></span>";
+			    output1 += "</div></div>";
+			    
+				output += "<table id='buyListTable' class='main__table'>";
+				output += "<thead>"
+				output += "<tr>";
+				output += "<th>결제번호</th>";
+				output += "<th>프로필</th>";
+				output += "<th>제목</th>";
+				output += "<th>가수</th>";
+				output += "<th>좋아요수</th>";
+				output += "<th>조회수</th>";
+				output += "<th>구매일시</th>";
+				output += "<th>다운로드</th>";
+				output += "</tr>";
+				output += "</thead>"
+			}
+			
+			for(var i in list){
+				output += "<tbody>"
+				output += "<tr>";
+				output += "<td><div class='main__table-text main__table-text--number'><a class='open-modal'>"+list[i].pCode+"</a></div></td>";
+				output += "<td><div class='main__table-img'><img src='/muImage/"+list[i].muImage+"'></div></td>";
+				output += "<td><div class='main__table-text'><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span>"+list[i].muName+"</span></a></div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].muSinger+"</div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].muLike+"</div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].muHit+"</div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].pDate+"</div></td>";
+				output += "<td><a href='/audio/"+list[i].mFile+"' download='"+list[i].mFile+"' class='single-item__export' id='"+list[i].muCode+"download'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+				output += "</tr>";
+				output += "</tbody>"
+	
+			}
+			output += "</table>";
+			
+			var buyListArea = document.getElementById('buyListArea');
+			buyListArea.innerHTML = output;
+			
+			var buyContentArea = document.getElementById('buyContentArea');
+			buyContentArea.innerHTML = output1;
+			
+			$(".allMusicDownload").click(function(){
+				for(var i in list){
+					var UserName = list[i].mFile;
+					var filepath = "/audio/"+list[i].mFile;
+					download(UserName,filepath);
+				}
+				
+				function download(filename, filepath) {
+					var element = document.createElement('a');
+					element.setAttribute('href',filepath);
+					element.setAttribute('download', filename);
+					document.body.appendChild(element);
+					element.click();
+					document.body.removeChild(element);
+				}
+			});
+			
+			$(".single-item__export").click(function(){
+				
+				var selectDownloadMusicCode = $(this).attr("id");
+				console.log(selectDownloadMusicCode);
+				console.log(sessionId);
+				
+				var selectMusicCode = selectDownloadMusicCode.replace("download","");
+				console.log(selectMusicCode);
+				
+				$.ajax({
+					type: "POST",
+					url: "downloadTableInsert",
+					data: {"mudMuCode": selectMusicCode,
+						   "mudMid": sessionId},
+					dataType: "json",
+					success : function(list){
+					},
+					error : function(){
+						console.log('다운로드 테이블 등록 실패');
+					}
+				});
+			});
+			
+			$(".selectMusicDownload").click(function(){
+				
+				var selectDownloadMusicCode = $(this).attr("id");
+				console.log(selectDownloadMusicCode);
+				console.log(sessionId);
+				
+				var selectMusicCode = selectDownloadMusicCode.replace("download","");
+				console.log(selectMusicCode);
+				
+				$.ajax({
+					type: "POST",
+					url: "downloadTableInsert",
+					data: {"mudMuCode": selectMusicCode,
+						   "mudMid": sessionId},
+					dataType: "json",
+					success : function(list){
+					},
+					error : function(){
+						console.log('다운로드 테이블 등록 실패');
+					}
+				});
+			});
+		}
+		
+		function down(list){
+			var output = "";
+			var output1 = "";
+			var downTheNumber = list.length;
+			
+			if(downTheNumber <= 0){
+				output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+				output1 += "<span>다운목록</span>";
+				output1 += "<p><b name='price' value='"+downTheNumber+"' id='totalPrice'>"+downTheNumber+"곡</b></p>";
+				output1 += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z'/></svg>";
+				output1 += "</div></div>";
+				
+			    output += "<table id='downTable' class='cart__table'>";
+				output += "<thead>"
+				output += "<tr>";
+				output += "<th>다운로드한 음악이 없습니다.<br/><a href='/allfileList' class='hero__btn hero__btn--green'>음원목록으로</a></th>";
+				output += "</tr>";
+				output += "</thead>";
+			} else{
+				output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+				output1 += "<span>다운목록</span>";
+				output1 += "<p><b name='price' value='"+downTheNumber+"' id='totalPrice'>"+downTheNumber+"곡</b></p>";
+				output1 += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z'/></svg>";
+				output1 += "</div></div>";
+			    
+			    output1 += "<div class='col-12 col-lg-6 col-xl-3'><div class='stats'>";
+			    output1 += "<span><button type='button' style='color:#25a56a;' class='allMusicDownload'>전체목록 다시받기</button></span>";
+			    output1 += "</div></div>";
+				
+			    output += "<table id='downTable' class='main__table'>";
+				output += "<thead>"
+				output += "<tr>";
+				output += "<th>번호</th>";
+				output += "<th>프로필</th>";
+				output += "<th>제목</th>";
+				output += "<th>가수</th>";
+				output += "<th>좋아요수</th>";
+				output += "<th>조회수</th>";
+				output += "<th>구매일시</th>";
+				output += "<th>다운일시</th>";
+				output += "<th>다운로드</th>";
+				output += "</tr>";
+				output += "</thead>";
+			}
+			
+			for(var i in list){
+				output += "<tbody>"
+				output += "<tr>";
+				output += "<td><div class='main__table-text main__table-text--number'><a class='open-modal'>"+(parseInt(i)+1)+"</a></div></td>";
+				output += "<td><div class='main__table-img'><img src='/muImage/"+list[i].muImage+"'></div></td>";
+				output += "<td><div class='main__table-text'><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span>"+list[i].muName+"</span></a></div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].muSinger+"</div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].muLike+"</div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].muHit+"</div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].pDate+"</div></td>";
+				output += "<td><div class='main__table-text'>"+list[i].mudDate+"</div></td>";
+				output += "<td><a href='/audio/"+list[i].mFile+"' download='"+list[i].mFile+"' class='single-item__export' id='"+list[i].muCode+"download'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+				output += "</tr>";
+				output += "</tbody>";
+			}
+			output += "</table>";
+			
+			var downListArea = document.getElementById('downListArea');
+			downListArea.innerHTML = output;
+			
+			var downContentArea = document.getElementById('downContentArea');
+			downContentArea.innerHTML = output1;
+			
+			$(".allMusicDownload").click(function(){
+				for(var i in list){
+					var UserName = list[i].mFile;
+					var filepath = "/audio/"+list[i].mFile;
+					download(UserName,filepath);
+				}
+				
+				function download(filename, filepath) {
+					var element = document.createElement('a');
+					element.setAttribute('href',filepath);
+					element.setAttribute('download', filename);
+					document.body.appendChild(element);
+					element.click();
+					document.body.removeChild(element);
+				}
+			});
+			
+			$(".selectMusicDownload").click(function(){
+				
+				var selectDownloadMusicCode = $(this).attr("id");
+				console.log(selectDownloadMusicCode);
+				console.log(sessionId);
+				
+				var selectMusicCode = selectDownloadMusicCode.replace("download","");
+				console.log(selectMusicCode);
+				
+				$.ajax({
+					type: "POST",
+					url: "downloadTableInsert",
+					data: {"mudMuCode": selectMusicCode,
+						   "mudMid": sessionId},
+					dataType: "json",
+					success : function(list){
+					},
+					error : function(){
+						console.log('다운로드 테이블 등록 실패');
+					}
+				});
+			});
+		}
+	});
+
+	$("#subcheck").click(function() {
+		   
+		   var ssMid = sessionId;
+		   var sserMid = $("#viewId").attr("value");
+		   console.log('로그인 아이디 : ' + ssMid);
+		   console.log('구독당한 아이디 : ' + sserMid);
+		   
+		   if($(this).attr('value') == "팔로우하기"){
+		       $.ajax({
+		            type: "POST",
+		            url: "subreg",
+		            data: {
+		                "ssMid": ssMid ,
+		                "sserMid": sserMid
+		            },
+		            dataType: "json",
+		            success: function (subr) {
+			            $("#subList").empty().append(subr);
+			            $("#subcheck").attr('value','팔로우취소');
+		            },
+		            error: function () {
+		                alert('파이팅!!');
+		            }
+		        }); 
+		       $(this).attr('src','/icon/dislike.png');
+		   }else{
+		        $.ajax({
+		            type: "POST",
+		            url: "subcancel",
+		            data: {
+		                "ssMid": ssMid ,
+		                "sserMid": sserMid
+		            },
+		            dataType: "json",
+		            success: function (subr) {
+			            $("#subList").empty().append(subr);
+			            $("#subcheck").attr('value','팔로우하기');
+		            },
+		            error: function () {
+		                alert('파이팅!!');
+		            }
+		        }); 
+		        $(this).attr('src','/icon/like.png');
+		   }
+		});
+	
+		$("#subList").click(function(){
+			  console.log("모달되냐?");
+			  var sserMid = $("#viewId").attr("value");
+			  $("#modal").fadeIn();
+			  
+			  console.log(sserMid);
+			  $.ajax({
+				  type : "POST",
+				  url : "submodalList",
+				  data : {"sserMid" : sserMid},
+				  dataType: "json",
+		          success: function (subr) {
+		        	  
+		        	var output = "";
+		        	var output1 = "구독자";
+		        	
+		        	for(var i in subr){
+		        		if(subr == ""){
+		        			output += "<p>구독을 눌러보세요<p>"
+		        		}else if(subr.length > 0){
+		        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'> &nbsp;&nbsp;<a href='boardWriterView?boWriter="+ subr[i].mId +"&mId="+sessionId+"'>"+subr[i].mId+"</a></p>"
+		        		}
+		        	}
+		        	const modalContent = document.getElementById("content");
+					modalContent.innerHTML = output;
+					
+					var modalTitle = document.getElementById("modalTitle");
+					modalTitle.innerHTML = output1;
+					
+					const modal = document.getElementById("modal")
+					
+					modal.style.display = "flex";
+					
+					const closeBtn = modal.querySelector(".close-area")
+					closeBtn.addEventListener("click", e => {
+						modal.style.display = "none"
+					});	
+					
+					modal.addEventListener("click", e => {
+					    const evTarget = e.target
+					    if(evTarget.classList.contains("modal-overlay")) {
+					        modal.style.display = "none"
+					    }
+					});
+					
+					window.addEventListener("keyup", e => {
+					    if(modal.style.display === "flex" && e.key === "Escape") {
+					        modal.style.display = "none"
+					    }
+					});
+					
+					console.log(subr);
+		          },
+		          error : function(){
+		        	  alert('구독자 목록 불러오기 실패');
+		          }
+			  });
+			  
+		});
+			  $("#suberList").click(function(){
+				  console.log("모달되냐?");
+				  var ssMid = $("#viewId").attr("value");
+				  $("#modal").fadeIn();
+				  
+				  console.log(ssMid);
+				  $.ajax({
+					  type : "POST",
+					  url : "subermodalList",
+					  data : {"ssMid" : ssMid},
+					  dataType: "json",
+			          success: function (subr) {
+			        	  
+			        	var output = "";
+			        	var output1 = "구독한 목록";
+			        	for(var i in subr){
+			        		if(subr == ""){
+			        			output += "<p>구독한 사람이 없습니다.<p>"
+			        		}else if(subr.length > 0){
+			        			output += "<p><img src='/profile/"+ subr[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'> &nbsp;&nbsp;<a href='boardWriterView?boWriter="+ subr[i].mId +"&mId="+sessionId+"'>"+subr[i].mId+"</a></p>"
+			        		}
+			        	}
+			        	const modalContent = document.getElementById("content");
+						modalContent.innerHTML = output;
+						
+						var modalTitle = document.getElementById("modalTitle");
+						modalTitle.innerHTML = output1;
+						
+						const modal = document.getElementById("modal")
+						
+						modal.style.display = "flex";
+						
+						const closeBtn = modal.querySelector(".close-area")
+						closeBtn.addEventListener("click", e => {
+							modal.style.display = "none"
+						});	
+						
+						modal.addEventListener("click", e => {
+						    const evTarget = e.target
+						    if(evTarget.classList.contains("modal-overlay")) {
+						        modal.style.display = "none"
+						    }
+						});
+						
+						window.addEventListener("keyup", e => {
+						    if(modal.style.display === "flex" && e.key === "Escape") {
+						        modal.style.display = "none"
+						    }
+						});
+						
+						console.log(subr);
+			          },
+			          error : function(){
+			        	  alert('구독자 목록 불러오기 실패');
+			          }
+				  });
+		});
+	
+	$("#modal_close_btn").click(function () {
+	    $("#modal").fadeOut();
+	});
+
+	function modify(){
+		alert("정보가 수정되었습니다. 다시로그인 해주세요")
+	}
+	
+	$(".dashbox__refresh").click(function(){
+		location.reload();
+	});
 
 </script>
+
 </html>

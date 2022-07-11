@@ -190,5 +190,23 @@ public class boardController {
 		System.out.println("[4] 게시글을 좋아요한 사람들 C : " + boardList);
 		return boardList;
 	}
+	
+//	myBoardList : 내가 올린 게시글 출력 메소드(ajax)
+	@PostMapping("myBoardList")
+	public @ResponseBody List<BoardDTO> myBoardList(@RequestParam("boWriter") String boWriter){
+		System.out.println("[1] 내가 올린 게시글 리스트 C : " + boWriter);
+		boardList = bosvc.myBoardList(boWriter);
+		System.out.println("[4] 내가 올린 게시글 리스트 C : " + boardList);
+		return boardList;
+	}
+	
+//	ajaxBoardDelete : 게시글 삭제(ajax)
+	@PostMapping("ajaxBoardDelete")
+	public @ResponseBody List<BoardDTO> ajaxBoardDelete(@RequestParam("boCode") int boCode){
+		System.out.println("[1] 게시글 삭제(ajax) C : " + boCode);
+		boardList = bosvc.ajaxBoardDelete(boCode);
+		System.out.println("[4] 게시글 삭제(ajax) C : " + boardList);
+		return boardList;
+	}
 
 }

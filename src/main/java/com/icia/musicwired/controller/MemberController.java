@@ -33,6 +33,8 @@ public class MemberController {
 
 	@Autowired
 	private HttpSession session;
+	
+	List<MemberDTO> memList = new ArrayList<MemberDTO>();
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index() {
@@ -154,22 +156,29 @@ public class MemberController {
 	}
 
 	// memberIdfind
-//	@RequestMapping(value = "/memberIdfind", method = RequestMethod.GET)
-//	public String memberIdfind() {
-//	
-//		return "index";
-//	}
+	@RequestMapping(value = "/memberIdfind", method = RequestMethod.GET)
+	public String memberIdfind() {
 
+		return "Mem_Idfind";
+	}
+
+	// memIdfind
+//	@RequestMapping(value = "/memIdfind", method = RequestMethod.POST)
+//	public @ResponseBody ModelAndView memIdfind(@RequestParam("mEmail") String mEmail) {
+//		mav = msvc.memIdfind(mEmail);
+//		return mav;
+//	}
+	
 //	memIdfind : 아이디찾기
 	@PostMapping("memIdfind")
 	public @ResponseBody List<MemberDTO> memIdfind(@RequestParam("mEmail") String mEmail){
-		List<MemberDTO> memList = new ArrayList<MemberDTO>();
 		System.out.println("[1] 아이디 찾기 C : " + mEmail);
 		memList = msvc.memIdfind(mEmail);
 		System.out.println("[4] 아이디 찾기 C : " + memList);
 		
 		return memList;
 	}
+	
 
 	// memberPwfind
 //	@RequestMapping(value = "/memberPwfind", method = RequestMethod.GET)
@@ -178,6 +187,8 @@ public class MemberController {
 //		return "index";
 //	}
 
+
+	
 //	memPwfind : 비번찾기
 	@PostMapping("memPwfind")
 	@ResponseBody

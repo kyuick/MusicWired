@@ -69,6 +69,7 @@
 					<a th:if="${session.login eq null}" class="header__action-btn open-modal" href="#login">
 					
 						<span>로그인</span>
+
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,12a1,1,0,0,0-1-1H11.41l2.3-2.29a1,1,0,1,0-1.42-1.42l-4,4a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l4,4a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L11.41,13H19A1,1,0,0,0,20,12ZM17,2H7A3,3,0,0,0,4,5V19a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V16a1,1,0,0,0-2,0v3a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V8a1,1,0,0,0,2,0V5A3,3,0,0,0,17,2Z"/></svg>
 					</a>
 					
@@ -117,14 +118,13 @@
 								</div>
 								
 								<button class="sign__btn" type="submit">Login</button>
+                
+								<div style="text-align: center;">
+									<span class="sign__text">Don't have an account? <a  class ="open-modal" href="#modal-buy1">Sign up!</a></span><br/>
+									<span class="sign__text"><a class ="open-modal" href="#modal-buy2">Forgot ID?</a></span><br/>
+									<span class="sign__text"><a class ="open-modal" href="#findpw">Forgot Password?</a></span><br/>
+								</div>
 
-								
-
-								<span class="sign__text">Don't have an account? <a  class ="open-modal" href="#modal-buy1">Sign up!</a>
-								</span>
-
-								<span class="sign__text"><a class ="open-modal" href="#modal-buy2">Forgot ID?</a></span>
-								<span class="sign__text"><a class ="open-modal" href="#findpw">Forgot Password?</a></span>
 							</form>
 							
 						<form action="memberJoin" method="post" enctype="multipart/form-data" class="sign__form  modal zoom-anim-dialog mfp-hide" id= "modal-buy1">
@@ -167,6 +167,7 @@
 
 								<span class="sign__text">Already have an account? <a class="open-modal" href="#login">Sign in!</a></span>
 							</form>
+
 								<div class="sign__form modal zoom-anim-dialog mfp-hide" id= "modal-buy2">
 								<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
 							
@@ -178,17 +179,21 @@
 									<input type="email" name="mEmail" class="sign__input" placeholder="Email" id="idFindText">
 								</div>
 
-								<a class="sign__btn open-modal" type="submit"  href="#findid" id="idFindBtn">아이디찾기</a>
+								<a class="sign__btn open-modal" href="#findid" id="idFindBtn">아이디찾기</a>
 
 								<span class="sign__text">회원가입시 작성했던 이메일을 입력해주세요</span>
 							</div>
-					<div class="sign__form  modal zoom-anim-dialog mfp-hide" id= "findid">
+							
+							
+								<div class="sign__form  modal zoom-anim-dialog mfp-hide" id= "findid">
+
 									<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
 								
 									<a href="/index" class="sign__logo" style="padding-left: 36.5%;">
 										<img src="icon/MUSICWIREDLOGO.png"  alt="">
 									</a>
 									<div id="findIdArea">
+
 										<div class="sign__group">
 											<input type="text" name="mEmail" class="sign__input" value="아이디 찾기 결과" disabled style="text-align: center; color: #99FFFF;">
 										</div>
@@ -196,12 +201,7 @@
 									</div>
 										<a type="button" class="sign__btn open-modal" id="login_button" href="#login">로그인창으로 이동</a>
 								</div>
-							<input type="hidden" th:value="${error}" id="hidden"></input>
-								<input type="hidden" th:value="${find}" id="hidden1"></input>
-						 	<script src="http://code.jquery.com/jquery-latest.js"></script> 	
-							<script type="text/javascript">
-						
-							</script>
+	
 							<div class="sign__form modal zoom-anim-dialog mfp-hide" id= "findpw">
 								<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
 							
@@ -229,6 +229,7 @@
 								<a type="button" class="sign__btn open-modal" id="login_button" href="#login">로그인창으로 이동</a>
 							
 							</div>
+
 					</div>
 				</div>
 				</div>
@@ -275,95 +276,98 @@
 
 								<span class="sign__text">Already have an account? <a class="open-modal" href="#login">Sign in!</a></span>
 							</form>
-							
-							</div></div></div>
-				<script type="text/javascript" th:inline="javascript">
+
+						</div>
+					</div>
+				</div>
 		
-</script>
+
 	<script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
 		var CheckLogin = [[${session.login}]]
 		
 		if(CheckLogin != null){
 			var sessionId = [[${session.login.mId}]]
+			
+			$(document).ready(function(){
+				$.ajax({
+					type : "POST",
+					url : "ajaxCartList",
+					data : {"caMid" : sessionId},
+					dataType : "json",
+					success : function(list){
+						smallCart(list);
+					},
+					error : function(){
+						console.log("장바구니 개수 출력 실패");
+					}
+				});
+				
+				function smallCart(list){
+					var cartCountArea = document.getElementById('cartCountArea');
+					
+					if(list.length <= 0){
+						cartCountArea.innerHTML = "";
+					} else{
+						cartCountArea.innerHTML = list.length;
+					}
+					
+					var output = "";
+					
+					if(list.length > 4){
+						output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+						for(var i=0; i<4; i++){
+							output += "<div class='header__product'>";
+							output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+							output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+							output += "<span>"+list[i].muSinger+"</span>";
+							output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+						}
+					}else if(list.length == 0){
+						output += "<div class='header__product' style='padding-left:33px; padding-right:33px;'>";
+						output += "<span>장바구니가 비어있습니다.</span></div>"
+					}else{
+						output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+						for(var i in list){
+							output += "<div class='header__product'>";
+							output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+							output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+							output += "<span>"+list[i].muSinger+"</span>";
+							output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+						}
+					}
+					
+					
+					var smallCartListArea = document.getElementById('smallCartListArea');
+					smallCartListArea.innerHTML = output;
+					
+					$(".cartDelete").click(function(){
+						
+						var muCode = $(this).attr('id');
+						console.log("muCode : "+muCode);
+						
+						$.ajax({
+							type : "POST",
+							url : "cartListDelete",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								smallCart(list);
+								$("#cartListArea").load(window.location.href + "#cartListArea");
+								$("#myMusicListArea").load(window.location.href + "#myMusicListArea");
+							},
+							error : function(){
+								alert('장바구니 삭제 실패');
+							}
+						});
+					});
+				}
+				
+			});
 		}
 		
-		$(document).ready(function(){
-			$.ajax({
-				type : "POST",
-				url : "ajaxCartList",
-				data : {"caMid" : sessionId},
-				dataType : "json",
-				success : function(list){
-					smallCart(list);
-				},
-				error : function(){
-					console.log("장바구니 개수 출력 실패");
-				}
-			});
-			
-			function smallCart(list){
-				var cartCountArea = document.getElementById('cartCountArea');
-				
-				if(list.length <= 0){
-					cartCountArea.innerHTML = "";
-				} else{
-					cartCountArea.innerHTML = list.length;
-				}
-				
-				var output = "";
-				
-				if(list.length > 4){
-					output += "<a href='/cartList' class='header__all'>Go to cart</a>";
-					for(var i=0; i<4; i++){
-						output += "<div class='header__product'>";
-						output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
-						output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
-						output += "<span>"+list[i].muSinger+"</span>";
-						output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
-					}
-				}else if(list.length == 0){
-					output += "<div class='header__product' style='padding-left:33px; padding-right:33px;'>";
-					output += "<span>장바구니가 비어있습니다.</span></div>"
-				}else{
-					output += "<a href='/cartList' class='header__all'>Go to cart</a>";
-					for(var i in list){
-						output += "<div class='header__product'>";
-						output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
-						output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
-						output += "<span>"+list[i].muSinger+"</span>";
-						output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
-					}
-				}
-				
-				
-				var smallCartListArea = document.getElementById('smallCartListArea');
-				smallCartListArea.innerHTML = output;
-				
-				$(".cartDelete").click(function(){
-					
-					var muCode = $(this).attr('id');
-					console.log("muCode : "+muCode);
-					
-					$.ajax({
-						type : "POST",
-						url : "cartListDelete",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							smallCart(list);
-							$("#cartListArea").load(window.location.href + "#cartListArea");
-							$("#myMusicListArea").load(window.location.href + "#myMusicListArea");
-						},
-						error : function(){
-							alert('장바구니 삭제 실패');
-						}
-					});
-				});
-			}
-			
-		});
+		
 		
 	</script>
 	</header>

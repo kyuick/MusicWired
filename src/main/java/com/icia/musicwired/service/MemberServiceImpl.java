@@ -34,6 +34,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private PasswordEncoder pwEnc;
+	
+	List<MemberDTO> memList = new ArrayList<MemberDTO>();
 
 //	@Autowired
 //	private JavaMailSender mailsender;
@@ -195,7 +197,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public List<MemberDTO> memIdfind(String mEmail) {
-		List<MemberDTO> memList = new ArrayList<MemberDTO>();
+
 		System.out.println("[2] 아이디 찾기 S : " + mEmail);
 		List<MemberDTO> mId = mdao.memIdfind(mEmail);
 
@@ -222,8 +224,9 @@ public class MemberServiceImpl implements MemberService {
 			System.out.println("[4-1] 비번찾기 실패 S : " + result);
 		} else {
 			String mPw = "";
-			
-			for (int i = 0; i < 12; i++) {
+
+			for (int i = 0; i < 12; i++) { 
+
 				mPw += (char) ((Math.random() * 26) + 97);
 			}
 			
