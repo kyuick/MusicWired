@@ -67,15 +67,24 @@ public class MusicPlayListController {
     }
 
 
+    @PostMapping("PlayListDelete")
+    public @ResponseBody List<MusicPlayListDto> fileDelete(@ModelAttribute MusicPlayListDto mpDto) {
+
+        playList = mpsvc.PlayListDelete(mpDto);
+
+        return playList;
+    }
+
+
 
 
     //PlayListDelete : 플레이리스트 목록 삭제
-    @RequestMapping(value = "/PlayListDelete", method = RequestMethod.GET)
-    public ModelAndView fileDelete(@ModelAttribute MusicPlayListDto mpDto) {
-        System.out.println("1삭제" + mpDto);
-        mav = mpsvc.PlayListDelete(mpDto);
-        System.out.println("5삭제" + mpDto);
-        return mav;
-    }
+//    @RequestMapping(value = "/PlayListDelete", method = RequestMethod.POST)
+//    public ModelAndView fileDelete(@ModelAttribute MusicPlayListDto mpDto) {
+//        System.out.println("1삭제" + mpDto);
+//        mav = mpsvc.PlayListDelete(mpDto);
+//        System.out.println("5삭제" + mpDto);
+//        return mav;
+//    }
 
 }

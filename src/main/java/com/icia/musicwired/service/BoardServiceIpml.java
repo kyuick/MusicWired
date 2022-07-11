@@ -1,5 +1,6 @@
 package com.icia.musicwired.service;
 
+import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -161,6 +162,7 @@ public class BoardServiceIpml implements BoardService {
 		System.out.println("[2] 삭제 S : " + boCode);
 		int result = bodao.boardDelete(boCode);
 		System.out.println("[3] 삭제 S : " + result);
+		
 		if (result > 0) {
 			mav.setViewName("redirect:/boardList");
 		} else {
@@ -353,6 +355,38 @@ public class BoardServiceIpml implements BoardService {
 		boardList = board;
 		
 
+		return boardList;
+	}
+
+//	myBoardList : 내가 올린 게시글 출력(ajax)
+	@Override
+	public List<BoardDTO> myBoardList(String boWriter) {
+		System.out.println("[2] 내가 올린 게시글 리스트 S : " + boWriter);
+		List<BoardDTO> board = bodao.myBoardList(boWriter);
+		System.out.println("[3] 내가 올린 게시글 리스트 S : " + board);
+		
+		if(board != null) {
+			boardList = board;
+		}else {
+			boardList = null;
+		}
+		
+		return boardList;
+	}
+
+//	ajaxBoardDelete : 게시글 삭제(ajax)
+	@Override
+	public List<BoardDTO> ajaxBoardDelete(int boCode) {
+		System.out.println("[2] 게시글 삭제(ajax) S : " + boCode);
+		
+		int result = bodao.ajaxBoardDelete(boCode);
+		System.out.println("[3] 게시글 삭제(ajax) S : " + result);
+		
+		if(result > 0) {
+			
+		}else {
+			boardList = null;
+		}
 		return boardList;
 	}
 

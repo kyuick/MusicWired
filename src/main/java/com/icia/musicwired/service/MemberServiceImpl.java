@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -15,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.icia.musicwired.dao.CartDAO;
 import com.icia.musicwired.dao.MemberDAO;
 import com.icia.musicwired.dto.MemberDTO;
 
@@ -32,6 +34,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private PasswordEncoder pwEnc;
+	
+	List<MemberDTO> memList = new ArrayList<MemberDTO>();
 
 //	@Autowired
 //	private JavaMailSender mailsender;
@@ -78,7 +82,7 @@ public class MemberServiceImpl implements MemberService {
 		} else {
 			session.invalidate();
 			mav.addObject("error", "아이디/비밀번호가 틀립니다.");
-			mav.setViewName("Mem_Login");
+			mav.setViewName("index");
 		}
 		System.out.println(member);
 		System.out.println(mav);
@@ -192,43 +196,53 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ModelAndView memIdfind(String mEmail) {
+	public List<MemberDTO> memIdfind(String mEmail) {
 
-		String mId = mdao.memIdfind(mEmail);
+		System.out.println("[2] 아이디 찾기 S : " + mEmail);
+		List<MemberDTO> mId = mdao.memIdfind(mEmail);
 
-		System.out.println(mId);
-		if (mId == null) {
-			mav.addObject("error", "가입된 아이디가 없습니다.");
-			mav.setViewName("Mem_Idfind");
+		System.out.println("[3] 아이디 찾기 S : " + mId);
+		if (mId != null) {
+			memList = mId;
 		} else {
-			mav.addObject("find", mId);
-			mav.setViewName("Mem_Find");
+			memList = null;
 		}
-		return mav;
+		return memList;
 	}
-
+	
 	@Override
-	public ModelAndView memPwfind(MemberDTO member) {
-
-		if (member.getmId() == null) {
-			mav.addObject("error", "가입된 아이디가 없습니다.");
-			mav.setViewName("Mem_Pwfind");
+	public Map<String, Object> memPwfind(MemberDTO member) {
+		System.out.println("[2] 비번찾기 S : " + member);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		List<MemberDTO> pwFindSelectMember = mdao.memPwfindSelect(member); 
+		System.out.println("[3] 비번찾기 S : " + pwFindSelectMember);
+		
+		if (pwFindSelectMember.size() == 0) {
+			result = null;
+			System.out.println("[4-1] 비번찾기 실패 S : " + result);
 		} else {
 			String mPw = "";
-			for (int i = 0; i < 12; i++) {
+
+			for (int i = 0; i < 12; i++) { 
+
 				mPw += (char) ((Math.random() * 26) + 97);
-				mav.addObject("reset", mPw);
-				mav.setViewName("Mem_Findpw");
 			}
-			System.out.println(member);
-
+			
 			member.setmPw(mPw);
+			String memMpw = member.getmPw();
+			result.put("memMpw", memMpw);
+			result.put("member", member);
+			
+			System.out.println("[4] 비번찾기 성공 S : " + result);
+			
 			member.setmPw(pwEnc.encode(member.getmPw()));
-			mdao.memPwfind(member);
+			
+			mdao.memPwfindUpdate(member);
 		}
-		return mav;
+		return result;
 	}
-
 	
 
 }

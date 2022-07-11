@@ -180,7 +180,7 @@
 
 
     <select id="LikemodalList" parameterType="int" resultType="member">
-        SELECT M.MID, M.MPROFILENAME
+        SELECT M.MID, M.MPROFILENAME, M.MNAME
         FROM MEMBER M,
              MUSICLIKE
         WHERE MID = MULMID
@@ -195,5 +195,10 @@
 	<select id="MyMusicList" parameterType="String" resultType="audio">
 		SELECT * FROM MUSIC WHERE MUSINGER = #{muSinger}
 	</select>
+	
+<!-- 음악 삭제 메소드 (ajax) -->
+	<delete id="ajaxMusicDelete" parameterType="int">
+		DELETE FROM MUSIC WHERE MUCODE = #{muCode}
+	</delete>
 
 </mapper>

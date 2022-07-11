@@ -16,7 +16,7 @@
     <delete id="subcancel" parameterType="sub">
         DELETE
         FROM SUBSCRIPTION
-        WHERE SSMID = #{ssMid}
+        WHERE SSMID = #{ssMid} AND SSERMID = #{sserMid}
     </delete>
     <select id="minusCount" parameterType="sub" resultType="int">
         SELECT COUNT(*)

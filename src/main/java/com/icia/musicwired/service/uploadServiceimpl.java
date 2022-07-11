@@ -332,6 +332,23 @@ public class uploadServiceimpl implements uploadService {
 		return musicList;
 	}
 
+//	musicDelete : 음악 삭제 메소드(ajax)
+	@Override
+	public List<uploadDto> ajaxMusicDelete(int muCode) {
+		System.out.println("[2] 음악 삭제 S : " + muCode);
+		
+		int result = dao.ajaxMusicDelete(muCode);
+		System.out.println("[3] 음악 삭제 S : " + result);
+		
+		if(result > 0) {
+			
+		} else {
+			musicList = null;
+		}
+		
+		return musicList;
+	}
+
 
 
 

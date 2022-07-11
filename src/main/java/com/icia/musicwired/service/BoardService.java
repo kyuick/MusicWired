@@ -40,4 +40,8 @@ public interface BoardService {
 
 	List<BoardDTO> boardListUserList(int bolBoCode);
 
+	List<BoardDTO> myBoardList(String boWriter);
+
+	List<BoardDTO> ajaxBoardDelete(int boCode);
+
 }
