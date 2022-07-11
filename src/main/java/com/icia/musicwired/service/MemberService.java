@@ -1,6 +1,8 @@
 package com.icia.musicwired.service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,9 +26,9 @@ public interface MemberService {
 
 	ModelAndView memberList();
 
-	ModelAndView memIdfind(String mEmail);
+	List<MemberDTO> memIdfind(String mEmail);
 
-	ModelAndView memPwfind(MemberDTO member);
+	Map<String, Object> memPwfind(MemberDTO mId);
 
 	String checkEmail(String mEmail);
 

@@ -255,7 +255,7 @@ body::-webkit-scrollbar-thumb {
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 .owl-carousel .owl-item {
-  -webkit-transform: none;
+  -webkit-transform:none;
 }
 /*==============================
 	Header
@@ -5346,6 +5346,7 @@ body::-webkit-scrollbar-thumb {
   width: auto;
 }
 .sign__logo img {
+
   width: 100px;
 }
 .sign__title {
@@ -5798,6 +5799,7 @@ body::-webkit-scrollbar-thumb {
   padding: 20px;
   border-radius: 12px;
   overflow: hidden;
+  
 }
 .modal__icon {
   display: none;
