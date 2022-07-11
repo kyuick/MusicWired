@@ -21,8 +21,14 @@ public interface chatDAO {
 
 	List<CSDTO> getSaveChat(int crNum);
 
-	int readupdate(String crId);
+	int readupdate(int crNum);
 
 	int readupdate1(int csNum);
+
+	int newMessage(String crId);
+
+	int newMessageUp(int csNum);
+
+	int delMessage(String crId);
 
 }

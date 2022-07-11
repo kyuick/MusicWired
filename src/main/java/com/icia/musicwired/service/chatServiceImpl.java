@@ -91,9 +91,31 @@ public class chatServiceImpl implements chatService {
 	}
 
 	@Override
-	public int readupdate(String crId) {
-		int result = mdao.readupdate(crId);
+	public int readupdate(int crNum) {
+		int result = mdao.readupdate(crNum);
 		return result;
 	}
+
+	@Override
+	public int newMessage(String crId) {
+		int result = mdao.newMessage(crId);
+		
+		return result;
+	}
+
+	@Override
+	public int newMessageUp(int csNum) {
+		int result = mdao.newMessageUp(csNum);
+		return result;
+	}
+
+	@Override
+	public int delMessage(String crId) {
+		
+		int result = mdao.delMessage(crId);
+		return result;
+	}
+
+
 
 }

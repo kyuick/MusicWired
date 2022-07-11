@@ -52,6 +52,43 @@ Primary use:	Volna HTML Template
 /*==============================
 	Common styles
 ==============================*/
+.messagecount span{
+	 
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    min-width: 25px;
+    color: #fff;
+    padding: 0 5px;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    pointer-events: none;
+    background-color: #0099FF;
+    margin-bottom: auto;
+    margin-left: 5px;
+	}
+
+.playaddbtn {
+  background-color: #0099FF;
+  color: #fff;
+  border-radius: 12px;
+  width: 80px;
+  font-family: 'Open Sans', sans-serif;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.playaddbtn:hover {
+  background-color: #fff;
+  color: #0099FF;
+  border-radius: 12px;
+  width: 80px;
+  font-family: 'Open Sans', sans-serif;
+  padding: 5px;
+  margin-bottom: 10px;
+}
 
 .main-Logo{
  	height: 200px;
@@ -2174,6 +2211,7 @@ body::-webkit-scrollbar-thumb {
   background-color: #222227;
   color: #0099FF;
 }
+
 @media (min-width: 576px) {
   .hero__slide {
     min-height: 400px;
@@ -2956,7 +2994,7 @@ body::-webkit-scrollbar-thumb {
   word-wrap: break-word;
 }
 .single-item__title h4 a {
-  color: #fff;
+  color: #0099FF;
 }
 .single-item__title h4 a:hover {
   color: #0099FF;
@@ -4493,7 +4531,8 @@ body::-webkit-scrollbar-thumb {
 .article__content h1,
 .article__content h2,
 .article__content h3,
-.article__content h4,
+.article__content 
+,
 .article__content h5,
 .article__content h6 {
   font-family: 'Inter', sans-serif;

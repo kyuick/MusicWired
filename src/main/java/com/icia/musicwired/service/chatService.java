@@ -16,6 +16,16 @@ public interface chatService {
 
 	List<CSDTO> chatSave(CSDTO csdto);
 
-	int readupdate(String crId);
+	int readupdate(int crNum);
+
+	int newMessage(String crId);
+
+	int newMessageUp(int csNum);
+
+	int delMessage(String crId);
+
+
+
+
 
 }
