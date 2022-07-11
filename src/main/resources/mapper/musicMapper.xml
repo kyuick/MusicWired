@@ -180,7 +180,7 @@
 
 
     <select id="LikemodalList" parameterType="int" resultType="member">
-        SELECT M.MID, M.MPROFILENAME
+        SELECT M.MID, M.MPROFILENAME, M.MNAME
         FROM MEMBER M,
              MUSICLIKE
         WHERE MID = MULMID

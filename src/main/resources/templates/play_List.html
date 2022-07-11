@@ -31,50 +31,56 @@
 
 </head>
 <style>
-    #SearchList{
+    /*#SearchList {*/
+    /*    overflow: auto;*/
+    /*}*/
+
+    /*#SearchList::-webkit-scrollbar {*/
+    /*    width: 4px;*/
+    /*}*/
+
+    /*#SearchList::-webkit-scrollbar-track {*/
+    /*    background: #222227;*/
+    /*}*/
+
+    /*#SearchList::-webkit-scrollbar-thumb {*/
+    /*    background-color: #2d78b6;*/
+    /*    outline: 1px solid #222227;*/
+    /*    border-radius: 10px;*/
+    /*}*/
+
+    #playListArea{
         overflow: auto;
     }
-    #SearchList::-webkit-scrollbar{
+    #playListArea::-webkit-scrollbar{
         width: 4px;
     }
-    #SearchList::-webkit-scrollbar-track {
+    #playListArea::-webkit-scrollbar-track{
         background: #222227;
     }
-    #SearchList::-webkit-scrollbar-thumb{
-        background-color: #25a56a;
+    #playListArea::-webkit-scrollbar-thumb{
+        background-color: #0099FF;
         outline: 1px solid #222227;
         border-radius: 10px;
     }
 
-    /*.div1 {*/
-    /*    display: table;*/
-    /*    table-layout: fixed;*/
-    /*    text-align: center;*/
-    /*    overflow: auto;*/
-    /*}*/
 
-    /*.div {*/
-    /*    display: table-cell;*/
-    /*    vertical-align: middle;*/
-    /*    overflow: scroll;*/
-    /*}*/
 
-    #PlayListCart{
+    #PlayListCart {
         display: none;
-
     }
 
 
 </style>
 <body>
-  <input id="playListSearch" type="text" placeholder="음악 제목 검색">
-    <button th:id="searchBtn">검색</button>
 <!-- header -->
 <header th:replace="header.html :: header"></header>
 <!-- end header -->
 
 <!-- sidebar -->
-<aside th:replace="sidebar.html :: aside"></aside
+
+<aside th:replace="sidebar.html :: aside"></aside>
+
 <!-- end sidebar -->
 
 <!-- player -->
@@ -119,205 +125,14 @@
                 </div>
             </div>
             <!-- end title -->
-
-            <div class="col-12" style="overflow: scroll">
-                <div class="release" style="overflow: scroll">
-<!--                    <div class="release__content" style="overflow: scroll">-->
-<!--                        <div class="release__cover" style="overflow: scroll">-->
-<!--                            <img src="img/covers/cover3.jpg" alt="">-->
-<!--                        </div>-->
-<!--                        <div class="release__stat" style="overflow: scroll">-->
-<!--                            <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path-->
-<!--                                    d="M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z"/></svg> 10 tracks</span>-->
-<!--                            <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path-->
-<!--                                    d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 19 503</span>-->
-<!--                        </div>-->
-<!--                        <a href="#modal-buy" class="release__buy open-modal">Buy album – $18</a>-->
-<!--                    </div>-->
-
-                    <div class="release__list" id="SearchList" th:class="div1" style="overflow: scroll">
-                        <!--                        <ul class="main__list main__list&#45;&#45;playlist main__list&#45;&#45;dashbox">-->
-                        <!--                            <li class="single-item">-->
-                        <!--                                <a data-playlist data-title="1. Got What I Got" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">-->
-                        <!--                                    <img src="img/covers/cover.svg" alt="">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <div class="single-item__title">-->
-                        <!--                                    <h4><a href="#">1. Got What I Got</a></h4>-->
-                        <!--                                    <span><a href="artist.html">Jason Aldean</a></span>-->
-                        <!--                                </div>-->
-                        <!--                                <a href="#" class="single-item__add">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <a href="#" class="single-item__export">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"></path></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <span class="single-item__time">2:58</span>-->
-                        <!--                            </li>-->
-                        <!--                            <li class="single-item">-->
-                        <!--                                <a data-playlist data-title="2. Supalonely" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/9106709_epic-adventure-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">-->
-                        <!--                                    <img src="img/covers/cover.svg" alt="">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <div class="single-item__title">-->
-                        <!--                                    <h4><a href="#">2. Supalonely</a></h4>-->
-                        <!--                                    <span><a href="artist.html">Jason Aldean</a></span>-->
-                        <!--                                </div>-->
-                        <!--                                <a href="#" class="single-item__add">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <a href="#" class="single-item__export">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"></path></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <span class="single-item__time">3:14</span>-->
-                        <!--                            </li>-->
-                        <!--                            <li class="single-item">-->
-                        <!--                                <a data-playlist data-title="3. Girls In The Hood" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/10938456_inspiring-epic-motivational-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">-->
-                        <!--                                    <img src="img/covers/cover.svg" alt="">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <div class="single-item__title">-->
-                        <!--                                    <h4><a href="#">3. Girls In The Hood</a></h4>-->
-                        <!--                                    <span><a href="artist.html">Jason Aldean</a></span>-->
-                        <!--                                </div>-->
-                        <!--                                <a href="#" class="single-item__add">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <a href="#" class="single-item__export">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"></path></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <span class="single-item__time">3:21</span>-->
-                        <!--                            </li>-->
-                        <!--                            <li class="single-item">-->
-                        <!--                                <a data-playlist data-title="4. Got It On Me" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/16412111_upbeat-rock_by_audiopizza_preview.mp3" class="single-item__cover">-->
-                        <!--                                    <img src="img/covers/cover.svg" alt="">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <div class="single-item__title">-->
-                        <!--                                    <h4><a href="#">4. Got It On Me</a></h4>-->
-                        <!--                                    <span><a href="artist.html">Jason Aldean & Alan Walker</a></span>-->
-                        <!--                                </div>-->
-                        <!--                                <a href="#" class="single-item__add">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <a href="#" class="single-item__export">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"></path></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <span class="single-item__time">3:12</span>-->
-                        <!--                            </li>-->
-                        <!--                            <li class="single-item">-->
-                        <!--                                <a data-playlist data-title="5. Righteous" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/19478377_ambient-pop_by_audiopizza_preview.mp3" class="single-item__cover">-->
-                        <!--                                    <img src="img/covers/cover.svg" alt="">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <div class="single-item__title">-->
-                        <!--                                    <h4><a href="#">5. Righteous</a></h4>-->
-                        <!--                                    <span><a href="artist.html">Jason Aldean</a></span>-->
-                        <!--                                </div>-->
-                        <!--                                <a href="#" class="single-item__add">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <a href="#" class="single-item__export">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"></path></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <span class="single-item__time">5:04</span>-->
-                        <!--                            </li>-->
-                        <!--                            <li class="single-item">-->
-                        <!--                                <a data-playlist data-title="6. Got What I Got" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">-->
-                        <!--                                    <img src="img/covers/cover.svg" alt="">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <div class="single-item__title">-->
-                        <!--                                    <h4><a href="#">6. Got What I Got</a></h4>-->
-                        <!--                                    <span><a href="artist.html">Jason Aldean</a></span>-->
-                        <!--                                </div>-->
-                        <!--                                <a href="#" class="single-item__add">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <a href="#" class="single-item__export">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"></path></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <span class="single-item__time">2:58</span>-->
-                        <!--                            </li>-->
-                        <!--                            <li class="single-item">-->
-                        <!--                                <a data-playlist data-title="7. Supalonely" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/9106709_epic-adventure-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">-->
-                        <!--                                    <img src="img/covers/cover.svg" alt="">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <div class="single-item__title">-->
-                        <!--                                    <h4><a href="#">7. Supalonely</a></h4>-->
-                        <!--                                    <span><a href="artist.html">Jason Aldean</a></span>-->
-                        <!--                                </div>-->
-                        <!--                                <a href="#" class="single-item__add">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <a href="#" class="single-item__export">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"></path></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <span class="single-item__time">3:02</span>-->
-                        <!--                            </li>-->
-                        <!--                            <li class="single-item">-->
-                        <!--                                <a data-playlist data-title="8. Girls In The Hood" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/10938456_inspiring-epic-motivational-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">-->
-                        <!--                                    <img src="img/covers/cover.svg" alt="">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <div class="single-item__title">-->
-                        <!--                                    <h4><a href="#">8. Girls In The Hood</a></h4>-->
-                        <!--                                    <span><a href="artist.html">Jason Aldean</a></span>-->
-                        <!--                                </div>-->
-                        <!--                                <a href="#" class="single-item__add">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <a href="#" class="single-item__export">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"></path></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <span class="single-item__time">3:19</span>-->
-                        <!--                            </li>-->
-                        <!--                            <li class="single-item">-->
-                        <!--                                <a data-playlist data-title="9. Got It On Me" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/16412111_upbeat-rock_by_audiopizza_preview.mp3" class="single-item__cover">-->
-                        <!--                                    <img src="img/covers/cover.svg" alt="">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <div class="single-item__title">-->
-                        <!--                                    <h4><a href="#">9. Got It On Me</a></h4>-->
-                        <!--                                    <span><a href="artist.html">Jason Aldean</a></span>-->
-                        <!--                                </div>-->
-                        <!--                                <a href="#" class="single-item__add">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <a href="#" class="single-item__export">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"></path></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <span class="single-item__time">3:13</span>-->
-                        <!--                            </li>-->
-                        <!--                            <li class="single-item">-->
-                        <!--                                <a data-playlist data-title="10. Righteous" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/19478377_ambient-pop_by_audiopizza_preview.mp3" class="single-item__cover">-->
-                        <!--                                    <img src="img/covers/cover.svg" alt="">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <div class="single-item__title">-->
-                        <!--                                    <h4><a href="#">10. Righteous</a></h4>-->
-                        <!--                                    <span><a href="artist.html">Jason Aldean</a></span>-->
-                        <!--                                </div>-->
-                        <!--                                <a href="#" class="single-item__add">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <a href="#" class="single-item__export">-->
-                        <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"></path></svg>-->
-                        <!--                                </a>-->
-                        <!--                                <span class="single-item__time">5:24</span>-->
-                        <!--                            </li>-->
-                        <!--                        </ul>-->
+            <div class="row row--grid">
+                <div class="col-12">
+                    <div class="release" style="max-height: 500px;" id="playListArea">
+                        <div class="release__list" style="width: 100%; max-height: 500px;" >
+                            <div class="scroll-content" >
+                                <ul id="SearchList"></ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -325,10 +140,6 @@
     </div>
 </main>
 <!-- end main content -->
-
-<!-- footer -->
-<footer th:replace="footer.html :: footer"></footer>
-<!-- end footer -->
 
 <!-- modal buy -->
 <form action="#" id="modal-buy" class="zoom-anim-dialog mfp-hide modal modal--form">
@@ -355,7 +166,9 @@
     <button class="sign__btn" type="button">Buy</button>
 </form>
 <!-- end modal buy -->
-
+<!-- footer -->
+<footer th:replace="footer.html :: footer"></footer>
+<!-- end footer -->
 <!-- modal info -->
 <div id="modal-info2" class="zoom-anim-dialog mfp-hide modal modal--info">
 		<span class="modal__icon modal__icon--green">
@@ -371,9 +184,97 @@
 
     <h4 class="sign__title">Payment #51 was successful!</h4>
 
-</div>
+    <div class="sign__group sign__group--row">
+        <label class="sign__label">Total cost:</label>
+        <span class="sign__value">$18.00</span>
+    </div>
 
-<div th:id="SearchList"></div>
+    <div class="sign__group sign__group--row">
+        <label class="sign__label">Payment method: <b>Paypal</b></label>
+
+        <span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
+    </div>
+</div>
+<!-- end modal info -->
+
+<!-- modal info -->
+<div id="modal-info3" class="zoom-anim-dialog mfp-hide modal modal--info">
+		<span class="modal__icon modal__icon--red">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path
+                    d="M15.71,8.29a1,1,0,0,0-1.42,0L12,10.59,9.71,8.29A1,1,0,0,0,8.29,9.71L10.59,12l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L13.41,12l2.3-2.29A1,1,0,0,0,15.71,8.29Zm3.36-3.36A10,10,0,1,0,4.93,19.07,10,10,0,1,0,19.07,4.93ZM17.66,17.66A8,8,0,1,1,20,12,7.95,7.95,0,0,1,17.66,17.66Z"></path></svg>
+		</span>
+
+    <button class="modal__close" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/>
+        </svg>
+    </button>
+
+    <h4 class="sign__title">Payment #50 failed!</h4>
+
+    <div class="sign__group sign__group--row">
+        <label class="sign__label">Total cost:</label>
+        <span class="sign__value">$18.00</span>
+    </div>
+
+    <div class="sign__group sign__group--row">
+        <label class="sign__label">Payment method: <b>Paypal</b></label>
+
+        <span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
+    </div>
+</div>
+<!-- end modal info -->
+
+<!-- modal info -->
+<div id="modal-info4" class="zoom-anim-dialog mfp-hide modal modal--info">
+		<span class="modal__icon">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path
+                    d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20Zm0-8.5a1,1,0,0,0-1,1v3a1,1,0,0,0,2,0v-3A1,1,0,0,0,12,11.5Zm0-4a1.25,1.25,0,1,0,1.25,1.25A1.25,1.25,0,0,0,12,7.5Z"></path></svg>
+		</span>
+
+    <button class="modal__close" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/>
+        </svg>
+    </button>
+
+    <h4 class="sign__title">Example of notification.</h4>
+
+    <div class="sign__group sign__group--row">
+        <label class="sign__label">Amount to auto-renew:</label>
+        <span class="sign__value">$18.00</span>
+    </div>
+
+    <div class="sign__group sign__group--row">
+        <span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
+    </div>
+</div>
+<!-- end modal info -->
+
+<!-- modal info -->
+<div id="modal-info5" class="zoom-anim-dialog mfp-hide modal modal--info">
+		<span class="modal__icon modal__icon--purple">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path
+                    d="M18,7h-.35A3.45,3.45,0,0,0,18,5.5a3.49,3.49,0,0,0-6-2.44A3.49,3.49,0,0,0,6,5.5,3.45,3.45,0,0,0,6.35,7H6a3,3,0,0,0-3,3v2a1,1,0,0,0,1,1H5v6a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V13h1a1,1,0,0,0,1-1V10A3,3,0,0,0,18,7ZM11,20H8a1,1,0,0,1-1-1V13h4Zm0-9H5V10A1,1,0,0,1,6,9h5Zm0-4H9.5A1.5,1.5,0,1,1,11,5.5Zm2-1.5A1.5,1.5,0,1,1,14.5,7H13ZM17,19a1,1,0,0,1-1,1H13V13h4Zm2-8H13V9h5a1,1,0,0,1,1,1Z"></path></svg>
+		</span>
+
+    <button class="modal__close" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/>
+        </svg>
+    </button>
+
+    <h4 class="sign__title">You have received a gift!</h4>
+
+    <div class="sign__group sign__group--row">
+        <span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
+
+        <span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
+    </div>
+</div>
+<!-- end modal info -->
+
+
 <input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
 <input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
 </body>
@@ -382,7 +283,7 @@
 <script type="text/javascript" th:inline="javascript">
     $(document).ready(function () {
         var loginId = $("#mId").val();
-        console.log(loginId);
+        console.log('아이디' + loginId);
         $.ajax({
             type: "POST",
             url: "playListPrint",
@@ -435,21 +336,20 @@
                         "muSinger": result[i].muSinger
                     },
                     dataType: "json",
-                    async:false, //반복문 할 때 사용. ajax를 동기식으로 변환
+                    async: false, //반복문 할 때 사용. ajax를 동기식으로 변환
                     success: function (playListDeleteResult) {
                         console.log(playListDeleteResult);
-
                         $.ajax({
-                            type:"post",
-                            url:"CartAddCheck",
-                            data:{
+                            type: "post",
+                            url: "CartAddCheck",
+                            data: {
                                 "caMuCode": result[i].plmuCode,
                                 "caMid": loginId
                             },
-                            dataType:"json",
-                            success:function (cartAddCheck){
+                            dataType: "json",
+                            success: function (cartAddCheck) {
                                 console.log(cartAddCheck);
-                                output += "<div class='scroll-content'>"
+                               // output+="<div>";
                                 output += "<ul class='main__list main__list--playlist main__list--dashbox' >"
                                 output += "<li class='single-item'>"
                                 output += "<a data-playlist data-title='" + result[i].muName + "' data-artist='" + result[i].muSinger + "' data-img='/muImage/" + result[i].muImage + "' href='/audio/" + result[i].mFile + "' class=\"single-item__cover\">"
@@ -457,20 +357,20 @@
                                 output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z'/></svg>"
                                 output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z'/></svg>"
                                 output += "</a>"
-                                output += "<div class='single-item__title' style='margin-right: 900px;'>"
+                                output += "<div class='single-item__title' >"
                                 output += "<h4>" + result[i].muSinger + "</h4>"
                                 output += "<span>" + result[i].muName + "</span>"
                                 //output += "<a href='PlayListDelete?mId=" + loginId + "&plmuCode=" + playListDeleteResult[i].plmuCode + "'>삭제</a>"
                                 output += "</div>"
-                                output += "<a href='#' class='single-item__add'>";
-                                output += "<button class ='PlayListDelete' type = 'button' value='"+playListDeleteResult[i].plmuCode+"' id='playListDelete'><svg xmlns = 'http://www.w3.org/2000/svg' viewBox = '0 0 24 24'><path d ='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button>"
+                                output += "<a href='#' class='single-item__add' style='position: absolute; right: 60px'>";
+                                output += "<button class ='PlayListDelete'  type = 'button' value='"+playListDeleteResult[i].plmuCode+"' id='playListDelete'><svg xmlns = 'http://www.w3.org/2000/svg' viewBox = '0 0 24 24'><path d ='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button>"
                                 output += "</a>"
                                 if(cartAddCheck=="") {
-                                    output += "<a href='#' class='single-item__add'>";
-                                    output += "<label><img id='"+playListDeleteResult[i].plmuCode+"' src='/img/cartCheck.png' style='width:30px; height: 30px;' class ='PlayListCart' name='" + playListDeleteResult[i].plmuCode + "' value ='Check1'></img></label>";
+                                    output += "<a href='#' class='single-item__add' style='position: absolute; right: 20px;'>";
+                                    output += "<label><img id='"+playListDeleteResult[i].plmuCode+"' src='/img/cartCheck.png' style='width:30px; height: 30px; position: absolute; bottom : 2px; right: 3px ' class ='PlayListCart' name='" + playListDeleteResult[i].plmuCode + "' value ='Check1'></img></label>";
                                     output += "</a>"
                                 }else if (cartAddCheck != ""){
-                                    output += "<a href='#' class='single-item__add'>";
+                                    output += "<a href='#' class='single-item__add' style='position: absolute; right: 20px; '>";
                                     output += "<label><img id='"+playListDeleteResult[i].plmuCode+"' src='/img/cartDelete.png' style='width:30px; height: 30px;' class ='PlayListCart' name='" + playListDeleteResult[i].plmuCode + "' value ='Check2'></img></label>";
                                     output += "</a>"
                                 }
@@ -480,14 +380,13 @@
                                 // output += "</a>"
                                 output += "</li>"
                                 output += "</ul>"
-                                output += "</div>"
                                 output += "<br/>"
                                 //output += "</div>"
                                 //output += "</div>"
                                 var SearchList = document.getElementById("SearchList");
                                 SearchList.innerHTML = output;
                             },
-                            error:function (){
+                            error: function () {
 
                             }
                         });
@@ -502,55 +401,54 @@
             })(i);
 
         }
-        var SearchList = document.getElementById("SearchList");
-        SearchList.innerHTML = output;
+        // var SearchList = document.getElementById("SearchList");
+        // SearchList.innerHTML = output;
 
     }
 
-
     //리스트 삭제 ajax
-    $(document).on('click','#playListDelete',function (plmuCode) {
+    $(document).on('click', '#playListDelete', function (plmuCode) {
         var check = confirm('리스트 항목을 삭제하시겠습니까?');
 
         var plmuCode = document.getElementById("playListDelete");
-        var plmuCodeVal =  $(this).attr('value');
+        var plmuCodeVal = $(this).attr('value');
         var loginId = $("#mId").val();
 
         console.log(plmuCode);
         console.log(plmuCodeVal);
         console.log('loginId : ' + loginId);
 
-        if(check == true){
+        if (check == true) {
             $.ajax({
                 type: "post",
                 url: "PlayListDelete",
                 data: {
-                    "plmuCode":plmuCodeVal,
-                    "mId":loginId
+                    "plmuCode": plmuCodeVal,
+                    "mId": loginId
                 },
                 dataType: "json",
-                success : function(DeleteResult){
+                success: function (DeleteResult) {
                     location.reload();
                 },
-                error : function(){
+                error: function () {
                     alert('삭제 실패');
                 }
             });
-        } else{
+        } else {
             null;
         }
     });
 
-    $(document).on('click','.PlayListCart',function () {
+    $(document).on('click', '.PlayListCart', function () {
         var plmuCode = $(this).attr('name');
         var loginId = $("#mId").val();
         var cartCheck = $(this).attr('value');
-        var imgId =  $(this).attr('id');
-        console.log("class:"+cartCheck);
+        var imgId = $(this).attr('id');
+        console.log("class:" + cartCheck);
         console.log('plmucode' + plmuCode);
         console.log('아이디 : ' + loginId);
         console.log('이미지 아이디 : ' + imgId);
-        if(cartCheck == "Check1") {
+        if (cartCheck == "Check1") {
             $.ajax({
                 type: "post",
                 url: "CartAddPlayList",
@@ -567,9 +465,9 @@
                     console.log("인설트 오류가 숨어있다!!")
                 }
             });
-            cartCheck = $(this).attr('value','Check2');
-            $(this).attr('src','/img/cartDelete.png');
-        }else if (cartCheck == "Check2"){
+            cartCheck = $(this).attr('value', 'Check2');
+            $(this).attr('src', '/img/cartDelete.png');
+        } else if (cartCheck == "Check2") {
             $.ajax({
                 type: "post",
                 url: "CartAddPlayListDelete",
@@ -586,15 +484,23 @@
                     console.log("삭제 오류가 숨어있다!!")
                 }
             });
-            cartCheck = $(this).attr('value','Check1');
-            $(this).attr('src','/img/cartCheck.png');
+            cartCheck = $(this).attr('value', 'Check1');
+            $(this).attr('src', '/img/cartCheck.png');
         }
 
     });
 
 
-
-
-
-
+</script>
+<!-- JS -->
+<script src="js/jquery-3.5.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/smooth-scrollbar.js"></script>
+<script src="js/select2.min.js"></script>
+<script src="js/slider-radio.js"></script>
+<script src="js/jquery.inputmask.min.js"></script>
+<script src="js/plyr.min.js"></script>
+<script src="js/main.js"></script>
 </html>

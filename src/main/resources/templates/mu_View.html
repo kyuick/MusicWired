@@ -29,69 +29,68 @@
 
 <style>
     #modal.modal-overlay {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            left: 0;
-            top: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            backdrop-filter: blur(1.5px);
-            -webkit-backdrop-filter: blur(1.5px);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            display: none;
-            z-index: 1050;
-        }
-        #modal .modal-window {
-            position: relative;
-            box-shadow: 0 8px 32px 0 rgba(88, 88, 88, 0.37);
-            backdrop-filter: blur( 13.5px );
-			display: block;
-			background-color: #16151a;
-			margin: 40px auto;
-			width: 100%;
-			max-width: 420px;
-			padding: 20px;
-			border-radius: 12px;
-			overflow: hidden;
-        }
-        #modal .title {
-            padding-left: 10px;
-            display: inline;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
-        }
-        #modal .title h2 {
-            display: inline;
-        }
-        #modal .close-area {
-            display: inline;
-            float: right;
-            padding-right: 10px;
-            cursor: pointer;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
-        }
-        
-        #modal .content {
-            margin-top: 20px;
-            padding: 0px 10px;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
-        }
+
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(1.5px);
+        -webkit-backdrop-filter: blur(1.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        display: none;
+        z-index: 1050;
+    }
+    #modal .modal-window {
+        position: relative;
+        box-shadow: 0 8px 32px 0 rgba(88, 88, 88, 0.37);
+        backdrop-filter: blur( 13.5px );
+        display: block;
+        background-color: #16151a;
+        margin: 40px auto;
+        width: 100%;
+        max-width: 420px;
+        padding: 20px;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    #modal .title {
+        padding-left: 10px;
+        display: inline;
+        text-shadow: 1px 1px 2px gray;
+        color: white;
+    }
+    #modal .title h2 {
+        display: inline;
+    }
+    #modal .close-area {
+        display: inline;
+        float: right;
+        padding-right: 10px;
+        cursor: pointer;
+        text-shadow: 1px 1px 2px gray;
+        color: white;
+    }
+
+    #modal .content {
+        margin-top: 20px;
+        padding: 0px 10px;
+        text-shadow: 1px 1px 2px gray;
+        color: white;
+    }
+
 
     #LikeImg {
         display: none;
     }
 
-    /*#root{*/
-    /*    color: white;*/
-    /*}*/
 
 
     #DeleteBtn {
@@ -130,7 +129,10 @@
 
     <div class="player__content">
         <span class="player__track" th:text="${muView.muName}"><b class="player__title"></b></span>
-        <audio th:src="@{/audio/{mFile}(mFile=${muView.mFile})}" id="audio" controls></audio>
+<!--        <audio th:src="@{/audio/{mFile}(mFile=${muView.mFile})}" id="audio" controls></audio>-->
+        <audio controls="controls" th:id="audio">
+            <source th:src="@{/audio/{mFile}(mFile=${muView.mFile})}" style="width:200px;" type="audio/mpeg">
+        </audio>
         <!--        <audio controls="controls" th:src="@{/audio/{mFile}(mFile=${muView.mFile})}" style="width:200px;" type="audio/mpeg">-->
     </div>
 </div>
@@ -593,13 +595,13 @@
             data: {"mulmuCode": muCode},
             dataType: "json",
             success: function (LikeList) {
-			
+			console.log(LikeList);
                 var output = "";
                 var output1 = "좋아요";
 				
                 for (var i in LikeList) {
                     if (LikeList.length > 0) {
-                        output += "<a href='boardWriterView?boWriter=" + LikeList[i].mId + "'><p><img src='/profile/" + LikeList[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + LikeList[i].mId + "</p></a>"
+                        output += "<a href='boardWriterView?boWriter=" + LikeList[i].mId + "'><p><img src='/profile/" + LikeList[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'> &nbsp;" + LikeList[i].mName + "</p></a>"
                         // <a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+loginId+"'>" + list[i].boWriter + "</a>
                     }
                 }
