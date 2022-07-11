@@ -28,11 +28,8 @@ public class CartController {
 //	cartListAdd : 장바구니에 상품 추가하는 메소드
 	@PostMapping("cartListAdd")
 	public @ResponseBody List<CartDTO> cartListAdd(@ModelAttribute CartDTO cart) {
-		System.out.println("[1] 장바구니 상품 추가 C : " + cart);
-		
+	
 		cartList = cartsvc.cartListAdd(cart);
-		
-		System.out.println("[4] 장바구니 상품 추가 C : " + mav);
 		
 		return cartList;
 	}
@@ -40,18 +37,14 @@ public class CartController {
 //	cartListDelete : 장바구니에 있는 상품 삭제하는 메소드
 	@PostMapping("cartListDelete")
 	public @ResponseBody List<CartDTO> cartListDelete(@ModelAttribute CartDTO cart){
-		System.out.println("[1] 장바구니 상품 삭제 C : " + cart);
 		cartList = cartsvc.cartListDelete(cart);
-		System.out.println("[4] 장바구니 상품 삭제 C : " + cartList);
 		return cartList;
 	}
 	
 //	CartInCheck : 장바구니에 이미 담았는지 확인하는 메소드
 	@PostMapping("CartInCheck")
 	public @ResponseBody List<CartDTO> CartInCheck(@ModelAttribute CartDTO cart){
-		System.out.println("[1] 장바구니 확인 C : " + cart);
 		cartList = cartsvc.CartInCheck(cart);
-		System.out.println("[4] 장바구니 확인 C : " + cartList);
 		return cartList;
 	}
 //	cartList : 장바구니 페이지
@@ -63,9 +56,7 @@ public class CartController {
 //	ajaxCartList : 장바구니 목록 출력
 	@PostMapping("ajaxCartList") 
 	public @ResponseBody List<CartDTO> ajaxCartList(@RequestParam("caMid") String mId){
-		System.out.println("[1] 장바구니 페이지 C : " + mId);
 		cartList = cartsvc.ajaxCartList(mId);
-		System.out.println("[4] 장바구니 페이지 C : " + mav);
 		return cartList;
 	}
 
@@ -90,9 +81,7 @@ public class CartController {
 	//CartAddPlayListDelete
 	@PostMapping("CartAddPlayListDelete")
 	public @ResponseBody List<CartDTO> CartAddPlayListDelete(@ModelAttribute CartDTO cart){
-		System.out.println("[1] 장바구니 상품 삭제 C : " + cart);
 		cartList = cartsvc.CartAddPlayListDelete(cart);
-		System.out.println("[4] 장바구니 상품 삭제 C : " + cartList);
 		return cartList;
 	}
 

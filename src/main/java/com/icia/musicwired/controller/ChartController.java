@@ -66,10 +66,8 @@ public class ChartController {
 		 Map<String, Object> result = new HashMap<String, Object>();
 
 
-		System.out.println("컨트롤러 발라드 장르 이동");
 	
 		result=csv.balgenre(page,limit);//페이지 ,장르
-		System.out.println("컨트롤러 페이지 "+result); 
 		
 		return result;
 	}
@@ -79,10 +77,8 @@ public class ChartController {
 	public Map<String,Object>danceGenre(@RequestParam(value="page", required = false, defaultValue = "1")int page,
 			@RequestParam(value="limit", required = false, defaultValue = "10")int limit) {
 		 Map<String, Object> result = new HashMap<String, Object>();
-			System.out.println("컨트롤러 락 장르 이동");
 			
 			result=csv.danceGenre(page,limit);//페이지 ,장르
-			System.out.println("컨트롤러 페이지 "+result); 
 			
 			return result;
 }
@@ -92,10 +88,8 @@ public class ChartController {
 	public Map<String,Object>rockGenre(@RequestParam(value="page", required = false, defaultValue = "1")int page,
 			@RequestParam(value="limit", required = false, defaultValue = "10")int limit) {
 		 Map<String, Object> result = new HashMap<String, Object>();
-			System.out.println("컨트롤러 힙합 장르 이동");
 			
 			result=csv.rockGenre(page,limit);//페이지 ,장르
-			System.out.println("컨트롤러 페이지 "+result); 
 			
 			return result;
 }
@@ -105,10 +99,8 @@ public class ChartController {
 	public Map<String,Object>hiphopGenre(@RequestParam(value="page", required = false, defaultValue = "1")int page,
 			@RequestParam(value="limit", required = false, defaultValue = "10")int limit) {
 		 Map<String, Object> result = new HashMap<String, Object>();
-			System.out.println("컨트롤러 인디 장르 이동");
 			
 			result=csv.hiphopGenre(page,limit);//페이지 ,장르
-			System.out.println("컨트롤러 페이지 "+result); 
 			
 			return result;
 }
@@ -118,10 +110,8 @@ public class ChartController {
 	public Map<String,Object>indiGenre(@RequestParam(value="page", required = false, defaultValue = "1")int page,
 			@RequestParam(value="limit", required = false, defaultValue = "10")int limit) {
 		 Map<String, Object> result = new HashMap<String, Object>();
-			System.out.println("컨트롤러 댄스 장르 이동");
 			
 			result=csv.indiGenre(page,limit);//페이지 ,장르
-			System.out.println("컨트롤러 페이지 "+result); 
 			
 			return result;
 }
@@ -131,10 +121,8 @@ public class ChartController {
 	public Map<String,Object>gitaGenre(@RequestParam(value="page", required = false, defaultValue = "1")int page,
 			@RequestParam(value="limit", required = false, defaultValue = "10")int limit) {
 		 Map<String, Object> result = new HashMap<String, Object>();
-			System.out.println("컨트롤러 댄스 장르 이동");
 			
 			result=csv.gitaGenre(page,limit);//페이지 ,장르
-			System.out.println("컨트롤러 페이지 "+result); 
 			
 			return result;
 }

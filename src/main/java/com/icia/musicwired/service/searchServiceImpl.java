@@ -24,11 +24,9 @@ public class searchServiceImpl implements searchService {
 		
 	    ModelAndView mav= new ModelAndView();
 		
-		System.out.println("검색 키워드 s :"+keyword);
 		
 		int result=dao.searchInsert(keyword);
 		
-		System.out.println("검색 db저장 s : "+keyword);
 		
 		
 		List<uploadDto>searchList=dao.search(keyword);
@@ -91,12 +89,9 @@ public class searchServiceImpl implements searchService {
 		paging.setLimit(limit);
 		paging.setmId(keyword);
 		
-		System.out.println("페이지 디티오값 :"+paging);
 		
 		List<uploadDto>searchList=dao.songSearch(paging);
 		
-		System.out.println("서치리스트 : "+searchList);
-		System.out.println("페이징 디티오2 : "+paging);
 		
 		mav.addObject("nCount",nCount);
 		mav.addObject("search",searchList);
@@ -164,7 +159,6 @@ public class searchServiceImpl implements searchService {
 	@Override
 	public List<uploadDto> search1(String keyword) {
 		search1=dao.search10(keyword);
-		System.out.println("서치 : "+search1);
 		return search1;
 		
 		
@@ -175,7 +169,6 @@ public class searchServiceImpl implements searchService {
 	@Override
 	public List<uploadDto> search2(String keyword) {
 		search2=dao.search11(keyword);
-		System.out.println("서치 : "+search1);
 		return search2;
 	}
 }

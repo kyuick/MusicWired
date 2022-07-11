@@ -243,6 +243,14 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return result;
 	}
-	
+	@Override
+	public List<MemberDTO> ajaxIdSearch(String mId) {
+		System.out.println("[2] : " + mId);
+		
+		List<MemberDTO> memberList = mdao.ajaxIdSearch(mId);
+		
+		System.out.println("[3] : " + mId);
+		return memberList;
+	}
 
 }

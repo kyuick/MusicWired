@@ -31,7 +31,6 @@ public class ChartServiceImpl implements ChartService{
 		
 		hitChart=dao.hitChart();
 		
-		System.out.println("hit!!서비스 : "+hitChart);
 		
 		return hitChart;
 	}
@@ -41,7 +40,6 @@ public class ChartServiceImpl implements ChartService{
 		
 		hitChart = dao.likeChart();
 		
-		System.out.println("서비스닷 likeChart"+hitChart);
 		
 		return hitChart;
 	}

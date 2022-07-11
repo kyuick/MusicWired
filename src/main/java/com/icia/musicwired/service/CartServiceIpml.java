@@ -23,10 +23,8 @@ public class CartServiceIpml implements CartService{
 //	cartListAdd : 장바구니에 상품 추가 메소드
 	@Override
 	public List<CartDTO> cartListAdd(CartDTO cart) {
-		System.out.println("[2] 장바구니 상품 추가 S : " + cart);
 		
 		int result = cartdao.cartListAdd(cart);
-		System.out.println("[3] 장바구니 상품 추가 S : " + result);
 		
 		if(result > 0) {
 			
@@ -40,10 +38,8 @@ public class CartServiceIpml implements CartService{
 //	cartListDelete : 장바구니에 있는 상품 삭제 메소드
 	@Override
 	public List<CartDTO> cartListDelete(CartDTO cart) {
-		System.out.println("[2] 장바구니 상품 삭제 S : " + cart);
 		
 		int result = cartdao.cartListDelete(cart);
-		System.out.println("[3] 장바구니 상품 삭제 S : " + cart);
 		
 		if(result > 0) {
 			List<CartDTO> Cart = cartdao.ajaxCartList(cart.getCaMid());
@@ -57,11 +53,9 @@ public class CartServiceIpml implements CartService{
 //	CartInCheck : 장바구니에 이미 담았는지 확인하는 메소드
 	@Override
 	public List<CartDTO> CartInCheck(CartDTO cart) {
-		System.out.println("[2] 장바구니 확인 S : " + cart);
 		
 		List<CartDTO> cartCheck = cartdao.CartInCheck(cart);
 		
-		System.out.println("[3] 장바구니 확인 S : " + cart);
 		
 		if(cartCheck != null) {
 			cartList = cartCheck;
@@ -75,11 +69,9 @@ public class CartServiceIpml implements CartService{
 //	ajaxCartList : 장바구니 페이지
 	@Override
 	public List<CartDTO> ajaxCartList(String mId) {
-		System.out.println("[2] 장바구니 페이지 S : " + mId);
 		
 		List<CartDTO> Cart = cartdao.ajaxCartList(mId);
 		
-		System.out.println("[3] 장바구니 페이지 S : " + Cart);
 		
 		cartList = Cart;
 		
@@ -89,10 +81,8 @@ public class CartServiceIpml implements CartService{
 
 	@Override
 	public List<CartDTO> CartAddPlayList(CartDTO cart) {
-		System.out.println("[2] 장바구니 상품 추가 S : " + cart);
 
 		int result = cartdao.CartAddPlayList(cart);
-		System.out.println("[3] 장바구니 상품 추가 S : " + result);
 
 		if(result > 0) {
 
@@ -120,10 +110,8 @@ public class CartServiceIpml implements CartService{
 
 	@Override
 	public List<CartDTO> CartAddPlayListDelete(CartDTO cart) {
-		System.out.println("[2] 장바구니 상품 삭제 S : " + cart);
 
 		int result = cartdao.CartAddPlayListDelete(cart);
-		System.out.println("[3] 장바구니 상품 삭제 S : " + cart);
 
 		if(result > 0) {
 			List<CartDTO> Cart = cartdao.ajaxCartList(cart.getCaMid());

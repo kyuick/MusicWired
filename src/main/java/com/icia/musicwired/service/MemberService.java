@@ -32,4 +32,6 @@ public interface MemberService {
 
 	String checkEmail(String mEmail);
 
+	List<MemberDTO> ajaxIdSearch(String mId);
+
 }

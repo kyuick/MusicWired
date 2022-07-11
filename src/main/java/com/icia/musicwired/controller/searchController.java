@@ -34,18 +34,15 @@ public class searchController {
 		
 		ModelAndView mav=new ModelAndView();
 		
-		System.out.println("확인");
 		
 		mav=ssvc.search(keyword);
 		
-		System.out.println("검색 c : "+mav);
 		
 		return mav;
 	}
 	List<uploadDto> search1  = new ArrayList<uploadDto>();
 	@PostMapping("/search1") 
 	public @ResponseBody List<uploadDto> search1(@RequestParam("keyword") String keyword){
-		System.out.println("search1");
 		
 		search1 = ssvc.search1(keyword);
 		
@@ -56,7 +53,6 @@ public class searchController {
 	List<uploadDto> search2  = new ArrayList<uploadDto>();
 	@PostMapping("/search2") 
 	public @ResponseBody List<uploadDto> search2(@RequestParam("keyword") String keyword){
-		System.out.println("search1");
 		
 		search2 = ssvc.search2(keyword);
 		

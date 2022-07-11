@@ -5454,8 +5454,7 @@ body::-webkit-scrollbar-thumb {
 }
 .sign__textarea:focus {
   border-color: #0099FF;
-}
-.sign__group {
+}.sign__group {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -5519,7 +5518,7 @@ body::-webkit-scrollbar-thumb {
   height: 22px;
   text-align: center;
   transition: 0.5s ease;
-  background: url("../img/checkmark.svg") no-repeat center/20px auto;
+  background: url("../img/checkmark.png") no-repeat center/20px auto;
   border-radius: 6px;
 }
 .sign__group--checkbox input:not(:checked) + label:after {

@@ -57,5 +57,5 @@ public interface BoardDAO {
 	List<BoardDTO> myBoardList(String boWriter);
 
 	int ajaxBoardDelete(int boCode);
-	
+	int boLikeUp(BoardLikeDTO boardLike);
 }

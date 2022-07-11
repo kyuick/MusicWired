@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<script th:if="${session.login eq null}">
-	alert('로그인 이후 이용해주세요');
-	location.href="memberLogin";
-</script>
+
 <head>
 
 
@@ -62,7 +59,8 @@ input[class="cb1"] + label {
 			</style>
 
 </head>
-
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <body>
 <header th:replace="header.html :: header"></header>
 <aside th:replace="sidebar.html :: aside"></aside>
@@ -233,13 +231,9 @@ input[class="cb1"] + label {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
 </script>
 
-<script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
+<script th:if="${session.login eq null}" type="text/javascript" th:inline="javascript">
 
-var CheckLogin = [[${session.login}]]
-
-if(CheckLogin != null){
-	var sessionId = [[${session.login.mId}]]
-}
+var sessionId = "nullId";
 
 
 $(document).ready(function(){
@@ -3692,9 +3686,13 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	
 </script>
 
-<script th:if="${session.login eq null}" type="text/javascript" th:inline="javascript">
+<script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
+var CheckLogin = [[${session.login}]]
 
-	var sessionId = "nullId";
+if(CheckLogin != null){
+	var sessionId = [[${session.login.mId}]]
+}
+	
 
 $(document).ready(function(){
 

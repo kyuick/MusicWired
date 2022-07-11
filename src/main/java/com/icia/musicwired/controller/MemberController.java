@@ -35,7 +35,7 @@ public class MemberController {
 	private HttpSession session;
 	
 	List<MemberDTO> memList = new ArrayList<MemberDTO>();
-
+	List<MemberDTO> memberList = new ArrayList<MemberDTO>();
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index() {
 
@@ -203,5 +203,13 @@ public class MemberController {
 		
 		return result;
 	}
+	//ajaxIdSearch
+		@PostMapping("ajaxIdSearch")
+		public @ResponseBody List<MemberDTO> ajaxIdSearch(@RequestParam("mId") String mId){
+			System.out.println("[1] : " + mId);
+			memberList = msvc.ajaxIdSearch(mId);
+			System.out.println("[4] : " + mId);
+			return memberList;
+		}
 
 }

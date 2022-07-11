@@ -39,6 +39,8 @@ public interface MemberDAO {
 
 	String checkEmail(String mEmail);
 
+	List<MemberDTO> ajaxIdSearch(String mId);
+
 
 
 

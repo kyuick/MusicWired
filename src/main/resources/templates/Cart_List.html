@@ -28,7 +28,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script th:if="${session.login eq null}">
 	alert('로그인 이후 이용해주세요');
-	location.href="memberLogin";
+	location.href="index";
 </script>
 <body>
 	<!-- header -->
@@ -345,7 +345,7 @@
 				output1 += "<div>";
 				output1 += "<p>총금액</p>";
 				output1 += "<span colspan = 5 name='price' value='"+muprice * 500+"' id='totalPrice' class='cart__total'>"+muprice * 500+"원</span></div>";
-				output2 += "<span class='sign__group sign__group--checkbox' id='span1'><input id='remember' name='remember' type='checkbox'>";
+				output2 += "<span class='sign__group sign__group--checkbox'><input id='remember' name='remember' type='checkbox'>";
 				output2 += "<label for='remember'>구매 <a href='privacy.html'>이용약관</a> 동의<br/>(필수)</label>";
 				output2 += "</span>";
 				output2 += "<span><button id='check_module' type='button' class='sign__btn'>결제하기</button></span>";
