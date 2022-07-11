@@ -18,24 +18,6 @@ public class subDTO {
 	private int ssCode;
 	private String ssMid;
 	private String sserMid;
-	public int getSsCode() {
-		return ssCode;
-	}
-	public void setSsCode(int ssCode) {
-		this.ssCode = ssCode;
-	}
-	public String getSsMid() {
-		return ssMid;
-	}
-	public void setSsMid(String ssMid) {
-		this.ssMid = ssMid;
-	}
-	public String getSserMid() {
-		return sserMid;
-	}
-	public void setSserMid(String sserMid) {
-		this.sserMid = sserMid;
-	}
-	
+
 	
 }

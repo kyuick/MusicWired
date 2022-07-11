@@ -12,15 +12,7 @@ public class likecountDTO {
 
     private int lcount;
 
-	public int getLcount() {
-		return lcount;
-	}
-
-	public void setLcount(int lcount) {
-		this.lcount = lcount;
-	}
-
-    
+	
 }
 
 

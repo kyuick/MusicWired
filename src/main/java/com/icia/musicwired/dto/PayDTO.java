@@ -15,24 +15,6 @@ public class PayDTO {
 	private int pMuCode;
 	private String pbMid;
 	private String psMid;
-	public int getpMuCode() {
-		return pMuCode;
-	}
-	public void setpMuCode(int pMuCode) {
-		this.pMuCode = pMuCode;
-	}
-	public String getPbMid() {
-		return pbMid;
-	}
-	public void setPbMid(String pbMid) {
-		this.pbMid = pbMid;
-	}
-	public String getPsMid() {
-		return psMid;
-	}
-	public void setPsMid(String psMid) {
-		this.psMid = psMid;
-	}
 	
 	
 }

@@ -16,30 +16,6 @@ public class CartDTO {
 	private String caMid;
 	private int caMuCode;
 	private int caAmount;
-	public int getCarCode() {
-		return carCode;
-	}
-	public void setCarCode(int carCode) {
-		this.carCode = carCode;
-	}
-	public String getCaMid() {
-		return caMid;
-	}
-	public void setCaMid(String caMid) {
-		this.caMid = caMid;
-	}
-	public int getCaMuCode() {
-		return caMuCode;
-	}
-	public void setCaMuCode(int caMuCode) {
-		this.caMuCode = caMuCode;
-	}
-	public int getCaAmount() {
-		return caAmount;
-	}
-	public void setCaAmount(int caAmount) {
-		this.caAmount = caAmount;
-	}
-
+	
 	
 }
