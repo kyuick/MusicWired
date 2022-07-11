@@ -49,12 +49,18 @@
 				<a href="contacts.html">Contacts</a>
 			</nav>
 
-			<form action="/search" method="GET" class="header__search">
-				<input type="text" name="keyword" placeholder="Search">
-				<button type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/></svg></button>
-				<button type="button" class="close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
-			</form>
-
+			<form action="/search" method="GET" class="header__search" id="aaa">
+				<input type="text" name="keyword" id="key" th:value="${keyword}" placeholder="Search">
+				<button id="aaaa" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/></svg></button>
+<!-- 				<button type="button" class="close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
+ -->			</form>
+ 				
+ 				
+ 				 <marquee behavior="scroll" direction="up" scrollamount="2"  >
+					<!-- <div id="rank"></div> -->
+				</marquee> 
+				
+				
 			<div class="header__actions">
 				<div class="header__action header__action--search">
 					<button class="header__action-btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/></svg></button>
@@ -200,6 +206,59 @@
 			
 		});
 		
+		$(function() {
+		    $("input[type=submit]").click(function() {
+		        var result = $.trim($("input[type=text]").val());
+		       console.log("검색"+result);
+		        
+		        if (!result) {
+		        	
+		          alert("입력하십시오");
+		        }
+		    })
+		})
+/* $(document).ready(function(){
+ 	
+	$.ajax({
+		type : "POST",
+		url :"test",
+		dataType:"json",
+		success : function(list){
+			
+			test(list);
+			
+			console.log(list);
+		},
+		error : function(){
+			alert("시르패르");
+		}
+	});
+	
+ 
+});
+
+
+
+	function test(list){
+		
+		for(var i in list){
+		
+		var output="";
+		output+="<ul>";
+		output+="<li>"+list[i].keyword+"</li>"
+		output+="</ul>"; 
+		
+		
+	
+		
+
+			var rank=document.getElementById('rank');
+			console.log("실시간"+rank);
+			rank.innerHTML=output;
+			
+		
+			}
+	} */
 	</script>
 	</header>
 </body>

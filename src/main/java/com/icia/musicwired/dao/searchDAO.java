@@ -27,6 +27,10 @@ public interface searchDAO {
 
 	List<serchDTO> searchRank();
 
+	List<uploadDto> search10(String keyword);
+
+	List<uploadDto> search11(String keyword);
+
 	
 
 }

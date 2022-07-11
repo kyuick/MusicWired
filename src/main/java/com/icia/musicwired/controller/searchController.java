@@ -1,15 +1,23 @@
 package com.icia.musicwired.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.musicwired.dto.BoardDTO;
 import com.icia.musicwired.dto.serchDTO;
+import com.icia.musicwired.dto.uploadDto;
 import com.icia.musicwired.service.searchService;
 
 
@@ -34,16 +42,40 @@ public class searchController {
 		
 		return mav;
 	}
+	List<uploadDto> search1  = new ArrayList<uploadDto>();
+	@PostMapping("/search1") 
+	public @ResponseBody List<uploadDto> search1(@RequestParam("keyword") String keyword){
+		System.out.println("search1");
+		
+		search1 = ssvc.search1(keyword);
+		
+		//System.out.println("hit!! : "+hitChart);
+		
+		return search1;
+	}
+	List<uploadDto> search2  = new ArrayList<uploadDto>();
+	@PostMapping("/search2") 
+	public @ResponseBody List<uploadDto> search2(@RequestParam("keyword") String keyword){
+		System.out.println("search1");
+		
+		search2 = ssvc.search2(keyword);
+		
+		//System.out.println("hit!! : "+hitChart);
+		
+		return search2;
+	}
 	
+	
+	List<serchDTO>searchRank=new ArrayList<serchDTO>();
 	//테스트 
-	@GetMapping("/test")
-	public ModelAndView test(@ModelAttribute serchDTO search) {
+	@PostMapping("/test")
+	public @ResponseBody List<serchDTO> test() {
 		
-		ModelAndView mav= new ModelAndView();
 		
-		mav=ssvc.test(search);
 		
-		return mav;
+		searchRank=ssvc.test();
+		
+		return searchRank;
 	}
 
 	
