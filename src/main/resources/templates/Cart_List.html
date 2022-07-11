@@ -90,7 +90,7 @@
 
 				<div class="col-12 col-lg-4">
 					<!-- checkout -->
-					<div class="dashbox">
+					<div class="dashbox" style=" transform: translateY(-6%);">
 						<div class="dashbox__title">
 							<h3><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z"/></svg> New Music</h3>
 							<div class="dashbox__wrap">
@@ -246,7 +246,7 @@
 </body>
 
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-<script type="text/javascript" th:inline="javascript">
+<script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
 	var CheckLogin = [[${session.login}]]
 	
 	if(CheckLogin != null){
@@ -345,7 +345,7 @@
 				output1 += "<div>";
 				output1 += "<p>총금액</p>";
 				output1 += "<span colspan = 5 name='price' value='"+muprice * 500+"' id='totalPrice' class='cart__total'>"+muprice * 500+"원</span></div>";
-				output2 += "<span class='sign__group sign__group--checkbox'><input id='remember' name='remember' type='checkbox'>";
+				output2 += "<span class='sign__group sign__group--checkbox' id='span1'><input id='remember' name='remember' type='checkbox'>";
 				output2 += "<label for='remember'>구매 <a href='privacy.html'>이용약관</a> 동의<br/>(필수)</label>";
 				output2 += "</span>";
 				output2 += "<span><button id='check_module' type='button' class='sign__btn'>결제하기</button></span>";
@@ -386,6 +386,18 @@
 					dataType : "json",
 					success : function(list){
 						cartList(list);
+						$.ajax({
+							type : "POST",
+							url : "ajaxCartList",
+							data : {"caMid" : sessionId},
+							dataType : "json",
+							success : function(list){
+								smallCart(list);
+							},
+							error : function(){
+								console.log("장바구니 개수 출력 실패");
+							}
+						});
 					},
 					error : function(){
 						alert('장바구니 삭제 실패');
@@ -474,7 +486,7 @@
 									async: false,
 									success : function(list){
 										cartList(list);
-										$("#cartCountArea").load(window.location.href + "#cartCountArea");
+										smallCart(list);
 									},
 									error : function(){
 										console.log('결제테이블 등록 실패');
@@ -493,11 +505,86 @@
 				}
 			});
 		}
+		function smallCart(list){
+			var cartCountArea = document.getElementById('cartCountArea');
+			
+			if(list.length <= 0){
+				cartCountArea.innerHTML = "";
+			} else{
+				cartCountArea.innerHTML = list.length;
+			}
+			
+			var output = "";
+			
+			if(list.length > 4){
+				output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+				for(var i=0; i<4; i++){
+					output += "<div class='header__product'>";
+					output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+					output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+					output += "<span>"+list[i].muSinger+"</span>";
+					output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+				}
+			}else if(list.length == 0){
+				output += "<div class='header__product' style='padding-left:33px; padding-right:33px;'>";
+				output += "<span>장바구니가 비어있습니다.</span></div>"
+			}else{
+				output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+				for(var i in list){
+					output += "<div class='header__product'>";
+					output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+					output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+					output += "<span>"+list[i].muSinger+"</span>";
+					output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+				}
+			}
+			
+			
+			var smallCartListArea = document.getElementById('smallCartListArea');
+			smallCartListArea.innerHTML = output;
+			
+			$(".cartDelete").click(function(){
+				
+				var muCode = $(this).attr('id');
+				console.log("muCode : "+muCode);
+				
+				$.ajax({
+					type : "POST",
+					url : "cartListDelete",
+					data : {"caMuCode" : muCode,
+							"caMid" : sessionId
+							},
+					dataType : "json",
+					success : function(list){
+						smallCart(list);
+						$("#myMusicListArea").load(window.location.href + "#myMusicListArea");
+						
+						$.ajax({
+							type : "POST",
+							url : "ajaxCartList",
+							data : {"caMid" : sessionId},
+							dataType : "json",
+							success : function(list){
+								cartList(list);
+							},
+							error : function(){
+								alert("실패");
+							}
+						});
+					},
+					error : function(){
+						alert('장바구니 삭제 실패');
+					}
+				});
+			});
+		}
 	});
 	
 	$("#refreshbtn").click(function(){
 		location.reload();
 	});
+	
+	
 	
 </script>
 </html>

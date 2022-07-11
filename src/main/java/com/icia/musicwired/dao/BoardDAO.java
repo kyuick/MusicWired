@@ -53,5 +53,9 @@ public interface BoardDAO {
 	int muTrack(String boWriter);
 
 	int boaCount(String boWriter);
+
+	List<BoardDTO> myBoardList(String boWriter);
+
+	int ajaxBoardDelete(int boCode);
 	
 }

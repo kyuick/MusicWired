@@ -28,7 +28,9 @@
 <script th:if="${session.login eq null}">
 
     alert('로그인 이후 이용해주세요.');
-    location.href = "memberLogin";
+
+  location.href = "/index";
+  
 </script>
 <style>
     #SinggerDiv{
@@ -96,10 +98,12 @@
 <body>
 <!-- header -->
 <header th:replace="header.html :: header"></header>
+
 <!-- end header -->
 
 <!-- sidebar -->
 <aside th:replace="sidebar.html :: aside"></aside>
+
 <!-- end sidebar -->
 
 <!-- player -->
@@ -194,9 +198,11 @@
 </main>
 <!-- end main content -->
 
+
 <!-- footer -->
 <footer th:replace="footer.html :: footer"></footer>
 <!-- end footer -->
+
 
 <!-- modal info -->
 <div id="modal-info2" class="zoom-anim-dialog mfp-hide modal modal--info">

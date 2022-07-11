@@ -65,7 +65,7 @@ Primary use:	Volna HTML Template
     padding: 10px;
 }
 .now-Page {
-    color: #25a56a;
+    color: #0099FF;
     font-size: 20px;
     font-family: 'Open Sans', sans-serif;
     padding: 10px;
@@ -255,7 +255,7 @@ body::-webkit-scrollbar-thumb {
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 .owl-carousel .owl-item {
-  -webkit-transform: none;
+  -webkit-transform:none;
 }
 /*==============================
 	Header
@@ -291,9 +291,8 @@ body::-webkit-scrollbar-thumb {
   width: 100%;
 }
 .header__logo img {
-   width: 160px;
-  padding-left: 50px;
-  height: auto;
+  width: 13%;
+  height: 95%;
   display: block;
 }
 .header__actions {
@@ -820,9 +819,9 @@ body::-webkit-scrollbar-thumb {
   border-bottom: 1px solid #222227;
 }
 .sidebar__logo img {
-  width: 160px;
-  padding-left: 50px;
-  height: auto;
+  width: 100%;
+  padding-top: 1%;
+  height: 95%;
   display: block;
   
 }
@@ -5117,8 +5116,10 @@ body::-webkit-scrollbar-thumb {
   margin-top: 60px;
 }
 .footer__logo img {
-  width: 100px;
-  height: auto;
+  width: 20%;
+  padding-top: 1%;
+  height: 95%;
+  display: block;
 }
 .footer__tagline {
   margin-top: 15px;
@@ -5346,6 +5347,7 @@ body::-webkit-scrollbar-thumb {
   width: auto;
 }
 .sign__logo img {
+
   width: 100px;
 }
 .sign__title {
@@ -5798,6 +5800,7 @@ body::-webkit-scrollbar-thumb {
   padding: 20px;
   border-radius: 12px;
   overflow: hidden;
+  
 }
 .modal__icon {
   display: none;
