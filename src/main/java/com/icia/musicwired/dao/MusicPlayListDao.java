@@ -21,4 +21,6 @@ public interface MusicPlayListDao {
 
 
     int PlayListDelete(MusicPlayListDto mpDto);
+
+    List<MusicPlayListDto> ajaxplayList(String mId);
 }

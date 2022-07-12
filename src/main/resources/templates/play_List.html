@@ -296,10 +296,10 @@
                 "mId": sessionId
             },
             dataType: "json",
-            success: function (result) {
-                console.log(result)
+            success: (function (result) {
+
                 playList(result)
-            },
+            }),
             error: function () {
 
             }
@@ -327,36 +327,36 @@
                 }
             });
         })
-    });
 
-    function playList(result) {
-        var output = "";
-        // output += "<ul class='main__list main__list--playlist main__list--dashbox' >"
-        output += "<ul class='main__list main__list--playlist main__list--dashbox' >"
-        for (var i in result) {
-            (function (i) {
-                $.ajax({
-                    type: "POST",
-                    url: "playListDeleteAjax",
-                    data: {
-                        "muSinger": result[i].muSinger
-                    },
-                    dataType: "json",
-                    async: false, //반복문 할 때 사용. ajax를 동기식으로 변환
-                    success: function (playListDeleteResult) {
-                        console.log(playListDeleteResult);
-                        $.ajax({
-                            type: "post",
-                            url: "CartAddCheck",
-                            data: {
-                                "caMuCode": result[i].plmuCode,
-                                "caMid": sessionId
-                            },
-                            dataType: "json",
-                            success: function (cartAddCheck) {
+        function playList(result) {
+            var output = "";
+            // output += "<ul class='main__list main__list--playlist main__list--dashbox' >"
+            output += "<ul class='main__list main__list--playlist main__list--dashbox' >"
+            for (var i in result) {
+                (function (i) {
+                    $.ajax({
+                        type: "POST",
+                        url: "playListDeleteAjax",
+                        data: {
+                            "muSinger": sessionId
+                        },
+                        dataType: "json",
+                        async: false, //반복문 할 때 사용. ajax를 동기식으로 변환
+                        success: function (playListDeleteResult) {
+                            console.log(playListDeleteResult);
+                            $.ajax({
+                                type: "post",
+                                url: "CartAddCheck",
+                                data: {
+                                    "caMuCode": result[i].plmuCode,
+                                    "caMid": sessionId
+                                },
+                                dataType: "json",
+                                async:false,
+                                success: function (cartAddCheck) {
+                                    // output+="<div>";
+                                    /*for(var i in playListDeleteResult) {*/
 
-                                // output+="<div>";
-                                for(var i in playListDeleteResult) {
                                     output += "<li class='single-item'>";
                                     output += "<a data-playlist data-title='" + result[i].muName + "' data-artist='" + result[i].muSinger + "' data-img='/muImage/" + result[i].muImage + "' href='/audio/" + result[i].mFile + "' class=\"single-item__cover\">";
                                     output += "<img src='/muImage/" + result[i].muImage + "' style='width:50px; height: 50px;'/>";
@@ -380,38 +380,114 @@
                                         output += "<label><img id='" + playListDeleteResult[i].plmuCode + "' src='/img/cartDelete.png' style='width:30px; height: 30px;' class ='PlayListCart' name='" + playListDeleteResult[i].plmuCode + "' value ='Check2'></img></label>";
                                         output += "</a>";
                                     }
-                                    // output += "<a href='#' class='single-item__export'>";
-                                    // output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'></path></svg>"
-                                    // output += "<button th:id='DownloadBtn'></button>"
-                                    // output += "</a>"
+
                                     output += "</li>";
-                                    output += "<br/>"
+
+                                    var SearchList = document.getElementById("SearchList");
+                                    SearchList.innerHTML = output;
+
+                                },
+                                error: function () {
+
                                 }
-                                //output += "</div>"
-                                //output += "</div>"
-                                var SearchList = document.getElementById("SearchList");
-                                SearchList.innerHTML = output;
+                            });
+                        
+                        },
+                        error: function () {
+                            console.log("ㅜㅜ")
+                        }
+                    });
 
-                            },
-                            error: function () {
+                })(i);
 
-                            }
-                        });
-                        // output += "<div class='dashbox__list-wrap'>"
-                        //output += "<div id='div' class='dashbox__scroll'>"
-                    },
-                    error: function () {
-                        console.log("ㅜㅜ")
-                    }
-                });
+            }
 
-            })(i);
+            // var SearchList = document.getElementById("SearchList");
+            // SearchList.innerHTML = output;
+
+            output += "</ul>"
 
         }
-        var SearchList = document.getElementById("SearchList");
-        SearchList.innerHTML = output;
-        output += "</ul>"
-    }
+
+        // 장바구니 ajax ====>cartDelete 까지
+        $.ajax({
+            type : "POST",
+            url : "ajaxCartList",
+            data : {"caMid" : sessionId},
+            dataType : "json",
+            success : function(list){
+                smallCart(list);
+            },
+            error : function(){
+                console.log("장바구니 개수 출력 실패");
+            }
+        });
+
+        function smallCart(list){
+            var cartCountArea = document.getElementById('cartCountArea');
+
+            if(list.length <= 0){
+                cartCountArea.innerHTML = "";
+            } else{
+                cartCountArea.innerHTML = list.length;
+            }
+
+            var output = "";
+
+            if(list.length > 4){
+                output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+                for(var i=0; i<4; i++){
+                    output += "<div class='header__product'>";
+                    output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+                    output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+                    output += "<span>"+list[i].muSinger+"</span>";
+                    output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+                }
+            }else if(list.length == 0){
+                output += "<div class='header__product' style='padding-left:33px; padding-right:33px;'>";
+                output += "<span>장바구니가 비어있습니다.</span></div>"
+            }else{
+                output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+                for(var i in list){
+                    output += "<div class='header__product'>";
+                    output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+                    output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+                    output += "<span>"+list[i].muSinger+"</span>";
+                    output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+                }
+            }
+
+
+            var smallCartListArea = document.getElementById('smallCartListArea');
+            smallCartListArea.innerHTML = output;
+
+            $(".cartDelete").click(function(){
+
+                var muCode = $(this).attr('id');
+                console.log("muCode : "+muCode);
+
+                $.ajax({
+                    type : "POST",
+                    url : "cartListDelete",
+                    data : {"caMuCode" : muCode,
+                        "caMid" : sessionId
+                    },
+                    dataType : "json",
+                    success : function(list){
+                        smallCart(list);
+                        $("#cartListArea").load(window.location.href + "#cartListArea");
+                        $("#myMusicListArea").load(window.location.href + "#myMusicListArea");
+                    },
+                    error : function(){
+                        alert('장바구니 삭제 실패');
+                    }
+                });
+            });
+        }
+
+    });
+
+
 
     //리스트 삭제 ajax
     $(document).on('click', '#playListDelete', function (plmuCode) {
@@ -434,6 +510,7 @@
                     "mId": sessionId
                 },
                 dataType: "json",
+
                 success: function (DeleteResult) {
                     location.reload();
                 },
