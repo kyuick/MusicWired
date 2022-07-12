@@ -124,7 +124,7 @@
                     <div class="sign__content">
                         <form action="boardUpload" method="POST" enctype="multipart/form-data" class="sign__form">
                             <a href="index.html" class="sign__logo">
-                                <img src="img/logo.svg" alt="">
+                                <img src="img/MUSICWIREDLOGO1.png" alt="">
                             </a>
 
                             <div id="SinggerDiv">
@@ -143,6 +143,8 @@
                             <div class="sign__group">
                                 <label for="boardImg">BoardImg</label>
                                 <input id="boardImg" type="file" class="sign__input" placeholder="Board Image" name="boImageFile">
+                                 <span id="fileName2" style="margin-right: 50%; color:white;" class="boardImg">선택된 파일없음</span>
+                                 
                             </div>
 
                             <input th:if='${session.login ne null}' type="hidden" name="boWriter" th:value="${session.login.mId}">
@@ -260,5 +262,16 @@
 <script src="js/jquery.inputmask.min.js"></script>
 <script src="js/plyr.min.js"></script>
 <script src="js/main.js"></script>
+<script>
+document.getElementById('boardImg').addEventListener('change', function(){
+    var fileName = document.getElementById('fileName2');
+    if(this.files[0] == undefined){
+        fileName.innerText = '선택된 파일없음';
+        return;
+    }
+    fileName.innerText = this.files[0].name;
+});
+</script>
+
 </body>
 </html>
