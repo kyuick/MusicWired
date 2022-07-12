@@ -1202,6 +1202,7 @@ $(document).ready(function(){
 					async: false,
 					success: function(result){
 
+
 						$.ajax({
 							type: "POST",
 							url: "PayInCheck",
@@ -1272,6 +1273,7 @@ $(document).ready(function(){
 					dataType : "json",
 					success : function(list){
 						CartAddSuccess(list);
+
 						$.ajax({
 							type : "POST",
 							url : "ajaxCartList",
