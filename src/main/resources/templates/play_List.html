@@ -30,6 +30,8 @@
 <title>PlayListPage</title>
 
 </head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
 <style>
     /*#SearchList {*/
     /*    overflow: auto;*/
@@ -281,14 +283,19 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script type="text/javascript" th:inline="javascript">
+	var CheckLogin = [[${session.login}]]
+	
+	if(CheckLogin != null){
+		var sessionId = [[${session.login.mId}]]
+	}
+    
     $(document).ready(function () {
-        var loginId = $("#mId").val();
-        console.log('아이디' + loginId);
+        console.log('아이디' + sessionId);
         $.ajax({
             type: "POST",
             url: "playListPrint",
             data: {
-                "mId": loginId
+                "mId": sessionId
             },
             dataType: "json",
             success: function (result) {
@@ -326,7 +333,7 @@
 
     function playList(result) {
         var output = "";
-        var loginId = $("#mId").val();
+        
         for (var i in result) {
             (function (i) {
                 $.ajax({
@@ -344,7 +351,7 @@
                             url: "CartAddCheck",
                             data: {
                                 "caMuCode": result[i].plmuCode,
-                                "caMid": loginId
+                                "caMid": sessionId
                             },
                             dataType: "json",
                             success: function (cartAddCheck) {
@@ -360,7 +367,7 @@
                                 output += "<div class='single-item__title' >"
                                 output += "<h4>" + result[i].muSinger + "</h4>"
                                 output += "<span>" + result[i].muName + "</span>"
-                                //output += "<a href='PlayListDelete?mId=" + loginId + "&plmuCode=" + playListDeleteResult[i].plmuCode + "'>삭제</a>"
+                                //output += "<a href='PlayListDelete?mId=" + sessionId + "&plmuCode=" + playListDeleteResult[i].plmuCode + "'>삭제</a>"
                                 output += "</div>"
                                 output += "<a href='#' class='single-item__add' style='position: absolute; right: 60px'>";
                                 output += "<button class ='PlayListDelete'  type = 'button' value='"+playListDeleteResult[i].plmuCode+"' id='playListDelete'><svg xmlns = 'http://www.w3.org/2000/svg' viewBox = '0 0 24 24'><path d ='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button>"
@@ -412,11 +419,11 @@
 
         var plmuCode = document.getElementById("playListDelete");
         var plmuCodeVal = $(this).attr('value');
-        var loginId = $("#mId").val();
+        
 
         console.log(plmuCode);
         console.log(plmuCodeVal);
-        console.log('loginId : ' + loginId);
+        console.log('sessionId : ' + sessionId);
 
         if (check == true) {
             $.ajax({
@@ -424,7 +431,7 @@
                 url: "PlayListDelete",
                 data: {
                     "plmuCode": plmuCodeVal,
-                    "mId": loginId
+                    "mId": sessionId
                 },
                 dataType: "json",
                 success: function (DeleteResult) {
@@ -441,12 +448,12 @@
 
     $(document).on('click', '.PlayListCart', function () {
         var plmuCode = $(this).attr('name');
-        var loginId = $("#mId").val();
+        
         var cartCheck = $(this).attr('value');
         var imgId = $(this).attr('id');
         console.log("class:" + cartCheck);
         console.log('plmucode' + plmuCode);
-        console.log('아이디 : ' + loginId);
+        console.log('아이디 : ' + sessionId);
         console.log('이미지 아이디 : ' + imgId);
         if (cartCheck == "Check1") {
             $.ajax({
@@ -454,7 +461,7 @@
                 url: "CartAddPlayList",
                 data: {
                     "caMuCode": plmuCode,
-                    "caMid": loginId
+                    "caMid": sessionId
                 },
                 dataType: "json",
                 success: function (Result) {
@@ -473,7 +480,7 @@
                 url: "CartAddPlayListDelete",
                 data: {
                     "caMuCode": plmuCode,
-                    "caMid": loginId
+                    "caMid": sessionId
                 },
                 dataType: "json",
                 success: function (result) {
