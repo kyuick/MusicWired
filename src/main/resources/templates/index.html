@@ -43,7 +43,7 @@
 <!--  	<button class="hero__btn hero__btn&#45;&#45;green" th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{playListView(mId=${session.login.mId})} + '\''">재생목록조회</button>-->
 	<button class="hero__btn hero__btn--green" th:if="${session.login ne null} and ${session.login.mId ne 'admin'}" th:onclick="'location.href=\'' + @{moveChating(mId=${session.login.mId})} + '\''">채팅하기</button>
 	<button class="hero__btn hero__btn--green" th:if="${session.login ne null} and ${session.login.mId eq 'admin'}"  onclick="location.href='chatlist'">채팅방목록보기</button>
-	
+
 	<span th:if='${session.login ne null}'>
 	<button class="hero__btn hero__btn--green" th:if ="${session.login.mId == 'admin'}" onclick="location.href='memberList'">회원정보</button>
 	</span>

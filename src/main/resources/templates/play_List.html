@@ -3680,7 +3680,7 @@
             },
             dataType: "json",
             success: (function (result) {
-
+                console.log(result);
                 playList(result)
             }),
             error: function () {
@@ -3689,25 +3689,25 @@
         });
     }
 
-    function genrelist(list){
-        var GenreChart = list.GenreChart;
-        var paging = list.paging;
-        var arr = [1,2,3,4,5,6,7,8,9,10];
+    function playList(result){
+        // var GenreChart = list.GenreChart;
+        // var paging = list.paging;
+        // var arr = [1,2,3,4,5,6,7,8,9,10];
 
         var output="";
 
         output +="<div class='col-12'>"
         output +="<div class='main__title'>"
-        output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg><a href='#'>발라드 차트</a></h2>"
+        output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg><a href='#'>재생 목록</a></h2>"
         output +="</div>"
         output +="</div>"
         output +="</br>"
-        output +="<button type='button' class='playaddbtn'><img src='icon/plus.png' width='20px' />담기</button>"
+        // output +="<button type='button' class='playaddbtn'><img src='icon/plus.png' width='20px' />담기</button>"
         output +="<table table class='main__table'>";
         output +="<thead>"
         output +="<tr>";
-        output +="<th class='main__table-text'><input type='checkbox' id='cb2' class='cb2'><label for='cb2'></label></th>";
-        output +="<th class='main__table-text'>NO</th>";
+        // output +="<th class='main__table-text'><input type='checkbox' id='cb2' class='cb2'><label for='cb2'></label></th>";
+
         output +="<th class='main__table-text'> </th>";
         output +="<th class='main__table-text' style='padding-right:600px;' >곡 정보</th>";
         output +="<th class='main__table-text'>재생</th>";
@@ -3715,54 +3715,57 @@
         output +="<th class='main__table-text'>업로드일</th>";
         output +="<th class='main__table-text'>조회수</th>";
         output +="<th class='main__table-text'>좋아요수</th>";
+        output +="<th class='main__table-text'>삭제</th>";
         output += "<th class='main__table-text' colspan='2'>장바구니 추가</th>";
         output +="</tr>	";
         output +="</thead>";
 
 
-        for(var i in GenreChart){
+        for(var i in result){
             (function(i){
                 $.ajax({
                     type: "POST",
-                    url: "CartInCheck",
-                    data: {"caMuCode" : GenreChart[i].muCode,
-                        "caMid" : sessionId},
+                    url: "playListDeleteAjax",
+                    data: {
+                        "muSinger": sessionId
+                    },
                     dataType: "json",
                     async: false,
-                    success: function(result){
+                    success: function(playListDeleteResult){
 
                         $.ajax({
-                            type: "POST",
-                            url: "PayInCheck",
-                            data: {"pMuCode": GenreChart[i].muCode,
-                                "psMid": sessionId},
+                            type: "post",
+                            url: "CartAddCheck",
+                            data: {
+                                "caMuCode": playListDeleteResult[i].plmuCode,
+                                "caMid": sessionId
+                            },
                             dataType: "json",
                             async: false,
-                            success: function(check){
+                            success: function(cartAddCheck){
 
                                 output +="<tr>";
-                                output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>";
-                                output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
-                                output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-                                output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-                                output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-                                output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
-                                output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-                                output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-                                output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+                                // output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+result[i].muCode+" ><label for='"+i+"'></label></td>";
+                                // output +="<td><span class='single-item__number'>"+result[i].rn+"</span></td>";
+                                output +="<td class='main__table-text'><a href='muView?muCode="+result[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+result[i].muImage+"' style='width:50px;'/></a></td>";
+                                output +="<td class='main__table-text'><h4><a href='muView?muCode="+result[i].muCode+"&mId="+sessionId+"'>"+result[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+result[i].muSinger+"&mId="+sessionId+"'>"+result[i].muSinger+"</a></span></td>";
+                                output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+result[i].mFile+","+result[i].muName+","+result[i].muSinger+","+result[i].muCode+","+result[i].muImage+"'></button ></label></div></td>";
+                                output +="<td><div class='main__table-text'>"+result[i].muGanre+"</div></td>";
+                                output +="<td><div class='main__table-text'>"+result[i].muDate+"</div></td>";
+                                output +="<td><div class='main__table-text'>"+result[i].muHit+"</div></td>";
+                                output +="<td><div class='main__table-text'>"+result[i].muLike+"</div></td>";
+                                output +="<td><div class='main__table-text'><a href='#' class='single-item__add' style='position: absolute; right: 140px'><button class ='PlayListDelete'  type = 'button' value='" + playListDeleteResult[i].plmuCode + "' id='playListDelete'><svg xmlns = 'http://www.w3.org/2000/svg' viewBox = '0 0 24 24'><path d ='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></a></div></td>";
 
-                                if(check == ""){
-                                    if(result == ""){
 
-                                        output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-                                    } else if(result != ""){
+                                if (cartAddCheck == "") {
 
-                                        output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-                                    }
-                                } else if(check != ""){
-                                    output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+                                        output += "<td><img id='"+playListDeleteResult[i].plmuCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
+                                    } else if (cartAddCheck != "") {
+
+                                    output += "<td ><img id='" + playListDeleteResult[i].muCode + "' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+                                    plmuCode
+
                                 }
-
                                 output += "</tr>";
                             },
                             error: function(){
@@ -3777,42 +3780,72 @@
                     }
                 });
             })(i);
-
-
-
         }
         output +="</table>";
         output +="</br>";
         /* output +="<input type='button' class='playaddbtn' value='플레이리스트에 담기'>"; */
 
-        output += "<div class='paging-Text'>";
-        if(paging.page <= 1){
-
-            output += "<span >[이전]</span>"
-        } else if(paging.page > 1){
-            output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
-        }
-
-        for(var i=paging.startPage; i<=paging.endPage; i++){
-            if(paging.page == i){
-                output += "<span class='now-Page'> ["+i+"] </span>";
-            } else if(paging.page != i){
-                output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
-
-            }
-        }
-
-        if(paging.page >= paging.maxPage){
-            output += "<span> [다음]</span>"
-        } else if(paging.page < paging.maxPage){
-            output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-
-        }output += "</div>";
+        // output += "<div class='paging-Text'>";
+        // if(paging.page <= 1){
+        //
+        //     output += "<span >[이전]</span>"
+        // } else if(paging.page > 1){
+        //     output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+        // }
+        //
+        // for(var i=paging.startPage; i<=paging.endPage; i++){
+        //     if(paging.page == i){
+        //         output += "<span class='now-Page'> ["+i+"] </span>";
+        //     } else if(paging.page != i){
+        //         output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+        //
+        //     }
+        // }
+        //
+        // if(paging.page >= paging.maxPage){
+        //     output += "<span> [다음]</span>"
+        // } else if(paging.page < paging.maxPage){
+        //     output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
+        //
+        // }output += "</div>";
 
         var genreArea=document.getElementById('genreArea');
 
         genreArea.innerHTML=output;
 
+        //리스트 삭제 ajax
+        $(document).on('click', '#playListDelete', function (plmuCode) {
+            var check = confirm('리스트 항목을 삭제하시겠습니까?');
+
+            var plmuCode = document.getElementById("playListDelete");
+            var plmuCodeVal = $(this).attr('value');
+
+
+            console.log(plmuCode);
+            console.log(plmuCodeVal);
+            console.log('sessionId : ' + sessionId);
+
+            if (check == true) {
+                $.ajax({
+                    type: "post",
+                    url: "PlayListDelete",
+                    data: {
+                        "plmuCode": plmuCodeVal,
+                        "mId": sessionId
+                    },
+                    dataType: "json",
+
+                    success: function (DeleteResult) {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('삭제 실패');
+                    }
+                });
+            } else {
+                null;
+            }
+        });
 
 
         $("input:checkbox[class=cb2]").on('click', function() {
