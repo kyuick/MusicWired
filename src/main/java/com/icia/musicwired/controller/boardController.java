@@ -180,7 +180,25 @@ public class boardController {
 		System.out.println("[4] 좋아요한 게시글 출력 C : " + bolMid);
 		return boardList;
 	}
+	
+//	followedBoardList : 팔로우한 게시글만 출력하는 메소드
+	@PostMapping("followedBoardList")
+	public @ResponseBody List<BoardDTO> followedBoardList(@RequestParam("boWriter") String bolMid) {
+		System.out.println("[1] 좋아요한 게시글 출력 C : " + bolMid);
+		boardList = bosvc.followedBoardList(bolMid);
+		System.out.println("[4] 좋아요한 게시글 출력 C : " + bolMid);
+		return boardList;
+	}	
 
+//	myBoardList2 : 내 게시글만 출력하는 메소드
+	@PostMapping("myBoardList2")
+	public @ResponseBody List<BoardDTO> myBoardList2(@RequestParam("boWriter") String bolMid) {
+		System.out.println("[1] 좋아요한 게시글 출력 C : " + bolMid);
+		boardList = bosvc.myBoardList2(bolMid);
+		System.out.println("[4] 좋아요한 게시글 출력 C : " + bolMid);
+		return boardList;
+	}	
+	
 	
 //	boardListUserList : 게시글을 좋아요한 사람들을 출력하는 메소드
 	@PostMapping("boardListUserList")
@@ -190,6 +208,8 @@ public class boardController {
 		System.out.println("[4] 게시글을 좋아요한 사람들 C : " + boardList);
 		return boardList;
 	}
+	
+
 	
 //	myBoardList : 내가 올린 게시글 출력 메소드(ajax)
 	@PostMapping("myBoardList")

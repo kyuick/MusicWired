@@ -32,9 +32,12 @@ public class MusicPlayListController {
 
     //리스트 페이지 열기
     @RequestMapping(value = "/playListView", method = RequestMethod.GET)
-    public String playListView(@RequestParam ("mId") String mId) {
+    public ModelAndView playListView(@RequestParam ("mId") String mId) {
 
-        return "play_List.html";
+    	mav.setViewName("play_List");
+    	mav.addObject("tsMid", mId);
+    	
+        return mav;
     }
 
     //playList : 리스트 출력

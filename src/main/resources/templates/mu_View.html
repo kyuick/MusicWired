@@ -28,6 +28,20 @@
 </head>
 
 <style>
+
+	.P-muLyrics1{
+	max-width: 50%;
+ 	height: auto;
+ 	display: block;
+    font-size: 13px;
+    line-height: 26px;
+    font-weight: 400;
+    color: #c0c0c0;
+    background-color: #222227;
+    border-radius: 16px;
+    padding: 6px;
+	}
+	
     #modal.modal-overlay {
 
         width: 100%;
@@ -112,6 +126,8 @@
         -webkit-transition:color 0.5s;
     }
 </style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <body>
 <!-- header -->
 <header th:replace="header.html :: header"></header>
@@ -182,9 +198,12 @@
                         <div class="article__content">
                             <h3 th:text="${muView.muName}"></h3>
 
-                            <a th:if="${session.login ne null}" th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=${session.login.mId})}"><span class="article__price1" th:text="${muView.muSinger}" style="font-size: 18px;"></span></a>
-                            <a th:if="${session.login eq null}" th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=nullId)}"><span class="article__price1" th:text="${muView.muSinger}" style="font-size: 18px;"></span></a>
-                            <p th:text="${muView.muLyrics}"></p>
+ 							<a th:if="${session.login ne null}" th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=${session.login.mId})}"><span class="article__price1" th:text="${muView.muSinger}" style="font-size: 18px;"></span></a>
+							<a th:if="${session.login eq null}" th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=nullId)}"><span class="article__price1" th:text="${muView.muSinger}" style="font-size: 18px;"></span></a>
+                			 <p th:text="${muView.muGanre+'('+muView.muDate+')'}"></p>
+		     				 <div class="P-muLyrics1">
+                 		     <p class="P-muLyrics" th:text="${muView.muLyrics}"></p>
+							</div>
 
                             <!--                            <div class="article__amount">-->
                             <!--                                <button type="button">-->
@@ -392,11 +411,13 @@
         crossorigin="anonymous"></script>
 <script th:if="${session.login ne null}" th:inline="javascript">
 
+
     var CheckLogin = [[${session.login}]]
 
     if(CheckLogin != null){
         var sessionId = [[${session.login.mId}]]
     }
+
     // var muLike = document.getElementById('muLike');  //이미지 클릭시 화면에 출력되는 숫자 값
 
     const muCode = document.getElementById('muCode').value; // 음악 코드 값
@@ -533,7 +554,8 @@
 
     //좋아요 버튼을 클릭 시 실행되는 코드
     $("#LikeImg").click(function () {
-        // var sessionId = $("#mId").val();
+
+        var sessionId = $("#mId").val();
         const muCode = document.getElementById('muCode').value; // 음악 코드 값
         var LikeImg = $("#LikeImg").val();
 
@@ -755,103 +777,44 @@
         $("#modal").fadeOut();
     });
 </script>
-<script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
-    var CheckLogin = [[${session.login}]]
 
-    if(CheckLogin != null){
-        var sessionId = [[${session.login.mId}]]
-    }
-    // var muLike = document.getElementById('muLike');  //이미지 클릭시 화면에 출력되는 숫자 값
+<script th:if="${session.login eq null}" th:inline="javascript">
+var sessionId = "nullId";
+// var muLike = document.getElementById('muLike');  //이미지 클릭시 화면에 출력되는 숫자 값
 
-    const muCode = document.getElementById('muCode').value; // 음악 코드 값
-    //const mId = document.getElementById('mId').value; // 아이디 값
+const muCode = document.getElementById('muCode').value; // 음악 코드 값
+//const mId = document.getElementById('mId').value; // 아이디 값
 
-    $(document).ready(function () {
+$(document).ready(function () {
 
-        //댓글 div 실행
-        var mcCode = $("#muCode").val();
-        $.ajax({
-            type: "POST",
-            url: "mcList",
-            data: {"mcCode": mcCode},
-            dataType: "json",
-            success: function (list) {
-                commentList(list);
-                console.log(list);
-            },
-            error: function () {
-                alert('실패');
-            }
-        })
-
-        //댓글 버튼 클릭 시 ajax 실행
-        $('#mcCommBtn').click(function () {
-            if (!sessionId) {
-                alert('로그인 이후 사용하세요!');
-                location.href = "memberLogin";
-            } else {
-                var mcMid = sessionId;
-                var mcContent = $('#mcContent').val();
-                var mcMuNum = $('#muCode').val();
-
-                $.ajax({
-                    type: "POST",
-                    url: "mcWrite",
-                    data: {
-                        "mcMid": mcMid,
-                        "mcContent": mcContent,
-                        "mcMuNum": mcMuNum
-                    },
-                    datatype: "json",
-                    success: function (list) {
-                        console.log("성공" + list);
-                        commentList(list);
-                        $('#mcContent').val("");
-                    },
-                    error: function () {
-                        alert('로그인 후 이용 가능합니다.');
-                    }
-
-                });
-            }
-        });
-
-    });
-
-    //  댓글 목록 조회
-    function commentList(list) {
-        var output = "";
-        console.log(list);
-        for (var i in list) {
-            output +="<div>"
-            output += "<ul class='comments__list'>";
-            output += "<li class='comments__item'>";
-            output += "<div class='comments__autor'>";
-            output += "<img class='comments__avatar' src='/profile/"+list[i].mprofileName+"'>";
-            output += "<span class='comments__name'>" + list[i].mcMid + "</span>";
-            output += "<span class='comments__name'>" + list[i].mcDate + "</span>";
-            output += "</div>";
-            output += "<p class='comments__text'>" + list[i].mcContent + "</p>";
-            output += "<div class='comments__actions'>"
-            if (list[i].mcMid == sessionId) {
-                output += "<button  style='color: wheat' onclick='mcCommentModify(" + list[i].mcCode + "," + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
-            } else {
-                output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
-            }
-            if (list[i].mcMid == sessionId || sessionId == 'admin') {
-                output += "<button  style='color: wheat' onclick = 'muCommentDelete(mcCode=" + list[i].mcCode + ",mcMuNum=" + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
-            } else {
-                output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
-            }
-            output += "</div>";
-            output +="</div>"
-            output += "</br>"
-
+    //댓글 div 실행
+    var mcCode = $("#muCode").val();
+    $.ajax({
+        type: "POST",
+        url: "mcList",
+        data: {"mcCode": mcCode},
+        dataType: "json",
+        success: function (list) {
+            commentList(list);
+            console.log(list);
+        },
+        error: function () {
+            alert('실패');
         }
         var mucommentArea = document.getElementById('mucommentArea');
         mucommentArea.innerHTML = output;
 
-    }
+
+    //댓글 버튼 클릭 시 ajax 실행
+    $('#mcCommBtn').click(function () {
+        if (!sessionId) {
+            alert('로그인 이후 사용하세요!');
+            location.href = "memberLogin";
+        } else {
+            var mcMid = sessionId;
+            var mcContent = $('#mcContent').val();
+            var mcMuNum = $('#muCode').val();
+
 
     function mcCommentModify(mcCode, mcMuNum) {
         var check = confirm('댓글을 수정하시겠습니까?');
@@ -875,6 +838,41 @@
                 }
             });
         }
+
+    });
+
+});
+
+//  댓글 목록 조회
+function commentList(list) {
+    var output = "";
+    console.log(list);
+    for (var i in list) {
+        output +="<div>"
+        output += "<ul class='comments__list'>";
+        output += "<li class='comments__item'>";
+        output += "<div class='comments__autor'>";
+        output += "<img class='comments__avatar' src='/profile/"+list[i].mprofileName+"'>";
+        output += "<span class='comments__name'>" + list[i].mcMid + "</span>";
+        output += "<span class='comments__name'>" + list[i].mcDate + "</span>";
+        output += "</div>";
+        output += "<p class='comments__text'>" + list[i].mcContent + "</p>";
+        output += "<div class='comments__actions'>"
+        if (list[i].mcMid == sessionId) {
+            output += "<button  style='color: wheat' onclick='mcCommentModify(" + list[i].mcCode + "," + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
+        } else {
+            output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
+        }
+        if (list[i].mcMid == sessionId || sessionId == 'admin') {
+            output += "<button  style='color: wheat' onclick = 'muCommentDelete(mcCode=" + list[i].mcCode + ",mcMuNum=" + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
+        } else {
+            output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
+        }
+        output += "</div>";
+        output +="</div>"
+        output += "</br>"
+
+
     }
 
     function muCommentDelete(mcCode, mcMuNum) {
@@ -949,17 +947,45 @@
         }
 
 
-    });
+//좋아요 버튼을 클릭 시 실행되는 코드
+$("#LikeImg").click(function () {
+    var sessionId = $("#mId").val();
+    const muCode = document.getElementById('muCode').value; // 음악 코드 값
+    var LikeImg = $("#LikeImg").val();
 
+    console.log('코드' + muCode);
+    console.log('아이디 : ' + sessionId);
+    console.log('LikeImg : ' + LikeImg);
 
-    $("#muLike").click(function () {
-        const muCode = document.getElementById('muCode').value;
-        console.log(sessionId);
-        console.log(muCode);
+    if ($("#LikeImg").val() == "Like") {
         $.ajax({
             type: "POST",
-            url: "MusicLikeList",
-            data: {"mulmuCode": muCode},
+            url: "LikeUp",
+            data: {
+                "mulmuCode": muCode,
+                "mulMid": sessionId
+            },
+            dataType: "json",
+            success: function (likeUpCount) {
+            
+                console.log("업 : " + likeUpCount)
+                $("#muLike").empty().append(likeUpCount + '명이 좋아합니다.');
+                $("#LikeImg").attr('value', 'LikeDown');
+                location.reload();
+            },
+            error: function () {
+                console.log('오타가 숨어있다.');
+            }
+        });
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "LikeDown",
+            data: {
+                "mulmuCode": muCode,
+                "mulMid": sessionId
+            },
+
             dataType: "json",
             success: function (LikeList) {
 
@@ -978,7 +1004,33 @@
                 var modalTitle = document.getElementById("modalTitle");
                 modalTitle.innerHTML = output1;
 
-                const modal = document.getElementById("modal")
+
+});
+
+
+$("#muLike").click(function () {
+    const muCode = document.getElementById('muCode').value;
+    console.log(sessionId);
+    console.log(muCode);
+    $.ajax({
+        type: "POST",
+        url: "MusicLikeList",
+        data: {"mulmuCode": muCode},
+        dataType: "json",
+        success: function (LikeList) {
+		
+            var output = "";
+            var output1 = "좋아요";
+			
+            for (var i in LikeList) {
+                if (LikeList.length > 0) {
+                    output += "<a href='boardWriterView?boWriter=" + LikeList[i].mId + "'><p><img src='/profile/" + LikeList[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + LikeList[i].mId + "</p></a>"
+                    // <a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+sessionId+"'>" + list[i].boWriter + "</a>
+                }
+            }
+            const modalContent = document.getElementById("content");
+            modalContent.innerHTML = output;
+
 
                 modal.style.display = "flex"
 
@@ -1094,6 +1146,55 @@
         var sessionId = $("#mId").val();
         const muCode = document.getElementById('muCode').value; // 음악 코드 값
 
+        },
+        error: function () {
+            alert('구독자 목록 불러오기 실패');
+        }
+    });
+});
+
+
+// 댓글 목록 조회
+// function commentList(list) {
+//     var output = "";
+//     console.log(list);
+//     for (var i in list) {
+//         output +="<div>"
+//         output += "<ul class='comments__list'>";
+//         output += "<li class='comments__item'>";
+//         output += "<div class='comments__autor'>";
+//        // output += "<img class='comments__avatar' src='/profile/"+list[i].mProfileName+"'>";
+//         output += "<span class='comments__name'>" + list[i].mcMid + "</span>";
+//         output += "<span class='comments__name'>" + list[i].mcDate + "</span>";
+//         output += "</div>";
+//         output += "<p class='comments__text'>" + list[i].mcContent + "</p>";
+//         output += "<div class='comments__actions'>"
+//         if (list[i].mcMid == sessionId) {
+//             output += "<button  style='color: wheat' onclick='mcCommentModify(" + list[i].mcCode + "," + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
+//         } else {
+//             output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
+//         }
+//         if (list[i].mcMid == sessionId || sessionId == 'admin') {
+//             output += "<button  style='color: wheat' onclick = 'muCommentDelete(mcCode=" + list[i].mcCode + ",mcMuNum=" + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
+//         } else {
+//             output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
+//         }
+//         output += "</div>";
+//         output +="</div>"
+//         output += "</br>"
+//
+//     }
+//     var mucommentArea = document.getElementById('mucommentArea');
+//     mucommentArea.innerHTML = output;
+//
+// }
+
+
+function mcCommentModify(mcCode, mcMuNum) {
+    var check = confirm('댓글을 수정하시겠습니까?');
+    var mcContent = $('#mcContent').val();
+    if (check) {
+
         $.ajax({
             type: "POST",
             url: "playList",
@@ -1111,8 +1212,48 @@
         });
 
     }
-    $("#muLike").click(function () {
-        $("#modal").fadeIn();
+}
+
+// function muCommentDelete(mcCode, mcMuNum) {
+//     var check = confirm('댓글을 삭제하시겠습니까?');
+//
+//     $.ajax({
+//         type: "POST",
+//         url: "mcDelete",
+//         data: {"mcCode": mcCode, "mcMuNum": mcMuNum},
+//         dataType: "json",
+//         success: function (list) {
+//             commentList(list);
+//         },
+//         error: function () {
+//             alert('삭제 실패');
+//         }
+//
+//     });
+// }
+var audio = document.getElementById("audio"); //오디오 id 값으로 변수 지정
+
+audio.addEventListener("play", playList); //변수 audio에 addEventListener 이벤트로 "play" 되었을 때 'playList' 함수 실행
+
+function playList() {
+    var sessionId = $("#mId").val();
+    const muCode = document.getElementById('muCode').value; // 음악 코드 값
+
+    $.ajax({
+        type: "POST",
+        url: "playList",
+        data: {
+            "plmuCode": muCode,
+            "plMid": sessionId
+        },
+        dataType: "json",
+        success: function (playListInsert) {
+
+        },
+        error: function () {
+            console.log("에러에러!!")
+        }
+
     });
 
     $("#modal_close_btn").click(function () {

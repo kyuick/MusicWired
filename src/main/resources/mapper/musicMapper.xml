@@ -137,9 +137,9 @@
 
     <!-- 전체 음악 목록 메소드 -->
     <select id="ajaxFileList" resultType="audio">
-        SELECT *
-        FROM PAGING
-        WHERE RN BETWEEN #{startRow} AND #{endRow}
+        SELECT M.MNAME, P.*
+		FROM PAGING P, MEMBER M
+        WHERE RN BETWEEN #{startRow} AND #{endRow} AND M.MID = P.MUSINGER
     </select>
 
 

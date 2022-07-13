@@ -34,9 +34,7 @@ public class PayController {
 //	PayInCheck : 해당 음악을 결제했는지 확인하는 메소드
 	@PostMapping("PayInCheck")
 	public @ResponseBody List<PayDTO> PayInCheck(@ModelAttribute PayDTO pay){
-		System.out.println("[1] 결제했는지 확인 C : " + pay);
 		payList = paysvc.PayInCheck(pay);
-		System.out.println("[4] 결제했는지 확인 C : " + payList);
 		return payList;
 	}
 	

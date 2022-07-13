@@ -59,8 +59,8 @@ input[class="cb1"] + label {
 			</style>
 
 </head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <body>
 <header th:replace="header.html :: header"></header>
 <aside th:replace="sidebar.html :: aside"></aside>
@@ -234,7 +234,7 @@ input[class="cb1"] + label {
 <script th:if="${session.login eq null}" type="text/javascript" th:inline="javascript">
 
 var sessionId = "nullId";
-
+Kakao.init('4c25e779942dc16e7d31d2ea24d2b41e');
 
 $(document).ready(function(){
 
@@ -360,7 +360,8 @@ function smallCart(list){
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' colspan='2'>장바구니 추가</th>";
+			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
 		
@@ -406,8 +407,8 @@ function smallCart(list){
 				output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
 			}
 		} else if(check != ""){
-			output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-		}
+			output += "<td  ><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+		}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
 		output += "</tr>";
 	},
 	error: function(){
@@ -428,34 +429,69 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 		}
 		output +="</table>";
 		output +="</br>";
-		output += "<div class='paging-Text'>";
+		output += "<div class='paging-Text' style='text-align: center;'>";
 		if(paging.page <= 1){
-			
-			output += "<span >[이전]</span>"
+        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+        }else if(paging.page > 1){
+        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+        }
+		if(paging.page <= 1){
+			output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 		} else if(paging.page > 1){
-			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 		}
 		
 		for(var i=paging.startPage; i<=paging.endPage; i++){
 			if(paging.page == i){
-				output += "<span class='now-Page'> ["+i+"] </span>";
+				output += "<span class='pagingbtn'> "+i+" </span>";
 			} else if(paging.page != i){
-				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
 				
 			}
 		}
 	
 		if(paging.page >= paging.maxPage){
-			output += "<span> [다음]</span>"
+			output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 		} else if(paging.page < paging.maxPage){
-			output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-			
-		}output += "</div>";
+			output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+		}if(paging.page >= paging.maxPage){
+			output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+		} else if(paging.page < paging.maxPage){
+			output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+		}
+		
+		
+		output += "</div>";
 		
 		var genreArea=document.getElementById('genreArea');
 		
 		genreArea.innerHTML=output;
 	
+		$(".homePage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			var page1 = 1;
+			console.log("page1 : " + page1);
+			
+			$.ajax({
+				type : "POST",
+				url : "balGenre",
+				data : {"page" : page1,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					genrelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
+			
+		});
 		
 		$(".previousPage").click(function(){
 			var page = $(this).attr('id');
@@ -481,6 +517,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				}
 			});
 			
+		});
+		$(".endPage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			var page2 = paging.maxPage;	
+			
+			console.log("page2 : " + page2);
+			
+			$.ajax({
+				type : "POST",
+				url : "balGenre",
+				data : {"page" : page2,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					genrelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
 		});
 		
 		
@@ -515,7 +576,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 						});
 					},
 					error : function(){
-						alert('장바구니 추가 실패');
+						alert('장바구니 실패');
 					}
 				});
 				
@@ -601,6 +662,41 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			});
 			
 		});
+		
+	
+
+		  // SDK 초기화 여부를 판단합니다.
+		  console.log(Kakao.isInitialized());
+
+		  
+		  $(".share").click(function(){
+		
+			 	var mContent = $(this).attr('value');
+				var array = mContent.split(",");
+			    var muName = array[0]; 
+			    var muSinger = array[1]; 
+			    var muImage = array[2]; 
+			    var muCode = array[3];
+			    var imgurl = 'http://localhost:9091/muImage/'+muImage;
+			
+			    Kakao.Link.sendDefault({
+		      objectType: 'feed',
+		      content: {
+		    	  title: muName,
+		          description: muSinger,
+		    
+		          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+		          link: {
+		            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		        },
+		      },
+		    
+		      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+		      installTalk: true,
+		    })
+		 
+		  });
 		
 		
 	$(".play").click(function(){
@@ -958,7 +1054,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' colspan='2'>장바구니 추가</th>";
+			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
 		
@@ -1003,8 +1100,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
 				}
 			} else if(check != ""){
-				output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}
+				output += "<td  ><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
 			output += "</tr>";
 		},
 		error: function(){
@@ -1023,32 +1120,69 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			}
 			output +="</table>";
 			output +="</br>";
-			output += "<div class='paging-Text'>";
+			output += "<div class='paging-Text' style='text-align: center;'>";
 			if(paging.page <= 1){
-			
-				output += "<span>[이전] </span>"
+	        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+	        }else if(paging.page > 1){
+	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+	        }
+			if(paging.page <= 1){
+				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='now-Page'> ["+i+"] </span>";
+					output += "<span class='pagingbtn'> "+i+" </span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+					
 				}
 			}
 		
 			if(paging.page >= paging.maxPage){
-				output += "<span> [다음]</span>"
+				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
-				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-			}output += "</div>";
-		
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+			}if(paging.page >= paging.maxPage){
+				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+			}
+			
+			
+			output += "</div>";
+			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
-			
+		
+			$(".homePage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "danceGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						dancelist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
 			
 			$(".previousPage").click(function(){
 				var page = $(this).attr('id');
@@ -1075,6 +1209,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "danceGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						dancelist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 			
 			$(".cartChange").click(function(){
@@ -1096,7 +1255,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 							CartAddSuccess(list);
 						},
 						error : function(){
-							alert('장바구니 추가 실패');
+							alert('장바구니 실패');
 						}
 					});
 					
@@ -1170,6 +1329,40 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			
+			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+			 
+
+			  // SDK 초기화 여부를 판단합니다.
+			  console.log(Kakao.isInitialized());
+
+			  
+			  $(".share").click(function(){
+			
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				
@@ -1513,7 +1706,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' colspan='2'>장바구니 추가</th>";
+			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
 
@@ -1559,8 +1753,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
 				}
 			} else if(check != ""){
-				output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}
+				output += "<td  ><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
 			output += "</tr>";
 		},
 		error: function(){
@@ -1575,37 +1769,72 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	}
 	});
 	})(i);
-			
-		
 			}
 			output +="</table>";
 			output +="</br>";
-			output += "<div class='paging-Text'>";
+			output += "<div class='paging-Text' style='text-align: center;'>";
 			if(paging.page <= 1){
-				output += "<span>[이전] </span>"
+	        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+	        }else if(paging.page > 1){
+	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+	        }
+			if(paging.page <= 1){
+				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='now-Page'> ["+i+"] </span>";
+					output += "<span class='pagingbtn'> "+i+" </span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+					
 				}
 			}
 		
 			if(paging.page >= paging.maxPage){
-				output += "<span> [다음]</span>"
+				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
-				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-			}output += "</div>";
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+			}if(paging.page >= paging.maxPage){
+				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+			}
+			
+			
+			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
 		
-			
+			$(".homePage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "rockGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						rocklist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
 			
 			$(".previousPage").click(function(){
 				var page = $(this).attr('id');
@@ -1632,6 +1861,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "rockGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						rocklist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 			$(".cartChange").click(function(){
 				
@@ -1652,7 +1906,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 							CartAddSuccess(list);
 						},
 						error : function(){
-							alert('장바구니 추가 실패');
+							alert('장바구니 실패');
 						}
 					});
 					
@@ -1726,6 +1980,40 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			
+			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+			 
+
+			  // SDK 초기화 여부를 판단합니다.
+			  console.log(Kakao.isInitialized());
+
+			  
+			  $(".share").click(function(){
+			
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				
@@ -2070,7 +2358,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' colspan='2'>장바구니 추가</th>";
+			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
 		
@@ -2114,8 +2403,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
 				}
 			} else if(check != ""){
-				output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}
+				output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
 			output += "</tr>";
 		},
 		error: function(){
@@ -2135,31 +2424,69 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			}
 			output +="</table>";
 			output +="</br>";
-			output += "<div class='paging-Text'>";
+			output += "<div class='paging-Text' style='text-align: center;'>";
 			if(paging.page <= 1){
-				output += "<span>[이전] </span>"
+	        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+	        }else if(paging.page > 1){
+	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+	        }
+			if(paging.page <= 1){
+				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Texthref='#'>[이전] </a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='now-Page'> ["+i+"] </span>";
+					output += "<span class='pagingbtn'> "+i+" </span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text href='#'> "+ i +" </a></span>";
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+					
 				}
 			}
 		
 			if(paging.page >= paging.maxPage){
-				output += "<span> [다음]</span>"
+				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
-				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text href='#'> [다음]</a></span>";
-			}output += "</div>";
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+			}if(paging.page >= paging.maxPage){
+				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+			}
+			
+			
+			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
-			
+		
+			$(".homePage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "hiphopGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						hiphoplist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
 			
 			$(".previousPage").click(function(){
 				var page = $(this).attr('id');
@@ -2186,6 +2513,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "hiphopGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						hiphoplist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 			$(".cartChange").click(function(){
 				
@@ -2206,7 +2558,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 							CartAddSuccess(list);
 						},
 						error : function(){
-							alert('장바구니 추가 실패');
+							alert('장바구니 실패');
 						}
 					});
 					
@@ -2280,6 +2632,40 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			
+			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+			 
+
+			  // SDK 초기화 여부를 판단합니다.
+			  console.log(Kakao.isInitialized());
+
+			  
+			  $(".share").click(function(){
+			
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				
@@ -2624,7 +3010,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' colspan='2'>장바구니 추가</th>";
+			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
 		
@@ -2668,8 +3055,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
 				}
 			} else if(check != ""){
-				output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}
+				output += "<td  ><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
 			output += "</tr>";
 		},
 		error: function(){
@@ -2688,31 +3075,69 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			}
 			output +="</table>";
 			output +="</br>";
-			output += "<div class='paging-Text'>";
+			output += "<div class='paging-Text' style='text-align: center;'>";
 			if(paging.page <= 1){
-				output += "<span>[이전] </span>"
+	        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+	        }else if(paging.page > 1){
+	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+	        }
+			if(paging.page <= 1){
+				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='now-Page'> ["+i+"] </span>";
+					output += "<span class='pagingbtn'> "+i+" </span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+					
 				}
 			}
 		
 			if(paging.page >= paging.maxPage){
-				output += "<span> [다음]</span>"
+				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
-				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-			}output += "</div>";
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+			}if(paging.page >= paging.maxPage){
+				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+			}
+			
+			
+			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
-			
+		
+			$(".homePage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "indiGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						indilist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
 			
 			$(".previousPage").click(function(){
 				var page = $(this).attr('id');
@@ -2739,6 +3164,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "indiGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						indilist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 			$(".cartChange").click(function(){
 				
@@ -2759,7 +3209,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 							CartAddSuccess(list);
 						},
 						error : function(){
-							alert('장바구니 추가 실패');
+							alert('장바구니 실패');
 						}
 					});
 					
@@ -2833,6 +3283,40 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			
+			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+			 
+
+			  // SDK 초기화 여부를 판단합니다.
+			  console.log(Kakao.isInitialized());
+
+			  
+			  $(".share").click(function(){
+			
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				
@@ -3174,7 +3658,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text'>장바구니 추가</th>";
+			output += "<th class='main__table-text'>장바구니</th>";
+			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
 			
@@ -3218,8 +3703,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
 				}
 			} else if(check != ""){
-				output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}
+				output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
 			output += "</tr>";
 		},
 		error: function(){
@@ -3238,31 +3723,69 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			}
 			output +="</table>";
 			output +="</br>";
-			output += "<div class='paging-Text'>";
+			output += "<div class='paging-Text' style='text-align: center;'>";
 			if(paging.page <= 1){
-				output += "<span>[이전] </span>"
+	        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+	        }else if(paging.page > 1){
+	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+	        }
+			if(paging.page <= 1){
+				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='now-Page'> ["+i+"] </span>";
+					output += "<span class='pagingbtn'> "+i+" </span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+					
 				}
 			}
 		
 			if(paging.page >= paging.maxPage){
-				output += "<span> [다음]</span>"
+				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
-				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-			}output += "</div>";
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+			}if(paging.page >= paging.maxPage){
+				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+			}
+			
+			
+			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
-			
+		
+			$(".homePage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "gitaGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						gitalist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
 			
 			$(".previousPage").click(function(){
 				var page = $(this).attr('id');
@@ -3289,6 +3812,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "gitaGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						gitalist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 			$(".cartChange").click(function(){
 				
@@ -3309,7 +3857,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 							CartAddSuccess(list);
 						},
 						error : function(){
-							alert('장바구니 추가 실패');
+							alert('장바구니 실패');
 						}
 					});
 					
@@ -3383,6 +3931,40 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			
+			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+			 
+
+			  // SDK 초기화 여부를 판단합니다.
+			  console.log(Kakao.isInitialized());
+
+			  
+			  $(".share").click(function(){
+			
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				
@@ -3692,7 +4274,7 @@ var CheckLogin = [[${session.login}]]
 if(CheckLogin != null){
 	var sessionId = [[${session.login.mId}]]
 }
-	
+Kakao.init('4c25e779942dc16e7d31d2ea24d2b41e');	
 
 $(document).ready(function(){
 
@@ -3747,7 +4329,8 @@ function on3(){
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' colspan='2'>장바구니 추가</th>";
+			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
 		
@@ -3792,8 +4375,8 @@ function on3(){
 				output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
 			}
 		} else if(check != ""){
-			output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-		}
+			output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+		}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
 		
 		output += "</tr>";
 	},
@@ -3817,29 +4400,39 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 		output +="</br>";
 		/* output +="<input type='button' class='playaddbtn' value='플레이리스트에 담기'>"; */
 		
-		output += "<div class='paging-Text'>";
+		output += "<div class='paging-Text' style='text-align: center;'>";
 		if(paging.page <= 1){
-			
-			output += "<span >[이전]</span>"
+        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+        }else if(paging.page > 1){
+        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+        }
+		if(paging.page <= 1){
+			output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 		} else if(paging.page > 1){
-			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 		}
 		
 		for(var i=paging.startPage; i<=paging.endPage; i++){
 			if(paging.page == i){
-				output += "<span class='now-Page'> ["+i+"] </span>";
+				output += "<span class='pagingbtn'> "+i+" </span>";
 			} else if(paging.page != i){
-				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
 				
 			}
 		}
 	
 		if(paging.page >= paging.maxPage){
-			output += "<span> [다음]</span>"
+			output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 		} else if(paging.page < paging.maxPage){
-			output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-			
-		}output += "</div>";
+			output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+		}if(paging.page >= paging.maxPage){
+			output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+		} else if(paging.page < paging.maxPage){
+			output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+		}
+		
+		
+		output += "</div>";
 		
 		var genreArea=document.getElementById('genreArea');
 		
@@ -3886,6 +4479,32 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			 $("input:checkbox[class=cb2]").prop("checked", false);
 		});
 		
+		$(".homePage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			var page1 = 1;
+			console.log("page1 : " + page1);
+			
+			$.ajax({
+				type : "POST",
+				url : "balGenre",
+				data : {"page" : page1,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					genrelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
+			
+		});
+		
 		$(".previousPage").click(function(){
 			var page = $(this).attr('id');
 			console.log("page : "+page);
@@ -3911,6 +4530,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			});
 			
 		});
+		$(".endPage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			var page2 = paging.maxPage;	
+			
+			console.log("page2 : " + page2);
+			
+			$.ajax({
+				type : "POST",
+				url : "balGenre",
+				data : {"page" : page2,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					genrelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
+		});
 		
 		
 
@@ -3934,7 +4578,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 						CartAddSuccess(list);
 					},
 					error : function(){
-						alert('장바구니 추가 실패');
+						alert('장바구니 실패');
 					}
 				});
 				
@@ -4008,6 +4652,40 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			});
 			
 		});
+		
+		// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+		 
+
+		  // SDK 초기화 여부를 판단합니다.
+		  console.log(Kakao.isInitialized());
+
+		  
+		  $(".share").click(function(){
+		
+			 	var mContent = $(this).attr('value');
+				var array = mContent.split(",");
+			    var muName = array[0]; 
+			    var muSinger = array[1]; 
+			    var muImage = array[2]; 
+			    var muCode = array[3];
+		  		 console.log(muImage);
+			    Kakao.Link.sendDefault({
+		      objectType: 'feed',
+		      content: {
+		    	  title: muName,
+		          description: muSinger,
+		          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+		          link: {
+		            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		        },
+		      },
+		    
+		      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+		      installTalk: true,
+		    })
+		 
+		  });
 		
 		
 	$(".play").click(function(){
@@ -4438,7 +5116,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' colspan='2'>장바구니 추가</th>";
+			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
 		
@@ -4483,8 +5162,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
 				}
 			} else if(check != ""){
-				output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}
+				output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
 			output += "</tr>";
 		},
 		error: function(){
@@ -4503,28 +5182,39 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			}
 			output +="</table>";
 			output +="</br>";
-			output += "<div class='paging-Text'>";
+			output += "<div class='paging-Text' style='text-align: center;'>";
 			if(paging.page <= 1){
-			
-				output += "<span>[이전] </span>"
+	        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+	        }else if(paging.page > 1){
+	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+	        }
+			if(paging.page <= 1){
+				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='now-Page'> ["+i+"] </span>";
+					output += "<span class='pagingbtn'> "+i+" </span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+					
 				}
 			}
 		
 			if(paging.page >= paging.maxPage){
-				output += "<span> [다음]</span>"
+				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
-				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-			}output += "</div>";
-		
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+			}if(paging.page >= paging.maxPage){
+				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+			}
+			
+			output += "</div>";
+			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
@@ -4568,6 +5258,32 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				 $("input:checkbox[class=cb2]").prop("checked", false);
 			});
 			
+			$(".homePage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "danceGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						dancelist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
 			$(".previousPage").click(function(){
 				var page = $(this).attr('id');
 				console.log("page : "+page);
@@ -4593,6 +5309,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "danceGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						dancelist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 			
 			$(".cartChange").click(function(){
@@ -4614,7 +5355,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 							CartAddSuccess(list);
 						},
 						error : function(){
-							alert('장바구니 추가 실패');
+							alert('장바구니 실패');
 						}
 					});
 					
@@ -4688,6 +5429,40 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			
+			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+			 
+
+			  // SDK 초기화 여부를 판단합니다.
+			  console.log(Kakao.isInitialized());
+
+			  
+			  $(".share").click(function(){
+			
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				
@@ -5107,7 +5882,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' colspan='2'>장바구니 추가</th>";
+			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
 
@@ -5153,8 +5929,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
 				}
 			} else if(check != ""){
-				output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}
+				output += "<td  ><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
 	
 			output += "</tr>";
 		},
@@ -5175,26 +5951,39 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			}
 			output +="</table>";
 			output +="</br>";
-			output += "<div class='paging-Text'>";
+			output += "<div class='paging-Text' style='text-align: center;'>";
 			if(paging.page <= 1){
-				output += "<span>[이전] </span>"
+	        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+	        }else if(paging.page > 1){
+	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+	        }
+			if(paging.page <= 1){
+				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='now-Page'> ["+i+"] </span>";
+					output += "<span class='pagingbtn'> "+i+" </span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+					
 				}
 			}
 		
 			if(paging.page >= paging.maxPage){
-				output += "<span> [다음]</span>"
+				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
-				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-			}output += "</div>";
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+			}if(paging.page >= paging.maxPage){
+				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+			}
+			
+			
+			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
 			
@@ -5239,6 +6028,32 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				 $("input:checkbox[class=cb2]").prop("checked", false);
 			});
 			
+			$(".homePage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "rockGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						rocklist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
 			$(".previousPage").click(function(){
 				var page = $(this).attr('id');
 				console.log("page : "+page);
@@ -5264,6 +6079,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "rockGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						rocklist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 			$(".cartChange").click(function(){
 				
@@ -5284,7 +6124,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 							CartAddSuccess(list);
 						},
 						error : function(){
-							alert('장바구니 추가 실패');
+							alert('장바구니 실패');
 						}
 					});
 					
@@ -5358,6 +6198,40 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			
+			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+			 
+
+			  // SDK 초기화 여부를 판단합니다.
+			  console.log(Kakao.isInitialized());
+
+			  
+			  $(".share").click(function(){
+			
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				
@@ -5779,7 +6653,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' colspan='2'>장바구니 추가</th>";
+			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
 		
@@ -5823,9 +6698,9 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
 				}
 			} else if(check != ""){
-				output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}
-			
+				output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+
 			output += "</tr>";
 		},
 		error: function(){
@@ -5845,26 +6720,39 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			}
 			output +="</table>";
 			output +="</br>";
-			output += "<div class='paging-Text'>";
+			output += "<div class='paging-Text' style='text-align: center;'>";
 			if(paging.page <= 1){
-				output += "<span>[이전] </span>"
+	        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+	        }else if(paging.page > 1){
+	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+	        }
+			if(paging.page <= 1){
+				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Texthref='#'>[이전] </a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='now-Page'> ["+i+"] </span>";
+					output += "<span class='pagingbtn'> "+i+" </span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text href='#'> "+ i +" </a></span>";
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+					
 				}
 			}
 		
 			if(paging.page >= paging.maxPage){
-				output += "<span> [다음]</span>"
+				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
-				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text href='#'> [다음]</a></span>";
-			}output += "</div>";
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+			}if(paging.page >= paging.maxPage){
+				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+			}
+			
+			
+			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
 			
@@ -5909,6 +6797,32 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				 $("input:checkbox[class=cb2]").prop("checked", false);
 			});
 			
+			$(".homePage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "hiphopGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						hiphoplist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
 			$(".previousPage").click(function(){
 				var page = $(this).attr('id');
 				console.log("page : "+page);
@@ -5934,6 +6848,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "hiphopGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						hiphoplist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 			$(".cartChange").click(function(){
 				
@@ -5954,7 +6893,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 							CartAddSuccess(list);
 						},
 						error : function(){
-							alert('장바구니 추가 실패');
+							alert('장바구니 실패');
 						}
 					});
 					
@@ -6028,6 +6967,40 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			
+			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+			 
+
+			  // SDK 초기화 여부를 판단합니다.
+			  console.log(Kakao.isInitialized());
+
+			  
+			  $(".share").click(function(){
+			
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				
@@ -6448,7 +7421,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' colspan='2'>장바구니 추가</th>";
+			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
 		
@@ -6492,9 +7466,9 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
 				}
 			} else if(check != ""){
-				output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}
-		
+				output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+
 			output += "</tr>";
 		},
 		error: function(){
@@ -6513,26 +7487,39 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			}
 			output +="</table>";
 			output +="</br>";
-			output += "<div class='paging-Text'>";
+			output += "<div class='paging-Text' style='text-align: center;'>";
 			if(paging.page <= 1){
-				output += "<span>[이전] </span>"
+	        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+	        }else if(paging.page > 1){
+	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+	        }
+			if(paging.page <= 1){
+				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='now-Page'> ["+i+"] </span>";
+					output += "<span class='pagingbtn'> "+i+" </span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+					
 				}
 			}
 		
 			if(paging.page >= paging.maxPage){
-				output += "<span> [다음]</span>"
+				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
-				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-			}output += "</div>";
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+			}if(paging.page >= paging.maxPage){
+				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+			}
+			
+			
+			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
 			
@@ -6577,6 +7564,32 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				 $("input:checkbox[class=cb2]").prop("checked", false);
 			});
 			
+			$(".homePage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "indiGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						indilist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
 			$(".previousPage").click(function(){
 				var page = $(this).attr('id');
 				console.log("page : "+page);
@@ -6602,6 +7615,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "indiGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						indilist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 			$(".cartChange").click(function(){
 				
@@ -6622,7 +7660,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 							CartAddSuccess(list);
 						},
 						error : function(){
-							alert('장바구니 추가 실패');
+							alert('장바구니 실패');
 						}
 					});
 					
@@ -6696,6 +7734,40 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			
+			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+			 
+
+			  // SDK 초기화 여부를 판단합니다.
+			  console.log(Kakao.isInitialized());
+
+			  
+			  $(".share").click(function(){
+			
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				var aa = new Array();
@@ -7130,7 +8202,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output +="<th class='main__table-text'>장바구니 추가</th>";
+			output +="<th class='main__table-text'>장바구니</th>";
+			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>";
 			output +="</thead>";
 			
@@ -7175,8 +8248,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
 				}
 			} else if(check != ""){
-				output += "<td  colspan='2'><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}
+				output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
+			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
 			
 			output += "</tr>";
 		},
@@ -7196,26 +8269,39 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			}
 			output +="</table>";
 			output +="</br>";
-			output += "<div class='paging-Text'>";
+			output += "<div class='paging-Text' style='text-align: center;'>";
 			if(paging.page <= 1){
-				output += "<span>[이전] </span>"
+	        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+	        }else if(paging.page > 1){
+	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+	        }
+			if(paging.page <= 1){
+				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='now-Page'> ["+i+"] </span>";
+					output += "<span class='pagingbtn'> "+i+" </span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
+					
 				}
 			}
 		
 			if(paging.page >= paging.maxPage){
-				output += "<span> [다음]</span>"
+				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
-				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-			}output += "</div>";
+				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+			}if(paging.page >= paging.maxPage){
+				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+			} else if(paging.page < paging.maxPage){
+				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+			}
+			
+			
+			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
 			
@@ -7260,6 +8346,32 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				 $("input:checkbox[class=cb2]").prop("checked", false);
 			});
 			
+			$(".homePage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page1 = 1;
+				console.log("page1 : " + page1);
+				
+				$.ajax({
+					type : "POST",
+					url : "gitaGenre",
+					data : {"page" : page1,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						gitalist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+				
+			});
+			
 			$(".previousPage").click(function(){
 				var page = $(this).attr('id');
 				console.log("page : "+page);
@@ -7285,6 +8397,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "gitaGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						gitalist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 			$(".cartChange").click(function(){
 				
@@ -7305,7 +8442,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 							CartAddSuccess(list);
 						},
 						error : function(){
-							alert('장바구니 추가 실패');
+							alert('장바구니 실패');
 						}
 					});
 					
@@ -7379,6 +8516,40 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
+			
+			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+			 
+
+			  // SDK 초기화 여부를 판단합니다.
+			  console.log(Kakao.isInitialized());
+
+			  
+			  $(".share").click(function(){
+			
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				
