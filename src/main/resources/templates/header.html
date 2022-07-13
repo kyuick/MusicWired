@@ -126,7 +126,7 @@
 									<input id="remember" name="remember" type="checkbox" checked="checked">
 									<label for="remember">Remember Me</label>
 								</div>
-								
+							
 								<button class="sign__btn" type="submit">Login</button>
                 
 								<div style="text-align: center;">
@@ -134,7 +134,7 @@
 									<span class="sign__text"><a class ="open-modal" href="#modal-buy2">Forgot ID?</a></span><br/>
 									<span class="sign__text"><a class ="open-modal" href="#findpw">Forgot Password?</a></span><br/>
 								</div>
-
+	<!-- <input type="hidden" th:value="${error}" id="hidden"></input> -->
 							</form>
 							
 						<form action="memberJoin" method="post" enctype="multipart/form-data" class="sign__form  modal zoom-anim-dialog mfp-hide" id= "modal-buy1">
@@ -291,7 +291,13 @@
 					</div>
 				</div>
 		
+	<script type="text/javascript">
+	
+		/* if(!$("#hidden").val()==""){
+			alert($("#hidden").val());
+		}; */
 
+	</script>
 	<script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
 		var CheckLogin = [[${session.login}]]
 		
