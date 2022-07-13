@@ -30,6 +30,8 @@
 <title>PlayListPage</title>
 
 </head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
 <style>
     /*#SearchList {*/
     /*    overflow: auto;*/
@@ -284,6 +286,7 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 <script type="text/javascript" th:inline="javascript" th:if="${session.login ne null}">
 var CheckLogin = [[${session.login}]]
 
@@ -302,6 +305,7 @@ if(CheckLogin != null){
     $(document).ready(function () {
     	console.log("내아이디 아님111 : " + sessionId);
     	console.log("내아이디 아님222 : " + sessionId);
+
         console.log('아이디' + sessionId);
         $.ajax({
             type: "POST",

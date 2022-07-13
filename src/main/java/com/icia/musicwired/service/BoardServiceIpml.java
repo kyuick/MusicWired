@@ -75,7 +75,7 @@ public class BoardServiceIpml implements BoardService {
 
 		System.out.println("[3] 업로드 S : " + result);
 		if (result > 0) {
-			mav.setViewName("index");
+			mav.setViewName("board_list");
 		} else {
 			mav.setViewName("index");
 		}

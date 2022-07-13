@@ -112,6 +112,8 @@
     	-webkit-transition:color 0.5s;
     }
 </style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <body>
 <!-- header -->
 <header th:replace="header.html :: header"></header>
@@ -392,8 +394,11 @@
         crossorigin="anonymous"></script>
 <script th:if="${session.login ne null}" th:inline="javascript">
 
-
-    var loginId = $("#mId").val();
+	var CheckLogin = [[${session.login}]]
+	
+	if(CheckLogin != null){
+		var sessionId = [[${session.login.mId}]]
+	}
     // var muLike = document.getElementById('muLike');  //이미지 클릭시 화면에 출력되는 숫자 값
 
     const muCode = document.getElementById('muCode').value; // 음악 코드 값
@@ -419,11 +424,11 @@
 
         //댓글 버튼 클릭 시 ajax 실행
         $('#mcCommBtn').click(function () {
-            if (!loginId) {
+            if (!sessionId) {
                 alert('로그인 이후 사용하세요!');
                 location.href = "memberLogin";
             } else {
-                var mcMid = loginId;
+                var mcMid = sessionId;
                 var mcContent = $('#mcContent').val();
                 var mcMuNum = $('#muCode').val();
 
@@ -466,12 +471,12 @@
             output += "</div>";
             output += "<p class='comments__text'>" + list[i].mcContent + "</p>";
             output += "<div class='comments__actions'>"
-            if (list[i].mcMid == loginId) {
+            if (list[i].mcMid == sessionId) {
                 output += "<button  style='color: wheat' onclick='mcCommentModify(" + list[i].mcCode + "," + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
             } else {
                 output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
             }
-            if (list[i].mcMid == loginId || loginId == 'admin') {
+            if (list[i].mcMid == sessionId || sessionId == 'admin') {
                 output += "<button  style='color: wheat' onclick = 'muCommentDelete(mcCode=" + list[i].mcCode + ",mcMuNum=" + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
             } else {
                 output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
@@ -530,12 +535,12 @@
 
     //좋아요 버튼을 클릭 시 실행되는 코드
     $("#LikeImg").click(function () {
-        var loginId = $("#mId").val();
+        var sessionId = $("#mId").val();
         const muCode = document.getElementById('muCode').value; // 음악 코드 값
         var LikeImg = $("#LikeImg").val();
 
         console.log('코드' + muCode);
-        console.log('아이디 : ' + loginId);
+        console.log('아이디 : ' + sessionId);
         console.log('LikeImg : ' + LikeImg);
 
         if ($("#LikeImg").val() == "Like") {
@@ -544,7 +549,7 @@
                 url: "LikeUp",
                 data: {
                     "mulmuCode": muCode,
-                    "mulMid": loginId
+                    "mulMid": sessionId
                 },
                 dataType: "json",
                 success: function (likeUpCount) {
@@ -564,7 +569,7 @@
                 url: "LikeDown",
                 data: {
                     "mulmuCode": muCode,
-                    "mulMid": loginId
+                    "mulMid": sessionId
                 },
                 dataType: "json",
                 success: function (likeDownCount) {
@@ -587,7 +592,7 @@
 
     $("#muLike").click(function () {
         const muCode = document.getElementById('muCode').value;
-        console.log(loginId);
+        console.log(sessionId);
         console.log(muCode);
         $.ajax({
             type: "POST",
@@ -602,7 +607,7 @@
                 for (var i in LikeList) {
                     if (LikeList.length > 0) {
                         output += "<a href='boardWriterView?boWriter=" + LikeList[i].mId + "'><p><img src='/profile/" + LikeList[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'> &nbsp;" + LikeList[i].mName + "</p></a>"
-                        // <a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+loginId+"'>" + list[i].boWriter + "</a>
+                        // <a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+sessionId+"'>" + list[i].boWriter + "</a>
                     }
                 }
                 const modalContent = document.getElementById("content");
@@ -657,12 +662,12 @@
     //         output += "</div>";
     //         output += "<p class='comments__text'>" + list[i].mcContent + "</p>";
     //         output += "<div class='comments__actions'>"
-    //         if (list[i].mcMid == loginId) {
+    //         if (list[i].mcMid == sessionId) {
     //             output += "<button  style='color: wheat' onclick='mcCommentModify(" + list[i].mcCode + "," + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
     //         } else {
     //             output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
     //         }
-    //         if (list[i].mcMid == loginId || loginId == 'admin') {
+    //         if (list[i].mcMid == sessionId || sessionId == 'admin') {
     //             output += "<button  style='color: wheat' onclick = 'muCommentDelete(mcCode=" + list[i].mcCode + ",mcMuNum=" + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
     //         } else {
     //             output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
@@ -724,7 +729,7 @@
     audio.addEventListener("play", playList); //변수 audio에 addEventListener 이벤트로 "play" 되었을 때 'playList' 함수 실행
 
     function playList() {
-        var loginId = $("#mId").val();
+        var sessionId = $("#mId").val();
         const muCode = document.getElementById('muCode').value; // 음악 코드 값
 
         $.ajax({
@@ -732,7 +737,7 @@
             url: "playList",
             data: {
                 "plmuCode": muCode,
-                "plMid": loginId
+                "plMid": sessionId
             },
             dataType: "json",
             success: function (playListInsert) {
@@ -753,7 +758,7 @@
     });
 </script>
 <script th:if="${session.login eq null}" th:inline="javascript">
-var loginId = "nullId";
+var sessionId = "nullId";
 // var muLike = document.getElementById('muLike');  //이미지 클릭시 화면에 출력되는 숫자 값
 
 const muCode = document.getElementById('muCode').value; // 음악 코드 값
@@ -779,11 +784,11 @@ $(document).ready(function () {
 
     //댓글 버튼 클릭 시 ajax 실행
     $('#mcCommBtn').click(function () {
-        if (!loginId) {
+        if (!sessionId) {
             alert('로그인 이후 사용하세요!');
             location.href = "memberLogin";
         } else {
-            var mcMid = loginId;
+            var mcMid = sessionId;
             var mcContent = $('#mcContent').val();
             var mcMuNum = $('#muCode').val();
 
@@ -826,12 +831,12 @@ function commentList(list) {
         output += "</div>";
         output += "<p class='comments__text'>" + list[i].mcContent + "</p>";
         output += "<div class='comments__actions'>"
-        if (list[i].mcMid == loginId) {
+        if (list[i].mcMid == sessionId) {
             output += "<button  style='color: wheat' onclick='mcCommentModify(" + list[i].mcCode + "," + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
         } else {
             output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
         }
-        if (list[i].mcMid == loginId || loginId == 'admin') {
+        if (list[i].mcMid == sessionId || sessionId == 'admin') {
             output += "<button  style='color: wheat' onclick = 'muCommentDelete(mcCode=" + list[i].mcCode + ",mcMuNum=" + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
         } else {
             output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
@@ -890,12 +895,12 @@ function muCommentDelete(mcCode, mcMuNum) {
 
 //좋아요 버튼을 클릭 시 실행되는 코드
 $("#LikeImg").click(function () {
-    var loginId = $("#mId").val();
+    var sessionId = $("#mId").val();
     const muCode = document.getElementById('muCode').value; // 음악 코드 값
     var LikeImg = $("#LikeImg").val();
 
     console.log('코드' + muCode);
-    console.log('아이디 : ' + loginId);
+    console.log('아이디 : ' + sessionId);
     console.log('LikeImg : ' + LikeImg);
 
     if ($("#LikeImg").val() == "Like") {
@@ -904,7 +909,7 @@ $("#LikeImg").click(function () {
             url: "LikeUp",
             data: {
                 "mulmuCode": muCode,
-                "mulMid": loginId
+                "mulMid": sessionId
             },
             dataType: "json",
             success: function (likeUpCount) {
@@ -924,7 +929,7 @@ $("#LikeImg").click(function () {
             url: "LikeDown",
             data: {
                 "mulmuCode": muCode,
-                "mulMid": loginId
+                "mulMid": sessionId
             },
             dataType: "json",
             success: function (likeDownCount) {
@@ -947,7 +952,7 @@ $("#LikeImg").click(function () {
 
 $("#muLike").click(function () {
     const muCode = document.getElementById('muCode').value;
-    console.log(loginId);
+    console.log(sessionId);
     console.log(muCode);
     $.ajax({
         type: "POST",
@@ -962,7 +967,7 @@ $("#muLike").click(function () {
             for (var i in LikeList) {
                 if (LikeList.length > 0) {
                     output += "<a href='boardWriterView?boWriter=" + LikeList[i].mId + "'><p><img src='/profile/" + LikeList[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + LikeList[i].mId + "</p></a>"
-                    // <a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+loginId+"'>" + list[i].boWriter + "</a>
+                    // <a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+sessionId+"'>" + list[i].boWriter + "</a>
                 }
             }
             const modalContent = document.getElementById("content");
@@ -1017,12 +1022,12 @@ $("#muLike").click(function () {
 //         output += "</div>";
 //         output += "<p class='comments__text'>" + list[i].mcContent + "</p>";
 //         output += "<div class='comments__actions'>"
-//         if (list[i].mcMid == loginId) {
+//         if (list[i].mcMid == sessionId) {
 //             output += "<button  style='color: wheat' onclick='mcCommentModify(" + list[i].mcCode + "," + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
 //         } else {
 //             output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg\' viewBox='0 0 24 24'><path d='M21.707,11.293l-8-8A.99991.99991,0,0,0,12,4V7.54492A11.01525,11.01525,0,0,0,2,18.5V20a1,1,0,0,0,1.78418.62061,11.45625,11.45625,0,0,1,7.88672-4.04932c.0498-.00635.1748-.01611.3291-.02588V20a.99991.99991,0,0,0,1.707.707l8-8A.99962.99962,0,0,0,21.707,11.293ZM14,17.58594V15.5a.99974.99974,0,0,0-1-1c-.25488,0-1.2959.04932-1.56152.085A14.00507,14.00507,0,0,0,4.05176,17.5332,9.01266,9.01266,0,0,1,13,9.5a.99974.99974,0,0,0,1-1V6.41406L19.58594,12Z'>Reply</path></svg></button>";
 //         }
-//         if (list[i].mcMid == loginId || loginId == 'admin') {
+//         if (list[i].mcMid == sessionId || sessionId == 'admin') {
 //             output += "<button  style='color: wheat' onclick = 'muCommentDelete(mcCode=" + list[i].mcCode + ",mcMuNum=" + list[i].mcMuNum + ")'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
 //         } else {
 //             output += "<button  disabled style='color: wheat'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10.3,10.75A1,1,0,1,0,9,9.25,3,3,0,1,1,7,4,3,3,0,0,1,9.23,5H8A1,1,0,0,0,8,7h3a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0h0a5,5,0,1,0,.3,7.75ZM19,6H15a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H9a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73A1,1,0,0,0,21,22a1.1,1.1,0,0,0,.4-.08A1,1,0,0,0,22,21V9A3,3,0,0,0,19,6Z'>Delete</path></svg></button>";
@@ -1084,7 +1089,7 @@ var audio = document.getElementById("audio"); //오디오 id 값으로 변수 �
 audio.addEventListener("play", playList); //변수 audio에 addEventListener 이벤트로 "play" 되었을 때 'playList' 함수 실행
 
 function playList() {
-    var loginId = $("#mId").val();
+    var sessionId = $("#mId").val();
     const muCode = document.getElementById('muCode').value; // 음악 코드 값
 
     $.ajax({
@@ -1092,7 +1097,7 @@ function playList() {
         url: "playList",
         data: {
             "plmuCode": muCode,
-            "plMid": loginId
+            "plMid": sessionId
         },
         dataType: "json",
         success: function (playListInsert) {
