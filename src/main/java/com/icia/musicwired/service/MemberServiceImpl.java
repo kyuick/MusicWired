@@ -78,6 +78,7 @@ public class MemberServiceImpl implements MemberService {
 		if (pwEnc.matches(member.getmPw(), ePw)) {
 			MemberDTO loginMember = mdao.memberView(member.getmId());
 			session.setAttribute("login", loginMember);
+			mav.addObject("error", "");
 			mav.setViewName("index");
 		} else {
 			session.invalidate();
@@ -162,7 +163,7 @@ public class MemberServiceImpl implements MemberService {
 		int result = mdao.memberModify(member);
 
 		if (result > 0) {
-			mav.setViewName("Mem_Login");
+			mav.setViewName("redirect:/boardWriterView?boWriter="+member.getmId()+ "&mId="+ member.getmId());
 		} else {
 			mav.setViewName("Mem_Modi");
 		}

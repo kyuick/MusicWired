@@ -50,11 +50,9 @@ public class PayServiceImpl implements PayService{
 //	PayInCheck : 해당 음악을 결제했는지 확인하는 메소드
 	@Override
 	public List<PayDTO> PayInCheck(PayDTO pay) {
-		System.out.println("[2] 결제했는지 확인 S : " + pay);
 		
 		List<PayDTO> payCheck = paydao.PayInCheck(pay);
 		
-		System.out.println("[3] 결제했는지 확인 S : " + payCheck);
 		
 		if(payCheck != null) {
 			payList = payCheck;

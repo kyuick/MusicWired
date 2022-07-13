@@ -193,7 +193,7 @@
 								<img th:src="@{/profile/{aa}(aa=${memView.mProfileName})}" alt="">
 							</div>
 							<div class="profile__meta" id="viewId" th:value="${memView.mId}">
-								<h3 th:text="${memView.mId}"></h3>
+								<h3 th:text="${memView.mName}"></h3>
 							</div>
 						</div>
 						
@@ -1421,7 +1421,7 @@
 	});
 
 	function modify(){
-		alert("정보가 수정되었습니다. 다시로그인 해주세요")
+		alert("정보가 수정되었습니다.")
 	}
 	
 	$(".dashbox__refresh").click(function(){
@@ -1649,92 +1649,97 @@
 			
 			$(".cartChange").click(function(){
 				
-				var muCode = $(this).attr('id');
-				console.log("muCode : "+muCode);
-				
-				var cartCheck = $(this).attr('value');
-				
-				if(cartCheck == "check1"){
-					$.ajax({
-						type : "POST",
-						url : "cartListAdd",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartAddSuccess(list);
-							$.ajax({
-								type : "POST",
-								url : "ajaxCartList",
-								data : {"caMid" : sessionId},
-								dataType : "json",
-								success : function(list){
-									smallCart(list);
-								},
-								error : function(){
-									console.log("장바구니 개수 출력 실패");
-								}
-							});
-						},
-						error : function(){
-							alert('장바구니 추가 실패');
-						}
-					});
+				if(sessionId == 'nullId'){
+					alert('로그인 후 이용 가능합니다.');
+				}else{
+					var muCode = $(this).attr('id');
+					console.log("muCode : "+muCode);
 					
-					function CartAddSuccess(list){
-						
-						var output = "";
-						
-						output += "<img src='/img/cartDelete.png' style='width: 100%;' id='"+list.muCode+"' class='cartChange' value='check2'></a>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
-					}
-					$(this).attr('src','/img/cartDelete.png');
-					cartCheck = $(this).attr('value','check2');
+					var cartCheck = $(this).attr('value');
 					
-				}else if(cartCheck == "check2"){
-					$.ajax({
-						type : "POST",
-						url : "cartListDelete",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartDeleteSuccess(list);
-							$.ajax({
-								type : "POST",
-								url : "ajaxCartList",
-								data : {"caMid" : sessionId},
-								dataType : "json",
-								success : function(list){
-									smallCart(list);
-								},
-								error : function(){
-									console.log("장바구니 개수 출력 실패");
-								}
-							});
-						},
-						error : function(){
-							alert('장바구니 삭제 실패');
+					if(cartCheck == "check1"){
+						$.ajax({
+							type : "POST",
+							url : "cartListAdd",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								CartAddSuccess(list);
+								$.ajax({
+									type : "POST",
+									url : "ajaxCartList",
+									data : {"caMid" : sessionId},
+									dataType : "json",
+									success : function(list){
+										smallCart(list);
+									},
+									error : function(){
+										console.log("장바구니 개수 출력 실패");
+									}
+								});
+							},
+							error : function(){
+								alert('장바구니 추가 실패');
+							}
+						});
+						
+						function CartAddSuccess(list){
+							
+							var output = "";
+							
+							output += "<img src='/img/cartDelete.png' style='width: 100%;' id='"+list.muCode+"' class='cartChange' value='check2'></a>";
+							
+							var td22 = document.getElementById(muCode);
+							console.log(td22);
+							td22.innerHTML = output;
 						}
-					});
-					function CartDeleteSuccess(list){
+						$(this).attr('src','/img/cartDelete.png');
+						cartCheck = $(this).attr('value','check2');
 						
-						var output = "";
-						
-						output += "<img src='/img/cartCheck.png' style='width: 100%;' id='"+list.muCode+"' class='cartChange' value='check1'></a>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
+					}else if(cartCheck == "check2"){
+						$.ajax({
+							type : "POST",
+							url : "cartListDelete",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								CartDeleteSuccess(list);
+								$.ajax({
+									type : "POST",
+									url : "ajaxCartList",
+									data : {"caMid" : sessionId},
+									dataType : "json",
+									success : function(list){
+										smallCart(list);
+									},
+									error : function(){
+										console.log("장바구니 개수 출력 실패");
+									}
+								});
+							},
+							error : function(){
+								alert('장바구니 삭제 실패');
+							}
+						});
+						function CartDeleteSuccess(list){
+							
+							var output = "";
+							
+							output += "<img src='/img/cartCheck.png' style='width: 100%;' id='"+list.muCode+"' class='cartChange' value='check1'></a>";
+							
+							var td22 = document.getElementById(muCode);
+							console.log(td22);
+							td22.innerHTML = output;
+						}
+						$(this).attr('src','/img/cartCheck.png');
+						cartCheck = $(this).attr('value','check1');
 					}
-					$(this).attr('src','/img/cartCheck.png');
-					cartCheck = $(this).attr('value','check1');
 				}
+				
 			});
 			function smallCart(list){
 				var cartCountArea = document.getElementById('cartCountArea');
@@ -2231,7 +2236,7 @@
 	});
 
 	function modify(){
-		alert("정보가 수정되었습니다. 다시로그인 해주세요")
+		alert("정보가 수정되었습니다.")
 	}
 	
 	$(".dashbox__refresh").click(function(){
