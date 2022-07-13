@@ -533,7 +533,7 @@
 
     //좋아요 버튼을 클릭 시 실행되는 코드
     $("#LikeImg").click(function () {
-        var sessionId = $("#mId").val();
+        // var sessionId = $("#mId").val();
         const muCode = document.getElementById('muCode').value; // 음악 코드 값
         var LikeImg = $("#LikeImg").val();
 
@@ -755,8 +755,12 @@
         $("#modal").fadeOut();
     });
 </script>
-<script th:if="${session.login eq null}" th:inline="javascript">
-    var sessionId = "nullId";
+<script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
+    var CheckLogin = [[${session.login}]]
+
+    if(CheckLogin != null){
+        var sessionId = [[${session.login.mId}]]
+    }
     // var muLike = document.getElementById('muLike');  //이미지 클릭시 화면에 출력되는 숫자 값
 
     const muCode = document.getElementById('muCode').value; // 음악 코드 값
