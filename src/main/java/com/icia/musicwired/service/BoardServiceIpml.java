@@ -344,6 +344,30 @@ public class BoardServiceIpml implements BoardService {
 		System.out.println("[3] 좋아요한 게시글 출력 S : " + bolMid);
 		return boardList;
 	}
+	
+//	followedBoardList : 팔로우한 게시글만 출력하는 메소드	
+	@Override
+	public List<BoardDTO> followedBoardList(String bolMid) {
+		List<BoardDTO> boardList = bodao.followedBoardList(bolMid);
+			boardList.forEach( board -> {
+
+			board.setBoComment(bcdao.bcList(board.getBoCode()));
+
+		});
+		return boardList;
+	}
+//	myBoardList2 : 내 게시글만 출력하는 메소드
+	@Override
+	public List<BoardDTO> myBoardList2(String bolMid) {
+		List<BoardDTO> boardList = bodao.myBoardList2(bolMid);
+			boardList.forEach( board -> {
+
+			board.setBoComment(bcdao.bcList(board.getBoCode()));
+
+		});
+		return boardList;
+	}	
+
 
 //	boardListUserList : 게시글을 좋아요한 사람들을 출력하는 메소드
 	@Override
@@ -389,5 +413,9 @@ public class BoardServiceIpml implements BoardService {
 		}
 		return boardList;
 	}
+
+	
+
+
 
 }

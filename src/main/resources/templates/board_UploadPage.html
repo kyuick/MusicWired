@@ -31,6 +31,11 @@
     location.href = "memberLogin";
 </script>
 <style>
+	img{
+	max-width: 100%; 
+	height: auto; 
+		
+	}
     #SinggerDiv{
         margin-bottom: 20px;
         color: wheat;
@@ -116,6 +121,8 @@
                                 <img src="img/MUSICWIREDLOGO1.png" alt="">
                             </a>
 
+ 							<div id="image_container" class="sign__content" ></div>
+                            
                             <div id="SinggerDiv">
                                 Writer : <span id="SinggerSpan" th:if='${session.login ne null}' th:text="${session.login.mId}" class="sign__input"></span>
                             </div>
@@ -131,17 +138,18 @@
 
                             <div class="sign__group">
                                 <label for="boardImg">BoardImg</label>
-                                <input id="boardImg" type="file" class="sign__input" placeholder="Board Image" name="boImageFile">
-                                 <span id="fileName2" style="margin-right: 50%; color:white;" class="boardImg">선택된 파일없음</span>
-                                 
-                            </div>
+
+                                <input type="file" id="boardImg" class="sign__input"   placeholder="Board Image" name="boImageFile" accept="image/*" onchange="setThumbnail(event);" multiple/>
+                               <!--  <input id="boardImg" type="file"  placeholder="Board Image" name="boImageFile" onchange="setThumbnail(event)" multiple> -->
+                            </div> 
+
 
                             <input th:if='${session.login ne null}' type="hidden" name="boWriter" th:value="${session.login.mId}">
 
 
-                            <input class="sign__btn" type="submit" value="Upload"></button>
+                            <input class="sign__btn" type="submit" value="Upload">
 
-                            <input class="sign__btn" type="reset" value="Reset"></button>
+                            <input class="sign__btn" type="reset" value="Reset">
 
                         </form>
                     </div>
@@ -241,6 +249,25 @@
 <!-- end modal info -->
 
 <!-- JS -->
+<script>  function setThumbnail(event) {
+	$( '#image_container' ).empty();
+    for (var image of event.target.files) {
+  
+        var reader = new FileReader();
+
+        reader.onload = function(event) {
+        	
+          var img = document.createElement("img");
+          img.setAttribute("src", event.target.result);
+          document.querySelector("div#image_container").appendChild(img);
+        };
+
+        console.log(image);
+        reader.readAsDataURL(image);
+      }
+    }
+
+</script>
 <script src="js/jquery-3.5.1.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>

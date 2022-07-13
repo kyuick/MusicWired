@@ -44,4 +44,8 @@ public interface BoardService {
 
 	List<BoardDTO> ajaxBoardDelete(int boCode);
 
+	List<BoardDTO> followedBoardList(String bolMid);
+
+	List<BoardDTO> myBoardList2(String bolMid);
+
 }

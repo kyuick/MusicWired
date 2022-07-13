@@ -241,11 +241,12 @@
 
 
 </body>
-
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
 
+	Kakao.init('4c25e779942dc16e7d31d2ea24d2b41e');
 	var CheckLogin = [[${session.login}]]
 	
 	if(CheckLogin != null){
@@ -460,7 +461,8 @@
 			output += "<th>게시일</th>";
 			output += "<th>조회수</th>";
 			output += "<th>좋아요수</th>";
-			output += "<th>구매여부</th>";
+			output += "<th>장바구니</th>";
+			output += "<th>공유하기</th>";
 			output += "</tr>";
 			output += "</thead>"
 			
@@ -506,7 +508,7 @@
 									} else if(check != ""){
 										output += "<td><a href='/audio/"+musicList[i].mFile+"' download='"+musicList[i].mFile+"' class='single-item__export'>";
 										output += "<svg class='selectMusicDownload' id='"+musicList[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
-									}
+									}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+musicList[i].muName+","+musicList[i].muSinger+","+musicList[i].muImage+","+musicList[i].muCode+"'></button></label></div></td>";
 									output += "</tr>";
 									output += "</tbody>"
 								},
@@ -696,6 +698,35 @@
 					});
 				});
 			}
+			
+			 $(".share").click(function(){
+					
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+				    var imgurl = 'http://localhost:9091/muImage/'+muImage;
+				
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			    
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				
@@ -978,7 +1009,7 @@
 <script th:if="${session.login eq null}" type="text/javascript" th:inline="javascript">
 
 var sessionId = "nullId";
-
+Kakao.init('4c25e779942dc16e7d31d2ea24d2b41e');
 $(document).ready(function(){
 	
 	$.ajax({
@@ -1187,7 +1218,8 @@ $(document).ready(function(){
 		output += "<th>게시일</th>";
 		output += "<th>조회수</th>";
 		output += "<th>좋아요수</th>";
-		output += "<th>구매여부</th>";
+		output += "<th>장바구니</th>";
+		output += "<th>공유하기</th>";
 		output += "</tr>";
 		output += "</thead>"
 		
@@ -1233,7 +1265,7 @@ $(document).ready(function(){
 								} else if(check != ""){
 									output += "<td><a href='/audio/"+musicList[i].mFile+"' download='"+musicList[i].mFile+"' class='single-item__export'>";
 									output += "<svg class='selectMusicDownload' id='"+musicList[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
-								}
+								}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+musicList[i].muName+","+musicList[i].muSinger+","+musicList[i].muImage+","+musicList[i].muCode+"'></button></label></div></td>";
 								output += "</tr>";
 								output += "</tbody>"
 							},
@@ -1427,6 +1459,35 @@ $(document).ready(function(){
 				});
 			});
 		}
+		
+		 $(".share").click(function(){
+				
+			 	var mContent = $(this).attr('value');
+				var array = mContent.split(",");
+			    var muName = array[0]; 
+			    var muSinger = array[1]; 
+			    var muImage = array[2]; 
+			    var muCode = array[3];
+			    var imgurl = 'http://localhost:9091/muImage/'+muImage;
+			
+			    Kakao.Link.sendDefault({
+		      objectType: 'feed',
+		      content: {
+		    	  title: muName,
+		          description: muSinger,
+		    
+		          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+		          link: {
+		            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		        },
+		      },
+		    
+		      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+		      installTalk: true,
+		    })
+		 
+		  });
 		
 		$(".play").click(function(){
 			
