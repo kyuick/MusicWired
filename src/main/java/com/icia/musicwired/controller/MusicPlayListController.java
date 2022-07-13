@@ -32,9 +32,12 @@ public class MusicPlayListController {
 
     //리스트 페이지 열기
     @RequestMapping(value = "/playListView", method = RequestMethod.GET)
-    public String playListView(@RequestParam ("mId") String mId) {
+    public ModelAndView playListView(@RequestParam ("mId") String mId) {
 
-        return "play_List.html";
+    	mav.setViewName("play_List");
+    	mav.addObject("tsMid", mId);
+    	
+        return mav;
     }
 
     //playList : 리스트 출력
@@ -66,7 +69,7 @@ public class MusicPlayListController {
         return playList;
     }
 
-
+    //플레이리스트 목록 삭제
     @PostMapping("PlayListDelete")
     public @ResponseBody List<MusicPlayListDto> fileDelete(@ModelAttribute MusicPlayListDto mpDto) {
 
@@ -75,16 +78,17 @@ public class MusicPlayListController {
         return playList;
     }
 
+    //헤더 플레이리스트 ajax 실행
+    @PostMapping("ajaxPlayList")
+    public @ResponseBody List<MusicPlayListDto> ajaxPlayList(@RequestParam ("mId")String mId) {
+
+        playList = mpsvc.ajaxPlayList(mId);
+
+        return playList;
+    }
 
 
 
-    //PlayListDelete : 플레이리스트 목록 삭제
-//    @RequestMapping(value = "/PlayListDelete", method = RequestMethod.POST)
-//    public ModelAndView fileDelete(@ModelAttribute MusicPlayListDto mpDto) {
-//        System.out.println("1삭제" + mpDto);
-//        mav = mpsvc.PlayListDelete(mpDto);
-//        System.out.println("5삭제" + mpDto);
-//        return mav;
-//    }
+
 
 }

@@ -4,6 +4,44 @@
 <head>
 	
 <head th:replace="head.html :: head"></head>
+<style type="text/css">
+		.sign__group label{
+		    width: 100%;
+			height: 50px;
+			border-radius: 12px;
+			background-color: #0099FF;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			color: #fff;
+			font-size: 14px;
+			position: relative;
+			z-index: 2;
+			text-transform: uppercase;
+			font-family: 'Inter', sans-serif;
+			font-weight: 500;
+			margin: 15px auto;
+			-webkit-transition:background-color 0.5s, -webkit-transform 0.5s;
+		}
+		
+		.sign__group input[type="file"] {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip:rect(0,0,0,0);
+			border: 0;
+		}
+		
+		.sign__group label:hover {
+		    color: #fff;
+  			background-color: #222227;
+  			cursor: pointer;
+		}
+	</style>
 </head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
@@ -16,8 +54,22 @@
 <header th:replace="header.html :: header"></header>
 <aside th:replace="sidebar.html :: aside"></aside>
 <!-- <footer th:replace="footer.html :: footer"></footer> -->
+<!-- player -->
+	<div class="player">
+		<div class="player__cover">
+			<img src="img/covers/cover.svg" alt="">
+		</div>
 
-	<div class="main">
+		<div class="player__content">
+			<span class="player__track"><b class="player__title">재생중인 음악이 없습니다</b></span>
+			<audio id="audio" ></audio>
+		</div>
+	</div>
+
+	<button class="player__btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z"/></svg> Player</button>
+	<!-- end player -->
+
+	<!-- <div class="main"> -->
 	<!-- <button class="hero__btn hero__btn--green" th:if="${session.login eq null}" onclick="location.href='memberJoinForm'">회원가입</button> -->
 	<!-- <button class="hero__btn hero__btn--green" th:if="${session.login eq null}" onclick="location.href='memberLogin'">로그인</button> -->
 	<!-- <button class="hero__btn hero__btn--green" th:if="${session.login ne null}" onclick="location.href='memberLogout'">로그아웃</button> -->
@@ -28,103 +80,35 @@
 	
 
 
-	<button class="hero__btn hero__btn--green" onclick="location.href='allfileList'">전체음원목록</button>
+	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='allfileList'">전체음원목록</button> -->
+
 
 	<button class="hero__btn hero__btn--green" onclick="location.href='boardUploadPage'">게시글 업로드</button>
 	<button class="hero__btn hero__btn--green" onclick="location.href='boardList'">게시글 목록</button>
 	<button class="hero__btn hero__btn--green" onclick="location.href='chart'">차트 목록</button>
 	<button class="hero__btn hero__btn--green" onclick="location.href='genre'">장르 목록</button>
+	<button class="hero__btn hero__btn--green" onclick="location.href='track'">트랙</button>
+
 	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='cartList'">장바구니</button> -->
 	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='buyListPage'">구매목록</button> -->
 	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='downListPage'">다운로드목록</button> -->
 	
 	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='tetete'">테스트</button> -->
 	
-  	<button class="hero__btn hero__btn--green" th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{playListView(mId=${session.login.mId})} + '\''">재생목록조회</button>
+  	<!-- <button class="hero__btn hero__btn--green" th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{playListView(mId=${session.login.mId})} + '\''">재생목록조회</button>
 	<button class="hero__btn hero__btn--green" th:if="${session.login ne null} and ${session.login.mId ne 'admin'}" th:onclick="'location.href=\'' + @{moveChating(mId=${session.login.mId})} + '\''">채팅하기</button>
 	<button class="hero__btn hero__btn--green" th:if="${session.login ne null} and ${session.login.mId eq 'admin'}"  onclick="location.href='chatlist'">채팅방목록보기</button>
-	
+
+
 	<span th:if='${session.login ne null}'>
+
+	 -->
+	<!-- <span th:if='${session.login ne null}'>
+
 	<button class="hero__btn hero__btn--green" th:if ="${session.login.mId == 'admin'}" onclick="location.href='memberList'">회원정보</button>
-	</span>
+	</span> -->
 	
-	<script type="text/javascript" th:inline="javascript">
-		$("#idFindBtn").click(function(){
-			var textId = document.getElementById("idFindText").value;
-			console.log(textId);
-			
-			$.ajax({
-				type : "POST",
-				url : "memIdfind",
-				data : {"mEmail" : textId},
-				dataType : "json",
-				success : function(list){
-					findIdSuccess(list);
-				},
-				error : function(){
-					console.log("아이디 못찾음");
-				}
-			});
-			
-			function findIdSuccess(list){
-				var output = "";
-				var length = list.length;
-				
-				output += "<div class='sign__group'>";
-				output += "<input type='text' name='mEmail' class='sign__input' value='아이디 찾기 결과' disabled style='text-align: center; color: #99FFFF;'></div>";
-				
-				for(var i in list){
-					if(length <= 0){
-						output += "<input type='text' class='sign__input' value='가입된 아이디가 없습니다.' disabled style='text-align: center;'>";
-					} else{
-						output += "<input type='text' class='sign__input' value='ID  ➡➡  "+ list[i] +"' disabled style='text-align: center;'>";
-					}
-				}
-				var findIdArea = document.getElementById('findIdArea');
-				findIdArea.innerHTML = output;
-			}
-		});
 	
-		$("#pwFindBtn").click(function(){
-			var textPw = document.getElementById("pwFindText").value;
-			console.log(textPw);
-			
-			$.ajax({
-				type : "POST",
-				url : "memPwfind",
-				data : {"mId" : textPw},
-				dataType : "json",
-				success : function(list){
-					console.log(list);
-					findPwSuccess(list)
-				},
-				error : function(){
-					var output = "<div class='sign__group'>";
-					output += "<input type='text' class='sign__input' value='비밀번호 찾기 결과' disabled style='text-align: center; color: #99FFFF;'></div>";
-					output += "<input type='text' class='sign__input' value='가입된 아이디가 없습니다.' disabled style='text-align: center;'>";
-					var findPwArea = document.getElementById('findPwArea');
-					findPwArea.innerHTML = output;
-				}
-			});
-			
-			function findPwSuccess(list){
-				var output = "";
-				
-				var memMpw = list.memMpw;
-				
-				output += "<div class='sign__group'>";
-				output += "<input type='text' class='sign__input' value='임시비밀번호 발급' disabled style='text-align: center; color: #99FFFF;'></div>";
-				output += "<input type='text' class='sign__input' value='⬇  PW  ⬇' disabled style='text-align: center;'><br/>";
-				output += "<input type='text' class='sign__input' value='"+memMpw+"' disabled style='text-align: center;'><br/>";
-				output += "<input type='text' class='sign__input' value='로그인 후 비밀번호를 변경해주세요' disabled style='text-align: center; color: #99FFFF; background-color: #16151a;'>";
-				
-				var findPwArea = document.getElementById('findPwArea');
-				findPwArea.innerHTML = output;
-			}
-		});
-		
-		
-	</script>
         <!-- 통합검색 -->        		
     <!-- <form id="searchForm" action="/search" method="GET">
     	<div class="search_input">
@@ -135,7 +119,7 @@
 	
 
 	<!-- <p th:if="${session.login ne null}" th:text="${session.login.mId}+'님 로그인 성공'"></p> -->
-	</div>
+	<!-- </div> -->
  <script>
       // Slide every slideDelay seconds
       const slideDelay = 3000;
@@ -155,7 +139,7 @@
 
     </script>
 	<!-- main content -->
-	<main class="main">
+	<main class="main" style="padding-top: -20px;">
 		<div class="container-fluid">
 			<!-- slider -->
 			<section class="row">
@@ -180,12 +164,12 @@
 							</div>
 						</div>
 
-						<div class="hero__slide" data-bg="img/home/slide3.jpg">
+						<div class="hero__slide" data-bg="img/home/hiphop.jpg">
 								<h1 class="hero__title">HIPHOPPLAYA FESTIVAL 2022</h1>
 							<p class="hero__text">일시 : 2022.09.17(토) - 2022.09.18(일)</p>
 							<p class="hero__text">장소 : 난지 한강공원</p>
 							<div class="hero__btns">
-								<a href="http://waterbombfestival.com/" class="hero__btn hero__btn--green">공연정보</a>
+								<a href="https://www.instagram.com/hiphopplayafestival/" class="hero__btn hero__btn--green">공연정보</a>
 							</div>
 						</div>
 					</div>
@@ -201,9 +185,9 @@
 				<!-- title -->
 				<div class="col-12">
 					<div class="main__title">
-						<h2>New Releases</h2>
+						<h2>최신 음악</h2>
 
-						<a href="releases.html" class="main__link">See all <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></a>
+						<a href="/allfileList" class="main__link">더보기 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></a>
 					</div>
 				</div>
 				<!-- end title -->
@@ -211,16 +195,21 @@
 				<div class="col-6 col-sm-4 col-lg-2">
 					<div class="album">
 						<div class="album__cover">
-							<img src="img/covers/cover1.jpg" alt="">
-							<a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							<img src="muImage/김재희.jpg" alt="">
+							
+							<a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							
+							<a data-link data-title="그리움" data-artist="김재희" data-img="muImage/김재희.jpg" href="audio/그리움.mp3" class="single-item__cover">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+							</a>
 							<span class="album__stat">
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.71,16.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21,1,1,0,0,0-.21.33,1,1,0,0,0,.21,1.09,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1,1,0,0,0,.21-1.09A1,1,0,0,0,3.71,16.29ZM7,8H21a1,1,0,0,0,0-2H7A1,1,0,0,0,7,8ZM3.71,11.29a1,1,0,0,0-1.09-.21,1.15,1.15,0,0,0-.33.21,1,1,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1,1,0,0,0,3.71,11.29ZM21,11H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2ZM3.71,6.29a1,1,0,0,0-.33-.21,1,1,0,0,0-1.09.21,1.15,1.15,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21,1,1,0,0,0,1.09-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1.15,1.15,0,0,0,3.71,6.29ZM21,16H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg> 22</span>
 								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 19 503</span>
 							</span>
 						</div>
 						<div class="album__title">
-							<h3><a href="release.html">Space Melody</a></h3>
-							<span><a href="artist.html">VIZE</a> & <a href="artist.html">Alan Walker</a> & <a href="artist.html">Leony</a></span>
+							<h3><a href="/muView?muCode=390&mId=nullId">그리움</a></h3>
+							<span><a href="/boardWriterView?boWriter=KimJaehee&mId=nullId">김재희</a></span>
 						</div>
 					</div>
 				</div>
@@ -228,186 +217,221 @@
 				<div class="col-6 col-sm-4 col-lg-2">
 					<div class="album">
 						<div class="album__cover">
-							<img src="img/covers/cover2.jpg" alt="">
-							<a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							<img src="muImage/모닝커피.jpg" alt="">
+							
+							<a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							
+							<a data-link data-title="종로에서" data-artist="모닝커피 (Morning Coffee)" data-img="muImage/모닝커피.jpg" href="audio/모닝커피.mp3" class="single-item__cover">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+							</a>
 							<span class="album__stat">
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.71,16.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21,1,1,0,0,0-.21.33,1,1,0,0,0,.21,1.09,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1,1,0,0,0,.21-1.09A1,1,0,0,0,3.71,16.29ZM7,8H21a1,1,0,0,0,0-2H7A1,1,0,0,0,7,8ZM3.71,11.29a1,1,0,0,0-1.09-.21,1.15,1.15,0,0,0-.33.21,1,1,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1,1,0,0,0,3.71,11.29ZM21,11H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2ZM3.71,6.29a1,1,0,0,0-.33-.21,1,1,0,0,0-1.09.21,1.15,1.15,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21,1,1,0,0,0,1.09-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1.15,1.15,0,0,0,3.71,6.29ZM21,16H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg> 7</span>
 								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 4 731</span>
 							</span>
 						</div>
 						<div class="album__title">
-							<h3><a href="release.html">Said Sum</a></h3>
-							<span><a href="artist.html">Moneybagg</a></span>
+							<h3><a href="/muView?muCode=414&mId=nullId">종로에서</a></h3>
+							<span><a href="/boardWriterView?boWriter=MorningCoffee&mId=nullId">모닝커피 (Morning Coffee)</a></span>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-6 col-sm-4 col-lg-2">
+				</div><div class="col-6 col-sm-4 col-lg-2">
 					<div class="album">
 						<div class="album__cover">
-							<img src="img/covers/cover3.jpg" alt="">
-							<a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							<img src="muImage/ONE KIMMM.jpg" alt="">
+							
+							<a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							
+							<a data-link data-title="Magic Hour (feat. kenessi)" data-artist="ONE KIMMM" data-img="muImage/ONE KIMMM.jpg" href="audio/Magic Hour (feat. kenessi).mp3" class="single-item__cover">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+							</a>
 							<span class="album__stat">
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.71,16.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21,1,1,0,0,0-.21.33,1,1,0,0,0,.21,1.09,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1,1,0,0,0,.21-1.09A1,1,0,0,0,3.71,16.29ZM7,8H21a1,1,0,0,0,0-2H7A1,1,0,0,0,7,8ZM3.71,11.29a1,1,0,0,0-1.09-.21,1.15,1.15,0,0,0-.33.21,1,1,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1,1,0,0,0,3.71,11.29ZM21,11H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2ZM3.71,6.29a1,1,0,0,0-.33-.21,1,1,0,0,0-1.09.21,1.15,1.15,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21,1,1,0,0,0,1.09-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1.15,1.15,0,0,0,3.71,6.29ZM21,16H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg> 16</span>
 								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 300k</span>
 							</span>
 						</div>
 						<div class="album__title">
-							<h3><a href="release.html">I Love My Country</a></h3>
-							<span><a href="artist.html">Florida Georgia</a></span>
+							<h3><a href="/muView?muCode=324&mId=nullId">Magic Hour (feat. kenessi)</a></h3>
+							<span><a href="/boardWriterView?boWriter=ONEKIMMM&mId=nullId">ONE KIMMM</a></span>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-6 col-sm-4 col-lg-2">
+				</div><div class="col-6 col-sm-4 col-lg-2">
 					<div class="album">
 						<div class="album__cover">
-							<img src="img/covers/cover4.jpg" alt="">
-							<a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							<img src="muImage/merrymerryseoul.jpg" alt="">
+							
+							<a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							
+							<a data-link data-title="바보야 (by 에이민) (Prod. H!)" data-artist="merrymerryseoul" data-img="muImage/merrymerryseoul.jpg" href="audio/바보야 (by 에이민) (Prod. H!).mp3" class="single-item__cover">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+							</a>
 							<span class="album__stat">
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.71,16.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21,1,1,0,0,0-.21.33,1,1,0,0,0,.21,1.09,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1,1,0,0,0,.21-1.09A1,1,0,0,0,3.71,16.29ZM7,8H21a1,1,0,0,0,0-2H7A1,1,0,0,0,7,8ZM3.71,11.29a1,1,0,0,0-1.09-.21,1.15,1.15,0,0,0-.33.21,1,1,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1,1,0,0,0,3.71,11.29ZM21,11H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2ZM3.71,6.29a1,1,0,0,0-.33-.21,1,1,0,0,0-1.09.21,1.15,1.15,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21,1,1,0,0,0,1.09-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1.15,1.15,0,0,0,3.71,6.29ZM21,16H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg> 16</span>
 								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 100k</span>
 							</span>
 						</div>
 						<div class="album__title">
-							<h3><a href="release.html">Toosie Slide</a></h3>
-							<span><a href="artist.html">Drake</a></span>
+							<h3><a href="/muView?muCode=317&mId=nullId">바보야 (by 에이민) (Prod. H!)</a></h3>
+							<span><a href="/boardWriterView?boWriter=merrymerryseoul&mId=nullId">merrymerryseoul</a></span>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-6 col-sm-4 col-lg-2">
+				</div><div class="col-6 col-sm-4 col-lg-2">
 					<div class="album">
 						<div class="album__cover">
-							<img src="img/covers/cover5.jpg" alt="">
-							<a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							<img src="muImage/이영현.jpg" alt="">
+							
+							<a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							
+							<a data-link data-title="돌아버리겠네" data-artist="이영현" data-img="muImage/이영현.jpg" href="audio/돌아버리겠네 (우리는 오늘부터 OST).mp3" class="single-item__cover">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+							</a>
 							<span class="album__stat">
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.71,16.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21,1,1,0,0,0-.21.33,1,1,0,0,0,.21,1.09,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1,1,0,0,0,.21-1.09A1,1,0,0,0,3.71,16.29ZM7,8H21a1,1,0,0,0,0-2H7A1,1,0,0,0,7,8ZM3.71,11.29a1,1,0,0,0-1.09-.21,1.15,1.15,0,0,0-.33.21,1,1,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1,1,0,0,0,3.71,11.29ZM21,11H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2ZM3.71,6.29a1,1,0,0,0-.33-.21,1,1,0,0,0-1.09.21,1.15,1.15,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21,1,1,0,0,0,1.09-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1.15,1.15,0,0,0,3.71,6.29ZM21,16H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg> 11</span>
 								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 1 279</span>
 							</span>
 						</div>
 						<div class="album__title">
-							<h3><a href="release.html">Got What I Got</a></h3>
-							<span><a href="artist.html">Jason Aldean</a></span>
+							<h3><a href="/muView?muCode=306&mId=nullId">돌아버리겠네</a></h3>
+							<span><a href="/boardWriterView?boWriter=LeeYounghyun&mId=nullId">이영현</a></span>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-6 col-sm-4 col-lg-2">
+				</div><div class="col-6 col-sm-4 col-lg-2">
 					<div class="album">
 						<div class="album__cover">
-							<img src="img/covers/cover6.jpg" alt="">
-							<a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							<img src="muImage/indi (13).jpg" alt="">
+							
+							<a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							
+							<a data-link data-title="낯설게 하기" data-artist="은조" data-img="muImage/indi (13).jpg" href="audio/indi (13).m4a" class="single-item__cover">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+							</a>
 							<span class="album__stat">
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.71,16.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21,1,1,0,0,0-.21.33,1,1,0,0,0,.21,1.09,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1,1,0,0,0,.21-1.09A1,1,0,0,0,3.71,16.29ZM7,8H21a1,1,0,0,0,0-2H7A1,1,0,0,0,7,8ZM3.71,11.29a1,1,0,0,0-1.09-.21,1.15,1.15,0,0,0-.33.21,1,1,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1,1,0,0,0,3.71,11.29ZM21,11H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2ZM3.71,6.29a1,1,0,0,0-.33-.21,1,1,0,0,0-1.09.21,1.15,1.15,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21,1,1,0,0,0,1.09-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1.15,1.15,0,0,0,3.71,6.29ZM21,16H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg> 14</span>
 								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 9 045</span>
 							</span>
 						</div>
 						<div class="album__title">
-							<h3><a href="release.html">Supalonely</a></h3>
-							<span><a href="artist.html">BENEE Featuring</a></span>
+							<h3><a href="/muView?muCode=280&mId=nullId">낯설게 하기</a></h3>
+							<span><a href="/boardWriterView?boWriter=EunJo&mId=nullId">은조</a></span>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-6 col-sm-4 col-lg-2">
+				</div><div class="col-6 col-sm-4 col-lg-2">
 					<div class="album">
 						<div class="album__cover">
-							<img src="img/covers/cover7.jpg" alt="">
-							<a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							<img src="muImage/indi (17).jpg" alt="">
+							
+							<a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							
+							<a data-link data-title="여름잠" data-artist="조은세" data-img="muImage/indi (17).jpg" href="audio/indi (17).m4a" class="single-item__cover">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+							</a>
 							<span class="album__stat">
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.71,16.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21,1,1,0,0,0-.21.33,1,1,0,0,0,.21,1.09,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1,1,0,0,0,.21-1.09A1,1,0,0,0,3.71,16.29ZM7,8H21a1,1,0,0,0,0-2H7A1,1,0,0,0,7,8ZM3.71,11.29a1,1,0,0,0-1.09-.21,1.15,1.15,0,0,0-.33.21,1,1,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1,1,0,0,0,3.71,11.29ZM21,11H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2ZM3.71,6.29a1,1,0,0,0-.33-.21,1,1,0,0,0-1.09.21,1.15,1.15,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21,1,1,0,0,0,1.09-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1.15,1.15,0,0,0,3.71,6.29ZM21,16H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg> 16</span>
 								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 500k</span>
 							</span>
 						</div>
 						<div class="album__title">
-							<h3><a href="release.html">Girls In The Hood</a></h3>
-							<span><a href="artist.html">Megan Thee</a></span>
+							<h3><a href="/muView?muCode=274&mId=nullId">여름잠</a></h3>
+							<span><a href="/boardWriterView?boWriter=ChoEunse&mId=nullId">조은세</a></span>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-6 col-sm-4 col-lg-2">
+				</div><div class="col-6 col-sm-4 col-lg-2">
 					<div class="album">
 						<div class="album__cover">
-							<img src="img/covers/cover8.jpg" alt="">
-							<a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							<img src="muImage/indi (28).jpg" alt="">
+							
+							<a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							
+							<a data-link data-title="찬 비(Cold Rain)" data-artist="박영훈" data-img="muImage/indi (28).jpg" href="audio/indi (28).m4a" class="single-item__cover">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+							</a>
 							<span class="album__stat">
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.71,16.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21,1,1,0,0,0-.21.33,1,1,0,0,0,.21,1.09,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1,1,0,0,0,.21-1.09A1,1,0,0,0,3.71,16.29ZM7,8H21a1,1,0,0,0,0-2H7A1,1,0,0,0,7,8ZM3.71,11.29a1,1,0,0,0-1.09-.21,1.15,1.15,0,0,0-.33.21,1,1,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1,1,0,0,0,3.71,11.29ZM21,11H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2ZM3.71,6.29a1,1,0,0,0-.33-.21,1,1,0,0,0-1.09.21,1.15,1.15,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21,1,1,0,0,0,1.09-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1.15,1.15,0,0,0,3.71,6.29ZM21,16H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg> 8</span>
 								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 56 042</span>
 							</span>
 						</div>
 						<div class="album__title">
-							<h3><a href="release.html">Got It On Me</a></h3>
-							<span><a href="artist.html">Summer Walker</a></span>
+							<h3><a href="/muView?muCode=260&mId=nullId">찬 비(Cold Rain)</a></h3>
+							<span><a href="/boardWriterView?boWriter=ParkYounghoon&mId=nullId">박영훈</a></span>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-6 col-sm-4 col-lg-2">
+				</div><div class="col-6 col-sm-4 col-lg-2">
 					<div class="album">
 						<div class="album__cover">
-							<img src="img/covers/cover9.jpg" alt="">
-							<a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							<img src="muImage/24hrs.jpg" alt="">
+							
+							<a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							
+							<a data-link data-title="Stereotype" data-artist="24아워즈 (24Hours)" data-img="muImage/24hrs.jpg" href="audio/24hrs.mp3" class="single-item__cover">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+							</a>
 							<span class="album__stat">
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.71,16.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21,1,1,0,0,0-.21.33,1,1,0,0,0,.21,1.09,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1,1,0,0,0,.21-1.09A1,1,0,0,0,3.71,16.29ZM7,8H21a1,1,0,0,0,0-2H7A1,1,0,0,0,7,8ZM3.71,11.29a1,1,0,0,0-1.09-.21,1.15,1.15,0,0,0-.33.21,1,1,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1,1,0,0,0,3.71,11.29ZM21,11H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2ZM3.71,6.29a1,1,0,0,0-.33-.21,1,1,0,0,0-1.09.21,1.15,1.15,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21,1,1,0,0,0,1.09-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1.15,1.15,0,0,0,3.71,6.29ZM21,16H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg> 24</span>
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 100k</span>
+								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 120k</span>
 							</span>
 						</div>
 						<div class="album__title">
-							<h3><a href="release.html">Righteous</a></h3>
-							<span><a href="artist.html">Juice WRLD</a></span>
+							<h3><a href="/muView?muCode=207&mId=nullId">Stereotype</a></h3>
+							<span><a href="/boardWriterView?boWriter=24Hours&mId=nullId">24아워즈 (24Hours)</a></span>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-6 col-sm-4 col-lg-2">
+				</div><div class="col-6 col-sm-4 col-lg-2">
 					<div class="album">
 						<div class="album__cover">
-							<img src="img/covers/cover10.jpg" alt="">
-							<a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							<img src="muImage/WEDONTGIVEAFXXX.jpg" alt="">
+							
+							<a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							
+							<a data-link data-title="WE DONT GIVE A FXXX!" data-artist="ILB" data-img="muImage/WEDONTGIVEAFXXX.jpg" href="audio/WEDONTGIVEAFXXX.mp3" class="single-item__cover">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+							</a>
 							<span class="album__stat">
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.71,16.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21,1,1,0,0,0-.21.33,1,1,0,0,0,.21,1.09,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1,1,0,0,0,.21-1.09A1,1,0,0,0,3.71,16.29ZM7,8H21a1,1,0,0,0,0-2H7A1,1,0,0,0,7,8ZM3.71,11.29a1,1,0,0,0-1.09-.21,1.15,1.15,0,0,0-.33.21,1,1,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1,1,0,0,0,3.71,11.29ZM21,11H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2ZM3.71,6.29a1,1,0,0,0-.33-.21,1,1,0,0,0-1.09.21,1.15,1.15,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21,1,1,0,0,0,1.09-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1.15,1.15,0,0,0,3.71,6.29ZM21,16H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg> 16</span>
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 2 482</span>
+								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 2 483</span>
 							</span>
 						</div>
 						<div class="album__title">
-							<h3><a href="release.html">Walk Em Down</a></h3>
-							<span><a href="artist.html">NLE Choppa</a></span>
+							<h3><a href="/muView?muCode=175&mId=nullId">WE DONT GIVE A FXXX!</a></h3>
+							<span><a href="/boardWriterView?boWriter=ILB&mId=nullId">ILB</a></span>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-6 col-sm-4 col-lg-2">
+				</div><div class="col-6 col-sm-4 col-lg-2">
 					<div class="album">
 						<div class="album__cover">
-							<img src="img/covers/cover11.jpg" alt="">
-							<a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							<img src="muImage/그녀는자꾸슬퍼.JPG" alt="">
+							
+							<a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							
+							<a data-link data-title="그녀는 자꾸 슬퍼" data-artist="주시크 (Joosiq)" data-img="muImage/그녀는자꾸슬퍼.JPG" href="audio/그녀는자꾸슬퍼.mp3" class="single-item__cover">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+							</a>
 							<span class="album__stat">
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.71,16.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21,1,1,0,0,0-.21.33,1,1,0,0,0,.21,1.09,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1,1,0,0,0,.21-1.09A1,1,0,0,0,3.71,16.29ZM7,8H21a1,1,0,0,0,0-2H7A1,1,0,0,0,7,8ZM3.71,11.29a1,1,0,0,0-1.09-.21,1.15,1.15,0,0,0-.33.21,1,1,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1,1,0,0,0,3.71,11.29ZM21,11H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2ZM3.71,6.29a1,1,0,0,0-.33-.21,1,1,0,0,0-1.09.21,1.15,1.15,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21,1,1,0,0,0,1.09-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1.15,1.15,0,0,0,3.71,6.29ZM21,16H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg> 19</span>
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 50k</span>
+								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 62k</span>
 							</span>
 						</div>
 						<div class="album__title">
-							<h3><a href="release.html">Like That</a></h3>
-							<span><a href="artist.html">Stefflon Don</a></span>
+							<h3><a href="/muView?muCode=167&mId=nullId">그녀는 자꾸 슬퍼</a></h3>
+							<span><a href="/boardWriterView?boWriter=Joosiq&mId=nullId">주시크 (Joosiq)</a></span>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-6 col-sm-4 col-lg-2">
+				</div><div class="col-6 col-sm-4 col-lg-2">
 					<div class="album">
 						<div class="album__cover">
-							<img src="img/covers/cover12.jpg" alt="">
-							<a href="release.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							<img src="muImage/픽시.jpg" alt="">
+							
+							<a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg></a>
+							
+							<a data-link data-title="PIXY (픽시)" data-artist="Villain" data-img="muImage/픽시.jpg" href="audio/픽시.mp3" class="single-item__cover">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+							</a>
 							<span class="album__stat">
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.71,16.29a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21,1,1,0,0,0-.21.33,1,1,0,0,0,.21,1.09,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1,1,0,0,0,.21-1.09A1,1,0,0,0,3.71,16.29ZM7,8H21a1,1,0,0,0,0-2H7A1,1,0,0,0,7,8ZM3.71,11.29a1,1,0,0,0-1.09-.21,1.15,1.15,0,0,0-.33.21,1,1,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21.94.94,0,0,0,.76,0,1.15,1.15,0,0,0,.33-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1,1,0,0,0,3.71,11.29ZM21,11H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2ZM3.71,6.29a1,1,0,0,0-.33-.21,1,1,0,0,0-1.09.21,1.15,1.15,0,0,0-.21.33.94.94,0,0,0,0,.76,1.15,1.15,0,0,0,.21.33,1.15,1.15,0,0,0,.33.21,1,1,0,0,0,1.09-.21,1.15,1.15,0,0,0,.21-.33.94.94,0,0,0,0-.76A1.15,1.15,0,0,0,3.71,6.29ZM21,16H7a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg> 16</span>
-								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 75k</span>
+								<span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,13.18V11A8,8,0,0,0,4,11v2.18A3,3,0,0,0,2,16v2a3,3,0,0,0,3,3H8a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H6V11a6,6,0,0,1,12,0v2H16a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1h3a3,3,0,0,0,3-3V16A3,3,0,0,0,20,13.18ZM7,15v4H5a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1Zm13,3a1,1,0,0,1-1,1H17V15h2a1,1,0,0,1,1,1Z"/></svg> 71k</span>
 							</span>
 						</div>
 						<div class="album__title">
-							<h3><a href="release.html">One Big Country</a></h3>
-							<span><a href="artist.html">LOCASH</a></span>
+							<h3><a href="/muView?muCode=68&mId=nullId">Villain</a></h3>
+							<span><a href="/boardWriterView?boWriter=PIXY&mId=nullId">PIXY (픽시)</a></span>
 						</div>
 					</div>
 				</div>
@@ -419,67 +443,71 @@
 				<!-- title -->
 				<div class="col-12">
 					<div class="main__title">
-						<h2>Upcoming Events</h2>
-
-						<a href="events.html" class="main__link">See all <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></a>
+						<h2>New MV</h2>
 					</div>
 				</div>
 				<!-- end title -->
 
 				<div class="col-12">
 					<div class="main__carousel-wrap">
-						<div class="main__carousel main__carousel--events owl-carousel" id="events">
-							<div class="event" data-bg="img/events/event1.jpg">
-								<a href="#modal-ticket" class="event__ticket open-modal"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,10a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V11A1,1,0,0,0,9,10Zm12,1a1,1,0,0,0,1-1V6a1,1,0,0,0-1-1H3A1,1,0,0,0,2,6v4a1,1,0,0,0,1,1,1,1,0,0,1,0,2,1,1,0,0,0-1,1v4a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1,1,1,0,0,1,0-2ZM20,9.18a3,3,0,0,0,0,5.64V17H10a1,1,0,0,0-2,0H4V14.82A3,3,0,0,0,4,9.18V7H8a1,1,0,0,0,2,0H20Z"/></svg> Buy ticket</a>
-								<span class="event__date">March 14, 2021</span>
-								<span class="event__time">8:00 pm</span>
-								<h3 class="event__title"><a href="event.html">Sorry Babushka</a></h3>
-								<p class="event__address">1 East Plumb Branch St.Saint Petersburg, FL 33702</p>
+						<div class="main__carousel main__carousel--podcasts owl-carousel" id="podcasts">
+							<div class="live">
+								<a href="https://www.youtube.com/watch?v=sMG9t39BwUU" class="live__cover open-video">
+									<img src="mvImage/카드.gif" alt="">
+									<span class="live__value">29M viewers</span>
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
+								</a>
+								<h3 class="live__title"><a href="https://www.youtube.com/watch?v=sMG9t39BwUU" class="open-video">KARD - Ring The Alarm _ M/V</a></h3>
 							</div>
 
-							<div class="event" data-bg="img/events/event2.jpg">
-								<a href="#modal-ticket" class="event__ticket open-modal"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,10a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V11A1,1,0,0,0,9,10Zm12,1a1,1,0,0,0,1-1V6a1,1,0,0,0-1-1H3A1,1,0,0,0,2,6v4a1,1,0,0,0,1,1,1,1,0,0,1,0,2,1,1,0,0,0-1,1v4a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1,1,1,0,0,1,0-2ZM20,9.18a3,3,0,0,0,0,5.64V17H10a1,1,0,0,0-2,0H4V14.82A3,3,0,0,0,4,9.18V7H8a1,1,0,0,0,2,0H20Z"/></svg> Buy ticket</a>
-								<span class="event__date">March 16, 2021</span>
-								<span class="event__time">7:00 pm</span>
-								<h3 class="event__title"><a href="event.html">Big Daddy</a></h3>
-								<p class="event__address">71 Pilgrim Avenue Chevy Chase, MD 20815</p>
+							<div class="live">
+								<a href="https://www.youtube.com/watch?v=BWORv789klk" class="live__cover open-video">
+									<img src="mvImage/청하.gif" alt="">
+									<span class="live__value">148K viewers</span>
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
+								</a>
+								<h3 class="live__title"><a href="https://www.youtube.com/watch?v=BWORv789klk" class="open-video">CHUNG HA 청하 'Sparkling' M/V</a></h3>
 							</div>
 
-							<div class="event" data-bg="img/events/event3.jpg">
-								<span class="event__out">Sold out</span>
-								<span class="event__date">March 23, 2021</span>
-								<span class="event__time">9:30 pm</span>
-								<h3 class="event__title"><a href="event.html">Rocky Pub</a></h3>
-								<p class="event__address">514 S. Magnolia St. Orlando, FL 32806</p>
+							<div class="live">
+								<a href="https://www.youtube.com/watch?v=dYRITmpFbJ4" class="live__cover open-video">
+									<img src="mvImage/에스파.gif" alt="">
+									<span class="live__value">54M viewers</span>
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
+								</a>
+								<h3 class="live__title"><a href="https://www.youtube.com/watch?v=dYRITmpFbJ4" class="open-video">aespa 에스파 'Girls' MV</a></h3>
 							</div>
 
-							<div class="event" data-bg="img/events/event4.jpg">
-								<a href="#modal-ticket" class="event__ticket open-modal"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,10a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V11A1,1,0,0,0,9,10Zm12,1a1,1,0,0,0,1-1V6a1,1,0,0,0-1-1H3A1,1,0,0,0,2,6v4a1,1,0,0,0,1,1,1,1,0,0,1,0,2,1,1,0,0,0-1,1v4a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1,1,1,0,0,1,0-2ZM20,9.18a3,3,0,0,0,0,5.64V17H10a1,1,0,0,0-2,0H4V14.82A3,3,0,0,0,4,9.18V7H8a1,1,0,0,0,2,0H20Z"/></svg> Buy ticket</a>
-								<span class="event__date">March 30, 2021</span>
-								<span class="event__time">6:00 pm</span>
-								<h3 class="event__title"><a href="event.html">Big Club</a></h3>
-								<p class="event__address">123 6th St. Melbourne, FL 32904</p>
+							<div class="live">
+								<a href="https://www.youtube.com/watch?v=JLlTrTNgseE" class="live__cover open-video">
+									<img src="mvImage/로시.gif" alt="">
+									<span class="live__value">88K viewers</span>
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
+								</a>
+								<h3 class="live__title"><a href="https://www.youtube.com/watch?v=JLlTrTNgseE" class="open-video">[MV] Rothy(로시) _ Changed Number</a></h3>
 							</div>
 
-							<div class="event" data-bg="img/events/event5.jpg">
-								<span class="event__out">Sold out</span>
-								<span class="event__date">March 30, 2021</span>
-								<span class="event__time">10:00 pm</span>
-								<h3 class="event__title"><a href="event.html">Big Daddy</a></h3>
-								<p class="event__address">71 Pilgrim Avenue Chevy Chase, MD 20815</p>
+							<div class="live">
+								<a href="https://www.youtube.com/watch?v=VQZXXciZb_c" class="live__cover open-video">
+									<img src="mvImage/10cm.gif" alt="">
+									<span class="live__value">278K views</span>
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
+								</a>
+								<h3 class="live__title"><a href="https://www.youtube.com/watch?v=VQZXXciZb_c" class="open-video">[MV] 10CM _ Gradation(그라데이션)</a></h3>
 							</div>
 
-							<div class="event" data-bg="img/events/event6.jpg">
-								<a href="#modal-ticket" class="event__ticket open-modal"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,10a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V11A1,1,0,0,0,9,10Zm12,1a1,1,0,0,0,1-1V6a1,1,0,0,0-1-1H3A1,1,0,0,0,2,6v4a1,1,0,0,0,1,1,1,1,0,0,1,0,2,1,1,0,0,0-1,1v4a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1,1,1,0,0,1,0-2ZM20,9.18a3,3,0,0,0,0,5.64V17H10a1,1,0,0,0-2,0H4V14.82A3,3,0,0,0,4,9.18V7H8a1,1,0,0,0,2,0H20Z"/></svg> Buy ticket</a>
-								<span class="event__date">March 31, 2021</span>
-								<span class="event__time">6:30 pm</span>
-								<h3 class="event__title"><a href="event.html">Rocky Pub</a></h3>
-								<p class="event__address">514 S. Magnolia St. Orlando, FL 32806</p>
+							<div class="live">
+								<a href="https://www.youtube.com/watch?v=N50tNOnlRKk" class="live__cover open-video">
+									<img src="mvImage/헤이즈.gif" alt="">
+									<span class="live__value">744K views</span>
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
+								</a>
+								<h3 class="live__title"><a href="https://www.youtube.com/watch?v=N50tNOnlRKk" class="open-video">헤이즈(Heize) - '없었던 일로 (Undo)' MV</a></h3>
 							</div>
 						</div>
 
-						<button class="main__nav main__nav--prev" data-nav="#events" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,11H9.41l3.3-3.29a1,1,0,1,0-1.42-1.42l-5,5a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l5,5a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L9.41,13H17a1,1,0,0,0,0-2Z"/></svg></button>
-						<button class="main__nav main__nav--next" data-nav="#events" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></button>
+						<button class="main__nav main__nav--prev" data-nav="#podcasts" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,11H9.41l3.3-3.29a1,1,0,1,0-1.42-1.42l-5,5a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l5,5a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L9.41,13H17a1,1,0,0,0,0-2Z"/></svg></button>
+						<button class="main__nav main__nav--next" data-nav="#podcasts" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></button>
 					</div>
 				</div>
 			</section>
@@ -492,7 +520,6 @@
 					<div class="main__title">
 						<h2>Artists</h2>
 
-						<a href="artists.html" class="main__link">See all <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></a>
 					</div>
 				</div>
 				<!-- end title -->
@@ -500,77 +527,83 @@
 				<div class="col-12">
 					<div class="main__carousel-wrap">
 						<div class="main__carousel main__carousel--artists owl-carousel" id="artists">
-							<a href="artist.html" class="artist">
+							<a href="/boardWriterView?boWriter=DeonOh&mId=nullId" class="artist">
 								<div class="artist__cover">
-									<img src="img/artists/artist1.jpg" alt="">
+									<img src="profile/Deon Oh.jpg" alt="">
 								</div>
-								<h3 class="artist__title">BENEE Featuring</h3>
+								<h3 class="artist__title">Deon Oh</h3>
 							</a>
 
-							<a href="artist.html" class="artist">
+							<a href="/boardWriterView?boWriter=OCEAn&mId=nullId" class="artist">
 								<div class="artist__cover">
-									<img src="img/artists/artist2.jpg" alt="">
+									<img src="profile/오션 (OCEAn).jpg" alt="">
 								</div>
-								<h3 class="artist__title">Jason Aldean</h3>
+								<h3 class="artist__title">오션 (OCEAn)</h3>
 							</a>
-
-							<a href="artist.html" class="artist">
+							
+							<a href="/boardWriterView?boWriter=Seunghu&mId=nullId" class="artist">
 								<div class="artist__cover">
-									<img src="img/artists/artist3.jpg" alt="">
+									<img src="profile/승후.jpg" alt="">
 								</div>
-								<h3 class="artist__title">John Doe</h3>
+								<h3 class="artist__title">승후</h3>
 							</a>
-
-							<a href="artist.html" class="artist">
+							
+							<a href="/boardWriterView?boWriter=DineOn&mId=nullId" class="artist">
 								<div class="artist__cover">
-									<img src="img/artists/artist4.jpg" alt="">
+									<img src="profile/Dine On.jpg" alt="">
 								</div>
-								<h3 class="artist__title">Megan Thee</h3>
+								<h3 class="artist__title">Dine On</h3>
 							</a>
-
-							<a href="artist.html" class="artist">
+							
+							<a href="/boardWriterView?boWriter=ETNA&mId=nullId" class="artist">
 								<div class="artist__cover">
-									<img src="img/artists/artist5.jpg" alt="">
+									<img src="profile/ETNA.jpg" alt="">
 								</div>
-								<h3 class="artist__title">Stefflon Don</h3>
+								<h3 class="artist__title">ETNA</h3>
 							</a>
-
-							<a href="artist.html" class="artist">
+							
+							<a href="/boardWriterView?boWriter=Rusur&mId=nullId" class="artist">
 								<div class="artist__cover">
-									<img src="img/artists/artist6.jpg" alt="">
+									<img src="profile/Rusur.jpg" alt="">
 								</div>
-								<h3 class="artist__title">Juice WRLD</h3>
+								<h3 class="artist__title">Rusur</h3>
 							</a>
-
-							<a href="artist.html" class="artist">
+							
+							<a href="/boardWriterView?boWriter=KwonSujeong&mId=nullId" class="artist">
 								<div class="artist__cover">
-									<img src="img/artists/artist7.jpg" alt="">
+									<img src="profile/권수정.jpg" alt="">
 								</div>
-								<h3 class="artist__title">LOCASH</h3>
+								<h3 class="artist__title">권수정</h3>
 							</a>
-
-							<a href="artist.html" class="artist">
+							
+							<a href="/boardWriterView?boWriter=Damha&mId=nullId" class="artist">
 								<div class="artist__cover">
-									<img src="img/artists/artist8.jpg" alt="">
+									<img src="profile/담하.jpg" alt="">
 								</div>
-								<h3 class="artist__title">NLE Choppa</h3>
+								<h3 class="artist__title">담하</h3>
 							</a>
 						</div>
+<!-- player -->
+	<div class="player">
+		<div class="player__cover">
+			<img src="img/covers/cover.svg" alt="">
+		</div>
 
-						<button class="main__nav main__nav--prev" data-nav="#artists" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,11H9.41l3.3-3.29a1,1,0,1,0-1.42-1.42l-5,5a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l5,5a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L9.41,13H17a1,1,0,0,0,0-2Z"/></svg></button>
-						<button class="main__nav main__nav--next" data-nav="#artists" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></button>
-					</div>
-				</div>
-			</section>
-			<!-- end articts -->
+		<div class="player__content">
+			<span class="player__track"><b class="player__title">재생중인 음악이 없습니다</b></span>
+			<audio id="audio" ></audio>
+		</div>
+	</div>
 
+	<button class="player__btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z"/></svg> Player</button>
+	<!-- end player -->
 			<section class="row row--grid">
 				<div class="col-12 col-md-6 col-xl-4">
 					<div class="row row--grid">
 						<!-- title -->
 						<div class="col-12">
 							<div class="main__title">
-								<h2><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z"/></svg><a href="#">Top singles</a></h2>
+								<h2><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z"/></svg><a href="#">차트</a></h2>
 							</div>
 						</div>
 						<!-- end title -->
@@ -578,74 +611,64 @@
 						<div class="col-12">
 							<ul class="main__list">
 								<li class="single-item">
-									<span class="single-item__number">1</span>
-									<span class="single-item__rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.71,12.54a1,1,0,0,0-1.42,0l-3,3A1,1,0,0,0,9.71,17L12,14.66,14.29,17a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm-3-1.08L12,9.16l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Z"/></svg> 1</span>
-									<a data-link data-title="Cinematic" data-artist="AudioPizza" data-img="img/covers/cover1.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover1.jpg" alt="">
+									<a data-link data-title="널 기다리며 부르는 노래, 키티도기" data-artist="삼색리리" data-img="muImage/삼색리리.png" href="audio/삼색리리.mp3" class="single-item__cover">
+										<img src="muImage/삼색리리.png" alt="">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="#">Cinematic</a></h4>
-										<span><a href="artist.html">AudioPizza</a></span>
+										<h4><a href="http://localhost:9091/muView?muCode=34&mId=nullId">널 기다리며 부르는 노래, 키티도기</a></h4>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=TricolorLili&mId=nullId">삼색리리</a></span>
 									</div>
-									<span class="single-item__time">2:35</span>
+									<span class="single-item__time">1:58</span>
 								</li>
 								<li class="single-item">
-									<span class="single-item__number">2</span>
-									<span class="single-item__rate single-item__rate--red"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.29,11.46a1,1,0,0,0,1.42,0l3-3A1,1,0,1,0,14.29,7L12,9.34,9.71,7A1,1,0,1,0,8.29,8.46Zm3,1.08L12,14.84l-2.29-2.3A1,1,0,0,0,8.29,14l3,3a1,1,0,0,0,1.42,0l3-3a1,1,0,0,0-1.42-1.42Z"/></svg> 1</span>
-									<a data-link data-title="Adventure" data-artist="AudioPizza" data-img="img/covers/cover2.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/9106709_epic-adventure-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover2.jpg" alt="">
+									<a data-link data-title="그녀의 웃음소리뿐" data-artist="박창근" data-img="muImage/박창근.jpg" href="audio/그녀의 웃음소리뿐.mp3" class="single-item__cover">
+										<img src="muImage/박창근.jpg" alt="">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="#">Adventure</a></h4>
-										<span><a href="artist.html">AudioPizza</a></span>
+										<h4><a href="http://localhost:9091/muView?muCode=383&mId=nullId">그녀의 웃음소리뿐</a></h4>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=ParkChanggeun&mId=nullId">박창근</a></span>
 									</div>
-									<span class="single-item__time">3:37</span>
+									<span class="single-item__time">5:23</span>
 								</li>
 								<li class="single-item">
-									<span class="single-item__number">3</span>
-									<span class="single-item__rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.71,12.54a1,1,0,0,0-1.42,0l-3,3A1,1,0,0,0,9.71,17L12,14.66,14.29,17a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm-3-1.08L12,9.16l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Z"/></svg> 15</span>
-									<a data-link data-title="Epic Motivational" data-artist="AudioPizza" data-img="img/covers/cover3.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/10938456_inspiring-epic-motivational-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover3.jpg" alt="">
+									<a data-link data-title="깽값 (Feat. Gaeko) (Prod. Slom)" data-artist="조광일" data-img="muImage/꺵값.jpg" href="audio/꺵값.mp3" class="single-item__cover">
+										<img src="muImage/꺵값.jpg" alt="">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="#">Epic Motivational</a></h4>
-										<span><a href="artist.html">AudioPizza</a></span>
+										<h4><a href="http://localhost:9091/muView?muCode=196&mId=nullId">깽값 (Feat. Gaeko) (Prod. Slom)</a></h4>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=JoGwangil&mId=nullId">조광일</a></span>
 									</div>
-									<span class="single-item__time">5:30</span>
+									<span class="single-item__time">4:03</span>
 								</li>
 								<li class="single-item">
-									<span class="single-item__number">4</span>
-									<span class="single-item__rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.71,12.54a1,1,0,0,0-1.42,0l-3,3A1,1,0,0,0,9.71,17L12,14.66,14.29,17a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm-3-1.08L12,9.16l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Z"/></svg> 11</span>
-									<a data-link data-title="Upbeat Rock" data-artist="AudioPizza" data-img="img/covers/cover4.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/16412111_upbeat-rock_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover4.jpg" alt="">
+									<a data-link data-title="아무것도 하기 싫다" data-artist="potato" data-img="muImage/indi (31).jpg" href="audio/indi (31).m4a" class="single-item__cover">
+										<img src="muImage/indi (31).jpg" alt="">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="#">Upbeat Rock</a></h4>
-										<span><a href="artist.html">AudioPizza</a></span>
+										<h4><a href="http://localhost:9091/muView?muCode=254&mId=nullId">아무것도 하기 싫다</a></h4>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=potato&mId=nullId">potato</a></span>
 									</div>
-									<span class="single-item__time">3:42</span>
+									<span class="single-item__time">3:20</span>
 								</li>
 								<li class="single-item">
-									<span class="single-item__number">5</span>
-									<span class="single-item__rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.71,12.54a1,1,0,0,0-1.42,0l-3,3A1,1,0,0,0,9.71,17L12,14.66,14.29,17a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm-3-1.08L12,9.16l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42Z"/></svg> 2</span>
-									<a data-link data-title="Ambient Pop" data-artist="AudioPizza" data-img="img/covers/cover5.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/19478377_ambient-pop_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover5.jpg" alt="">
+									<a data-link data-title="하늘을 달리다" data-artist="정인" data-img="muImage/하늘을 달리다.jpg" href="audio/하늘을 달리다.mp3" class="single-item__cover">
+										<img src="muImage/하늘을 달리다.jpg" alt="">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="#">Ambient Pop</a></h4>
-										<span><a href="artist.html">AudioPizza</a></span>
+										<h4><a href="http://localhost:9091/muView?muCode=233&mId=nullId">하늘을 달리다</a></h4>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=JeongIn&mId=nullId">정인</a></span>
 									</div>
-									<span class="single-item__time">3:02</span>
+									<span class="single-item__time">4:23</span>
 								</li>
 							</ul>
 						</div>
@@ -657,7 +680,7 @@
 						<!-- title -->
 						<div class="col-12">
 							<div class="main__title">
-								<h2><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.12,2.21A1,1,0,0,0,18.26,2l-8,2A1,1,0,0,0,9.5,5V15.35A3.45,3.45,0,0,0,8,15a3.5,3.5,0,1,0,3.5,3.5V10.78L18.74,9l.07,0L19,8.85l.15-.1a.93.93,0,0,0,.13-.15.78.78,0,0,0,.1-.15.55.55,0,0,0,.06-.18.58.58,0,0,0,0-.19.24.24,0,0,0,0-.08V3A1,1,0,0,0,19.12,2.21ZM8,20a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,8,20ZM17.5,7.22l-6,1.5V5.78l6-1.5Z"/></svg><a href="#">New singles</a></h2>
+								<h2><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.12,2.21A1,1,0,0,0,18.26,2l-8,2A1,1,0,0,0,9.5,5V15.35A3.45,3.45,0,0,0,8,15a3.5,3.5,0,1,0,3.5,3.5V10.78L18.74,9l.07,0L19,8.85l.15-.1a.93.93,0,0,0,.13-.15.78.78,0,0,0,.1-.15.55.55,0,0,0,.06-.18.58.58,0,0,0,0-.19.24.24,0,0,0,0-.08V3A1,1,0,0,0,19.12,2.21ZM8,20a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,8,20ZM17.5,7.22l-6,1.5V5.78l6-1.5Z"/></svg><a href="#">최신음악</a></h2>
 							</div>
 						</div>
 						<!-- end title -->
@@ -665,65 +688,65 @@
 						<div class="col-12">
 							<ul class="main__list">
 								<li class="single-item">
-									<a data-link data-title="Got What I Got" data-artist="Jason Aldean" data-img="img/covers/cover.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover.svg" alt="">
+									<a data-link data-title="길" data-artist="김종한" data-img="muImage/김종한.jpg" href="audio/Road 길.mp3" class="single-item__cover">
+										<img src="muImage/김종한.jpg" alt="">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="#">Got What I Got</a></h4>
-										<span><a href="artist.html">Jason Aldean</a></span>
+										<h4><a href="http://localhost:9091/muView?muCode=384&mId=nullId">길</a></h4>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=KimJonghan&mId=nullId">김종한</a></span>
 									</div>
-									<span class="single-item__time">2:58</span>
+									<span class="single-item__time">4:58</span>
 								</li>
 								<li class="single-item">
-									<a data-link data-title="Supalonely" data-artist="BENEE Featuring" data-img="img/covers/cover7.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/9106709_epic-adventure-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover7.jpg" alt="">
+									<a data-link data-title="Move Like This (Feat. 김연아)" data-artist="강다니엘" data-img="muImage/강다니엘.jpg" href="audio/강다니엘.mp3" class="single-item__cover">
+										<img src="muImage/강다니엘.jpg" alt="">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="#">Supalonely</a></h4>
-										<span><a href="artist.html">BENEE Featuring</a></span>
+										<h4><a href="http://localhost:9091/muView?muCode=51&mId=nullId">Move Like This (Feat. 김연아)</a></h4>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=KangDaniel&mId=nullId">강다니엘</a></span>
+									</div>
+									<span class="single-item__time">3:19</span>
+								</li>
+								<li class="single-item">
+									<a data-link data-title="그녀는 자꾸 슬퍼" data-artist="쥬시크" data-img="muImage/그녀는자꾸슬퍼.JPG" href="audio/그녀는자꾸슬퍼.mp3" class="single-item__cover">
+										<img src="muImage/그녀는자꾸슬퍼.JPG" alt="">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+									</a>
+									<div class="single-item__title">
+										<h4><a href="http://localhost:9091/muView?muCode=167&mId=nullId">그녀는 자꾸 슬퍼</a></h4>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=Joosiq&mId=nullId">쥬시크</a></span>
+									</div>
+									<span class="single-item__time">3:35</span>
+								</li>
+								<li class="single-item">
+									<a data-link data-title="낭만고양이" data-artist="송가인" data-img="muImage/낭만고양이.jpg" href="audio/낭만고양이.mp3" class="single-item__cover">
+										<img src="muImage/낭만고양이.jpg" alt="">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+									</a>
+									<div class="single-item__title">
+										<h4><a href="http://localhost:9091/muView?muCode=205&mId=yspyyy">낭만고양이</a></h4>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=SongGain&mId=nullId">송가인</a></span>
+									</div>
+									<span class="single-item__time">3:35</span>
+								</li>
+								<li class="single-item">
+									<a data-link data-title="돌아버리겠네" data-artist="이영현" data-img="muImage/이영현.jpg" href="audio/돌아버리겠네 (우리는 오늘부터 OST).mp3" class="single-item__cover">
+										<img src="muImage/이영현.jpg" alt="">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
+									</a>
+									<div class="single-item__title">
+										<h4><a href="http://localhost:9091/muView?muCode=306&mId=nullId">돌아버리겠네</a></h4>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=LeeYounghyun&mId=nullId">이영현</a></span>
 									</div>
 									<span class="single-item__time">3:14</span>
 								</li>
-								<li class="single-item">
-									<a data-link data-title="Girls In The Hood" data-artist="Megan Thee" data-img="img/covers/cover8.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/10938456_inspiring-epic-motivational-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover8.jpg" alt="">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
-									</a>
-									<div class="single-item__title">
-										<h4><a href="#">Girls In The Hood</a></h4>
-										<span><a href="artist.html">Megan Thee</a></span>
-									</div>
-									<span class="single-item__time">3:21</span>
-								</li>
-								<li class="single-item">
-									<a data-link data-title="Got It On Me" data-artist="Summer Walker" data-img="img/covers/cover9.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/16412111_upbeat-rock_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover9.jpg" alt="">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
-									</a>
-									<div class="single-item__title">
-										<h4><a href="#">Got It On Me</a></h4>
-										<span><a href="artist.html">Summer Walker</a></span>
-									</div>
-									<span class="single-item__time">3:12</span>
-								</li>
-								<li class="single-item">
-									<a data-link data-title="Righteous" data-artist="Juice WRLD" data-img="img/covers/cover10.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/19478377_ambient-pop_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover10.jpg" alt="">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
-									</a>
-									<div class="single-item__title">
-										<h4><a href="#">Righteous</a></h4>
-										<span><a href="artist.html">Juice WRLD</a></span>
-									</div>
-									<span class="single-item__time">5:04</span>
-								</li>
 							</ul>
 						</div>
 					</div>
@@ -734,7 +757,7 @@
 						<!-- title -->
 						<div class="col-12">
 							<div class="main__title">
-								<h2><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,15a4,4,0,0,0,4-4V5A4,4,0,0,0,8,5v6A4,4,0,0,0,12,15ZM10,5a2,2,0,0,1,4,0v6a2,2,0,0,1-4,0Zm10,6a1,1,0,0,0-2,0A6,6,0,0,1,6,11a1,1,0,0,0-2,0,8,8,0,0,0,7,7.93V21H9a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2H13V18.93A8,8,0,0,0,20,11Z"/></svg><a href="#">Podcasts</a></h2>
+								<h2><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,15a4,4,0,0,0,4-4V5A4,4,0,0,0,8,5v6A4,4,0,0,0,12,15ZM10,5a2,2,0,0,1,4,0v6a2,2,0,0,1-4,0Zm10,6a1,1,0,0,0-2,0A6,6,0,0,1,6,11a1,1,0,0,0-2,0,8,8,0,0,0,7,7.93V21H9a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2H13V18.93A8,8,0,0,0,20,11Z"/></svg><a href="#">아티스트</a></h2>
 							</div>
 						</div>
 						<!-- end title -->
@@ -742,64 +765,49 @@
 						<div class="col-12">
 							<ul class="main__list">
 								<li class="single-item">
-									<a data-link data-title="Got What I Got" data-artist="Jason Aldean" data-img="img/covers/cover6.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover6.jpg" alt="">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+									<a  class="single-item__cover">
+										<img src="profile/강다니엘1.jpg" alt="">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="#">Got What I Got</a></h4>
-										<span><a href="artist.html">Jason Aldean</a></span>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=KangDaniel&mId=nullId">강다니엘</a></span>
 									</div>
-									<span class="single-item__time single-item__time--live">LIVE</span>
 								</li>
 								<li class="single-item">
-									<a data-link data-title="Supalonely" data-artist="BENEE Featuring" data-img="img/covers/cover9.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/9106709_epic-adventure-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover9.jpg" alt="">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+									<a  class="single-item__cover">
+										<img src="profile/이달의소녀1.jpg" alt="">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="#">Supalonely</a></h4>
-										<span><a href="artist.html">BENEE Featuring</a></span>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=GirlOfTheMonth&mId=nullId">이달의 소녀</a></span>
 									</div>
-									<span class="single-item__time">59:01</span>
 								</li>
 								<li class="single-item">
-									<a data-link data-title="Girls In The Hood" data-artist="Megan Thee" data-img="img/covers/podcast.svg" href="https://dmitryvolkov.me/demo/blast2.0/audio/10938456_inspiring-epic-motivational-cinematic-trailer_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/podcast.svg" alt="">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+									<a  class="single-item__cover">
+										<img src="profile/정인.jpg" alt="">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="#">Girls In The Hood</a></h4>
-										<span><a href="artist.html">Megan Thee</a></span>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=JeongIn&mId=nullId">정인</a></span>
 									</div>
-									<span class="single-item__time">33:10</span>
 								</li>
 								<li class="single-item">
-									<a data-link data-title="Got It On Me" data-artist="Summer Walker" data-img="img/covers/cover11.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/16412111_upbeat-rock_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover11.jpg" alt="">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+									<a  class="single-item__cover">
+										<img src="profile/주시크.jpg" alt="">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="#">Got It On Me</a></h4>
-										<span><a href="artist.html">Summer Walker</a></span>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=Joosiq&mId=nullId">주시크</a></span>
 									</div>
-									<span class="single-item__time">44:27</span>
 								</li>
 								<li class="single-item">
-									<a data-link data-title="Righteous" data-artist="Juice WRLD" data-img="img/covers/cover12.jpg" href="https://dmitryvolkov.me/demo/blast2.0/audio/19478377_ambient-pop_by_audiopizza_preview.mp3" class="single-item__cover">
-										<img src="img/covers/cover12.jpg" alt="">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+									<a  class="single-item__cover">
+										<img src="profile/은조.jpg" alt="">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="#">Righteous</a></h4>
-										<span><a href="artist.html">Juice WRLD</a></span>
+										<span><a href="http://localhost:9091/boardWriterView?boWriter=EunJo&mId=nullId">은조</a></span>
 									</div>
-									<span class="single-item__time">51:41</span>
 								</li>
 							</ul>
 						</div>
@@ -808,216 +816,11 @@
 			</section>
 
 			<!-- podcasts -->
-			<section class="row row--grid">
-				<!-- title -->
-				<div class="col-12">
-					<div class="main__title">
-						<h2>Podcasts</h2>
-
-						<a href="podcasts.html" class="main__link">See all <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></a>
-					</div>
-				</div>
-				<!-- end title -->
-
-				<div class="col-12">
-					<div class="main__carousel-wrap">
-						<div class="main__carousel main__carousel--podcasts owl-carousel" id="podcasts">
-							<div class="live">
-								<a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="live__cover open-video">
-									<img src="img/live/1.jpg" alt="">
-									<span class="live__status">live</span>
-									<span class="live__value">6.5K viewers</span>
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
-								</a>
-								<h3 class="live__title"><a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="open-video">Beautiful Stories From Anonymous People</a></h3>
-							</div>
-
-							<div class="live">
-								<a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="live__cover open-video">
-									<img src="img/live/2.jpg" alt="">
-									<span class="live__status">live</span>
-									<span class="live__value">1.7K viewers</span>
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
-								</a>
-								<h3 class="live__title"><a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="open-video">Song Exploder</a></h3>
-							</div>
-
-							<div class="live">
-								<a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="live__cover open-video">
-									<img src="img/live/3.jpg" alt="">
-									<span class="live__status">live</span>
-									<span class="live__value">924 viewers</span>
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
-								</a>
-								<h3 class="live__title"><a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="open-video">Broken Record</a></h3>
-							</div>
-
-							<div class="live">
-								<a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="live__cover open-video">
-									<img src="img/live/4.jpg" alt="">
-									<span class="live__status">live</span>
-									<span class="live__value">638 viewers</span>
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
-								</a>
-								<h3 class="live__title"><a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="open-video">Desert Island Discs</a></h3>
-							</div>
-
-							<div class="live">
-								<a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="live__cover open-video">
-									<img src="img/live/5.jpg" alt="">
-									<span class="live__value">588 views</span>
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
-								</a>
-								<h3 class="live__title"><a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="open-video">Riffs On Riffs</a></h3>
-							</div>
-
-							<div class="live">
-								<a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="live__cover open-video">
-									<img src="img/live/6.jpg" alt="">
-									<span class="live__value">588 views</span>
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
-								</a>
-								<h3 class="live__title"><a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="open-video">Popcast</a></h3>
-							</div>
-
-							<div class="live">
-								<a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="live__cover open-video">
-									<img src="img/live/7.jpg" alt="">
-									<span class="live__value">6.5K views</span>
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
-								</a>
-								<h3 class="live__title"><a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="open-video">Rolling Stone Music Now</a></h3>
-							</div>
-
-							<div class="live">
-								<a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="live__cover open-video">
-									<img src="img/live/8.jpg" alt="">
-									<span class="live__value">1.7K views</span>
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
-								</a>
-								<h3 class="live__title"><a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="open-video">Song vs. Song</a></h3>
-							</div>
-
-							<div class="live">
-								<a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="live__cover open-video">
-									<img src="img/live/9.jpg" alt="">
-									<span class="live__value">924 views</span>
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"></path></svg>
-								</a>
-								<h3 class="live__title"><a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="open-video">Disgraceland</a></h3>
-							</div>
-						</div>
-
-						<button class="main__nav main__nav--prev" data-nav="#podcasts" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,11H9.41l3.3-3.29a1,1,0,1,0-1.42-1.42l-5,5a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l5,5a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L9.41,13H17a1,1,0,0,0,0-2Z"/></svg></button>
-						<button class="main__nav main__nav--next" data-nav="#podcasts" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></button>
-					</div>
-				</div>
-			</section>
+			
 			<!-- end podcasts -->
 
 			<!-- store -->
-			<section class="row row--grid">
-				<!-- title -->
-				<div class="col-12">
-					<div class="main__title">
-						<h2>Products</h2>
-
-						<a href="store.html" class="main__link">See all <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></a>
-					</div>
-				</div>
-				<!-- end title -->
-
-				<div class="col-12">
-					<div class="main__carousel-wrap">
-						<div class="main__carousel main__carousel--store owl-carousel" id="store">
-							<div class="product">
-								<div class="product__img">
-									<img src="img/store/item1.jpg" alt="">
-
-									<button class="product__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg></button>
-								</div>
-								<h3 class="product__title"><a href="product.html">Vinyl Player</a></h3>
-								<span class="product__price">$1 099</span>
-								<span class="product__new">New</span>
-							</div>
-
-							<div class="product">
-								<div class="product__img">
-									<img src="img/store/item2.jpg" alt="">
-
-									<button class="product__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg></button>
-								</div>
-								<h3 class="product__title"><a href="product.html">Microphone R4</a></h3>
-								<span class="product__price">$799</span>
-							</div>
-
-							<div class="product">
-								<div class="product__img">
-									<img src="img/store/item3.jpg" alt="">
-
-									<button class="product__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg></button>
-								</div>
-								<h3 class="product__title"><a href="product.html">Music Blank</a></h3>
-								<span class="product__price">$3.99</span>
-								<span class="product__new">New</span>
-							</div>
-
-							<div class="product">
-								<div class="product__img">
-									<img src="img/store/item4.jpg" alt="">
-
-									<button class="product__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg></button>
-								</div>
-								<h3 class="product__title"><a href="product.html">Headphones ZR-991</a></h3>
-								<span class="product__price">$199</span>
-							</div>
-
-							<div class="product">
-								<div class="product__img">
-									<img src="img/store/item5.jpg" alt="">
-
-									<button class="product__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg></button>
-								</div>
-								<h3 class="product__title"><a href="product.html">Piano</a></h3>
-								<span class="product__price">$11 899</span>
-							</div>
-
-							<div class="product">
-								<div class="product__img">
-									<img src="img/store/item6.jpg" alt="">
-
-									<button class="product__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg></button>
-								</div>
-								<h3 class="product__title"><a href="product.html">Vinyl Player</a></h3>
-								<span class="product__price">$2 499</span>
-							</div>
-
-							<div class="product">
-								<div class="product__img">
-									<img src="img/store/item7.jpg" alt="">
-
-									<button class="product__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg></button>
-								</div>
-								<h3 class="product__title"><a href="product.html">Guitar</a></h3>
-								<span class="product__price">$299</span>
-							</div>
-
-							<div class="product">
-								<div class="product__img">
-									<img src="img/store/item8.jpg" alt="">
-
-									<button class="product__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg></button>
-								</div>
-								<h3 class="product__title"><a href="product.html">Microphone R4s</a></h3>
-								<span class="product__price">$199</span>
-							</div>
-						</div>
-
-						<button class="main__nav main__nav--prev" data-nav="#store" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,11H9.41l3.3-3.29a1,1,0,1,0-1.42-1.42l-5,5a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l5,5a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L9.41,13H17a1,1,0,0,0,0-2Z"/></svg></button>
-						<button class="main__nav main__nav--next" data-nav="#store" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></button>
-					</div>
-				</div>
-			</section>
+			
 			<!-- end store -->
 
 			<!-- news -->
@@ -1025,9 +828,9 @@
 				<!-- title -->
 				<div class="col-12">
 					<div class="main__title">
-						<h2>News</h2>
+						<h2>Feed</h2>
 
-						<a href="news.html" class="main__link">See all <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></a>
+						<a href="boardList" class="main__link">더보기 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></a>
 					</div>
 				</div>
 				<!-- end title -->
@@ -1035,20 +838,18 @@
 				<!-- video post -->
 				<div class="col-12 col-sm-6 col-lg-4">
 					<div class="post">
-						<a href="article.html" class="post__img">
-							<img src="img/posts/1.jpg" alt="">
-						</a>
-
-						<a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="post__video open-video">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,10.27,11,7.38A2,2,0,0,0,8,9.11v5.78a2,2,0,0,0,1,1.73,2,2,0,0,0,2,0l5-2.89a2,2,0,0,0,0-3.46ZM15,12l-5,2.89V9.11L15,12ZM12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"/></svg> Watch backstage
+						<a href="boardList" class="post__img">
+							<img src="ImageUpload/c00d6f1b_20220710.JPG" alt="" style="height:280px;">
 						</a>
 
 						<div class="post__content">
-							<a href="#" class="post__category">Music</a>
-							<h3 class="post__title"><a href="article.html">Foo Fighters share new live version of ‘No Son Of Mine’</a></h3>
+							
+							<h3 class="post__title"><a href="boardList">송크란 축제</a></h3>
+							<h4 style="color:white;">#s2o #송크란 #festival #페스티벌</h4>
 							<div class="post__meta">
-								<span class="post__date"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20ZM14.09814,9.63379,13,10.26807V7a1,1,0,0,0-2,0v5a1.00025,1.00025,0,0,0,1.5.86621l2.59814-1.5a1.00016,1.00016,0,1,0-1-1.73242Z"/></svg> 2 hours ago</span>
-								<span class="post__comments"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9H7a1,1,0,0,0,0,2H17a1,1,0,0,0,0-2Zm-4,4H7a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2ZM12,2A10,10,0,0,0,2,12a9.89,9.89,0,0,0,2.26,6.33l-2,2a1,1,0,0,0-.21,1.09A1,1,0,0,0,3,22h9A10,10,0,0,0,12,2Zm0,18H5.41l.93-.93a1,1,0,0,0,0-1.41A8,8,0,1,1,12,20Z"></path></svg> 61</span>
+								<span class="post__comments"><a href="boardWriterView?boWriter=KARD&mId=">KARD</a></span>
+								<span class="post__date"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20ZM14.09814,9.63379,13,10.26807V7a1,1,0,0,0-2,0v5a1.00025,1.00025,0,0,0,1.5.86621l2.59814-1.5a1.00016,1.00016,0,1,0-1-1.73242Z"/></svg>2022-07-10</span>
+								
 							</div>
 						</div>
 					</div>
@@ -1058,17 +859,18 @@
 				<!-- post -->
 				<div class="col-12 col-sm-6 col-lg-4">
 					<div class="post">
-						<a href="article.html" class="post__img">
-							<img src="img/posts/2.jpg" alt="">
+						<a href="boardList" class="post__img">
+							<img src="ImageUpload/5ff311da_summerswag.JPG" alt="" style="height:280px;">
 						</a>
 
 						<div class="post__content">
-							<a href="#" class="post__category">Music</a>
-							<h3 class="post__title"><a href="article.html">Tom Grennan ‘breaks the internet’ as fans overload servers during virtual gig</a></h3>
+							
+							<h3 class="post__title"><a href="boardList">싸이 흠뻑쇼</a></h3>
+							<h4 style="color:white;">2022-07-10 #흠뻑쇼 #싸이흠뻑쇼(사진추가❤️‍🔥)</h4>
 							<div class="post__meta">
-								<span class="post__date"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20ZM14.09814,9.63379,13,10.26807V7a1,1,0,0,0-2,0v5a1.00025,1.00025,0,0,0,1.5.86621l2.59814-1.5a1.00016,1.00016,0,1,0-1-1.73242Z"/></svg> 3 hours ago</span>
-								<span class="post__comments"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9H7a1,1,0,0,0,0,2H17a1,1,0,0,0,0-2Zm-4,4H7a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2ZM12,2A10,10,0,0,0,2,12a9.89,9.89,0,0,0,2.26,6.33l-2,2a1,1,0,0,0-.21,1.09A1,1,0,0,0,3,22h9A10,10,0,0,0,12,2Zm0,18H5.41l.93-.93a1,1,0,0,0,0-1.41A8,8,0,1,1,12,20Z"></path></svg> 18</span>
-							</div>
+								<span class="post__comments"><a href="boardWriterView?boWriter=Joosiq&mId=">Joosiq</a></span>
+								<span class="post__date"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20ZM14.09814,9.63379,13,10.26807V7a1,1,0,0,0-2,0v5a1.00025,1.00025,0,0,0,1.5.86621l2.59814-1.5a1.00016,1.00016,0,1,0-1-1.73242Z"/></svg>2022-07-10</span>
+								</div>
 						</div>
 					</div>
 				</div>
@@ -1077,17 +879,18 @@
 				<!-- post -->
 				<div class="col-12 col-sm-6 col-lg-4">
 					<div class="post">
-						<a href="article.html" class="post__img">
-							<img src="img/posts/3.jpg" alt="">
+						<a href="boardList" class="post__img">
+							<img src="ImageUpload/1bdefe44_2022indi.JPG" alt="" style="height:280px;">
 						</a>
 
 						<div class="post__content">
-							<a href="#" class="post__category">Features</a>
-							<h3 class="post__title"><a href="article.html">Why do the Golden Globes always get it so wrong?</a></h3>
+							
+							<h3 class="post__title"><a href="boardList">위뮤즈 서포터즈</a></h3>
+							<h4 style="color:white;">공연기획부터 뮤지션 섭외, 마케팅까지 준비하느라 너무 고생많았던 우리 서포터즈 진짜 최고 👍🏻👍🏻</h4>
 							<div class="post__meta">
-								<span class="post__date"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20ZM14.09814,9.63379,13,10.26807V7a1,1,0,0,0-2,0v5a1.00025,1.00025,0,0,0,1.5.86621l2.59814-1.5a1.00016,1.00016,0,1,0-1-1.73242Z"/></svg> 9 hours ago</span>
-								<span class="post__comments"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,9H7a1,1,0,0,0,0,2H17a1,1,0,0,0,0-2Zm-4,4H7a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2ZM12,2A10,10,0,0,0,2,12a9.89,9.89,0,0,0,2.26,6.33l-2,2a1,1,0,0,0-.21,1.09A1,1,0,0,0,3,22h9A10,10,0,0,0,12,2Zm0,18H5.41l.93-.93a1,1,0,0,0,0-1.41A8,8,0,1,1,12,20Z"></path></svg> 54</span>
-							</div>
+								<span class="post__comments"><a href="boardWriterView?boWriter=DineOn&mId=">DineOn</a></span>
+								<span class="post__date"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20ZM14.09814,9.63379,13,10.26807V7a1,1,0,0,0-2,0v5a1.00025,1.00025,0,0,0,1.5.86621l2.59814-1.5a1.00016,1.00016,0,1,0-1-1.73242Z"/></svg>2022-07-10</span>
+								</div>
 						</div>
 					</div>
 				</div>
@@ -1096,35 +899,7 @@
 			<!-- end news -->
 
 			<!-- partners -->
-			<div class="row">
-				<div class="col-12">
-					<div class="partners owl-carousel">
-						<a href="#" class="partners__img">
-							<img src="img/partners/3docean-light-background.png" alt="">
-						</a>
-
-						<a href="#" class="partners__img">
-							<img src="img/partners/activeden-light-background.png" alt="">
-						</a>
-
-						<a href="#" class="partners__img">
-							<img src="img/partners/audiojungle-light-background.png" alt="">
-						</a>
-
-						<a href="#" class="partners__img">
-							<img src="img/partners/codecanyon-light-background.png" alt="">
-						</a>
-
-						<a href="#" class="partners__img">
-							<img src="img/partners/photodune-light-background.png" alt="">
-						</a>
-
-						<a href="#" class="partners__img">
-							<img src="img/partners/themeforest-light-background.png" alt="">
-						</a>
-					</div>
-				</div>
-			</div>
+			
 			<!-- end partners -->
 		</div>
 	</main>
@@ -1134,117 +909,16 @@
 	<!-- end footer -->
 	
 	<!-- modal ticket -->
-	<form action="#" id="modal-ticket" class="zoom-anim-dialog mfp-hide modal modal--form">
-		<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
-
-		<h4 class="sign__title">To buy tickets</h4>
-
-		<div class="sign__group sign__group--row">
-			<label class="sign__label">Your balance:</label>
-			<span class="sign__value">$90.99</span>
-		</div>
-
-		<div class="sign__group sign__group--row">
-			<label class="sign__label" for="value">Choose ticket:</label>
-			<select class="sign__select" name="value" id="value">
-				<option value="50">Regular - $49</option>
-				<option value="100">VIP Light - $99</option>
-				<option value="200">VIP - $169</option>
-			</select>
-
-			<span class="sign__text sign__text--small">You can spend money from your account on the renewal of the connected packages, or on the purchase of goods on our website.</span>
-		</div>
-
-		<button class="sign__btn" type="button">Buy</button>
-	</form>
-	<!-- end modal ticket -->
-	
-	<!-- modal info -->
-	<div id="modal-info2" class="zoom-anim-dialog mfp-hide modal modal--info">
-		<span class="modal__icon modal__icon--green">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.72,8.79l-4.29,4.3L8.78,11.44a1,1,0,1,0-1.41,1.41l2.35,2.36a1,1,0,0,0,.71.29,1,1,0,0,0,.7-.29l5-5a1,1,0,0,0,0-1.42A1,1,0,0,0,14.72,8.79ZM12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"></path></svg>
-		</span>
-		
-		<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
-
-		<h4 class="sign__title">Payment #51 was successful!</h4>
-
-		<div class="sign__group sign__group--row">
-			<label class="sign__label">Total cost:</label>
-			<span class="sign__value">$18.00</span>
-		</div>
-
-		<div class="sign__group sign__group--row">
-			<label class="sign__label">Payment method: <b>Paypal</b></label>
-
-			<span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
-		</div>
-	</div>
-	<!-- end modal info -->
-	
-	<!-- modal info -->
-	<div id="modal-info3" class="zoom-anim-dialog mfp-hide modal modal--info">
-		<span class="modal__icon modal__icon--red">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.71,8.29a1,1,0,0,0-1.42,0L12,10.59,9.71,8.29A1,1,0,0,0,8.29,9.71L10.59,12l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L13.41,12l2.3-2.29A1,1,0,0,0,15.71,8.29Zm3.36-3.36A10,10,0,1,0,4.93,19.07,10,10,0,1,0,19.07,4.93ZM17.66,17.66A8,8,0,1,1,20,12,7.95,7.95,0,0,1,17.66,17.66Z"></path></svg>
-		</span>
-		
-		<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
-
-		<h4 class="sign__title">Payment #50 failed!</h4>
-
-		<div class="sign__group sign__group--row">
-			<label class="sign__label">Total cost:</label>
-			<span class="sign__value">$18.00</span>
-		</div>
-
-		<div class="sign__group sign__group--row">
-			<label class="sign__label">Payment method: <b>Paypal</b></label>
-
-			<span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
-		</div>
-	</div>
-	<!-- end modal info -->
-	
-	<!-- modal info -->
-	<div id="modal-info4" class="zoom-anim-dialog mfp-hide modal modal--info">
-		<span class="modal__icon">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20Zm0-8.5a1,1,0,0,0-1,1v3a1,1,0,0,0,2,0v-3A1,1,0,0,0,12,11.5Zm0-4a1.25,1.25,0,1,0,1.25,1.25A1.25,1.25,0,0,0,12,7.5Z"></path></svg>
-		</span>
-		
-		<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
-
-		<h4 class="sign__title">Example of notification.</h4>
-
-		<div class="sign__group sign__group--row">
-			<label class="sign__label">Amount to auto-renew:</label>
-			<span class="sign__value">$18.00</span>
-		</div>
-
-		<div class="sign__group sign__group--row">
-			<span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
-		</div>
-	</div>
-	<!-- end modal info -->
-
-	<!-- modal info -->
-	<div id="modal-info5" class="zoom-anim-dialog mfp-hide modal modal--info">
-		<span class="modal__icon modal__icon--purple">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18,7h-.35A3.45,3.45,0,0,0,18,5.5a3.49,3.49,0,0,0-6-2.44A3.49,3.49,0,0,0,6,5.5,3.45,3.45,0,0,0,6.35,7H6a3,3,0,0,0-3,3v2a1,1,0,0,0,1,1H5v6a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V13h1a1,1,0,0,0,1-1V10A3,3,0,0,0,18,7ZM11,20H8a1,1,0,0,1-1-1V13h4Zm0-9H5V10A1,1,0,0,1,6,9h5Zm0-4H9.5A1.5,1.5,0,1,1,11,5.5Zm2-1.5A1.5,1.5,0,1,1,14.5,7H13ZM17,19a1,1,0,0,1-1,1H13V13h4Zm2-8H13V9h5a1,1,0,0,1,1,1Z"></path></svg>
-		</span>
-		
-		<button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
-
-		<h4 class="sign__title">You have received a gift!</h4>
-
-		<div class="sign__group sign__group--row">
-			<span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
-
-			<span class="sign__text sign__text--small">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</span>
-		</div>
-	</div>
-	<!-- end modal info -->
+		<input type="hidden" th:value="${error}" id="hidden"></input>
 </body>
+	<script type="text/javascript" th:inline="javascript" >
+	
+		if($("#hidden").attr("value") != ""){
+			alert($("#hidden").val());
+		};
 
+		
+	</script>
 <script type="text/javascript" th:inline="javascript">
 
 

@@ -40,7 +40,7 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
     public List<MusicPlayListDto> playListPrint(String mId) {
 
         List<MusicPlayListDto>playListPrint = mpDao.playListPrint(mId);
-
+        
         return playListPrint;
     }
 
@@ -52,6 +52,7 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
         return playListSearch;
     }
 
+    //playListDto를 불러오기 위한 ajax
     @Override
     public List<MusicPlayListDto> playListDeleteAjax(String muSinger) {
 
@@ -60,6 +61,7 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
         return playListDeleteAjax;
     }
 
+    //플레이리스트 목록 삭제
     @Override
     public List<MusicPlayListDto> PlayListDelete(MusicPlayListDto mpDto) {
 
@@ -71,7 +73,14 @@ public class MusicPlayListSerivceimpl implements MusicPlayListService{
         return playList;
     }
 
+    //헤더 플레이리스트 ajax 실행
+    @Override
+    public List<MusicPlayListDto> ajaxPlayList(String mId) {
 
+        List<MusicPlayListDto>ajaxplayList = mpDao.ajaxplayList(mId);
+
+        return ajaxplayList;
+    }
 
 
 }

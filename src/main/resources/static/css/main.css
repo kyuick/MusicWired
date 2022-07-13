@@ -52,6 +52,75 @@ Primary use:	Volna HTML Template
 /*==============================
 	Common styles
 ==============================*/
+.pagingbtn{
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			height: 22px;
+			color: black;
+			padding: 0 5px;
+			border-radius: 6px;
+			font-family: 'Inter', sans-serif;
+			font-size: 20px;
+			pointer-events: none;
+			background-color: rgba(255,255,255);
+			margin-bottom: auto;
+			margin-left: 10px;
+			width: 22px;
+			text-align: center;
+		}
+		
+		.homePage,
+		.endPage,
+		.previousPage,
+		.selectPage,
+		.nextPage{
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			height: 22px;
+			color: #fff;
+			padding: 0 5px;
+			border-radius: 6px;
+			font-family: 'Inter', sans-serif;
+			font-size: 16px;
+			background-color: rgba(0,153,255,0.6);
+			margin-bottom: auto;
+			margin-left: 10px;
+			width: 18px;
+			text-align: center;
+			cursor:pointer;
+			-webkit-transition: 0.5s;
+		}
+		
+		.homePage a,
+		.endPage a,
+		.previousPage a,
+		.selectPage a,
+		.nextPage a{
+			color: rgba(255,255,255,0.6);
+			-webkit-transition: 0.5s;
+		}
+		
+		.homePage:hover,
+		.endPage:hover,
+		.previousPage:hover,
+		.selectPage:hover,
+		.nextPage:hover{
+			background-color: rgba(255,255,255,0.9);
+			-webkit-transition: background-color 0.5s;
+		}
+		
+		.homePage:hover a,
+		.endPage:hover a,
+		.previousPage:hover a,
+		.selectPage:hover a,
+		.nextPage:hover a{
+			color: rgba(0,0,0,0.9);
+			font-size: 18px;
+			-webkit-transition: 0.4s;
+		}
+
 .messagecount span{
 	 
     flex-direction: row;
