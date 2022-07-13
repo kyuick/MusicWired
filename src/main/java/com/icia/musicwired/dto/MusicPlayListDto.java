@@ -17,6 +17,7 @@ public class MusicPlayListDto {
     private int plmuCode;
     private String plMid;
     private String mId; //리스트를 출력하기 위해 로그인 아이디 값을 가져오기 위한 필드
+    
 
     private List<trackShareDTO> track;
 }
