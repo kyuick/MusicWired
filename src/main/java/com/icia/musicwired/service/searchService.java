@@ -1,6 +1,7 @@
 package com.icia.musicwired.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,14 +14,18 @@ public interface searchService {
 
 	ModelAndView search(String keyword);
 
-	ModelAndView songSearch(String keyword,int page,int limit);
-
-	ModelAndView singerSearch(String keyword,int page,int limit);
+	/*
+	 * ModelAndView songSearch(String keyword,int page,int limit);
+	 * 
+	 * ModelAndView singerSearch(String keyword,int page,int limit);
+	 */
 
 	List<serchDTO> test(); 
 
-	List<uploadDto> search1(String keyword);
+	
 
-	List<uploadDto> search2(String keyword);
+	Map<String, Object> search2( int page, int limit,String keyword);
+
+	Map<String, Object> search1( int page, int limit,String keyword);
 
 }

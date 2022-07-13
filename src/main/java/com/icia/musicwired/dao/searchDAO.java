@@ -11,25 +11,26 @@ import com.icia.musicwired.dto.uploadDto;
 @Mapper
 public interface searchDAO {
 
-	List<uploadDto> search(String keyword);
+	
 
-	List<uploadDto> search1(String keyword);
 
 	int search2(String keyword);
 
 	int search3(String keyword);
 
-	List<uploadDto> songSearch(pagingDto paging);
-
-	List<uploadDto> singerSearch(pagingDto paging);
+	/*
+	 * List<uploadDto> songSearch(pagingDto paging);
+	 * 
+	 * List<uploadDto> singerSearch(pagingDto paging);
+	 */
 
 	int searchInsert(String keyword);
 
 	List<serchDTO> searchRank();
 
-	List<uploadDto> search10(String keyword);
+	List<uploadDto> search10(pagingDto paging);
 
-	List<uploadDto> search11(String keyword);
+	List<uploadDto> search11(pagingDto paging);
 
 	
 

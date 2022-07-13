@@ -13,15 +13,8 @@ public class pagingDto {
 	private int endPage;
 	private int limit;
 	private String mId;
-
-
-	public String getmId() {
-		return mId;
-	}
-
-	public void setmId(String mId) {
-		this.mId = mId;
-	}
+	
+	private String keyword;
 
 	public int getPage() {
 		return page;
@@ -79,11 +72,29 @@ public class pagingDto {
 		this.limit = limit;
 	}
 
+	public String getmId() {
+		return mId;
+	}
+
+	public void setmId(String mId) {
+		this.mId = mId;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
 	@Override
 	public String toString() {
 		return "pagingDto [page=" + page + ", startRow=" + startRow + ", endRow=" + endRow + ", maxPage=" + maxPage
-				+ ", startPage=" + startPage + ", endPage=" + endPage + ", limit=" + limit + ", mId=" + mId + "]";
+				+ ", startPage=" + startPage + ", endPage=" + endPage + ", limit=" + limit + ", mId=" + mId
+				+ ", keyword=" + keyword + "]";
 	}
+
 
 	
 
