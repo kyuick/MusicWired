@@ -16,10 +16,15 @@ public interface MusicPlayListService {
     //플레이리스트 검색
     List<uploadDto> playListSearch(String muName);
 
+    //playListDto를 불러오기 위한 ajax
     List<MusicPlayListDto> playListDeleteAjax(String muSinger);
 
+    //플레이리스트 목록 삭제
     List<MusicPlayListDto> PlayListDelete(MusicPlayListDto mpDto);
 
+    //헤더 플레이리스트 ajax 실행
+    List<MusicPlayListDto> ajaxPlayList(String mId);
 
-//    ModelAndView PlayListDelete(MusicPlayListDto mpDto);
+
+
 }

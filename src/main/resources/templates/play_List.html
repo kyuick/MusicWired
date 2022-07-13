@@ -1,33 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="kooky"/>
-    <meta name="description" content="inputBoot index"/>
-    <title>Title</title>
-</head>
-
-<!-- CSS -->
-<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
-<link rel="stylesheet" href="css/bootstrap-grid.min.css">
-<link rel="stylesheet" href="css/owl.carousel.min.css">
-<link rel="stylesheet" href="css/magnific-popup.css">
-<link rel="stylesheet" href="css/select2.min.css">
-<link rel="stylesheet" href="css/paymentfont.min.css">
-<link rel="stylesheet" href="css/slider-radio.css">
-<link rel="stylesheet" href="css/plyr.css">
-<link rel="stylesheet" href="css/main.css">
-
-<!-- Favicons -->
-<link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="icon/favicon-32x32.png">
-
-<meta name="description" content="">
-<meta name="keywords" content="">
-<meta name="author" content="Dmitry Volkov">
-<title>PlayListPage</title>
 
 </head>
 <script
@@ -67,55 +41,79 @@
     }
 
 
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/select2.min.css">
+    <link rel="stylesheet" href="css/paymentfont.min.css">
+    <link rel="stylesheet" href="css/slider-radio.css">
+    <link rel="stylesheet" href="css/plyr.css">
+    <link rel="stylesheet" href="css/main.css">
 
-    #PlayListCart {
-        display: none;
-    }
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="icon/favicon-32x32.png">
 
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Dmitry Volkov">
+    <title>Volna – Record label & Music streaming HTML Template</title>
 
-</style>
+    <style>
+        input[class="cb1"] + label {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #bcbcbc;
+            cursor: pointer;
+        }
+        input[class="cb1"]:checked + label {
+            background-color: #6699ff;
+        }
+        input[class="cb1"] {
+            display: none;
+        }
+        input[class="cb2"] + label {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #bcbcbc;
+            cursor: pointer;
+        }
+        input[class="cb2"]:checked + label {
+            background-color: #6699ff;
+        }
+        input[class="cb2"] {
+            display: none;
+        }
+
+/*#svg1{*/
+/*    bottom: 100px;*/
+/*}*/
+    </style>
+
+</head>
+<script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <body>
-<!-- header -->
 <header th:replace="header.html :: header"></header>
-<!-- end header -->
-
-<!-- sidebar -->
-
 <aside th:replace="sidebar.html :: aside"></aside>
+<!-- <footer th:replace="footer.html :: footer"></footer> -->
 
-<!-- end sidebar -->
 
-<!-- player -->
-<div class="player" th:id="player">
-    <div class="player__cover">
-        <img src="img/covers/cover.svg" alt="">
-    </div>
-
-    <div class="player__content">
-        <span class="player__track"><b class="player__title">Epic Cinematic</b> – <span class="player__artist">AudioPizza</span></span>
-        <audio src="https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3"
-               id="audio" controls></audio>
-    </div>
-</div>
-
-<button class="player__btn" type="button">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path d="M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z"/>
-    </svg>
-    Player
-</button>
-<!-- end player -->
 
 <!-- main content -->
 <main class="main">
+    <input th:if = "${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
     <div class="container-fluid">
         <div class="row row--grid">
             <!-- breadcrumb -->
             <div class="col-12">
                 <ul class="breadcrumb">
                     <li class="breadcrumb__item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb__item"><a href="releases.html">Releases</a></li>
-                    <li class="breadcrumb__item breadcrumb__item--active">Release</li>
+                    <li class="breadcrumb__item breadcrumb__item--active">재생 목록</li>
                 </ul>
             </div>
             <!-- end breadcrumb -->
@@ -129,63 +127,39 @@
         
             </div>
                
+
             <!-- end title -->
-            <div class="row row--grid">
-                <div class="col-12">
-                    <div class="release" style="max-height: 500px;" id="playListArea">
-                        <div class="release__list" style="width: 100%; max-height: 500px;" >
-                            <div class="scroll-content" >
-                                <ul id="SearchList"></ul>
-                            </div>
-                        </div>
-                    </div>
+
+        </div>
+
+        <div class="tab-content" id="genreArea">
+            <div class="tab-pane fade show active"  role="tabpanel">
+                <div class="row row--grid">
+
+
+
+
                 </div>
             </div>
         </div>
-    </div>
 </main>
+
+
+<div id="mplayArea">
+</div>
+</div>
+
 <!-- end main content -->
 
-<!-- modal buy -->
-<form action="#" id="modal-buy" class="zoom-anim-dialog mfp-hide modal modal--form">
-    <button class="modal__close" type="button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/>
-        </svg>
-    </button>
 
-    <h4 class="sign__title">Buy music album</h4>
 
-    <div class="sign__group sign__group--row">
-        <label class="sign__label">Your balance:</label>
-        <span class="sign__value">$90.99</span>
-    </div>
-
-    <div class="sign__group sign__group--row">
-        <label class="sign__label">Price:</label>
-        <span class="sign__value">$18.00</span>
-
-        <span class="sign__text sign__text--small">You can spend money from your account on the renewal of the connected packages, or on the purchase of goods on our website.</span>
-    </div>
-
-    <button class="sign__btn" type="button">Buy</button>
-</form>
-<!-- end modal buy -->
-<!-- footer -->
-<footer th:replace="footer.html :: footer"></footer>
-<!-- end footer -->
 <!-- modal info -->
 <div id="modal-info2" class="zoom-anim-dialog mfp-hide modal modal--info">
 		<span class="modal__icon modal__icon--green">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path
-                    d="M14.72,8.79l-4.29,4.3L8.78,11.44a1,1,0,1,0-1.41,1.41l2.35,2.36a1,1,0,0,0,.71.29,1,1,0,0,0,.7-.29l5-5a1,1,0,0,0,0-1.42A1,1,0,0,0,14.72,8.79ZM12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"></path></svg>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.72,8.79l-4.29,4.3L8.78,11.44a1,1,0,1,0-1.41,1.41l2.35,2.36a1,1,0,0,0,.71.29,1,1,0,0,0,.7-.29l5-5a1,1,0,0,0,0-1.42A1,1,0,0,0,14.72,8.79ZM12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"></path></svg>
 		</span>
 
-    <button class="modal__close" type="button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/>
-        </svg>
-    </button>
+    <button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
 
     <h4 class="sign__title">Payment #51 was successful!</h4>
 
@@ -205,15 +179,10 @@
 <!-- modal info -->
 <div id="modal-info3" class="zoom-anim-dialog mfp-hide modal modal--info">
 		<span class="modal__icon modal__icon--red">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path
-                    d="M15.71,8.29a1,1,0,0,0-1.42,0L12,10.59,9.71,8.29A1,1,0,0,0,8.29,9.71L10.59,12l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L13.41,12l2.3-2.29A1,1,0,0,0,15.71,8.29Zm3.36-3.36A10,10,0,1,0,4.93,19.07,10,10,0,1,0,19.07,4.93ZM17.66,17.66A8,8,0,1,1,20,12,7.95,7.95,0,0,1,17.66,17.66Z"></path></svg>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.71,8.29a1,1,0,0,0-1.42,0L12,10.59,9.71,8.29A1,1,0,0,0,8.29,9.71L10.59,12l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l2.29,2.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L13.41,12l2.3-2.29A1,1,0,0,0,15.71,8.29Zm3.36-3.36A10,10,0,1,0,4.93,19.07,10,10,0,1,0,19.07,4.93ZM17.66,17.66A8,8,0,1,1,20,12,7.95,7.95,0,0,1,17.66,17.66Z"></path></svg>
 		</span>
 
-    <button class="modal__close" type="button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/>
-        </svg>
-    </button>
+    <button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
 
     <h4 class="sign__title">Payment #50 failed!</h4>
 
@@ -233,15 +202,10 @@
 <!-- modal info -->
 <div id="modal-info4" class="zoom-anim-dialog mfp-hide modal modal--info">
 		<span class="modal__icon">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path
-                    d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20Zm0-8.5a1,1,0,0,0-1,1v3a1,1,0,0,0,2,0v-3A1,1,0,0,0,12,11.5Zm0-4a1.25,1.25,0,1,0,1.25,1.25A1.25,1.25,0,0,0,12,7.5Z"></path></svg>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20Zm0-8.5a1,1,0,0,0-1,1v3a1,1,0,0,0,2,0v-3A1,1,0,0,0,12,11.5Zm0-4a1.25,1.25,0,1,0,1.25,1.25A1.25,1.25,0,0,0,12,7.5Z"></path></svg>
 		</span>
 
-    <button class="modal__close" type="button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/>
-        </svg>
-    </button>
+    <button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
 
     <h4 class="sign__title">Example of notification.</h4>
 
@@ -259,15 +223,10 @@
 <!-- modal info -->
 <div id="modal-info5" class="zoom-anim-dialog mfp-hide modal modal--info">
 		<span class="modal__icon modal__icon--purple">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path
-                    d="M18,7h-.35A3.45,3.45,0,0,0,18,5.5a3.49,3.49,0,0,0-6-2.44A3.49,3.49,0,0,0,6,5.5,3.45,3.45,0,0,0,6.35,7H6a3,3,0,0,0-3,3v2a1,1,0,0,0,1,1H5v6a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V13h1a1,1,0,0,0,1-1V10A3,3,0,0,0,18,7ZM11,20H8a1,1,0,0,1-1-1V13h4Zm0-9H5V10A1,1,0,0,1,6,9h5Zm0-4H9.5A1.5,1.5,0,1,1,11,5.5Zm2-1.5A1.5,1.5,0,1,1,14.5,7H13ZM17,19a1,1,0,0,1-1,1H13V13h4Zm2-8H13V9h5a1,1,0,0,1,1,1Z"></path></svg>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18,7h-.35A3.45,3.45,0,0,0,18,5.5a3.49,3.49,0,0,0-6-2.44A3.49,3.49,0,0,0,6,5.5,3.45,3.45,0,0,0,6.35,7H6a3,3,0,0,0-3,3v2a1,1,0,0,0,1,1H5v6a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V13h1a1,1,0,0,0,1-1V10A3,3,0,0,0,18,7ZM11,20H8a1,1,0,0,1-1-1V13h4Zm0-9H5V10A1,1,0,0,1,6,9h5Zm0-4H9.5A1.5,1.5,0,1,1,11,5.5Zm2-1.5A1.5,1.5,0,1,1,14.5,7H13ZM17,19a1,1,0,0,1-1,1H13V13h4Zm2-8H13V9h5a1,1,0,0,1,1,1Z"></path></svg>
 		</span>
 
-    <button class="modal__close" type="button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/>
-        </svg>
-    </button>
+    <button class="modal__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
 
     <h4 class="sign__title">You have received a gift!</h4>
 
@@ -278,7 +237,6 @@
     </div>
 </div>
 <!-- end modal info -->
-
 
 <input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
 <input th:if="${session.login ne null}" type="hidden" th:value="${tsMid}" th:id="tsMid">
@@ -345,29 +303,11 @@ if(CheckLogin != null){
             }
         });
 
-        //searchBtn
-        $("#searchBtn").click(function () {
-            var playListSearch = $("#playListSearch").val();
-            console.log('gd' + playListSearch);
-            var muName = $("#muName").val();
-            console.log('gd' + muName);
-            $.ajax({
-                type: "POST",
-                url: "playListSearch",
-                data: {
-                    "muName": playListSearch
-                },
-                dataType: "json",
-                success: function (result) {
 
-                    playList(result);
-                },
-                error: function () {
-                    console.log("ㅜㅜ")
-                }
-            });
-        })
-    });
+<!--<script th:if="${session.login eq null}" type="text/javascript" th:inline="javascript">-->
+
+
+<!--    var sessionId = "nullId";-->
 
     function playList(result) {
         var output = "";
@@ -433,23 +373,12 @@ if(CheckLogin != null){
                             },
                             error: function () {
 
-                            }
-                        });
-                        // output += "<div class='dashbox__list-wrap'>"
-                        //output += "<div id='div' class='dashbox__scroll'>"
-                    },
-                    error: function () {
-                        console.log("ㅜㅜ")
-                    }
-                });
 
-            })(i);
+<!--    $(document).ready(function(){-->
 
-        }
-        // var SearchList = document.getElementById("SearchList");
-        // SearchList.innerHTML = output;
+<!--        on3();-->
 
-    }
+<!--    });-->
 
     //리스트 삭제 ajax
     $(document).on('click', '#playListDelete', function (plmuCode) {
@@ -576,11 +505,13 @@ if(sessionId != tsMid){
                 "mId": sessionId
             },
             dataType: "json",
+
             success: function (result) {
                 console.log(result)
                 playList(result)
             },
             error: function () {
+
 
             }
         });
