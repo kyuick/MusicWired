@@ -24,6 +24,63 @@
 	<meta name="author" content="Dmitry Volkov">
 	<title>Volna – Record label & Music streaming HTML Template</title>
 
+	<style type="text/css">
+		.checks {
+			position: relative;
+		}
+
+		.checks input[type="checkbox"] {  /* 실제 체크박스는 화면에서 숨김 */
+		  position: absolute;
+		   width: 1px;
+		   height: 1px;
+		   padding: 0;
+		   margin: -1px;
+		   overflow: hidden;
+		   clip:rect(0,0,0,0);
+		   border: 0
+		}
+		.checks input[type="checkbox"] + label {
+		  display: inline-block;
+		  position: relative;
+		  cursor: pointer;
+		  -webkit-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  font-size: 12px;
+		  color: #c0c0c0;
+		  font-weight: normal;
+		  position: relative;
+		  cursor: pointer;
+		  padding-left: 35px;
+		  line-height: 22px;
+		  margin: 0;
+		}
+		.checks input[type="checkbox"] + label:before {  /* 가짜 체크박스 */
+		  content: ' ';
+		  display: inline-block;
+		  width: 21px;  /* 체크박스의 너비를 지정 */
+		  height: 21px;  /* 체크박스의 높이를 지정 */
+		  line-height: 21px; /* 세로정렬을 위해 높이값과 일치 */
+		  margin: -2px 8px 0 0;
+		  text-align: center; 
+		  vertical-align: middle;
+		  background: #222227;
+		}
+		.checks input[type="checkbox"] + label:active:before,
+		.checks input[type="checkbox"]:checked + label:active:before {
+		  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+		}
+		
+		.checks input[type="checkbox"]:checked + label:before {  /* 체크박스를 체크했을때 */ 
+		  content: '';  /* 체크표시 유니코드 사용 */
+		  color: #99a1a7;
+		  text-shadow: 1px 1px #fff;
+		  background: url("../img/checkmark.png") no-repeat center/20px auto;
+		  border-color: #adb8c0;
+		  box-shadow: 0px 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+		}
+	</style>
+
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script th:if="${session.login eq null}">
@@ -263,7 +320,7 @@
 				cartList(list);
 			},
 			error : function(){
-				alert("실패");
+				console.log("장바구니 출력실패");
 			}
 		});
 		
@@ -345,8 +402,8 @@
 				output1 += "<div>";
 				output1 += "<p>총금액</p>";
 				output1 += "<span colspan = 5 name='price' value='"+muprice * 500+"' id='totalPrice' class='cart__total'>"+muprice * 500+"원</span></div>";
-				output2 += "<span class='sign__group sign__group--checkbox'><input id='remember' name='remember' type='checkbox'>";
-				output2 += "<label for='remember'>구매 <a href='privacy.html'>이용약관</a> 동의<br/>(필수)</label>";
+				output2 += "<span class='checks' id='checkboxbtn1'><input id='ex_chk' name='remember' type='checkbox'>";
+				output2 += "<label for='ex_chk' class='checkboxLabel'>구매 <a href='privacy.html'>이용약관</a> 동의<br/>(필수)</label>";
 				output2 += "</span>";
 				output2 += "<span><button id='check_module' type='button' class='sign__btn'>결제하기</button></span>";
 				output3 += "<i><img src='/icon/payment_icon_yellow_small.png' style='width: 60px; opacity: 0.6;'></i>"
@@ -408,7 +465,7 @@
 			
 			$("#check_module").click(function () {
 				
-				if($("#remember").is(':checked') == true){
+				if($("#ex_chk").is(':checked') == true){
 					var IMP = window.IMP; // 생략가능
 					IMP.init('imp58457377');
 					// 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -500,7 +557,7 @@
 						}
 						alert(msg);
 					});
-				} else if($("#remember").is(':checked') == false){
+				} else if($("#ex_chk").is(':checked') == false){
 					alert("약관 동의 후 구매 가능합니다.");
 				}
 			});

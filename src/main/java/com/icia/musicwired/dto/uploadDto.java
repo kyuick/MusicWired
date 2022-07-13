@@ -29,7 +29,8 @@ public class uploadDto {
     private int pCode;
     private int mudCode;
     private int rn;
-
+    private String mName;
+    
 	public int getMuCode() {
 		return muCode;
 	}
@@ -132,30 +133,34 @@ public class uploadDto {
 	public void setpCode(int pCode) {
 		this.pCode = pCode;
 	}
-
 	public int getMudCode() {
 		return mudCode;
 	}
 	public void setMudCode(int mudCode) {
 		this.mudCode = mudCode;
 	}
-
 	public int getRn() {
 		return rn;
 	}
 	public void setRn(int rn) {
 		this.rn = rn;
 	}
-
+	public String getmName() {
+		return mName;
+	}
+	public void setmName(String mName) {
+		this.mName = mName;
+	}
 	@Override
 	public String toString() {
 		return "uploadDto [muCode=" + muCode + ", muSinger=" + muSinger + ", mId=" + mId + ", muName=" + muName
 				+ ", muGanre=" + muGanre + ", muDate=" + muDate + ", muImage=" + muImage + ", muLyrics=" + muLyrics
 				+ ", muHit=" + muHit + ", muLike=" + muLike + ", muPrice=" + muPrice + ", mFile=" + mFile + ", muFile="
 				+ muFile + ", mImage=" + mImage + ", pDate=" + pDate + ", mudDate=" + mudDate + ", pCode=" + pCode
-
-				+ ", mudCode=" + mudCode + ", rn=" + rn + "]";
+				+ ", mudCode=" + mudCode + ", rn=" + rn + ", mName=" + mName + "]";
 	}
+
+	
     
 
 }

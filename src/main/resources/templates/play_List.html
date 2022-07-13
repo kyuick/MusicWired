@@ -30,6 +30,8 @@
 <title>PlayListPage</title>
 
 </head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
 <style>
     /*#SearchList {*/
     /*    overflow: auto;*/
@@ -122,8 +124,11 @@
             <div class="col-12">
                 <div class="main__title main__title--page">
                     <h1>PlayList Page</h1>
+                         <button th:if="${session.login ne null}" class="hero__btn hero__btn--green" id="track" >PlayList 공유</button>
                 </div>
+        
             </div>
+               
             <!-- end title -->
             <div class="row row--grid">
                 <div class="col-12">
@@ -276,19 +281,37 @@
 
 
 <input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
-<input th:if="${session.login ne null}" type="hidden" th:value="${session.login.mId}" th:id="mId">
+<input th:if="${session.login ne null}" type="hidden" th:value="${tsMid}" th:id="tsMid">
+<input th:if="${session.login eq null}" type="hidden" th:value="${tsMid}" th:id="tsMid">
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script type="text/javascript" th:inline="javascript">
+
+<script type="text/javascript" th:inline="javascript" th:if="${session.login ne null}">
+var CheckLogin = [[${session.login}]]
+
+if(CheckLogin != null){
+	var sessionId = [[${session.login.mId}]]
+	var tsMid =  $("#tsMid").attr("value");
+
+	console.log("내아이디 아님 : " + tsMid);
+	if(sessionId != tsMid){
+		sessionId = tsMid;
+	} else if(sessionId == tsMid){
+		sessionId = [[${session.login.mId}]]
+	}
+}
+
     $(document).ready(function () {
-        var loginId = $("#mId").val();
-        console.log('아이디' + loginId);
+    	console.log("내아이디 아님111 : " + sessionId);
+    	console.log("내아이디 아님222 : " + sessionId);
+
+        console.log('아이디' + sessionId);
         $.ajax({
             type: "POST",
             url: "playListPrint",
             data: {
-                "mId": loginId
+                "mId": sessionId
             },
             dataType: "json",
             success: function (result) {
@@ -297,6 +320,28 @@
             },
             error: function () {
 
+            }
+        });
+        // 공유하기 눌렀을 때 중복방지 ajax
+        $.ajax({
+            type: "POST",
+            url: "trackShareSearch",
+            data: {
+                "tsMid": sessionId
+            },
+            dataType: "json",
+            success: function (result) {
+                console.log("트랙조회 : " + result);
+                if(result.length <= 0){
+                	   $("#track").attr("disabled",false);
+                }else{
+                	   $("#track").attr("disabled",true);
+                	   $("#track").css("background-color","gray");
+                }
+                
+            },
+            error: function () {
+            	console.log("트랙조회 실패");
             }
         });
 
@@ -326,7 +371,7 @@
 
     function playList(result) {
         var output = "";
-        var loginId = $("#mId").val();
+        
         for (var i in result) {
             (function (i) {
                 $.ajax({
@@ -344,7 +389,7 @@
                             url: "CartAddCheck",
                             data: {
                                 "caMuCode": result[i].plmuCode,
-                                "caMid": loginId
+                                "caMid": sessionId
                             },
                             dataType: "json",
                             success: function (cartAddCheck) {
@@ -360,7 +405,7 @@
                                 output += "<div class='single-item__title' >"
                                 output += "<h4>" + result[i].muSinger + "</h4>"
                                 output += "<span>" + result[i].muName + "</span>"
-                                //output += "<a href='PlayListDelete?mId=" + loginId + "&plmuCode=" + playListDeleteResult[i].plmuCode + "'>삭제</a>"
+                                //output += "<a href='PlayListDelete?mId=" + sessionId + "&plmuCode=" + playListDeleteResult[i].plmuCode + "'>삭제</a>"
                                 output += "</div>"
                                 output += "<a href='#' class='single-item__add' style='position: absolute; right: 60px'>";
                                 output += "<button class ='PlayListDelete'  type = 'button' value='"+playListDeleteResult[i].plmuCode+"' id='playListDelete'><svg xmlns = 'http://www.w3.org/2000/svg' viewBox = '0 0 24 24'><path d ='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button>"
@@ -412,11 +457,11 @@
 
         var plmuCode = document.getElementById("playListDelete");
         var plmuCodeVal = $(this).attr('value');
-        var loginId = $("#mId").val();
+        
 
         console.log(plmuCode);
         console.log(plmuCodeVal);
-        console.log('loginId : ' + loginId);
+        console.log('sessionId : ' + sessionId);
 
         if (check == true) {
             $.ajax({
@@ -424,7 +469,7 @@
                 url: "PlayListDelete",
                 data: {
                     "plmuCode": plmuCodeVal,
-                    "mId": loginId
+                    "mId": sessionId
                 },
                 dataType: "json",
                 success: function (DeleteResult) {
@@ -441,12 +486,12 @@
 
     $(document).on('click', '.PlayListCart', function () {
         var plmuCode = $(this).attr('name');
-        var loginId = $("#mId").val();
+        
         var cartCheck = $(this).attr('value');
         var imgId = $(this).attr('id');
         console.log("class:" + cartCheck);
         console.log('plmucode' + plmuCode);
-        console.log('아이디 : ' + loginId);
+        console.log('아이디 : ' + sessionId);
         console.log('이미지 아이디 : ' + imgId);
         if (cartCheck == "Check1") {
             $.ajax({
@@ -454,7 +499,7 @@
                 url: "CartAddPlayList",
                 data: {
                     "caMuCode": plmuCode,
-                    "caMid": loginId
+                    "caMid": sessionId
                 },
                 dataType: "json",
                 success: function (Result) {
@@ -473,7 +518,7 @@
                 url: "CartAddPlayListDelete",
                 data: {
                     "caMuCode": plmuCode,
-                    "caMid": loginId
+                    "caMid": sessionId
                 },
                 dataType: "json",
                 success: function (result) {
@@ -489,7 +534,287 @@
         }
 
     });
+    $("#track").click(function () {
+    	$.ajax({
+    		type : "post",
+    		url : "trackShare",
+    		data : {"tsMid" : sessionId},
+    		dataType : "json",
+    		success : function(result){
+    			console.log("리스트 집어넣기 성공");
+    			$("#track").attr("disabled",true	);
+    		},
+    		error : function(){
+    			console.log("실패");
+    		}
+    		
+    		
+    	});
+    	
+    });
 
+</script>
+
+<script type="text/javascript" th:inline="javascript" th:if="${session.login eq null}">
+var sessionId = "nullId";
+var tsMid =  $("#tsMid").attr("value");
+
+console.log("내아이디 아님 : " + tsMid);
+if(sessionId != tsMid){
+	sessionId = tsMid;
+} else if(sessionId == tsMid){
+	sessionId = "nullId";
+}
+
+    $(document).ready(function () {
+        
+        console.log('아이디' + sessionId);
+        $.ajax({
+            type: "POST",
+            url: "playListPrint",
+            data: {
+                "mId": sessionId
+            },
+            dataType: "json",
+            success: function (result) {
+                console.log(result)
+                playList(result)
+            },
+            error: function () {
+
+            }
+        });
+        // 공유하기 눌렀을 때 중복방지 ajax
+        $.ajax({
+            type: "POST",
+            url: "trackShareSearch",
+            data: {
+                "tsMid": sessionId
+            },
+            dataType: "json",
+            success: function (result) {
+                console.log("트랙조회 : " + result);
+                if(result.length <= 0){
+                	   $("#track").attr("disabled",false);
+                	
+                }else{
+                	   $("#track").attr("disabled",true);
+                	
+                }
+                
+            },
+            error: function () {
+            	console.log("트랙조회 실패");
+            }
+        });
+
+        //searchBtn
+        $("#searchBtn").click(function () {
+            var playListSearch = $("#playListSearch").val();
+            console.log('gd' + playListSearch);
+            var muName = $("#muName").val();
+            console.log('gd' + muName);
+            $.ajax({
+                type: "POST",
+                url: "playListSearch",
+                data: {
+                    "muName": playListSearch
+                },
+                dataType: "json",
+                success: function (result) {
+
+                    playList(result);
+                },
+                error: function () {
+                    console.log("ㅜㅜ")
+                }
+            });
+        })
+    });
+
+    function playList(result) {
+        var output = "";
+        
+        for (var i in result) {
+            (function (i) {
+                $.ajax({
+                    type: "POST",
+                    url: "playListDeleteAjax",
+                    data: {
+                        "muSinger": result[i].muSinger
+                    },
+                    dataType: "json",
+                    async: false, //반복문 할 때 사용. ajax를 동기식으로 변환
+                    success: function (playListDeleteResult) {
+                        console.log(playListDeleteResult);
+                        $.ajax({
+                            type: "post",
+                            url: "CartAddCheck",
+                            data: {
+                                "caMuCode": result[i].plmuCode,
+                                "caMid": sessionId
+                            },
+                            dataType: "json",
+                            success: function (cartAddCheck) {
+                                console.log(cartAddCheck);
+                               // output+="<div>";
+                                output += "<ul class='main__list main__list--playlist main__list--dashbox' >"
+                                output += "<li class='single-item'>"
+                                output += "<a data-playlist data-title='" + result[i].muName + "' data-artist='" + result[i].muSinger + "' data-img='/muImage/" + result[i].muImage + "' href='/audio/" + result[i].mFile + "' class=\"single-item__cover\">"
+                                output += "<img src='/muImage/" + result[i].muImage + "' style='width:50px; height: 50px;'/>";
+                                output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z'/></svg>"
+                                output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z'/></svg>"
+                                output += "</a>"
+                                output += "<div class='single-item__title' >"
+                                output += "<h4>" + result[i].muSinger + "</h4>"
+                                output += "<span>" + result[i].muName + "</span>"
+                                //output += "<a href='PlayListDelete?mId=" + sessionId + "&plmuCode=" + playListDeleteResult[i].plmuCode + "'>삭제</a>"
+                                output += "</div>"
+                                output += "<a href='#' class='single-item__add' style='position: absolute; right: 60px'>";
+                                output += "<button class ='PlayListDelete'  type = 'button' value='"+playListDeleteResult[i].plmuCode+"' id='playListDelete'><svg xmlns = 'http://www.w3.org/2000/svg' viewBox = '0 0 24 24'><path d ='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button>"
+                                output += "</a>"
+                                if(cartAddCheck=="") {
+                                    output += "<a href='#' class='single-item__add' style='position: absolute; right: 20px;'>";
+                                    output += "<label><img id='"+playListDeleteResult[i].plmuCode+"' src='/img/cartCheck.png' style='width:30px; height: 30px; position: absolute; bottom : 2px; right: 3px ' class ='PlayListCart' name='" + playListDeleteResult[i].plmuCode + "' value ='Check1'></img></label>";
+                                    output += "</a>"
+                                }else if (cartAddCheck != ""){
+                                    output += "<a href='#' class='single-item__add' style='position: absolute; right: 20px; '>";
+                                    output += "<label><img id='"+playListDeleteResult[i].plmuCode+"' src='/img/cartDelete.png' style='width:30px; height: 30px;' class ='PlayListCart' name='" + playListDeleteResult[i].plmuCode + "' value ='Check2'></img></label>";
+                                    output += "</a>"
+                                }
+                                // output += "<a href='#' class='single-item__export'>";
+                                // output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'></path></svg>"
+                                // output += "<button th:id='DownloadBtn'></button>"
+                                // output += "</a>"
+                                output += "</li>"
+                                output += "</ul>"
+                                output += "<br/>"
+                                //output += "</div>"
+                                //output += "</div>"
+                                var SearchList = document.getElementById("SearchList");
+                                SearchList.innerHTML = output;
+                            },
+                            error: function () {
+
+                            }
+                        });
+                        // output += "<div class='dashbox__list-wrap'>"
+                        //output += "<div id='div' class='dashbox__scroll'>"
+                    },
+                    error: function () {
+                        console.log("ㅜㅜ")
+                    }
+                });
+
+            })(i);
+
+        }
+        // var SearchList = document.getElementById("SearchList");
+        // SearchList.innerHTML = output;
+
+    }
+
+    //리스트 삭제 ajax
+    $(document).on('click', '#playListDelete', function (plmuCode) {
+        var check = confirm('리스트 항목을 삭제하시겠습니까?');
+
+        var plmuCode = document.getElementById("playListDelete");
+        var plmuCodeVal = $(this).attr('value');
+        
+
+        console.log(plmuCode);
+        console.log(plmuCodeVal);
+        console.log('sessionId : ' + sessionId);
+
+        if (check == true) {
+            $.ajax({
+                type: "post",
+                url: "PlayListDelete",
+                data: {
+                    "plmuCode": plmuCodeVal,
+                    "mId": sessionId
+                },
+                dataType: "json",
+                success: function (DeleteResult) {
+                    location.reload();
+                },
+                error: function () {
+                    alert('삭제 실패');
+                }
+            });
+        } else {
+            null;
+        }
+    });
+
+    $(document).on('click', '.PlayListCart', function () {
+        var plmuCode = $(this).attr('name');
+        
+        var cartCheck = $(this).attr('value');
+        var imgId = $(this).attr('id');
+        console.log("class:" + cartCheck);
+        console.log('plmucode' + plmuCode);
+        console.log('아이디 : ' + sessionId);
+        console.log('이미지 아이디 : ' + imgId);
+        if (cartCheck == "Check1") {
+            $.ajax({
+                type: "post",
+                url: "CartAddPlayList",
+                data: {
+                    "caMuCode": plmuCode,
+                    "caMid": sessionId
+                },
+                dataType: "json",
+                success: function (Result) {
+                    console.log("insert 성공")
+
+                },
+                error: function () {
+                    console.log("인설트 오류가 숨어있다!!")
+                }
+            });
+            cartCheck = $(this).attr('value', 'Check2');
+            $(this).attr('src', '/img/cartDelete.png');
+        } else if (cartCheck == "Check2") {
+            $.ajax({
+                type: "post",
+                url: "CartAddPlayListDelete",
+                data: {
+                    "caMuCode": plmuCode,
+                    "caMid": sessionId
+                },
+                dataType: "json",
+                success: function (result) {
+
+                    console.log("삭제 성공")
+                },
+                error: function () {
+                    console.log("삭제 오류가 숨어있다!!")
+                }
+            });
+            cartCheck = $(this).attr('value', 'Check1');
+            $(this).attr('src', '/img/cartCheck.png');
+        }
+
+    });
+    $("#track").click(function () {
+    	$.ajax({
+    		type : "post",
+    		url : "trackShare",
+    		data : {"tsMid" : sessionId},
+    		dataType : "json",
+    		success : function(result){
+    			console.log("리스트 집어넣기 성공");
+    			$("#track").attr("disabled",true	);
+    		},
+    		error : function(){
+    			console.log("실패");
+    		}
+    		
+    		
+    	});
+    	
+    });
 
 </script>
 <!-- JS -->

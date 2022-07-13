@@ -58,8 +58,9 @@
 			display: block;
 			background-color: #16151a;
 			margin: 40px auto;
-			width: 100%;
-			max-width: 420px;
+			width: auto;
+			height: auto;
+			/* max-width: 420px; */
 			padding: 20px;
 			border-radius: 12px;
 			overflow: hidden;
@@ -86,10 +87,11 @@
 }
 
 #modal .content {
-	 margin-top: 20px;
+	 		margin-top: 20px;
             padding: 0px 10px;
             text-shadow: 1px 1px 2px gray;
             color: white;
+           
 }
 
 .search_box{
@@ -124,6 +126,8 @@ background-color: #008CBA;
 background-color: #008CBA;
   color: white;
 }
+
+
 	</style>
 	<title>Volna – Record label & Music streaming HTML Template</title>
 
@@ -334,7 +338,8 @@ background-color: #008CBA;
 	<script src="js/main.js"></script>
 	
 	<script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
-var CheckLogin = [[${session.login}]]
+
+	var CheckLogin = [[${session.login}]]
 	
 	if(CheckLogin != null){
 		var sessionId = [[${session.login.mId}]]
@@ -394,17 +399,14 @@ var CheckLogin = [[${session.login}]]
 						dataType: "json",
 						async: false,
 						success: function(result){
-							output += "<div class='col-12 col-sm-6 col-lg-4' style='padding-top:2%;'>";
-							output += "<img src='/ImageUpload/"+ list[i].boImage + "' style='width:490px; height:300px;'>";
-							
+
+							output += "<div class='col-12 col-sm-6 col-lg-4' style='padding-top:2%; width:30vw; height:70vh;'>";
+							output += "<img src='/ImageUpload/"+ list[i].boImage + "' style='width:100%; height:50%;'>";
 							output += "<div class='post__content' style='height:300px;'>";
 							output += "<h3 style='color:white;'>" + list[i].boTitle + "</h3>";
 							output += "<h4 style='color:white;'>" + list[i].boContent + "</h4>";
-							output += "</br>";
-							output += "</br>";
-							output += "<h4><a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+loginId+"'>" + list[i].boWriter + "</a></h4>";
-							
-							output += "<div class='post__meta'>";
+							output += "<h4 style='position:absolute; bottom:24px;'><a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+loginId+"'>" + list[i].boWriter + "</a></h4>";
+							output += "<div class='post__meta' style='font-size:10px; position:absolute; bottom:8px; width:90%;'>";
 							output += "<span class='post__date'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>" + "<path d='M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20ZM14.09814,9.63379,13,10.26807V7a1,1,0,0,0-2,0v5a1.00025,1.00025,0,0,0,1.5.86621l2.59814-1.5a1.00016,1.00016,0,1,0-1-1.73242Z'/>" + "</svg>" + list[i].boDate +"</span>";
 							
 							
@@ -413,10 +415,10 @@ var CheckLogin = [[${session.login}]]
 								if(list[i].boLike <= 0){
 									output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'></span></div>"
 								} else if(list[i].boLike > 0){
-									output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
+									output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
 								}
 							} else if(result != ""){
-								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check2' src='/heart/heart2.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
+								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check2' src='/heart/heart2.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
 							}
 							
 							 if(sessionId == list[i].boWriter || sessionId == 'admin'){
@@ -475,17 +477,29 @@ var CheckLogin = [[${session.login}]]
 								 
 							output += "<tr>";
 							
-							output += "<td><img src='/profile/"+commentList[comment].mProfileName+"' style='width:50px;'></td>"; 
-											
+							output += "<td rowspan='3' style='text-align:center;'><img src='/profile/"+commentList[comment].mProfileName+"' style='width:60px;'></td>"; 
+							
+							output += "</tr>";
+							
+							output += "<tr>";
+							
 							output += "<td>" + commentList[comment].bcMid+"</td>";
 							
-							output += "<td colspan='2'>" + commentList[comment].bcContent+"</td>";
+							output += "</tr>";
 							
-							output += "<td>" + commentList[comment].bcDate+"</td>";
+							output += "<tr>";
+							
+							output += "<td style='font-size:18px;'>" + commentList[comment].bcContent+"</td>";
+							
+							output += "</tr>";
+							output += "<tr>";
+							
+							output += "<td></td>"
+							output += "<td><font color='gray'>" + commentList[comment].bcDate+"</font></td>";
 							
 							
 						 if(commentList[comment].bcMid == sessionId || sessionId == 'admin'){
-							output += "<td colspan='2' ><button class ='commentDelete' id='"+commentList[comment].bcCode+"' style='color:white;'>삭제</button></td>";
+							output += "<td><button class ='commentDelete' id='"+commentList[comment].bcCode+"' style='color:white;'>삭제</button></td>";
 						}  
 							output += "</tr>";
 						}  
@@ -493,7 +507,7 @@ var CheckLogin = [[${session.login}]]
 						 }
 						 	
 						 output += "<tr>";
-							output += "<td colspan='8'><textarea id='"+bcBoCode+"check2' class='TestCheck'></textarea></td>";
+							output += "<td colspan='8'><textarea id='"+bcBoCode+"check2' class='sign__textarea' style='height:50%;'></textarea></td>";
 							output += "<td><button class='commBtn' id='"+bcBoCode+"' value='"+bcBoCode+"' style='color:white;'>등록</button></td>";
 							output += "</tr>";
 						 	output += "</table>";
@@ -675,7 +689,7 @@ var CheckLogin = [[${session.login}]]
 					success : function(list){
 						
 						var output3 = "";
-				    	
+						var output4 = "좋아요";
 						for(var i in list){
 							if(list.length <= 0){
 								output3 += "<p>가장 먼저 좋아요를 눌러보세요</p>";
@@ -686,6 +700,9 @@ var CheckLogin = [[${session.login}]]
 						
 						const modalContent = document.getElementById("content");
 						modalContent.innerHTML = output3;
+						
+						var modalTitle = document.getElementById("modalTitle");
+						modalTitle.innerHTML = output4;
 						
 				    	modal.style.display = "flex";
 						
@@ -911,17 +928,13 @@ $(document).ready(function(){
 					dataType: "json",
 					async: false,
 					success: function(result){
-						output += "<div class='col-12 col-sm-6 col-lg-4' style='padding-top:2%;'>";
-						output += "<img src='/ImageUpload/"+ list[i].boImage + "' style='width:490px; height:300px;'>";
-						
-						output += "<div class='post__content' style='height:200px;'>";
+						output += "<div class='col-12 col-sm-6 col-lg-4' style='padding-top:2%; width:30vw; height:70vh;'>";
+						output += "<img src='/ImageUpload/"+ list[i].boImage + "' style='width:100%; height:50%;'>";				
+						output += "<div class='post__content' style='height:300px;'>";
 						output += "<h3 style='color:white;'>" + list[i].boTitle + "</h3>";
 						output += "<h4 style='color:white;'>" + list[i].boContent + "</h4>";
-						output += "</br>";
-						output += "</br>";
-						output += "<h4><a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+loginId+"'>" + list[i].boWriter + "</a></h4>";
-						
-						output += "<div class='post__meta'>";
+						output += "<h4 style='position:absolute; bottom:24px;'><a href='boardWriterView?boWriter="+list[i].boWriter+"&mId="+loginId+"'>" + list[i].boWriter + "</a></h4>";
+						output += "<div class='post__meta' style='font-size:10px; position:absolute; bottom:8px; width:90%;'>";
 						output += "<span class='post__date'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>" + "<path d='M12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20ZM14.09814,9.63379,13,10.26807V7a1,1,0,0,0-2,0v5a1.00025,1.00025,0,0,0,1.5.86621l2.59814-1.5a1.00016,1.00016,0,1,0-1-1.73242Z'/>" + "</svg>" + list[i].boDate +"</span>";
 						
 						
@@ -930,10 +943,10 @@ $(document).ready(function(){
 							if(list[i].boLike <= 0){
 								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'></span></div>"
 							} else if(list[i].boLike > 0){
-								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
+								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
 							}
 						} else if(result != ""){
-							output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check2' src='/heart/heart2.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
+							output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check2' src='/heart/heart2.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
 						}
 						
 						 if(sessionId == list[i].boWriter || sessionId == 'admin'){
@@ -986,23 +999,35 @@ $(document).ready(function(){
 					console.log(bcBoCode);
 					console.log(commentList.length)
 					output += "<table>";
-					 for(var comment in commentList){
+					for(var comment in commentList){
 						 
 						if(commentList.length > 0){
 							 
 						output += "<tr>";
 						
-						output += "<td><img src='/profile/"+commentList[comment].mProfileName+"' style='width:50px;'></td>"; 
-										
+						output += "<td rowspan='3' style='text-align:center;'><img src='/profile/"+commentList[comment].mProfileName+"' style='width:60px;'></td>"; 
+						
+						output += "</tr>";
+						
+						output += "<tr>";
+						
 						output += "<td>" + commentList[comment].bcMid+"</td>";
 						
-						output += "<td colspan='2'>" + commentList[comment].bcContent+"</td>";
+						output += "</tr>";
 						
-						output += "<td>" + commentList[comment].bcDate+"</td>";
+						output += "<tr>";
+						
+						output += "<td style='font-size:18px;'>" + commentList[comment].bcContent+"</td>";
+						
+						output += "</tr>";
+						output += "<tr>";
+						
+						output += "<td></td>"
+						output += "<td><font color='gray'>" + commentList[comment].bcDate+"</font></td>";
 						
 						
 					 if(commentList[comment].bcMid == sessionId || sessionId == 'admin'){
-						output += "<td colspan='2' ><button class ='commentDelete' id='"+commentList[comment].bcCode+"' style='color:white;'>삭제</button></td>";
+						output += "<td><button class ='commentDelete' id='"+commentList[comment].bcCode+"' style='color:white;'>삭제</button></td>";
 					}  
 						output += "</tr>";
 					}  
@@ -1010,7 +1035,7 @@ $(document).ready(function(){
 					 }
 					 	
 					 output += "<tr>";
-						output += "<td colspan='8'><textarea id='"+bcBoCode+"check2' class='TestCheck'></textarea></td>";
+						output += "<td colspan='8'><textarea id='"+bcBoCode+"check2' class='sign__textarea' style='height:50%;'></textarea></td>";
 						output += "<td><button class='commBtn' id='"+bcBoCode+"' value='"+bcBoCode+"' style='color:white;'>등록</button></td>";
 						output += "</tr>";
 					 	output += "</table>";

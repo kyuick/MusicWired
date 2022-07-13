@@ -25,7 +25,7 @@ public class BoCommentDTO {
 	private MultipartFile mProfile;
 	private String mProfileName;
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM/dd HH:mm", timezone = "Asia/Seoul")
 	private Date bcDate;
 
 	public int getBcCode() {

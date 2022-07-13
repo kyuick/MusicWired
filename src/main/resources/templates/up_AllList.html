@@ -489,7 +489,7 @@
 									output += "<tbody>"
 									output += "<tr>";
 									output += "<td class='main__table-text'><a href='boardWriterView?boWriter="+musicList[i].muSinger+"&mId="+sessionId+"' style='padding-top:10%;'><img class='single-item__cover' src='muImage/"+musicList[i].muImage+"' style='width:50px;'/></a></td>";
-									output += "<td><div class='main__table-text'><a href='boardWriterView?boWriter="+musicList[i].muSinger+"&mId="+sessionId+"' style='font-size:12px;'>"+musicList[i].muSinger+"</a></div></td>";
+									output += "<td><div class='main__table-text'><a href='boardWriterView?boWriter="+musicList[i].muSinger+"&mId="+sessionId+"' style='font-size:12px;'>"+musicList[i].mName+"</a></div></td>";
 									output += "<td><div class='main__table-text'><a href='muView?muCode="+musicList[i].muCode+"&mId="+sessionId+"'>"+musicList[i].muName+"</a></div></td>";
 									output += "<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer; opacity:0.8;'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+musicList[i].mFile+","+musicList[i].muName+","+musicList[i].muSinger+","+musicList[i].muCode+","+musicList[i].muImage+"'></button ></label></div></td>";
 									output += "<td><div class='main__table-text'>"+musicList[i].muGanre+"</div></td>";
@@ -1246,7 +1246,7 @@ $(document).ready(function(){
 								output += "<tbody>"
 								output += "<tr>";
 								output += "<td class='main__table-text'><a href='boardWriterView?boWriter="+musicList[i].muSinger+"&mId="+sessionId+"' style='padding-top:10%;'><img class='single-item__cover' src='muImage/"+musicList[i].muImage+"' style='width:50px;'/></a></td>";
-								output += "<td><div class='main__table-text'><a href='boardWriterView?boWriter="+musicList[i].muSinger+"&mId="+sessionId+"' style='font-size:12px;'>"+musicList[i].muSinger+"</a></div></td>";
+								output += "<td><div class='main__table-text'><a href='boardWriterView?boWriter="+musicList[i].muSinger+"&mId="+sessionId+"' style='font-size:12px;'>"+musicList[i].mName+"</a></div></td>";
 								output += "<td><div class='main__table-text'><a href='muView?muCode="+musicList[i].muCode+"&mId="+sessionId+"'>"+musicList[i].muName+"</a></div></td>";
 								output += "<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer; opacity:0.8;'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+musicList[i].mFile+","+musicList[i].muName+","+musicList[i].muSinger+","+musicList[i].muCode+","+musicList[i].muImage+"'></button ></label></div></td>";
 								output += "<td><div class='main__table-text'>"+musicList[i].muGanre+"</div></td>";
@@ -1257,10 +1257,10 @@ $(document).ready(function(){
 								if(check == ""){
 									if(result == ""){
 										output += "<td style='padding-left:1.1%;'><a href='#' style='width:31px; height:31px;'>";
-										output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.4;' id='"+musicList[i].muCode+"' class='cartChange' value='check1'></a></td>";
+										output += "<img src='/img/cartCheck.png' style='width: 32px;' id='"+musicList[i].muCode+"' class='cartChange' value='check1'></a></td>";
 									} else if(result != ""){
 										output += "<td style='padding-left:1.1%;'><a href='#' style='width:31px; height:31px;'>";
-										output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.4;' id='"+musicList[i].muCode+"' class='cartChange' value='check2'></a></td>";
+										output += "<img src='/img/cartDelete.png' style='width: 32px;' id='"+musicList[i].muCode+"' class='cartChange' value='check2'></a></td>";
 									}
 								} else if(check != ""){
 									output += "<td><a href='/audio/"+musicList[i].mFile+"' download='"+musicList[i].mFile+"' class='single-item__export'>";
@@ -1289,94 +1289,99 @@ $(document).ready(function(){
 		allMuListArea.innerHTML = output;
 		$(".cartChange").click(function(){
 			
-			var muCode = $(this).attr('id');
-			console.log("muCode : "+muCode);
-			
-			var cartCheck = $(this).attr('value');
-			
-			if(cartCheck == "check1"){
-				$.ajax({
-					type : "POST",
-					url : "cartListAdd",
-					data : {"caMuCode" : muCode,
-							"caMid" : sessionId
-							},
-					dataType : "json",
-					success : function(list){
-						CartAddSuccess(list);
-						$.ajax({
-							type : "POST",
-							url : "ajaxCartList",
-							data : {"caMid" : sessionId},
-							dataType : "json",
-							success : function(list){
-								smallCart(list);
-							},
-							error : function(){
-								console.log("장바구니 개수 출력 실패");
-							}
-						});
-					},
-					error : function(){
-						alert('장바구니 추가 실패');
+			if(sessionId == 'nullId'){
+				alert('로그인 후 이용 가능합니다.');
+			}else{
+				var muCode = $(this).attr('id');
+				console.log("muCode : "+muCode);
+				
+				var cartCheck = $(this).attr('value');
+				
+				if(cartCheck == "check1"){
+					$.ajax({
+						type : "POST",
+						url : "cartListAdd",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
+								},
+						dataType : "json",
+						success : function(list){
+							CartAddSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
+						},
+						error : function(){
+							alert('장바구니 추가 실패');
+						}
+					});
+					
+					function CartAddSuccess(list){
+						
+						var output = "";
+						
+						output += "<img src='/img/cartDelete.png' style='width: 32px;' id='"+list.muCode+"' class='cartChange' value='check2'></a>";
+						
+						var td22 = document.getElementById(muCode);
+						console.log(td22);
+						td22.innerHTML = output;
 					}
-				});
-				
-				function CartAddSuccess(list){
+					$(this).attr('src','/img/cartDelete.png');
+					cartCheck = $(this).attr('value','check2');
 					
-					var output = "";
+				}else if(cartCheck == "check2"){
+					$.ajax({
+						type : "POST",
+						url : "cartListDelete",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
+								},
+						dataType : "json",
+						success : function(list){
+							CartDeleteSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
+						},
+						error : function(){
+							alert('장바구니 삭제 실패');
+						}
+					});
 					
-					output += "<img src='/img/cartDelete.png' style='width: 32px;' id='"+list.muCode+"' class='cartChange' value='check2'></a>";
-					
-					var td22 = document.getElementById(muCode);
-					console.log(td22);
-					td22.innerHTML = output;
-				}
-				$(this).attr('src','/img/cartDelete.png');
-				cartCheck = $(this).attr('value','check2');
-				
-			}else if(cartCheck == "check2"){
-				$.ajax({
-					type : "POST",
-					url : "cartListDelete",
-					data : {"caMuCode" : muCode,
-							"caMid" : sessionId
-							},
-					dataType : "json",
-					success : function(list){
-						CartDeleteSuccess(list);
-						$.ajax({
-							type : "POST",
-							url : "ajaxCartList",
-							data : {"caMid" : sessionId},
-							dataType : "json",
-							success : function(list){
-								smallCart(list);
-							},
-							error : function(){
-								console.log("장바구니 개수 출력 실패");
-							}
-						});
-					},
-					error : function(){
-						alert('장바구니 삭제 실패');
+					function CartDeleteSuccess(list){
+						
+						var output = "";
+						
+						output += "<img src='/img/cartCheck.png' style='width: 32px;' id='"+list.muCode+"' class='cartChange' value='check1'></a>";
+						
+						var td22 = document.getElementById(muCode);
+						console.log(td22);
+						td22.innerHTML = output;
 					}
-				});
-				
-				function CartDeleteSuccess(list){
 					
-					var output = "";
-					
-					output += "<img src='/img/cartCheck.png' style='width: 32px;' id='"+list.muCode+"' class='cartChange' value='check1'></a>";
-					
-					var td22 = document.getElementById(muCode);
-					console.log(td22);
-					td22.innerHTML = output;
+					$(this).attr('src','/img/cartCheck.png');
+					cartCheck = $(this).attr('value','check1');
 				}
-				
-				$(this).attr('src','/img/cartCheck.png');
-				cartCheck = $(this).attr('value','check1');
 			}
+			
 			
 		});
 		
