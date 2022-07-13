@@ -44,6 +44,7 @@
 		SELECT * FROM BOARD WHERE BOCODE = #{boCode}
 	</select>
 	
+	
 <!-- 좋아요 감소 메소드(ajax) -->
 	<update id="boLikeDown" parameterType="int">
 		UPDATE BOARD SET BOLIKE = BOLIKE - 1 WHERE BOCODE = #{boCode}
@@ -81,13 +82,26 @@
 		WHERE BOCODE = BOLBOCODE AND BOLMID = #{bolMid}
 		ORDER BY BOCODE DESC
 	</select>
-
 	
+<!-- 팔로우한 게시글만 출력하는 메소드 -->
+	<select id="followedBoardList" parameterType="String" resultType="Board">
+		SELECT BD.* FROM BOARD BD 
+		INNER JOIN SUBSCRIPTION SUB ON SUB.SSERMID = BD.BOWRITER 
+		AND SUB.SSMID = #{bolMid} ORDER BY BD.BOCODE DESC
+	</select>
+
+<!-- 내 게시글만 출력하는 메소드 -->
+	<select id="myBoardList2" parameterType="String" resultType="Board">
+		SELECT * FROM BOARD WHERE BOWRITER=#{bolMid} ORDER BY BOCODE DESC
+	</select>		
+		
+
+
 <!-- 게시글을 좋아요한 사람들을 출력하는 메소드 -->
 	<select id="boardListUserList" parameterType="int" resultType="Member">
 				SELECT M.MNAME, M.MPROFILENAME, M.MID
 		FROM MEMBER M, BOARDLIKE B
-		WHERE B.BOLMID = M.MID AND BOLBOCODE = #{bolBoCode}
+		WHERE B.BOLMID = M.MID AND BOLBOCODE = #{bolBoCode} 
 	</select>
 
 	<!--  게시글 작성자 팔로우 표시하는 메소드 -->

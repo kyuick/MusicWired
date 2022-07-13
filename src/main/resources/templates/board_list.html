@@ -50,6 +50,7 @@
             z-index: 1050;
 }
 
+
 #modal .modal-window {
 	  		position: relative;
             box-shadow: 0 8px 32px 0 rgba(88, 88, 88, 0.37);
@@ -105,6 +106,14 @@
  background-color: #008CBA;
   color: white;
 }
+.followedBtn:hover{
+ background-color: #008CBA;
+  color: white;
+}
+.myBtn:hover{
+ background-color: #008CBA;
+  color: white;
+}
 
 .searchBtn:hover{
 background-color: #008CBA;
@@ -155,7 +164,10 @@ background-color: #008CBA;
 				<button type="submit" id="searchBtn" class="searchBtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/></svg></button>
 				<button type="button" class="close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
 			</div>
-					<button id="LikeBoardListBtn" class="LikeBtn" style="color:white;">좋아요한 글목록<img src="/img/love-message.png" style="width:40px;"></button>
+					<button id="LikeBoardListBtn" class="LikeBtn" style="color:white;">좋아요 한 게시물<img src="/img/love-message.png" style="width:40px;"></button>
+					<button id="followedBoardListBtn" class="followedBtn" style="color:white;">팔로우 한 게시물<img src="/img/love-message.png" style="width:40px;"></button>
+					<button id="myBoardListBtn" class="myBtn" style="color:white;">내 게시물<img src="/img/love-message.png" style="width:40px;"></button>
+					
 					<a class="uploadBtn" style="color:white; padding:20px; margin-left: 91.5%; margin-bottom: 90%;"  onclick="location.href='boardUploadPage'">글쓰기  <img src="/img/add-list.png" style="width:40px; height:40px;"></a>
 				</div>
 					
@@ -739,6 +751,41 @@ var CheckLogin = [[${session.login}]]
 					}
 				});
 			});
+			
+			$("#followedBoardListBtn").click(function(){
+				
+				$.ajax({
+					type : "POST",
+					url : "followedBoardList",
+					data : {"boWriter" : sessionId},
+					dataType : "json",
+					success : function(list){
+						
+						boardList(list);
+					},
+					error : function(){
+						alert('게시글 리스트 불러오기 실패');
+					}
+				});
+			});
+			
+			$("#myBoardListBtn").click(function(){
+				
+				$.ajax({
+					type : "POST",
+					url : "myBoardList2",
+					data : {"boWriter" : sessionId},
+					dataType : "json",
+					success : function(list){
+						
+						boardList(list);
+					},
+					error : function(){
+						alert('게시글 리스트 불러오기 실패');
+					}
+				});
+			});
+			
 		}
 	});
 	$(document).on('click','.commBtn', function(){
@@ -1221,8 +1268,29 @@ $(document).ready(function(){
 				}
 			});
 		});
+		
+		
+		
+		$("#followedBoardListBtn").click(function(){
+			alert("1");
+			$.ajax({
+				type : "POST",
+				url : "followedBoardList",
+				data : {"boWriter" : sessionId},
+				dataType : "json",
+				success : function(list){
+					boardList(list);
+				},
+				error : function(){
+					alert('게시글 리스트 불러오기 실패');
+				}
+			});
+		});
+		
+		
 	}
 });
+
 $(document).on('click','.commBtn', function(){
 	console.log('세션 아이디 : ' +sessionId);
 	console.log('bcBoCode : ' + $(this).attr('id'));

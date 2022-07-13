@@ -28,6 +28,20 @@
 </head>
 
 <style>
+
+	.P-muLyrics1{
+	max-width: 50%;
+ 	height: auto;
+ 	display: block;
+    font-size: 13px;
+    line-height: 26px;
+    font-weight: 400;
+    color: #c0c0c0;
+    background-color: #222227;
+    border-radius: 16px;
+    padding: 6px;
+	}
+	
     #modal.modal-overlay {
 
         width: 100%;
@@ -181,11 +195,12 @@
                         <!-- article content -->
                         <div class="article__content">
                             <h3 th:text="${muView.muName}"></h3>
-
-                            <a th:if="${session.login ne null}" th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=${session.login.mId})}"><span class="article__price1" th:text="${muView.muSinger}" style="font-size: 18px;"></span></a>
+ 							<a th:if="${session.login ne null}" th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=${session.login.mId})}"><span class="article__price1" th:text="${muView.muSinger}" style="font-size: 18px;"></span></a>
 							<a th:if="${session.login eq null}" th:href="@{boardWriterView(boWriter=${muView.muSinger},mId=nullId)}"><span class="article__price1" th:text="${muView.muSinger}" style="font-size: 18px;"></span></a>
-                            <p th:text="${muView.muLyrics}"></p>
-
+                			 <p th:text="${muView.muGanre+'('+muView.muDate+')'}"></p>
+		     				 <div class="P-muLyrics1">
+                 		     <p class="P-muLyrics" th:text="${muView.muLyrics}"></p>
+							</div>
                             <!--                            <div class="article__amount">-->
                             <!--                                <button type="button">-->
                             <!--                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H5a1,1,0,0,0,0,2H19a1,1,0,0,0,0-2Z"></path></svg>-->

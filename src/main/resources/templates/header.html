@@ -8,9 +8,14 @@
 	<style>
 		marquee{
 			height:20px;
+			 cursor: Default;
 		}
-		
+		#rank{
+		cursor: Default;
+		}
 	
+		
+		
 	</style>
 
 	<!-- CSS -->
@@ -43,7 +48,7 @@
 				</a>
 			</div>
 			<nav class="header__nav">
-\
+
 				<a th:if="${session.login ne null}" th:href="@{boardWriterView(boWriter=${session.login.mId}, mId=${session.login.mId})}">Profile</a>
 			
 			</nav>
@@ -55,12 +60,10 @@
  -->			</form>
  				
  				
- 				 <marquee behavior="scroll" direction="up" scrollamount="2"  >
-					<!-- <div id="rank"></div> -->
-				</marquee> 
+ 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style=" font-weight: nammal;  color:white; height:31px;  background:#0099FF; border-radius: 10px 10px 10px 10px;" >실시간</span><div id="rank"  style="color:white; background: black; font-style: italic; font-weight: bold; border-radius: 0px 10px 10px 0px;" ></div>
 				
 				
-\
+
 			<div class="header__actions">
 				<div class="header__action header__action--search">
 					<button class="header__action-btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/></svg></button>
@@ -290,8 +293,7 @@
 						</div>
 					</div>
 				</div>
-		
-
+	
 	<script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
 		var CheckLogin = [[${session.login}]]
 		
@@ -299,6 +301,59 @@
 			var sessionId = [[${session.login.mId}]]
 			
 			$(document).ready(function(){
+				
+				$.ajax({
+		    		type : "POST",
+		    		url :"test",
+		    		dataType:"json",
+		    		success : function(list){
+		    			
+		    			test(list);
+		    			test1(list);
+		    			console.log(list);
+		    		},
+		    		error : function(){
+		    			alert("시르패르");
+		    		}
+		    	});
+		    	
+
+		    	function test(list){
+		    		
+		    		
+		    		var output="";
+		    		var output1="";
+		    		output+="<marquee style='height:25px;' behavior='scroll' direction='up' scrollamount='1' onmouseover=this.stop() onmouseout=this.start()>";
+		    	
+		    		var arr = [1,2,3,4,5,6,7,8,9,10];
+		    		
+		    		for(var i in list){
+		    		for(var i in arr){	
+		    		output+=""+arr[i]+". <a href='search?keyword="+list[i].keyword+"'>"+list[i].keyword+"</a>"
+		    		output+="</br>"
+		    			}
+		    		break;
+		    		}
+		    		
+		    		output+="</marquee>"
+		    		var rank=document.getElementById('rank');
+					console.log("실시간"+rank);
+					rank.innerHTML=output;
+					
+					/* var box = document.getElementById('rank');
+			    
+			    	
+			    	box.addEventListener('mouseover',function(){
+			    		
+			    		
+			    	});
+					box.addEventListener('mouseout',function(){
+			    		
+
+		    	}); */
+		  
+		    	}
+		    					
 				$.ajax({
 					type : "POST",
 					url : "ajaxCartList",
@@ -669,6 +724,9 @@
 		        }
 		    })
 		})
+		
+
+	
 /* $(document).ready(function(){
  	
 	$.ajax({
@@ -712,8 +770,68 @@
 			}
 	} */
 	</script>
+	<script th:if="${session.login eq null}" type="text/javascript" th:inline="javascript">
+	var sessionId = "nullId";
+	$(document).ready(function(){
+		
+		$.ajax({
+    		type : "POST",
+    		url :"test",
+    		dataType:"json",
+    		success : function(list){
+    			
+    			test(list);
+    			test1(list);
+    			console.log(list);
+    		},
+    		error : function(){
+    			alert("시르패르");
+    		}
+    	});
+    	
+
+    	function test(list){
+    		
+    		
+    		var output="";
+    		var output1="";
+    		output+="<marquee style='height:25px;' behavior='scroll' direction='up' scrollamount='1' onmouseover=this.stop() onmouseout=this.start()>";
+    	
+    		var arr = [1,2,3,4,5,6,7,8,9,10];
+    		
+    		for(var i in list){
+    		for(var i in arr){	
+    		output+=""+arr[i]+". <a href='search?keyword="+list[i].keyword+"'>"+list[i].keyword+"</a>"
+    		output+="</br>"
+    			}
+    		break;
+    		}
+    		
+    		output+="</marquee>"
+    		var rank=document.getElementById('rank');
+			console.log("실시간"+rank);
+			rank.innerHTML=output;
+			
+			/* var box = document.getElementById('rank');
+	    
+	    	
+	    	box.addEventListener('mouseover',function(){
+	    		
+	    		
+	    	});
+			box.addEventListener('mouseout',function(){
+	    		
+
+    	}); */
+  
+    	}
+	});
+	</script>
+	
 	</header>
 </body>
+
+
 	<script src="js/jquery-3.5.1.min.js"></script>
 	<script src="js/bootstrap.bundle.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>

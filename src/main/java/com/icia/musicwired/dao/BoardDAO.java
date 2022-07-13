@@ -58,4 +58,10 @@ public interface BoardDAO {
 
 	int ajaxBoardDelete(int boCode);
 	int boLikeUp(BoardLikeDTO boardLike);
+
+	List<BoardDTO> followedBoardList(String bolMid);
+
+	List<BoardDTO> myBoardList2(String bolMid);
+
+	
 }
