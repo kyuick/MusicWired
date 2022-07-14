@@ -43,7 +43,7 @@ public class chatServiceImpl implements chatService {
 		if (crdto1 == null) {
 			int result = mdao.createRoom(mId);
 			CRDTO crdto = mdao.getRoom(mId);
-			System.out.println("채팅결과: " + result);
+//			System.out.println("채팅결과: " + result);
 			if (result > 0) {
 				mav.setViewName("Chat");
 				mav.addObject("crdto", crdto);
@@ -52,9 +52,9 @@ public class chatServiceImpl implements chatService {
 				mav.setViewName("index");
 			}
 		} else {
-			System.out.println("crdtio1" + crdto1.getCrNum());
+//			System.out.println("crdtio1" + crdto1.getCrNum());
 			List<CSDTO> csdto = mdao.getSaveChat(crdto1.getCrNum());
-			System.out.println("채팅결과2: " + csdto);
+//			System.out.println("채팅결과2: " + csdto);
 
 			mav.setViewName("Chat");
 			mav.addObject("crdto", crdto1);
@@ -79,7 +79,7 @@ public class chatServiceImpl implements chatService {
 
 	@Override
 	public List<CSDTO> chatSave(CSDTO csdto) {
-		System.out.println("123"+csdto);
+//		System.out.println("123"+csdto);
 		int result = mdao.chatSave(csdto);
 		
 		if(!csdto.getCsId().equals("admin")) {

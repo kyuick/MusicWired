@@ -281,7 +281,7 @@
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
 
-Kakao.init('86eca66cd05bcd19d3957153dbf278c3');
+Kakao.init('0baef7a236dd6024098239bd8c5f2527');
 	var CheckLogin = [[${session.login}]]
 	
 	if(CheckLogin != null){
@@ -1128,7 +1128,7 @@ Kakao.init('86eca66cd05bcd19d3957153dbf278c3');
 <script th:if="${session.login eq null}" type="text/javascript" th:inline="javascript">
 
 var sessionId = "nullId";
-Kakao.init('86eca66cd05bcd19d3957153dbf278c3');
+Kakao.init('0baef7a236dd6024098239bd8c5f2527');
 $(document).ready(function(){
 	
 	$.ajax({

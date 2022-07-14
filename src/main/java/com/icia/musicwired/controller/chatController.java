@@ -32,7 +32,7 @@ public class chatController {
 	// moveChating 채팅방 만들기
 	@RequestMapping(value = "/moveChating", method = RequestMethod.GET)
 	public ModelAndView chating(@RequestParam("mId") String mId) {
-		System.out.println("아이디" + mId);
+//		System.out.println("아이디" + mId);
 		mav = msvc.createRoom(mId);
 		return mav;
 
@@ -58,7 +58,7 @@ public class chatController {
 	// chatSave 채팅방 저장
 	@RequestMapping(value = "/chatSave", method = RequestMethod.POST)
 	public @ResponseBody List<CSDTO> chatSave(@ModelAttribute CSDTO csdto) {
-		System.out.println("채팅저장" + csdto);
+//		System.out.println("채팅저장" + csdto);
 		chatsave = msvc.chatSave(csdto);
 		return chatsave;
 
@@ -66,7 +66,7 @@ public class chatController {
 
 	@RequestMapping(value = "/readupdate", method = RequestMethod.POST)
 	public @ResponseBody int readupdate(@RequestParam("crNum") int crNum) {
-		System.out.println("새메세지11" + crNum);
+//		System.out.println("새메세지11" + crNum);
 		int readupdate = msvc.readupdate(crNum);
 
 		return readupdate;
@@ -76,9 +76,9 @@ public class chatController {
 	
 	 @RequestMapping(value = "/newMessage", method = RequestMethod.POST)
 	    public @ResponseBody int newMessage(@RequestParam("crId") String crId) {
-	      System.out.println("12"+crId);
+//	      System.out.println("12"+crId);
 	        int newMessage = msvc.newMessage(crId);
-	        System.out.println("123"+newMessage);
+//	        System.out.println("123"+newMessage);
 	        return newMessage;
 	    }
 	 

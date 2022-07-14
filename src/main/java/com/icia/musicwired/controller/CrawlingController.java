@@ -32,7 +32,7 @@ import lombok.Setter;
 					"https://soundcloud.com/discover/sets/charts-top:hiphoprap:kr"
 			};
 			
-			System.out.println("url 주소"+url);
+//			System.out.println("url 주소"+url);
 			
 			for(int i=0; i<url.length; i++) {
 				service.insert(url[i]);

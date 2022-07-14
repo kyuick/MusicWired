@@ -26,9 +26,9 @@ public class MusicCommentServiceImpl implements MusicCommentService {
 
 	@Override
 	public List<MusicCommentDTO> mcList(int mcCode) {
-		System.out.println("2.comm : " + mcCode);
+//		System.out.println("2.comm : " + mcCode);
 		commentList = dao.mcList(mcCode);
-		System.out.println("3.comm : " + commentList);
+//		System.out.println("3.comm : " + commentList);
 		return commentList;
 	}
 
@@ -44,7 +44,7 @@ public class MusicCommentServiceImpl implements MusicCommentService {
 
 			commentList = null;
 		}
-		System.out.println("commentList : " + commentList);
+//		System.out.println("commentList : " + commentList);
 		return commentList;
 	}
 

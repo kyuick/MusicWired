@@ -128,6 +128,7 @@ input[class="cb1"] + label {
 </head>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <body>
 <header th:replace="header.html :: header"></header>
 <aside th:replace="sidebar.html :: aside"></aside>
@@ -309,14 +310,50 @@ input[class="cb1"] + label {
 <script th:if="${session.login eq null}" type="text/javascript" th:inline="javascript">
 
 var sessionId = "nullId";
-Kakao.init('86eca66cd05bcd19d3957153dbf278c3');
 
 $(document).ready(function(){
 
 	on3();
  
 });
+Kakao.init('0baef7a236dd6024098239bd8c5f2527');
+var action_popup = {
+		   timer: 500,
+		   alert: function (txt) {
+		        if (txt == null || txt.trim() == "") {
+		            console.warn("confirm message is empty.");
+		            return;
+		        } else {
+		            this.open("type-alert", txt);
+		        }
+		    },
 
+		    open: function (type, txt) {
+		        var popup = $("." + type);
+		        popup.find(".menu_msg").text(txt);
+		        $("body").append("<div class='dimLayer'></div>");
+		        $(".dimLayer").css('height', $(document).height()).attr("target", type);
+		        popup.fadeIn(this.timer);
+		    },
+
+		    close: function (target) {
+		        var modal = $(target).closest(".modal1-addplay");
+		        var dimLayer;
+		        if (modal.hasClass("type-confirm")) {
+		            dimLayer = $(".dimLayer[target=type-confirm]");
+		            $(".type-confirm .btn_ok").unbind("click");
+		        } else if (modal.hasClass("type-alert")) {
+		            dimLayer = $(".dimLayer[target=type-alert]")
+		        } else {
+		            console.warn("close unknown target.")
+		            return;
+		        }
+		        modal.fadeOut(this.timer);
+		        setTimeout(function () {
+		            dimLayer != null ? dimLayer.remove() : "";
+		        }, this.timer);
+		    }
+		}
 function on3(){
 
 	
@@ -715,7 +752,32 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			});
 			
 		});
-		
+		 $(".share").click(function(){
+				
+			 	var mContent = $(this).attr('value');
+				var array = mContent.split(",");
+			    var muName = array[0]; 
+			    var muSinger = array[1]; 
+			    var muImage = array[2]; 
+			    var muCode = array[3];
+		  		 console.log(muImage);
+			    Kakao.Link.sendDefault({
+		      objectType: 'feed',
+		      content: {
+		    	  title: muName,
+		          description: muSinger,
+		          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+		          link: {
+		            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		        },
+		      },
+		    
+		      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+		      installTalk: true,
+		    })
+		 
+		  });
 		
 	$(".play").click(function(){
 			
@@ -1379,7 +1441,33 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
+			 $(".share").click(function(){
+					
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
+			 
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -2029,7 +2117,32 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
+			 $(".share").click(function(){
+					
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -2677,7 +2790,32 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
+			 $(".share").click(function(){
+					
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -3324,7 +3462,32 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
+			 $(".share").click(function(){
+					
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -3968,7 +4131,32 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
+			 $(".share").click(function(){
+					
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -4297,7 +4485,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 
 <script th:if="${session.login ne null}" type="text/javascript" th:inline="javascript">
 var CheckLogin = [[${session.login}]]
-Kakao.init('86eca66cd05bcd19d3957153dbf278c3');
+
 if(CheckLogin != null){
 	var sessionId = [[${session.login.mId}]]
 }
@@ -4305,7 +4493,7 @@ $(document).ready(function(){
 	on3();
 	
 });
-
+Kakao.init('0baef7a236dd6024098239bd8c5f2527');
 
 function on3(){	
  	$.ajax({
@@ -4858,7 +5046,32 @@ function smallCart(list){
 			});
 			
 		});
-		
+		 $(".share").click(function(){
+				
+			 	var mContent = $(this).attr('value');
+				var array = mContent.split(",");
+			    var muName = array[0]; 
+			    var muSinger = array[1]; 
+			    var muImage = array[2]; 
+			    var muCode = array[3];
+		  		 console.log(muImage);
+			    Kakao.Link.sendDefault({
+		      objectType: 'feed',
+		      content: {
+		    	  title: muName,
+		          description: muSinger,
+		          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+		          link: {
+		            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		        },
+		      },
+		    
+		      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+		      installTalk: true,
+		    })
+		 
+		  });
 		
 	$(".play").click(function(){
 			
@@ -5634,7 +5847,32 @@ function smallCart(list){
 				});
 				
 			});
-			
+			 $(".share").click(function(){
+					
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -6399,6 +6637,32 @@ function smallCart(list){
 				});
 				
 			});
+			 $(".share").click(function(){
+					
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				
@@ -7163,7 +7427,32 @@ function smallCart(list){
 					}
 				});
 				
-			});
+			}); $(".share").click(function(){
+				
+			 	var mContent = $(this).attr('value');
+				var array = mContent.split(",");
+			    var muName = array[0]; 
+			    var muSinger = array[1]; 
+			    var muImage = array[2]; 
+			    var muCode = array[3];
+		  		 console.log(muImage);
+			    Kakao.Link.sendDefault({
+		      objectType: 'feed',
+		      content: {
+		    	  title: muName,
+		          description: muSinger,
+		          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+		          link: {
+		            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		        },
+		      },
+		    
+		      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+		      installTalk: true,
+		    })
+		 
+		  });
 			
 			$(".play").click(function(){
 				
@@ -7927,6 +8216,32 @@ function smallCart(list){
 				});
 				
 			});
+			 $(".share").click(function(){
+					
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			
 			$(".play").click(function(){
 				var aa = new Array();
@@ -8704,7 +9019,32 @@ function smallCart(list){
 				});
 				
 			});
-			
+			 $(".share").click(function(){
+					
+				 	var mContent = $(this).attr('value');
+					var array = mContent.split(",");
+				    var muName = array[0]; 
+				    var muSinger = array[1]; 
+				    var muImage = array[2]; 
+				    var muCode = array[3];
+			  		 console.log(muImage);
+				    Kakao.Link.sendDefault({
+			      objectType: 'feed',
+			      content: {
+			    	  title: muName,
+			          description: muSinger,
+			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+			          link: {
+			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+			        },
+			      },
+			    
+			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+			      installTalk: true,
+			    })
+			 
+			  });
 			$(".play").click(function(){
 				
 				var aa = new Array();

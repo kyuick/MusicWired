@@ -214,14 +214,17 @@ if(CheckLogin != null){
                         $("#myMusicListArea").load(window.location.href + "#myMusicListArea");
 
                         $.ajax({
-                            type : "POST",
-                            url : "balGenre",
-                            dataType:'json',
-                            success : function(list){
-                                genrelist(list);
+                            type: "POST",
+                            url: "playListPrint",
+                            data: {
+                                "mId": sessionId
                             },
-                            error : function(){
-                                alert("실패");
+                            dataType: "json",
+                            success: (function (result) {
+                                playList(result)
+                            }),
+                            error: function () {
+
                             }
                         });
                     },

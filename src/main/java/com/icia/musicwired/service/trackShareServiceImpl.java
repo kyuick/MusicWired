@@ -24,9 +24,9 @@ public class trackShareServiceImpl implements trackShareService {
 	
 	@Override
 	public List<trackShareDTO> trackShare(String tsMid) {
-		System.out.println("2. 트랙 주입 : " + tsMid);
+//		System.out.println("2. 트랙 주입 : " + tsMid);
 		int result = dao.trackShare(tsMid);
-		System.out.println("3. 트랙 주입 : " + trackList);
+//		System.out.println("3. 트랙 주입 : " + trackList);
 		if(result > 0 ) {
 			
 		}else {
@@ -37,11 +37,11 @@ public class trackShareServiceImpl implements trackShareService {
 
 	@Override
 	public List<trackShareDTO> trackShareSearch(String tsMid) {
-		System.out.println("2. 트랙 주입 : " + tsMid);
+//		System.out.println("2. 트랙 주입 : " + tsMid);
 		List<trackShareDTO> track = dao.trackShareSearch(tsMid);
 		
 			trackList = track;
-		System.out.println("3. 트랙 주입 : " + trackList);
+//		System.out.println("3. 트랙 주입 : " + trackList);
 		return trackList;
 	}
 

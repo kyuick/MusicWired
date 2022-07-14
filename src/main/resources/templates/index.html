@@ -892,11 +892,10 @@ $("#idFindBtn").click(function(){
 				
 				output += "<div class='sign__group'>";
 				output += "<input type='text' name='mEmail' class='sign__input' value='아이디 찾기 결과' disabled style='text-align: center; color: #99FFFF;'></div>";
-				
-				for(var i in list){
-					if(length <= 0){
-						output += "<input type='text' class='sign__input' value='가입된 아이디가 없습니다.' disabled style='text-align: center;'>";
-					} else{
+				if(length <= 0){
+					output += "<input type='text' class='sign__input' value='가입된 아이디가 없습니다.' disabled style='text-align: center;'>";
+				}else{
+					for(var i in list){
 						output += "<input type='text' class='sign__input' value='ID  ➡➡  "+ list[i] +"' disabled style='text-align: center;'>";
 					}
 				}

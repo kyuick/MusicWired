@@ -25,9 +25,9 @@ public class PayController {
 //	payInsert : 장바구니에서 결제할때 결제정보 저장하는 메소드
 	@PostMapping("payInsert")
 	public @ResponseBody List<PayDTO> payInsert(@ModelAttribute PayDTO pay){
-		System.out.println("[1] 결제정보 저장 C : " + pay);
+//		System.out.println("[1] 결제정보 저장 C : " + pay);
 		payList = paysvc.payInsert(pay);
-		System.out.println("[4] 결제정보 저장 C : " + payList);
+//		System.out.println("[4] 결제정보 저장 C : " + payList);
 		return payList;
 	}
 	
@@ -47,9 +47,9 @@ public class PayController {
 //	buyList : 구매목록 리스트 출력 메소드
 	@PostMapping("buyList")
 	public @ResponseBody List<PayDTO> buyList(@RequestParam("psMid") String psMid){
-		System.out.println("[1] 구매목록 리스트 C : " + psMid);
+//		System.out.println("[1] 구매목록 리스트 C : " + psMid);
 		payList = paysvc.buyList(psMid);
-		System.out.println("[4] 구매목록 리스트 C : " + payList);
+//		System.out.println("[4] 구매목록 리스트 C : " + payList);
 		return payList;
 	}
 	

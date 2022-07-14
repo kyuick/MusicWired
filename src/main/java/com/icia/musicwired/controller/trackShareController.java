@@ -24,22 +24,22 @@ public class trackShareController {
 	
 	@PostMapping("/trackShare")
 	public @ResponseBody List<trackShareDTO> trackShare(@RequestParam("tsMid") String tsMid) {
-		System.out.println("[1] 트랙 주입 c: " + tsMid);
+//		System.out.println("[1] 트랙 주입 c: " + tsMid);
 
 		trackList = svc.trackShare(tsMid);
 
-		System.out.println("[4] 트랙 주입 c: " + trackList);
+//		System.out.println("[4] 트랙 주입 c: " + trackList);
 
 		return trackList;
 	}
 	//trackShareSearch : 굥유했는지 확인하는 메소드
 	@PostMapping("/trackShareSearch")
 	public @ResponseBody List<trackShareDTO> trackShareSearch(@RequestParam("tsMid") String tsMid) {
-		System.out.println("[1] 트랙 확인 c: " + tsMid);
+//		System.out.println("[1] 트랙 확인 c: " + tsMid);
 
 		trackList = svc.trackShareSearch(tsMid);
 
-		System.out.println("[4] 트랙 확인 c: " + trackList);
+//		System.out.println("[4] 트랙 확인 c: " + trackList);
 
 		return trackList;
 	}

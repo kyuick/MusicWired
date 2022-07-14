@@ -20,9 +20,9 @@ public class DownServiceImpl implements DownService{
 //	downloadTableInsert : 다운로드 테이블 등록 메소드
 	@Override
 	public List<DownDTO> downloadTableInsert(DownDTO down) {
-		System.out.println("[2] 다운로드 테이블 등록 S : " + down);
+//		System.out.println("[2] 다운로드 테이블 등록 S : " + down);
 		int result = downdao.downloadTableInsert(down);
-		System.out.println("[3] 다운로드 테이블 등록 S : " + result);
+//		System.out.println("[3] 다운로드 테이블 등록 S : " + result);
 		if(result > 0) {
 			
 		}else {
@@ -34,9 +34,9 @@ public class DownServiceImpl implements DownService{
 //	ajaxDownList : 다운로드 목록 출력 메소드
 	@Override
 	public List<DownDTO> ajaxDownList(String mudMid) {
-		System.out.println("[2] 다운로드 목록 출력 S : " + mudMid);
+//		System.out.println("[2] 다운로드 목록 출력 S : " + mudMid);
 		List<DownDTO> Down = downdao.ajaxDownList(mudMid);
-		System.out.println("[3] 다운로드 목록 출력 S : " + Down);
+//		System.out.println("[3] 다운로드 목록 출력 S : " + Down);
 		
 		if(Down != null) {
 			downList = Down;

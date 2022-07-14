@@ -36,11 +36,11 @@ public class searchController {
 		
 		ModelAndView mav=new ModelAndView();
 		
-		System.out.println("확인");
+//		System.out.println("확인");
 		
 		mav=ssvc.search(keyword);
 		
-		System.out.println("검색 c : "+mav);
+//		System.out.println("검색 c : "+mav);
 		
 		return mav;
 	}
@@ -49,27 +49,27 @@ public class searchController {
 	@PostMapping("/search1") 
 	public @ResponseBody Map<String,Object>search1(@RequestParam("keyword") String keyword,@RequestParam(value="page", required = false, defaultValue = "1")int page,
 			@RequestParam(value="limit", required = false, defaultValue = "10")int limit){
-		System.out.println("search1");
+//		System.out.println("search1");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result = ssvc.search1(page,limit,keyword);
 		
 		
-		System.out.println("결과1: "+result );
+//		System.out.println("결과1: "+result );
 		return result;
 	}
 	List<uploadDto> search2  = new ArrayList<uploadDto>();
 	@PostMapping("/search2") 
 	public @ResponseBody Map<String,Object> search2(@RequestParam("keyword") String keyword,@RequestParam(value="page", required = false, defaultValue = "1")int page,
 			@RequestParam(value="limit", required = false, defaultValue = "10")int limit){
-		System.out.println("search1");
+//		System.out.println("search1");
 		Map<String, Object> result2 = new HashMap<String, Object>();
 		result2 = ssvc.search2(page,limit,keyword);
 		
-		System.out.println("검색2 : "+page+","+limit+","+keyword);
+//		System.out.println("검색2 : "+page+","+limit+","+keyword);
 		
 		//System.out.println("hit!! : "+hitChart);
-		System.out.println("결과2"+result2);
+//		System.out.println("결과2"+result2);
 		return result2;
 	}
 	

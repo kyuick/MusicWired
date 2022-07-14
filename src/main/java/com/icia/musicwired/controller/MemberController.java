@@ -136,7 +136,7 @@ public class MemberController {
 	// memberDelete
 	@RequestMapping(value = "/memberDelete", method = RequestMethod.GET)
 	public ModelAndView memberDelete(@RequestParam("mId") String mId) {
-		System.out.println(mId);
+//		System.out.println(mId);
 		mav = msvc.memberDelete(mId);
 		return mav;
 	}
@@ -172,9 +172,9 @@ public class MemberController {
 //	memIdfind : 아이디찾기
 	@PostMapping("memIdfind")
 	public @ResponseBody List<MemberDTO> memIdfind(@RequestParam("mEmail") String mEmail){
-		System.out.println("[1] 아이디 찾기 C : " + mEmail);
+//		System.out.println("[1] 아이디 찾기 C : " + mEmail);
 		memList = msvc.memIdfind(mEmail);
-		System.out.println("[4] 아이디 찾기 C : " + memList);
+//		System.out.println("[4] 아이디 찾기 C : " + memList);
 		
 		return memList;
 	}
@@ -193,22 +193,22 @@ public class MemberController {
 	@PostMapping("memPwfind")
 	@ResponseBody
 	public Map<String,Object> memPwfind(@ModelAttribute MemberDTO member){
-		System.out.println("[1] 비번찾기 C : " + member);
+//		System.out.println("[1] 비번찾기 C : " + member);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		result = msvc.memPwfind(member);
 		
-		System.out.println("[5] 비번찾기 C : " + result);
+//		System.out.println("[5] 비번찾기 C : " + result);
 		
 		return result;
 	}
 	//ajaxIdSearch
 		@PostMapping("ajaxIdSearch")
 		public @ResponseBody List<MemberDTO> ajaxIdSearch(@RequestParam("mId") String mId){
-			System.out.println("[1] : " + mId);
+//			System.out.println("[1] : " + mId);
 			memberList = msvc.ajaxIdSearch(mId);
-			System.out.println("[4] : " + mId);
+//			System.out.println("[4] : " + mId);
 			return memberList;
 		}
 

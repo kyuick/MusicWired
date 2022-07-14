@@ -175,10 +175,10 @@ public class searchServiceImpl implements searchService {
 		paging.setLimit(limit);
 		paging.setKeyword(keyword);		
 		
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		search1=dao.search10(paging);
 
-		System.out.println("!~!!@!@!@!@!@!@!@!@!@"+search1);
+//		System.out.println("!~!!@!@!@!@!@!@!@!@!@"+search1);
 		
 		result.put("search1",search1);
 		result.put("paging",paging);

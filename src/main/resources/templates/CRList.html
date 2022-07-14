@@ -330,10 +330,10 @@
 						<div class="dashbox__note">
 						
 								<div class="divTableCell" th:text="${crlist.crNum}"></div>
-								<div class="divTableCell" th:text="${crlist.crId}"></div>
-								<div class="divTableCell" th:text="${crlist.crRead}" id='read'
+								<div style="color: white;" class="divTableCell" th:text="${crlist.crId}"></div>
+								<div style="color: yellow;" class="divTableCell" th:text="${crlist.crRead}" id='read'
 									th:if="${crlist.crRead eq '새메시지'}"></div>
-								<div class="divTableCell" th:if="${crlist.crRead eq '읽음'}" id='read1'
+								<div style="color: gray;" class="divTableCell" th:if="${crlist.crRead eq '읽음'}" id='read1'
 									th:text="${crlist.crRead}"></div>
 								<div class="divTableCell">
 									<button th:if="${session.login ne null}" class='sign__btn1'

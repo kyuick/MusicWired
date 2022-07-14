@@ -74,7 +74,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ModelAndView memLogin(MemberDTO member) {
 		String ePw = mdao.mEpw(member.getmId());
-		System.out.println(member);
+//		System.out.println(member);
 		if (pwEnc.matches(member.getmPw(), ePw)) {
 			MemberDTO loginMember = mdao.memberView(member.getmId());
 			session.setAttribute("login", loginMember);
@@ -85,8 +85,8 @@ public class MemberServiceImpl implements MemberService {
 			mav.addObject("error", "아이디/비밀번호가 틀립니다.");
 			mav.setViewName("index");
 		}
-		System.out.println(member);
-		System.out.println(mav);
+//		System.out.println(member);
+//		System.out.println(mav);
 		return mav;
 	}
 
@@ -124,7 +124,7 @@ public class MemberServiceImpl implements MemberService {
 
 		Object loginId = session.getAttribute("login");
 		String ls_loginId = (String)loginId;
-		System.out.println(ls_loginId);
+//		System.out.println(ls_loginId);
 
 		mav.setViewName("Mem_View");
 		mav.addObject("view", member);
@@ -173,17 +173,17 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public ModelAndView memberDelete(String mId) {
-		System.out.println("2" + mId);
+//		System.out.println("2" + mId);
 		int result = mdao.memberDelete(mId);
-		System.out.println("4" + result);
+//		System.out.println("4" + result);
 		if (result > 0) {
 			mav.setViewName("index");
 		} else {
 			mav.setViewName("index");
-			System.out.println("수정실패");
+//			System.out.println("수정실패");
 		}
 
-		System.out.println(mav);
+//		System.out.println(mav);
 		return mav;
 	}
 
@@ -199,10 +199,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<MemberDTO> memIdfind(String mEmail) {
 
-		System.out.println("[2] 아이디 찾기 S : " + mEmail);
+//		System.out.println("[2] 아이디 찾기 S : " + mEmail);
 		List<MemberDTO> mId = mdao.memIdfind(mEmail);
 
-		System.out.println("[3] 아이디 찾기 S : " + mId);
+//		System.out.println("[3] 아이디 찾기 S : " + mId);
 		if (mId != null) {
 			memList = mId;
 		} else {
@@ -213,16 +213,16 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public Map<String, Object> memPwfind(MemberDTO member) {
-		System.out.println("[2] 비번찾기 S : " + member);
+//		System.out.println("[2] 비번찾기 S : " + member);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		List<MemberDTO> pwFindSelectMember = mdao.memPwfindSelect(member); 
-		System.out.println("[3] 비번찾기 S : " + pwFindSelectMember);
+//		System.out.println("[3] 비번찾기 S : " + pwFindSelectMember);
 		
 		if (pwFindSelectMember.size() == 0) {
 			result = null;
-			System.out.println("[4-1] 비번찾기 실패 S : " + result);
+//			System.out.println("[4-1] 비번찾기 실패 S : " + result);
 		} else {
 			String mPw = "";
 
@@ -236,7 +236,7 @@ public class MemberServiceImpl implements MemberService {
 			result.put("memMpw", memMpw);
 			result.put("member", member);
 			
-			System.out.println("[4] 비번찾기 성공 S : " + result);
+//			System.out.println("[4] 비번찾기 성공 S : " + result);
 			
 			member.setmPw(pwEnc.encode(member.getmPw()));
 			
@@ -246,11 +246,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	@Override
 	public List<MemberDTO> ajaxIdSearch(String mId) {
-		System.out.println("[2] : " + mId);
+//		System.out.println("[2] : " + mId);
 		
 		List<MemberDTO> memberList = mdao.ajaxIdSearch(mId);
 		
-		System.out.println("[3] : " + mId);
+//		System.out.println("[3] : " + mId);
 		return memberList;
 	}
 

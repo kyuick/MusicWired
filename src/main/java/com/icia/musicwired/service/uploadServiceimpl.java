@@ -40,7 +40,7 @@ public class uploadServiceimpl implements uploadService {
 
 	@Override
 	public ModelAndView fileUpload(uploadDto dto) throws IOException {
-		System.out.println("2ser" + dto);
+//		System.out.println("2ser" + dto);
 		MultipartFile aFile = dto.getMuFile();
 		String originalFileName = aFile.getOriginalFilename();
 		String uuid = UUID.randomUUID().toString().substring(0, 8);
@@ -69,7 +69,7 @@ public class uploadServiceimpl implements uploadService {
 		} else {
 			dto.setMuImage("default_musicImage.jpg");
 		}
-		System.out.println("4ser" + mav);
+//		System.out.println("4ser" + mav);
 		int result = dao.fileUpload(dto);
 		if (result > 0) {
 			mav.setViewName("index");
@@ -81,9 +81,9 @@ public class uploadServiceimpl implements uploadService {
 
 	@Override
 	public ModelAndView fileList(int page, int limit ,String mId) {
-    	System.out.println("페이징 되라 서비스: "+page);
-    	System.out.println("페이징 되라 서비스: "+limit);
-    	System.out.println("페이징 되라 서비스: "+mId);
+//    	System.out.println("페이징 되라 서비스: "+page);
+//    	System.out.println("페이징 되라 서비스: "+limit);
+//    	System.out.println("페이징 되라 서비스: "+mId);
 
 		// 한 화면에 보여줄 페이지 번호 갯수
 		int block = 5;
@@ -113,7 +113,7 @@ public class uploadServiceimpl implements uploadService {
 		paging.setLimit(limit);
 		paging.setmId(mId);
 		List<uploadDto> upList = dao.fileList(paging);
-		System.out.println("paging : " +paging);
+//		System.out.println("paging : " +paging);
 		
 		mav.setViewName("up_List");
 		mav.addObject("upList", upList);
@@ -125,11 +125,11 @@ public class uploadServiceimpl implements uploadService {
 
 	@Override
 	public ModelAndView muView(uploadDto dto) {
-		System.out.println("2서비스 : " + dto);
+//		System.out.println("2서비스 : " + dto);
 		uploadDto muView = dao.muView(dto);
 
 		String LikeCheck = dao.LikeCheck(dto);
-		System.out.println("확인 : " + LikeCheck);
+//		System.out.println("확인 : " + LikeCheck);
 		if(LikeCheck != null){
 			mav.addObject("LikeCheck",1);
 		}else{
@@ -137,7 +137,7 @@ public class uploadServiceimpl implements uploadService {
 		}
 
 		int LikeListCount = dao.LikeListCount(dto);
-		System.out.println("4서비스 : " + mav);
+//		System.out.println("4서비스 : " + mav);
 		mav.setViewName("mu_View");
 		mav.addObject("muView", muView);
 		mav.addObject("list", LikeListCount);
@@ -148,9 +148,9 @@ public class uploadServiceimpl implements uploadService {
 	// 수정페이지 이동
 	@Override
 	public ModelAndView fileModiForm(uploadDto dto) {
-		System.out.println("2수정" + dto);
+//		System.out.println("2수정" + dto);
 		uploadDto muView = dao.muView(dto);
-		System.out.println("4수정" + dto);
+//		System.out.println("4수정" + dto);
 		mav.setViewName("up_ModiForm");
 		mav.addObject("modi", muView);
 		return mav;
@@ -159,7 +159,7 @@ public class uploadServiceimpl implements uploadService {
 	// 수정메소드
 	@Override
 	public ModelAndView fileModify(uploadDto dto) throws IOException {
-		System.out.println("2modi" + dto);
+//		System.out.println("2modi" + dto);
 
 		MultipartFile aFile = dto.getMuFile();
 		String originalFileName = aFile.getOriginalFilename();
@@ -189,7 +189,7 @@ public class uploadServiceimpl implements uploadService {
 		} else {
 			dto.setMuImage("default_musicImage.jpg");
 		}
-		System.out.println("4moid" + mav);
+//		System.out.println("4moid" + mav);
 		int result = dao.fileModify(dto);
 		if (result > 0) {
 			mav.setViewName("index");
@@ -224,11 +224,11 @@ public class uploadServiceimpl implements uploadService {
 
 	@Override
 	public int LikeUp(MusicLikeDto musicLikeDto) {
-		System.out.println("[2] 좋아요:" + musicLikeDto);
+//		System.out.println("[2] 좋아요:" + musicLikeDto);
 		int result = dao.LikeUp(musicLikeDto);
 		//추가
 		int result1 =dao.LikeUp2(musicLikeDto);
-		System.out.println("좋아영 : "+result1);
+//		System.out.println("좋아영 : "+result1);
 		int LikeTableUpCheck = dao.LikeTableUpCheck(musicLikeDto);
 
 		return LikeTableUpCheck;
@@ -248,11 +248,11 @@ public class uploadServiceimpl implements uploadService {
 	@Override
 
 	public int LikeDown(MusicLikeDto musicLikeDto) {
-		System.out.println("[2] 좋아요:" + musicLikeDto);
+//		System.out.println("[2] 좋아요:" + musicLikeDto);
 		int result = dao.LikeDown(musicLikeDto);
 		int result2= dao.LikeDown2(musicLikeDto);
 		int LikeTableDownCheck = dao.LikeTableDownCheck(musicLikeDto);
-		System.out.println("[4] 좋아요:" + LikeTableDownCheck);
+//		System.out.println("[4] 좋아요:" + LikeTableDownCheck);
 
 		return LikeTableDownCheck;
 	}
@@ -290,11 +290,11 @@ public class uploadServiceimpl implements uploadService {
 		paging.setEndPage(endPage);
 		paging.setLimit(limit);
 		
-		System.out.println("paging : " +paging);
+//		System.out.println("paging : " +paging);
 		
 		musicList = dao.ajaxFileList(paging);
 		
-		System.out.println("musicList : " +musicList);
+//		System.out.println("musicList : " +musicList);
 		
 		if(musicList != null) {
 			result.put("musicList", musicList);
@@ -320,9 +320,9 @@ public class uploadServiceimpl implements uploadService {
 //	MyMusicList : 내가 올린 음악 리스트(ajax)
 	@Override
 	public List<uploadDto> MyMusicList(String muSinger) {
-		System.out.println("[2] 내가 올린 음악 리스트 S : " + muSinger);
+//		System.out.println("[2] 내가 올린 음악 리스트 S : " + muSinger);
 		List<uploadDto> myMusicList = dao.MyMusicList(muSinger);
-		System.out.println("[3] 내가 올린 음악 리스트 S : " + myMusicList);
+//		System.out.println("[3] 내가 올린 음악 리스트 S : " + myMusicList);
 		
 		if(myMusicList != null) {
 			musicList = myMusicList;
@@ -335,10 +335,10 @@ public class uploadServiceimpl implements uploadService {
 //	musicDelete : 음악 삭제 메소드(ajax)
 	@Override
 	public List<uploadDto> ajaxMusicDelete(int muCode) {
-		System.out.println("[2] 음악 삭제 S : " + muCode);
+//		System.out.println("[2] 음악 삭제 S : " + muCode);
 		
 		int result = dao.ajaxMusicDelete(muCode);
-		System.out.println("[3] 음악 삭제 S : " + result);
+//		System.out.println("[3] 음악 삭제 S : " + result);
 		
 		if(result > 0) {
 			
