@@ -388,9 +388,9 @@
 							
 							if(result == ""){
 								if(list[i].boLike <= 0){
-									output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'></span></div>"
+									output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/love.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'></span></div>"
 								} else if(list[i].boLike > 0){
-									output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
+									output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/love.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
 								}
 							} else if(result != ""){
 								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check2' src='/heart/heart2.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
@@ -638,7 +638,7 @@
 					}
 				
 					CheckHeart = $(this).attr('value',"check1");
-					$(this).attr("src","/heart/heart1.png");
+					$(this).attr("src","/heart/love.png");
 					
 				}
 				
@@ -916,9 +916,9 @@ $(document).ready(function(){
 						
 						if(result == ""){
 							if(list[i].boLike <= 0){
-								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'></span></div>"
+								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/love.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'></span></div>"
 							} else if(list[i].boLike > 0){
-								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
+								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/love.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
 							}
 						} else if(result != ""){
 							output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check2' src='/heart/heart2.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
