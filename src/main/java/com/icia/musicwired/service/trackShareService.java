@@ -14,6 +14,5 @@ public interface trackShareService {
 
 	ModelAndView track();
 
-	ModelAndView playListView2(String tsMid);
 
 }

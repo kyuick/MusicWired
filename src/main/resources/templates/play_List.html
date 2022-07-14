@@ -2,29 +2,9 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
+	<head th:replace="head.html :: head"></head>
 <style>
-    /*#SearchList {*/
-    /*    overflow: auto;*/
-    /*}*/
-
-    /*#SearchList::-webkit-scrollbar {*/
-    /*    width: 4px;*/
-    /*}*/
-
-    /*#SearchList::-webkit-scrollbar-track {*/
-    /*    background: #222227;*/
-    /*}*/
-
-    /*#SearchList::-webkit-scrollbar-thumb {*/
-    /*    background-color: #2d78b6;*/
-    /*    outline: 1px solid #222227;*/
-    /*    border-radius: 10px;*/
-    /*}*/
-
-    #playListArea{
+	ListArea{
         overflow: auto;
     }
     #playListArea::-webkit-scrollbar{
@@ -38,60 +18,34 @@
         outline: 1px solid #222227;
         border-radius: 10px;
     }
+    input[class="cb1"] + label {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #bcbcbc;
+            cursor: pointer;
+        }
+    input[class="cb1"]:checked + label {
+        background-color: #6699ff;
+    }
+    input[class="cb1"] {
+        display: none;
+    }
+    input[class="cb2"] + label {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #bcbcbc;
+        cursor: pointer;
+    }
+    input[class="cb2"]:checked + label {
+        background-color: #6699ff;
+    }
+    input[class="cb2"] {
+        display: none;
+    }
 </style>
-
    
-    <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
-    <link rel="stylesheet" href="css/select2.min.css">
-    <link rel="stylesheet" href="css/paymentfont.min.css">
-    <link rel="stylesheet" href="css/slider-radio.css">
-    <link rel="stylesheet" href="css/plyr.css">
-    <link rel="stylesheet" href="css/main.css">
-
-    <!-- Favicons -->
-    <link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="icon/favicon-32x32.png">
-
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <meta name="author" content="Dmitry Volkov">
-    <title>Volna – Record label & Music streaming HTML Template</title>
-
-    <style>
-        input[class="cb1"] + label {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #bcbcbc;
-            cursor: pointer;
-        }
-        input[class="cb1"]:checked + label {
-            background-color: #6699ff;
-        }
-        input[class="cb1"] {
-            display: none;
-        }
-        input[class="cb2"] + label {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #bcbcbc;
-            cursor: pointer;
-        }
-        input[class="cb2"]:checked + label {
-            background-color: #6699ff;
-        }
-        input[class="cb2"] {
-            display: none;
-        }
-
-/*#svg1{*/
-/*    bottom: 100px;*/
-/*}*/
-    </style>
 
 </head>
 <script
@@ -121,7 +75,9 @@
             <div class="col-12">
                 <div class="main__title main__title--page">
                     <h1>PlayList Page</h1>
-                         <button th:if="${session.login ne null}" class="hero__btn hero__btn--green" id="track" >PlayList 공유</button>
+                    <th:block th:if="${session.login ne null}">
+                    	<button th:if="${session.login.mId eq tsMid}" class="hero__btn hero__btn--green" id="track" >PlayList 공유</button>
+                    </th:block>
                 </div>
         
             </div>
@@ -300,7 +256,12 @@ if(CheckLogin != null){
             output +="<th class='main__table-text'>조회수</th>";
             output +="<th class='main__table-text'>좋아요수</th>";
             output +="<th class='main__table-text'>장바구니</th>";
-            output += "<th class='main__table-text' style='position: absolute; right: 50px;'>삭제</th>";
+            if(sessionId != [[${session.login.mId}]]){
+            	output += "<th class='main__table-text'></th>";
+            } else if(sessionId == [[${session.login.mId}]]){
+            	output += "<th class='main__table-text' style='position: absolute; right: 50px;'>삭제</th>";
+            }
+            
             output +="</tr>	";
             output +="</thead>";
 
@@ -343,7 +304,11 @@ if(CheckLogin != null){
                                     } else if (cartAddCheck != "") {
                                         output += "<td ><div class='main__table-text'><img id='" + playListDeleteResult[i].plmuCode + "' name='" + playListDeleteResult[i].plmuCode + "' class='PlayListCart' value='Check2' src='icon/cartDelete.png' style='cursor:pointer;' width='25px'/></div></td>";
                                     }
-                                    output +="<td><div class='main__table-text'><a href='#' class='single-item__add' ><button class ='PlayListDelete' type = 'button' value='" + playListDeleteResult[i].plmuCode + "' id='playListDelete'><svg xmlns = 'http://www.w3.org/2000/svg' viewBox = '0 0 24 24'  id='svg1'><path d ='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></a></div></td>";
+                                    if(sessionId != [[${session.login.mId}]]){
+                                    	output +="<td><div class='main__table-text'></td>";
+                                    } else if(sessionId == [[${session.login.mId}]]){
+                                    	output +="<td><div class='main__table-text'><a href='#' class='single-item__add' ><button class ='PlayListDelete' type = 'button' value='" + playListDeleteResult[i].plmuCode + "' id='playListDelete'><svg xmlns = 'http://www.w3.org/2000/svg' viewBox = '0 0 24 24'  id='svg1'><path d ='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></a></div></td>";
+                                    }
                                     output += "</tr>";
                                 },
                                 error: function(){
@@ -367,7 +332,7 @@ if(CheckLogin != null){
             genreArea.innerHTML=output;
 
             //리스트 삭제 ajax
-            $(document).on('click', '#playListDelete', function (plmuCode) {
+            $(document).on('click', '.PlayListDelete', function (plmuCode) {
                 var check = confirm('리스트 항목을 삭제하시겠습니까?');
 
                 var plmuCode = document.getElementById("playListDelete");
@@ -1097,8 +1062,6 @@ if(sessionId != tsMid){
             output +="<th class='main__table-text'>업로드일</th>";
             output +="<th class='main__table-text'>조회수</th>";
             output +="<th class='main__table-text'>좋아요수</th>";
-            output +="<th class='main__table-text'>장바구니</th>";
-            output += "<th class='main__table-text' style='position: absolute; right: 50px;'>삭제</th>";
             output +="</tr>	";
             output +="</thead>";
 
@@ -1136,12 +1099,6 @@ if(sessionId != tsMid){
                                     output +="<td><div class='main__table-text'>"+result[i].muHit+"</div></td>";
                                     output +="<td><div class='main__table-text'>"+result[i].muLike+"</div></td>";
 
-                                    if (cartAddCheck == "") {
-                                        output += "<td><div class='main__table-text'><img id='"+playListDeleteResult[i].plmuCode+"' name='" + playListDeleteResult[i].plmuCode + "' class='PlayListCart' value='Check1' src='icon/cartCheck.png' style='cursor:pointer;' width='25px'/></div></td>";
-                                    } else if (cartAddCheck != "") {
-                                        output += "<td ><div class='main__table-text'><img id='" + playListDeleteResult[i].plmuCode + "' name='" + playListDeleteResult[i].plmuCode + "' class='PlayListCart' value='Check2' src='icon/cartDelete.png' style='cursor:pointer;' width='25px'/></div></td>";
-                                    }
-                                    output +="<td><div class='main__table-text'><a href='#' class='single-item__add' ><button class ='PlayListDelete' type = 'button' value='" + playListDeleteResult[i].plmuCode + "' id='playListDelete'><svg xmlns = 'http://www.w3.org/2000/svg' viewBox = '0 0 24 24'  id='svg1'><path d ='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></a></div></td>";
                                     output += "</tr>";
                                 },
                                 error: function(){
@@ -1165,7 +1122,7 @@ if(sessionId != tsMid){
             genreArea.innerHTML=output;
 
             //리스트 삭제 ajax
-            $(document).on('click', '#playListDelete', function (plmuCode) {
+            $(document).on('click', '.PlayListDelete', function (plmuCode) {
                 var check = confirm('리스트 항목을 삭제하시겠습니까?');
 
                 var plmuCode = document.getElementById("playListDelete");

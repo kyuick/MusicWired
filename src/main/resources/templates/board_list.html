@@ -1,136 +1,111 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<!-- CSS -->
-	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
-	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
-	<link rel="stylesheet" href="css/owl.carousel.min.css">
-	<link rel="stylesheet" href="css/magnific-popup.css">
-	<link rel="stylesheet" href="css/select2.min.css">
-	<link rel="stylesheet" href="css/paymentfont.min.css">
-	<link rel="stylesheet" href="css/slider-radio.css">
-	<link rel="stylesheet" href="css/plyr.css">
-	<link rel="stylesheet" href="css/main.css">
-
-	<!-- Favicons -->
-
-	<link rel="icon" type="image/png" href="icon/MUSICWIREDLOGOfavicon.png" sizes="32x32">
-	<link rel="apple-touch-icon" href="icon/MUSICWIREDLOGOfavicon.png">
-
-	<meta name="description" content="">
-	<meta name="keywords" content="">
-	<meta name="author" content="Dmitry Volkov">
-	<title>MusicWired</title>
+<head th:replace="head.html :: head"></head>
 	<style>
 	
 	.likeUserList{
 		float: right;
 		margin-right: 10px;
 	}
-#modal.modal-overlay {
-	 		width: 100%;
-            height: 100%;
-            position: fixed;
-            left: 0;
-            top: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            backdrop-filter: blur(1.5px);
-            -webkit-backdrop-filter: blur(1.5px);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            display: none;
-            z-index: 1050;
-}
-
-
-#modal .modal-window {
-	  		position: relative;
-            box-shadow: 0 8px 32px 0 rgba(88, 88, 88, 0.37);
-            backdrop-filter: blur( 13.5px );
-			display: block;
-			background-color: #16151a;
-			margin: 40px auto;
-			width: auto;
-			height: auto;
-			/* max-width: 420px; */
-			padding: 20px;
-			border-radius: 12px;
-			overflow: hidden;
-}
-
-#modal .title {
-	 padding-left: 10px;
-            display: inline;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
-}
-
-#modal .title h2 {
-	display: inline;
-}
-
-#modal .close-area {
-	display: inline;
-	float: right;
-	padding-right: 10px;
-	cursor: pointer;
-	text-shadow: 1px 1px 2px gray;
-	color: white;
-}
-
-#modal .content {
-	 		margin-top: 20px;
-            padding: 0px 10px;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
-           
-}
-
-.search_box{
-	background-color: black;
-	color: white;
-	 border:none;
-	 border-right:0px; 
-	 border-top:0px; 
-	text-decoration:underline;
-
-}
-
-.LikeBtn:hover{
- background-color: #008CBA;
-  color: white;
-}
-.followedBtn:hover{
- background-color: #008CBA;
-  color: white;
-}
-.myBtn:hover{
- background-color: #008CBA;
-  color: white;
-}
-
-.searchBtn:hover{
-background-color: #008CBA;
-  color: white;
-}
-
-.uploadBtn:hover{
-background-color: #008CBA;
-  color: white;
-}
-
+	#modal.modal-overlay {
+		 		width: 100%;
+	            height: 100%;
+	            position: fixed;
+	            left: 0;
+	            top: 0;
+	            display: flex;
+	            flex-direction: column;
+	            align-items: center;
+	            justify-content: center;
+	            background: rgba(255, 255, 255, 0.25);
+	            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	            backdrop-filter: blur(1.5px);
+	            -webkit-backdrop-filter: blur(1.5px);
+	            border-radius: 10px;
+	            border: 1px solid rgba(255, 255, 255, 0.18);
+	            display: none;
+	            z-index: 1050;
+	}
+	
+	
+	#modal .modal-window {
+		  		position: relative;
+	            box-shadow: 0 8px 32px 0 rgba(88, 88, 88, 0.37);
+	            backdrop-filter: blur( 13.5px );
+				display: block;
+				background-color: #16151a;
+				margin: 40px auto;
+				width: auto;
+				height: auto;
+				/* max-width: 420px; */
+				padding: 20px;
+				border-radius: 12px;
+				overflow: hidden;
+	}
+	
+	#modal .title {
+		 padding-left: 10px;
+	            display: inline;
+	            text-shadow: 1px 1px 2px gray;
+	            color: white;
+	}
+	
+	#modal .title h2 {
+		display: inline;
+	}
+	
+	#modal .close-area {
+		display: inline;
+		float: right;
+		padding-right: 10px;
+		cursor: pointer;
+		text-shadow: 1px 1px 2px gray;
+		color: white;
+	}
+	
+	#modal .content {
+		 		margin-top: 20px;
+	            padding: 0px 10px;
+	            text-shadow: 1px 1px 2px gray;
+	            color: white;
+	           
+	}
+	
+	.search_box{
+		background-color: black;
+		color: white;
+		 border:none;
+		 border-right:0px; 
+		 border-top:0px; 
+		text-decoration:underline;
+	
+	}
+	
+	.LikeBtn:hover{
+	 background-color: #008CBA;
+	  color: white;
+	}
+	.followedBtn:hover{
+	 background-color: #008CBA;
+	  color: white;
+	}
+	.myBtn:hover{
+	 background-color: #008CBA;
+	  color: white;
+	}
+	
+	.searchBtn:hover{
+	background-color: #008CBA;
+	  color: white;
+	}
+	
+	.uploadBtn:hover{
+	background-color: #008CBA;
+	  color: white;
+	}
 
 	</style>
-	<title>Volna – Record label & Music streaming HTML Template</title>
-
 </head>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
