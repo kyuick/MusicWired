@@ -1889,70 +1889,75 @@ function on1(){
 			
 $(".cartChange").click(function(){
 				
-				var muCode = $(this).attr('id');
-				console.log("muCode : "+muCode);
-				
-				var cartCheck = $(this).attr('value');
-				
-				if(cartCheck == "check1"){
-					$.ajax({
-						type : "POST",
-						url : "cartListAdd",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartAddSuccess(list);
+	if(sessionId == "nullId"){
+		alert("로그인 후 이용 가능합니다.");
+	}else{
+		var muCode = $(this).attr('id');
+		console.log("muCode : "+muCode);
+		
+		var cartCheck = $(this).attr('value');
+		
+		if(cartCheck == "check1"){
+			$.ajax({
+				type : "POST",
+				url : "cartListAdd",
+				data : {"caMuCode" : muCode,
+						"caMid" : sessionId
 						},
-						error : function(){
-							alert('장바구니 추가 실패');
-						}
-					});
-					
-					function CartAddSuccess(list){
-						
-						var output = "";
-						output += "<td><img src='/icon/cartDelete.png' style='width:25px;height:25px'; id='"+list[i].muCode+"'/></td>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
-					}
-					$(this).attr("src", "icon/cartDelete.png");
-					cartCheck = $(this).attr('value','check2');
-					
-				}else if(cartCheck == "check2"){
-					$.ajax({
-						type : "POST",
-						url : "cartListDelete",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartDeleteSuccess(list);
-						},
-						error : function(){
-							alert('장바구니 삭제 실패');
-						}
-					});
-					
-					function CartDeleteSuccess(list){
-						
-						var output = "";
-						
-					
-						output += "<td><img src='/icon/cartCheck.png' style='width:25px;height:25px'; id='"+list[i].muCode+"'/></td>";
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
-					}
-					
-					$(this).attr("src", "icon/cartCheck.png");
-					cartCheck = $(this).attr('value','check1');
-					
+				dataType : "json",
+				success : function(list){
+					CartAddSuccess(list);
+				},
+				error : function(){
+					alert('장바구니 추가 실패');
 				}
+			});
+			
+			function CartAddSuccess(list){
+				
+				var output = "";
+				output += "<td><img src='/icon/cartDelete.png' style='width:25px;height:25px'; id='"+list[i].muCode+"'/></td>";
+				
+				var td22 = document.getElementById(muCode);
+				console.log(td22);
+				td22.innerHTML = output;
+			}
+			$(this).attr("src", "icon/cartDelete.png");
+			cartCheck = $(this).attr('value','check2');
+			
+		}else if(cartCheck == "check2"){
+			$.ajax({
+				type : "POST",
+				url : "cartListDelete",
+				data : {"caMuCode" : muCode,
+						"caMid" : sessionId
+						},
+				dataType : "json",
+				success : function(list){
+					CartDeleteSuccess(list);
+				},
+				error : function(){
+					alert('장바구니 삭제 실패');
+				}
+			});
+			
+			function CartDeleteSuccess(list){
+				
+				var output = "";
+				
+			
+				output += "<td><img src='/icon/cartCheck.png' style='width:25px;height:25px'; id='"+list[i].muCode+"'/></td>";
+				var td22 = document.getElementById(muCode);
+				console.log(td22);
+				td22.innerHTML = output;
+			}
+			
+			$(this).attr("src", "icon/cartCheck.png");
+			cartCheck = $(this).attr('value','check1');
+			
+		}
+	}
+				
 			});
 			
 			
@@ -2530,70 +2535,75 @@ $(".cartChange").click(function(){
 					
 		$(".cartChange").click(function(){
 						
-						var muCode = $(this).attr('id');
-						console.log("muCode : "+muCode);
-						
-						var cartCheck = $(this).attr('value');
-						
-						if(cartCheck == "check1"){
-							$.ajax({
-								type : "POST",
-								url : "cartListAdd",
-								data : {"caMuCode" : muCode,
-										"caMid" : sessionId
-										},
-								dataType : "json",
-								success : function(list){
-									CartAddSuccess(list);
+			if(sessionId == "nullId"){
+				alert("로그인 후 이용 가능합니다.");
+			}else{
+				var muCode = $(this).attr('id');
+				console.log("muCode : "+muCode);
+				
+				var cartCheck = $(this).attr('value');
+				
+				if(cartCheck == "check1"){
+					$.ajax({
+						type : "POST",
+						url : "cartListAdd",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
 								},
-								error : function(){
-									alert('장바구니 추가 실패');
-								}
-							});
-							
-							function CartAddSuccess(list){
-								
-								var output = "";
-								output += "<td><img src='/icon/cartDelete.png' style='width:25px;height:25px'; id='"+list[i].muCode+"'/></td>";
-								
-								var td22 = document.getElementById(muCode);
-								console.log(td22);
-								td22.innerHTML = output;
-							}
-							$(this).attr("src", "icon/cartDelete.png");
-							cartCheck = $(this).attr('value','check2');
-							
-						}else if(cartCheck == "check2"){
-							$.ajax({
-								type : "POST",
-								url : "cartListDelete",
-								data : {"caMuCode" : muCode,
-										"caMid" : sessionId
-										},
-								dataType : "json",
-								success : function(list){
-									CartDeleteSuccess(list);
-								},
-								error : function(){
-									alert('장바구니 삭제 실패');
-								}
-							});
-							
-							function CartDeleteSuccess(list){
-								
-								var output = "";
-								
-							
-								output += "<td><img src='/icon/cartCheck.png' style='width:25px;height:25px'; id='"+list[i].muCode+"'/></td>";
-								var td22 = document.getElementById(muCode);
-								console.log(td22);
-								td22.innerHTML = output;
-							}
-							
-							$(this).attr("src", "icon/cartCheck.png");
-							cartCheck = $(this).attr('value','check1');
-							
+						dataType : "json",
+						success : function(list){
+							CartAddSuccess(list);
+						},
+						error : function(){
+							alert('장바구니 추가 실패');
 						}
+					});
+					
+					function CartAddSuccess(list){
+						
+						var output = "";
+						output += "<td><img src='/icon/cartDelete.png' style='width:25px;height:25px'; id='"+list[i].muCode+"'/></td>";
+						
+						var td22 = document.getElementById(muCode);
+						console.log(td22);
+						td22.innerHTML = output;
+					}
+					$(this).attr("src", "icon/cartDelete.png");
+					cartCheck = $(this).attr('value','check2');
+					
+				}else if(cartCheck == "check2"){
+					$.ajax({
+						type : "POST",
+						url : "cartListDelete",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
+								},
+						dataType : "json",
+						success : function(list){
+							CartDeleteSuccess(list);
+						},
+						error : function(){
+							alert('장바구니 삭제 실패');
+						}
+					});
+					
+					function CartDeleteSuccess(list){
+						
+						var output = "";
+						
+					
+						output += "<td><img src='/icon/cartCheck.png' style='width:25px;height:25px'; id='"+list[i].muCode+"'/></td>";
+						var td22 = document.getElementById(muCode);
+						console.log(td22);
+						td22.innerHTML = output;
+					}
+					
+					$(this).attr("src", "icon/cartCheck.png");
+					cartCheck = $(this).attr('value','check1');
+					
+				}
+			}
+						
 					});
 					
 					

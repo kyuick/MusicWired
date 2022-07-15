@@ -665,12 +665,12 @@
 						
 						var output3 = "";
 						var output4 = "좋아요";
-						for(var i in list){
-							if(list.length <= 0){
-								output3 += "<p>가장 먼저 좋아요를 눌러보세요</p>";
-							} else if(list.length > 0){
+						if(list.length <= 0){
+							output3 += "<p>가장 먼저 좋아요를 눌러보세요</p>";
+						} else if(list.length > 0){
+							for(var i in list){
 								output3 += "<p><a href='boardWriterView?boWriter="+list[i].mId+"'><img src='/profile/"+ list[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + list[i].mName + "</a></p>";
-								}
+							}
 						}
 						
 						const modalContent = document.getElementById("content");
@@ -811,7 +811,7 @@
 					$('.TestCheck').val("");
 				},
 				error : function(){
-					alert('실패');
+					alert('댓글 등록에 실패하였습니다.');
 				}
 			});
 		}
@@ -1192,17 +1192,20 @@ $(document).ready(function(){
 				success : function(list){
 					
 					var output3 = "";
-			    	
-					for(var i in list){
-						if(list.length <= 0){
-							output3 += "<p>가장 먼저 좋아요를 눌러보세요</p>";
-						} else if(list.length > 0){
+					var output4 = "좋아요";
+					if(list.length <= 0){
+						output3 += "<p>가장 먼저 좋아요를 눌러보세요</p>";
+					} else if(list.length > 0){
+						for(var i in list){
 							output3 += "<p><a href='boardWriterView?boWriter="+list[i].mId+"'><img src='/profile/"+ list[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + list[i].mName + "</a></p>";
-							}
+						}	
 					}
 					
 					const modalContent = document.getElementById("content");
 					modalContent.innerHTML = output3;
+					
+					var modalTitle = document.getElementById("modalTitle");
+					modalTitle.innerHTML = output4;
 					
 			    	modal.style.display = "flex";
 					
@@ -1322,7 +1325,7 @@ $(document).on('click','.commBtn', function(){
 				$('.TestCheck').val("");
 			},
 			error : function(){
-				alert('실패');
+				alert('로그인 후 이용 가능합니다.');
 			}
 		});
 	}
