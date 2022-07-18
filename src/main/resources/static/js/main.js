@@ -21,8 +21,9 @@ $(document).ready(function () {
 		touchDrag: true,
 		dots: true,
 		loop: true,
-		autoplay: false,
-		smartSpeed: 600,
+		autoplay: true,
+		smartSpeed: 1000,
+		autoplayTimeout:2500,
 		autoHeight: true,
 		items: 1,
 		responsive: {
@@ -49,8 +50,8 @@ $(document).ready(function () {
 		touchDrag: true,
 		dots: true,
 		loop: true,
-		autoplay: false,
-		smartSpeed: 600,
+		autoplay: true,
+		smartSpeed: 100,
 		margin: 20,
 		autoHeight: true,
 		responsive: {
@@ -81,8 +82,8 @@ $(document).ready(function () {
 		touchDrag: true,
 		dots: true,
 		loop: true,
-		autoplay: false,
-		smartSpeed: 600,
+		autoplay: true,
+		smartSpeed: 100,
 		margin: 20,
 		autoHeight: true,
 		responsive: {
@@ -112,8 +113,8 @@ $(document).ready(function () {
 		touchDrag: true,
 		dots: true,
 		loop: true,
-		autoplay: false,
-		smartSpeed: 600,
+		autoplay: true,
+		smartSpeed: 100,
 		margin: 20,
 		autoHeight: true,
 		responsive: {
@@ -143,8 +144,8 @@ $(document).ready(function () {
 		touchDrag: true,
 		dots: true,
 		loop: true,
-		autoplay: false,
-		smartSpeed: 600,
+		autoplay: true,
+		smartSpeed: 100,
 		margin: 20,
 		autoHeight: true,
 		responsive: {
@@ -180,6 +181,7 @@ $(document).ready(function () {
 	$('.main__nav--next').on('click', function() {
 		var carouselId = $(this).attr('data-nav');
 		$(carouselId).trigger('next.owl.carousel');
+		
 	});
 
 	/*==============================
@@ -191,9 +193,9 @@ $(document).ready(function () {
 		dots: false,
 		loop: true,
 		autoplay: true,
-		autoplayTimeout: 5000,
+		autoplayTimeout: 1000,
 		autoplayHoverPause: true,
-		smartSpeed: 600,
+		smartSpeed: 100,
 		margin: 20,
 		responsive : {
 			0 : {
@@ -231,7 +233,7 @@ $(document).ready(function () {
 		dots: true,
 		loop: true,
 		autoplay: false,
-		smartSpeed: 600,
+		smartSpeed: 100,
 		autoHeight: true,
 		items: 1,
 		margin: 20,
@@ -405,10 +407,6 @@ $(document).ready(function () {
 				<input data-plyr="volume" type="range" min="0" max="1" step="0.05" value="1" autocomplete="off" aria-label="Volume">
 			</div>
 
-			<a href="release.html" class="plyr__control" aria-label="Playlist">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15,13H9a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2Zm0-4H9a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2ZM12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"/></svg>
-				<span class="plyr__tooltip" role="tooltip">Playlist</span>
-			</a>
 		</div>
 	</div>
 	`;

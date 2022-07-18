@@ -30,9 +30,9 @@ public class MusicCommentController {
 	// mcList
 	@PostMapping("mcList")
 	public @ResponseBody List<MusicCommentDTO> mcList(@RequestParam(value = "mcCode", required = true) int mcCode) {
-		System.out.println("1.comm : " + mcCode);
+//		System.out.println("1.comm : " + mcCode);
 		commentList = svc.mcList(mcCode);
-		System.out.println("4.comm : " + commentList);
+//		System.out.println("4.comm : " + commentList);
 		return commentList;
 
 	}
@@ -50,9 +50,9 @@ public class MusicCommentController {
 	@PostMapping("mcModify")
 	public @ResponseBody List<MusicCommentDTO> mcModify(@ModelAttribute MusicCommentDTO mcomm) {
 
-		System.out.println("1 수정" + mcomm);
+//		System.out.println("1 수정" + mcomm);
 		commentList = svc.mcModify(mcomm);
-		System.out.println("4 수정 " + commentList);
+//		System.out.println("4 수정 " + commentList);
 		return commentList;
 
 	}
@@ -60,9 +60,9 @@ public class MusicCommentController {
 	@PostMapping("mcDelete")
 	public @ResponseBody List<MusicCommentDTO> mcDelete(@ModelAttribute MusicCommentDTO mcomm) {
 
-		System.out.println("1 수정" + mcomm);
+//		System.out.println("1 수정" + mcomm);
 		commentList = svc.mcDelete(mcomm);
-		System.out.println("4 수정 " + commentList);
+//		System.out.println("4 수정 " + commentList);
 		return commentList;
 
 	}

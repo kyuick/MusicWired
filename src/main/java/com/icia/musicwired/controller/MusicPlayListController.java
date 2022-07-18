@@ -45,7 +45,7 @@ public class MusicPlayListController {
     public @ResponseBody List<MusicPlayListDto> playListPrint(@RequestParam ("mId")String mId) {
 
         playList = mpsvc.playListPrint(mId);
-        System.out.println("[4] playList : " + playList);
+//        System.out.println("[4] playList : " + playList);
         return playList;
     }
 
@@ -53,9 +53,9 @@ public class MusicPlayListController {
     //playListSearch : 플레이리스트 검색
     @PostMapping("playListSearch")
     public @ResponseBody List<uploadDto> playListSearch(@RequestParam("muName") String muName) {
-        System.out.println("[1] 게시글 muName C : " + muName);
+//        System.out.println("[1] 게시글 muName C : " + muName);
         uploadDto = mpsvc.playListSearch(muName);
-        System.out.println("[4] 게시글 muName C : " + muName);
+//        System.out.println("[4] 게시글 muName C : " + muName);
         return uploadDto;
     }
 

@@ -417,33 +417,92 @@ function searchMusic(list){
 
 	}
 		output +="</table>";
-		output += "<div class='paging-Text'>";
+		output += "<div class='paging-Text' style='text-align: center;'>";
 		if(paging.page <= 1){
-			
-			output += "<span >[이전]</span>"
+        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+        }else if(paging.page > 1){
+        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+        }
+		if(paging.page <= 1){
+			output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 		} else if(paging.page > 1){
-			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 		}
 		
 		for(var i=paging.startPage; i<=paging.endPage; i++){
 			if(paging.page == i){
-				output += "<span class='now-Page'> ["+i+"] </span>";
+				output += "<span class='pagingbtn'> "+i+" </span>";
 			} else if(paging.page != i){
-				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
 				
 			}
 		}
 	
 		if(paging.page >= paging.maxPage){
-			output += "<span> [다음]</span>"
+			output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 		} else if(paging.page < paging.maxPage){
-			output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-			
-		}output += "</div>";
+			output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+		}if(paging.page >= paging.maxPage){
+			output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+		} else if(paging.page < paging.maxPage){
+			output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+		}
+		output += "</div>";
 		
 		var ser=document.getElementById('ser');
 		ser.innerHTML=output;
 	
+
+		$(".homePage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			var page1 = 1;
+			console.log("page1 : " + page1);
+			
+			$.ajax({
+				type : "POST",
+				url : "balGenre",
+				data : {"page" : page1,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					genrelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
+			
+		});
+		$(".endPage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			var page2 = paging.maxPage;	
+			
+			console.log("page2 : " + page2);
+			
+			$.ajax({
+				type : "POST",
+				url : "balGenre",
+				data : {"page" : page2,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					genrelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
+		});
 		
 		$(".previousPage").click(function(){
 			
@@ -1254,34 +1313,91 @@ function searchSinger(list){
 
 }
 	output +="</table>";
-	output += "<div class='paging-Text'>";
+	output += "<div class='paging-Text' style='text-align: center;'>";
 	if(paging.page <= 1){
-		
-		output += "<span >[이전]</span>"
+    	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+    }else if(paging.page > 1){
+    	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+    }
+	if(paging.page <= 1){
+		output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 	} else if(paging.page > 1){
-		output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+		output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 	}
 	
 	for(var i=paging.startPage; i<=paging.endPage; i++){
 		if(paging.page == i){
-			output += "<span class='now-Page'> ["+i+"] </span>";
+			output += "<span class='pagingbtn'> "+i+" </span>";
 		} else if(paging.page != i){
-			output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+			output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
 			
 		}
 	}
 
 	if(paging.page >= paging.maxPage){
-		output += "<span> [다음]</span>"
+		output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 	} else if(paging.page < paging.maxPage){
-		output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-		
-	}output += "</div>";
+		output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+	}if(paging.page >= paging.maxPage){
+		output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+	} else if(paging.page < paging.maxPage){
+		output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+	}
+	output += "</div>";
 	
 	var ser=document.getElementById('ser');
 	ser.innerHTML=output;
 
-	
+	$(".homePage").click(function(){
+		var page = $(this).attr('id');
+		console.log("page : "+page);
+		
+		var limit = $(this).attr('value');
+		console.log("limit : "+limit);
+		
+		var page1 = 1;
+		console.log("page1 : " + page1);
+		
+		$.ajax({
+			type : "POST",
+			url : "balGenre",
+			data : {"page" : page1,
+					"limit" : limit},
+			dataType : "json",
+			success : function(list){
+				genrelist(list);
+			},
+			error : function(){
+				alert('음악목록 실패');
+			}
+		});
+		
+	});
+	$(".endPage").click(function(){
+		var page = $(this).attr('id');
+		console.log("page : "+page);
+		
+		var limit = $(this).attr('value');
+		console.log("limit : "+limit);
+		
+		var page2 = paging.maxPage;	
+		
+		console.log("page2 : " + page2);
+		
+		$.ajax({
+			type : "POST",
+			url : "balGenre",
+			data : {"page" : page2,
+					"limit" : limit},
+			dataType : "json",
+			success : function(list){
+				genrelist(list);
+			},
+			error : function(){
+				alert('음악목록 실패');
+			}
+		});
+	});
 	$(".previousPage").click(function(){
 		var keyword=document.getElementById('key').value;
 		
@@ -2100,34 +2216,91 @@ function searchMusic(list){
 
 	}
 		output +="</table>";
-		output += "<div class='paging-Text'>";
+		output += "<div class='paging-Text' style='text-align: center;'>";
 		if(paging.page <= 1){
-			
-			output += "<span >[이전]</span>"
+        	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+        }else if(paging.page > 1){
+        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+        }
+		if(paging.page <= 1){
+			output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 		} else if(paging.page > 1){
-			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 		}
 		
 		for(var i=paging.startPage; i<=paging.endPage; i++){
 			if(paging.page == i){
-				output += "<span class='now-Page'> ["+i+"] </span>";
+				output += "<span class='pagingbtn'> "+i+" </span>";
 			} else if(paging.page != i){
-				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
 				
 			}
 		}
 	
 		if(paging.page >= paging.maxPage){
-			output += "<span> [다음]</span>"
+			output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 		} else if(paging.page < paging.maxPage){
-			output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-			
-		}output += "</div>";
+			output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+		}if(paging.page >= paging.maxPage){
+			output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+		} else if(paging.page < paging.maxPage){
+			output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+		}
+		output += "</div>";
 		
 		var ser=document.getElementById('ser');
 		ser.innerHTML=output;
 	
-		
+		$(".homePage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			var page1 = 1;
+			console.log("page1 : " + page1);
+			
+			$.ajax({
+				type : "POST",
+				url : "danceGenre",
+				data : {"page" : page1,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					dancelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
+			
+		});
+		$(".endPage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			var page2 = paging.maxPage;	
+			
+			console.log("page2 : " + page2);
+			
+			$.ajax({
+				type : "POST",
+				url : "danceGenre",
+				data : {"page" : page2,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					dancelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
+		});
 		$(".previousPage").click(function(){
 			
 			var keyword=document.getElementById('key').value;
@@ -2937,34 +3110,91 @@ function searchSinger(list){
 
 }
 	output +="</table>";
-	output += "<div class='paging-Text'>";
+	output += "<div class='paging-Text' style='text-align: center;'>";
 	if(paging.page <= 1){
-		
-		output += "<span >[이전]</span>"
+    	output += "<span class='pagingbtnHome' style='display:none;'>처음</span>"
+    }else if(paging.page > 1){
+    	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
+    }
+	if(paging.page <= 1){
+		output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 	} else if(paging.page > 1){
-		output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a class='paging-Text' href='#'>[이전] </a></span>";
+		output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
 	}
 	
 	for(var i=paging.startPage; i<=paging.endPage; i++){
 		if(paging.page == i){
-			output += "<span class='now-Page'> ["+i+"] </span>";
+			output += "<span class='pagingbtn'> "+i+" </span>";
 		} else if(paging.page != i){
-			output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> "+ i +" </a></span>";
+			output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
 			
 		}
 	}
 
 	if(paging.page >= paging.maxPage){
-		output += "<span> [다음]</span>"
+		output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 	} else if(paging.page < paging.maxPage){
-		output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a class='paging-Text' href='#'> [다음]</a></span>";
-		
-	}output += "</div>";
+		output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
+	}if(paging.page >= paging.maxPage){
+		output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
+	} else if(paging.page < paging.maxPage){
+		output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
+	}
+	output += "</div>";
 	
 	var ser=document.getElementById('ser');
 	ser.innerHTML=output;
 
-	
+	$(".homePage").click(function(){
+		var page = $(this).attr('id');
+		console.log("page : "+page);
+		
+		var limit = $(this).attr('value');
+		console.log("limit : "+limit);
+		
+		var page1 = 1;
+		console.log("page1 : " + page1);
+		
+		$.ajax({
+			type : "POST",
+			url : "balGenre",
+			data : {"page" : page1,
+					"limit" : limit},
+			dataType : "json",
+			success : function(list){
+				genrelist(list);
+			},
+			error : function(){
+				alert('음악목록 실패');
+			}
+		});
+		
+	});
+	$(".endPage").click(function(){
+		var page = $(this).attr('id');
+		console.log("page : "+page);
+		
+		var limit = $(this).attr('value');
+		console.log("limit : "+limit);
+		
+		var page2 = paging.maxPage;	
+		
+		console.log("page2 : " + page2);
+		
+		$.ajax({
+			type : "POST",
+			url : "balGenre",
+			data : {"page" : page2,
+					"limit" : limit},
+			dataType : "json",
+			success : function(list){
+				genrelist(list);
+			},
+			error : function(){
+				alert('음악목록 실패');
+			}
+		});
+	});
 	$(".previousPage").click(function(){
 		var keyword=document.getElementById('key').value;
 		

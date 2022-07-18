@@ -46,7 +46,7 @@ public class BoardServiceIpml implements BoardService {
 //	boardUpload : 게시글 업로드 메소드
 	@Override
 	public ModelAndView boardUpload(BoardDTO board) throws IllegalStateException, IOException {
-		System.out.println("[2] 업로드 S : " + board);
+//		System.out.println("[2] 업로드 S : " + board);
 		// 1.파일 불러오기
 		MultipartFile boImageFile = board.getBoImageFile();
 
@@ -73,7 +73,7 @@ public class BoardServiceIpml implements BoardService {
 
 		int result = bodao.boardUpload(board);
 
-		System.out.println("[3] 업로드 S : " + result);
+//		System.out.println("[3] 업로드 S : " + result);
 		if (result > 0) {
 			mav.setViewName("board_list");
 		} else {
@@ -119,7 +119,7 @@ public class BoardServiceIpml implements BoardService {
 //	boardModify : 게시글 수정 메소드
 	@Override
 	public ModelAndView boardModify(BoardDTO board) throws IllegalStateException, IOException {
-		System.out.println("[2] 수정 S : " + board);
+//		System.out.println("[2] 수정 S : " + board);
 		// 1.파일 불러오기
 		MultipartFile boImageFile = board.getBoImageFile();
 
@@ -146,7 +146,7 @@ public class BoardServiceIpml implements BoardService {
 
 		int result = bodao.boardModify(board);
 
-		System.out.println("[3] 수정 S : " + result);
+//		System.out.println("[3] 수정 S : " + result);
 		if (result > 0) {
 			mav.setViewName("redirect:/boardList");
 		} else {
@@ -159,9 +159,9 @@ public class BoardServiceIpml implements BoardService {
 //	boardDelete : 게시글 삭제 메소드
 	@Override
 	public ModelAndView boardDelete(int boCode) {
-		System.out.println("[2] 삭제 S : " + boCode);
+//		System.out.println("[2] 삭제 S : " + boCode);
 		int result = bodao.boardDelete(boCode);
-		System.out.println("[3] 삭제 S : " + result);
+//		System.out.println("[3] 삭제 S : " + result);
 		
 		if (result > 0) {
 			mav.setViewName("redirect:/boardList");
@@ -192,11 +192,11 @@ public class BoardServiceIpml implements BoardService {
 	@Override
 	public List<BoardDTO> boLikeUp(int boCode) {
 
-		System.out.println("[2] 좋아요증가 S : " + boCode);
+//		System.out.println("[2] 좋아요증가 S : " + boCode);
 
 		int result = bodao.boLikeUp(boCode);
 
-		System.out.println("[3] 좋아요증가 S : " + result);
+//		System.out.println("[3] 좋아요증가 S : " + result);
 
 		if (result > 0) {
 			boardList = bodao.ajaxBoardListSelect(boCode);
@@ -210,9 +210,9 @@ public class BoardServiceIpml implements BoardService {
 //	boLikeDown : 좋아요 감소 메소드(ajax)
 	@Override
 	public List<BoardDTO> boLikeDown(int boCode) {
-		System.out.println("[2] 좋아요감소 S : " + boCode);
+//		System.out.println("[2] 좋아요감소 S : " + boCode);
 		int result = bodao.boLikeDown(boCode);
-		System.out.println("[3] 좋아요감소 S : " + result);
+//		System.out.println("[3] 좋아요감소 S : " + result);
 		if (result > 0) {
 			boardList = bodao.ajaxBoardListSelect(boCode);
 		} else {
@@ -225,10 +225,10 @@ public class BoardServiceIpml implements BoardService {
 //	boLikeInsert : 좋아요 테이블 등록 메소드(ajax)
 	@Override
 	public List<BoardLikeDTO> boLikeInsert(BoardLikeDTO boLike) {
-		System.out.println("[2] 좋아요 테이블 등록 S : " + boLike);
+//		System.out.println("[2] 좋아요 테이블 등록 S : " + boLike);
 
 		int result = bodao.boLikeInsert(boLike);
-		System.out.println("[3] 좋아요 테이블 등록 S : " + result);
+//		System.out.println("[3] 좋아요 테이블 등록 S : " + result);
 
 		if (result > 0) {
 
@@ -241,7 +241,7 @@ public class BoardServiceIpml implements BoardService {
 //	boLikeCheck : 좋아요한 게시글 목록 불러오기 메소드(ajax)
 	@Override
 	public List<BoardLikeDTO> boLikeCheck(BoardLikeDTO boLike) {
-		System.out.println("[2] 좋아요 게시글 목록 불러오기 S : " + boLike);
+//		System.out.println("[2] 좋아요 게시글 목록 불러오기 S : " + boLike);
 
 		List<BoardLikeDTO> boLikeList = bodao.boLikeCheck(boLike);
 
@@ -251,17 +251,17 @@ public class BoardServiceIpml implements BoardService {
 			boardLike = null;
 		}
 
-		System.out.println("[3] 좋아요 게시글 목록 불러오기 S : " + boLikeList);
+//		System.out.println("[3] 좋아요 게시글 목록 불러오기 S : " + boLikeList);
 		return boardLike;
 	}
 
 //	boLikeDelete : 좋아요 테이블 삭제 메소드(ajax)
 	@Override
 	public List<BoardLikeDTO> boLikeDelete(BoardLikeDTO boLike) {
-		System.out.println("[2] 좋아요 테이블 삭제 S : " + boLike);
+//		System.out.println("[2] 좋아요 테이블 삭제 S : " + boLike);
 
 		int result = bodao.boLikeDelete(boLike);
-		System.out.println("[3] 좋아요 테이블 삭제 S : " + result);
+//		System.out.println("[3] 좋아요 테이블 삭제 S : " + result);
 
 		if (result > 0) {
 
@@ -275,7 +275,7 @@ public class BoardServiceIpml implements BoardService {
 //	ajaxBoardSelect : 게시글 제목으로 검색 메소드(ajax)
 	@Override
 	public List<BoardDTO> ajaxBoardSelect(String boTitle) {
-		System.out.println("[2] 게시글 제목검색 S : " + boTitle);
+//		System.out.println("[2] 게시글 제목검색 S : " + boTitle);
 
 		/* List<BoardDTO> board = bodao.ajaxBoardSelect(boTitle); */
 		List<BoardDTO> boardList = bodao.ajaxBoardSelect(boTitle);
@@ -286,14 +286,14 @@ public class BoardServiceIpml implements BoardService {
 		});
 		
 
-		System.out.println("[3] 게시글 제목검색 S : " + boTitle);
+//		System.out.println("[3] 게시글 제목검색 S : " + boTitle);
 		return boardList;
 	}
 
 //	boardWriterView : 게시글 작성자 피드 이동
 	@Override
 	public ModelAndView boardWriterView(String boWriter, String mId) {
-		System.out.println("[2] 게시글 작성자 피드 이동 S : " + boWriter);
+//		System.out.println("[2] 게시글 작성자 피드 이동 S : " + boWriter);
 
 		MemberDTO member = mdao.boardWriterView(boWriter);
 		List<uploadDto> music = updao.boardWriterView(boWriter);
@@ -304,14 +304,14 @@ public class BoardServiceIpml implements BoardService {
 		int boaCount = bodao.boaCount(boWriter);
 		
 		   String subCheck = bodao.subCheck(boWriter,mId);
-		      System.out.println("확인"+subCheck);
+//		      System.out.println("확인"+subCheck);
 		      
 		      if(subCheck != null) {
 		         mav.addObject("subCheck", 1);
 		      }else { 
 		         mav.addObject("subCheck", 0);
 		      }
-		      System.out.println("트랙 : " + muTrack);
+//		      System.out.println("트랙 : " + muTrack);
 		      mav.setViewName("board_WriterFeed");
 		      mav.addObject("memView", member);
 		      mav.addObject("muViewList", music);
@@ -321,7 +321,7 @@ public class BoardServiceIpml implements BoardService {
 		      mav.addObject("muTrack", muTrack);
 		      mav.addObject("boaCount", boaCount);
 		      
-		      System.out.println("[3] 게시글 작성자 피드 이동 S : " + mav);
+//		      System.out.println("[3] 게시글 작성자 피드 이동 S : " + mav);
 
 		      return mav;
 
@@ -330,7 +330,7 @@ public class BoardServiceIpml implements BoardService {
 //	LikeBoardList : 좋아요한 게시글만 출력하는 메소드
 	@Override
 	public List<BoardDTO> LikeBoardList(String bolMid) {
-		System.out.println("[2] 좋아요한 게시글 출력 S : " + bolMid);
+//		System.out.println("[2] 좋아요한 게시글 출력 S : " + bolMid);
 
 		
 		/* List<BoardDTO> board = bodao.LikeBoardList(bolMid); */
@@ -341,7 +341,7 @@ public class BoardServiceIpml implements BoardService {
 
 		});
 		
-		System.out.println("[3] 좋아요한 게시글 출력 S : " + bolMid);
+//		System.out.println("[3] 좋아요한 게시글 출력 S : " + bolMid);
 		return boardList;
 	}
 	
@@ -372,7 +372,7 @@ public class BoardServiceIpml implements BoardService {
 //	boardListUserList : 게시글을 좋아요한 사람들을 출력하는 메소드
 	@Override
 	public List<BoardDTO> boardListUserList(int bolBoCode) {
-		System.out.println("[2] 게시글을 좋아요한 사람들 S : " + bolBoCode);
+//		System.out.println("[2] 게시글을 좋아요한 사람들 S : " + bolBoCode);
 		
 		List<BoardDTO> board = bodao.boardListUserList(bolBoCode);
 		
@@ -385,9 +385,9 @@ public class BoardServiceIpml implements BoardService {
 //	myBoardList : 내가 올린 게시글 출력(ajax)
 	@Override
 	public List<BoardDTO> myBoardList(String boWriter) {
-		System.out.println("[2] 내가 올린 게시글 리스트 S : " + boWriter);
+//		System.out.println("[2] 내가 올린 게시글 리스트 S : " + boWriter);
 		List<BoardDTO> board = bodao.myBoardList(boWriter);
-		System.out.println("[3] 내가 올린 게시글 리스트 S : " + board);
+//		System.out.println("[3] 내가 올린 게시글 리스트 S : " + board);
 		
 		if(board != null) {
 			boardList = board;
@@ -401,10 +401,10 @@ public class BoardServiceIpml implements BoardService {
 //	ajaxBoardDelete : 게시글 삭제(ajax)
 	@Override
 	public List<BoardDTO> ajaxBoardDelete(int boCode) {
-		System.out.println("[2] 게시글 삭제(ajax) S : " + boCode);
+//		System.out.println("[2] 게시글 삭제(ajax) S : " + boCode);
 		
 		int result = bodao.ajaxBoardDelete(boCode);
-		System.out.println("[3] 게시글 삭제(ajax) S : " + result);
+//		System.out.println("[3] 게시글 삭제(ajax) S : " + result);
 		
 		if(result > 0) {
 			

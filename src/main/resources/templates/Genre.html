@@ -55,12 +55,80 @@ input[class="cb1"] + label {
 				display: none;
 			}
 			
-			
+			.pagingbtn{
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			height: 22px;
+			color: black;
+			padding: 0 5px;
+			border-radius: 6px;
+			font-family: 'Inter', sans-serif;
+			font-size: 20px;
+			pointer-events: none;
+			background-color: rgba(255,255,255);
+			margin-bottom: auto;
+			margin-left: 10px;
+			width: 22px;
+			text-align: center;
+		}
+		
+		.homePage,
+		.endPage,
+		.previousPage,
+		.selectPage,
+		.nextPage{
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			height: 22px;
+			color: #fff;
+			padding: 0 5px;
+			border-radius: 6px;
+			font-family: 'Inter', sans-serif;
+			font-size: 16px;
+			background-color: rgba(0,153,255,0.6);
+			margin-bottom: auto;
+			margin-left: 10px;
+			width: 18px;
+			text-align: center;
+			cursor:pointer;
+			-webkit-transition: 0.5s;
+		}
+		
+		.homePage a,
+		.endPage a,
+		.previousPage a,
+		.selectPage a,
+		.nextPage a{
+			color: rgba(255,255,255,0.6);
+			-webkit-transition: 0.5s;
+		}
+		
+		.homePage:hover,
+		.endPage:hover,
+		.previousPage:hover,
+		.selectPage:hover,
+		.nextPage:hover{
+			background-color: rgba(255,255,255,0.9);
+			-webkit-transition: background-color 0.5s;
+		}
+		
+		.homePage:hover a,
+		.endPage:hover a,
+		.previousPage:hover a,
+		.selectPage:hover a,
+		.nextPage:hover a{
+			color: rgba(0,0,0,0.9);
+			font-size: 18px;
+			-webkit-transition: 0.4s;
+		}
 			</style>
 
 </head>
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <body>
 <header th:replace="header.html :: header"></header>
 <aside th:replace="sidebar.html :: aside"></aside>
@@ -118,7 +186,7 @@ input[class="cb1"] + label {
 					</ul>
 				</div>
 			</div>
-
+			
 			<div class="tab-content" id="genreArea">
 				<div class="tab-pane fade show active"  role="tabpanel">
 					<div class="row row--grid">
@@ -134,8 +202,16 @@ input[class="cb1"] + label {
 
 	<div id="mplayArea">
 	</div>
-	</div>
-			
+			 <!-- alert 모달을 쓸 페이지에 추가 start-->
+        <section class="modal1 modal1-addplay type-alert">
+            <div class="enroll_box">
+                <p class="menu_msg"></p>
+            </div>
+            <div class="enroll_btn">
+                <button class="btn blue_btn modal_close">확인</button>
+            </div>
+        </section>
+        <!-- alert 모달을 쓸 페이지에 추가 end-->
 	<!-- end main content -->
 
 	
@@ -234,18 +310,50 @@ input[class="cb1"] + label {
 <script th:if="${session.login eq null}" type="text/javascript" th:inline="javascript">
 
 var sessionId = "nullId";
-Kakao.init('4c25e779942dc16e7d31d2ea24d2b41e');
 
 $(document).ready(function(){
 
 	on3();
  
 });
+Kakao.init('0baef7a236dd6024098239bd8c5f2527');
+var action_popup = {
+		   timer: 500,
+		   alert: function (txt) {
+		        if (txt == null || txt.trim() == "") {
+		            console.warn("confirm message is empty.");
+		            return;
+		        } else {
+		            this.open("type-alert", txt);
+		        }
+		    },
 
+		    open: function (type, txt) {
+		        var popup = $("." + type);
+		        popup.find(".menu_msg").text(txt);
+		        $("body").append("<div class='dimLayer'></div>");
+		        $(".dimLayer").css('height', $(document).height()).attr("target", type);
+		        popup.fadeIn(this.timer);
+		    },
 
-
-var CheckLogin = [[${session.login}]]
-
+		    close: function (target) {
+		        var modal = $(target).closest(".modal1-addplay");
+		        var dimLayer;
+		        if (modal.hasClass("type-confirm")) {
+		            dimLayer = $(".dimLayer[target=type-confirm]");
+		            $(".type-confirm .btn_ok").unbind("click");
+		        } else if (modal.hasClass("type-alert")) {
+		            dimLayer = $(".dimLayer[target=type-alert]")
+		        } else {
+		            console.warn("close unknown target.")
+		            return;
+		        }
+		        modal.fadeOut(this.timer);
+		        setTimeout(function () {
+		            dimLayer != null ? dimLayer.remove() : "";
+		        }, this.timer);
+		    }
+		}
 function on3(){
 
 	
@@ -348,10 +456,11 @@ function smallCart(list){
 			output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg><a href='#'>발라드 차트</a></h2>"
 			output +="</div>"
 			output +="</div>"
-			output +="</br></br>"
+			output +="</br>"
 			output +="<table table class='main__table'>";
 			output +="<thead>"
 			output +="<tr>";
+			output +="<th class='main__table-text'> </th>";
 			output +="<th class='main__table-text'>NO</th>";
 			output +="<th class='main__table-text'> </th>";
 			output +="<th class='main__table-text' style='padding-right:600px;' >곡 정보</th>";
@@ -360,8 +469,8 @@ function smallCart(list){
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' >장바구니</th>";
-			output += "<th class='main__table-text'>공유하기</th>";
+			output +="<th class='main__table-text'>장바구니</th>";
+			output +="<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
 		
@@ -386,30 +495,33 @@ function smallCart(list){
 							dataType: "json",
 							async: false,
 							success: function(check){
-				output +="<tr>";				
-				output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
-					
-				output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-				output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-				output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-				output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
-				output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-				output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-				output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
-
-
-		if(check == ""){
-			if(result == ""){
-				
-				output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-			} else if(result != ""){
-				
-				output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-			}
-		} else if(check != ""){
-			output += "<td  ><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-		}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
-		output += "</tr>";
+								output += "<tbody>";
+								output +="<tr>";	
+								output +="<td> </td>";
+								output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
+								output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
+								output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
+								output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
+								output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
+								output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
+								output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
+								output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+								
+								if(check == ""){
+									if(result == ""){
+										output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+										output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'></a></td>";
+									} else if(result != ""){
+										output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+										output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'></a></td>";
+									}
+								} else if(check != ""){
+									output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"' class='single-item__export'>";
+									output += "<svg class='selectMusicDownload' id='"+GenreChart[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+								}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+								
+								output += "</tr>";
+								output += "</tbody>";
 	},
 	error: function(){
 		console.log('실패');
@@ -435,18 +547,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
         }else if(paging.page > 1){
         	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
         }
+		
 		if(paging.page <= 1){
 			output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 		} else if(paging.page > 1){
-			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
+			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>이전</a></span>";
 		}
 		
 		for(var i=paging.startPage; i<=paging.endPage; i++){
 			if(paging.page == i){
-				output += "<span class='pagingbtn'> "+i+" </span>";
+				output += "<span class='pagingbtn'>"+i+"</span>";
 			} else if(paging.page != i){
-				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-				
+				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'>"+ i +"</a></span>";
 			}
 		}
 	
@@ -454,13 +566,12 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 		} else if(paging.page < paging.maxPage){
 			output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
-		}if(paging.page >= paging.maxPage){
+		}
+		if(paging.page >= paging.maxPage){
 			output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
 		} else if(paging.page < paging.maxPage){
 			output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
 		}
-		
-		
 		output += "</div>";
 		
 		var genreArea=document.getElementById('genreArea');
@@ -518,31 +629,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			});
 			
 		});
-		$(".endPage").click(function(){
-			var page = $(this).attr('id');
-			console.log("page : "+page);
-			
-			var limit = $(this).attr('value');
-			console.log("limit : "+limit);
-			
-			var page2 = paging.maxPage;	
-			
-			console.log("page2 : " + page2);
-			
-			$.ajax({
-				type : "POST",
-				url : "balGenre",
-				data : {"page" : page2,
-						"limit" : limit},
-				dataType : "json",
-				success : function(list){
-					genrelist(list);
-				},
-				error : function(){
-					alert('음악목록 실패');
-				}
-			});
-		});
 		
 		
 		$(".cartChange").click(function(){
@@ -552,89 +638,93 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			
 			var cartCheck = $(this).attr('value');
 			
-			if(cartCheck == "check1"){
-				$.ajax({
-					type : "POST",
-					url : "cartListAdd",
-					data : {"caMuCode" : muCode,
-							"caMid" : sessionId
-							},
-					dataType : "json",
-					success : function(list){
-						CartAddSuccess(list);
-						$.ajax({
-							type : "POST",
-							url : "ajaxCartList",
-							data : {"caMid" : sessionId},
-							dataType : "json",
-							success : function(list){
-								smallCart(list);
-							},
-							error : function(){
-								console.log("장바구니 개수 출력 실패");
-							}
-						});
-					},
-					error : function(){
-						alert('장바구니 실패');
+			if(sessionId == 'nullId'){
+				alert('로그인 후 이용 가능합니다.');
+			}else{
+				if(cartCheck == "check1"){
+					$.ajax({
+						type : "POST",
+						url : "cartListAdd",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
+								},
+						dataType : "json",
+						success : function(list){
+							CartAddSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
+						},
+						error : function(){
+							alert('장바구니 추가 실패');
+						}
+					});
+					
+					function CartAddSuccess(list){
+						
+						var output = "";
+						
+						output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+						
+						var td22 = document.getElementById(muCode);
+						console.log(td22);
+						td22.innerHTML = output;
 					}
-				});
-				
-				function CartAddSuccess(list){
+					$(this).attr("src", "icon/cartDelete.png");
+					cartCheck = $(this).attr('value','check2');
 					
-					var output = "";
-					output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+				}else if(cartCheck == "check2"){
+					$.ajax({
+						type : "POST",
+						url : "cartListDelete",
+						data : {"caMuCode" : muCode,
+								"caMid" : sessionId
+								},
+						dataType : "json",
+						success : function(list){
+							CartDeleteSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
+						},
+						error : function(){
+							alert('장바구니 삭제 실패');
+						}
+					});
 					
-					var td22 = document.getElementById(muCode);
-					console.log(td22);
-					td22.innerHTML = output;
-				}
-				$(this).attr("src", "icon/cartDelete.png");
-				cartCheck = $(this).attr('value','check2');
-				
-			}else if(cartCheck == "check2"){
-				$.ajax({
-					type : "POST",
-					url : "cartListDelete",
-					data : {"caMuCode" : muCode,
-							"caMid" : sessionId
-							},
-					dataType : "json",
-					success : function(list){
-						CartDeleteSuccess(list);
-						$.ajax({
-							type : "POST",
-							url : "ajaxCartList",
-							data : {"caMid" : sessionId},
-							dataType : "json",
-							success : function(list){
-								smallCart(list);
-							},
-							error : function(){
-								console.log("장바구니 개수 출력 실패");
-							}
-						});
-					},
-					error : function(){
-						alert('장바구니 삭제 실패');
+					function CartDeleteSuccess(list){
+						
+						var output = "";
+						
+						output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+						
+						var td22 = document.getElementById(muCode);
+						console.log(td22);
+						td22.innerHTML = output;
 					}
-				});
-				
-				function CartDeleteSuccess(list){
 					
-					var output = "";
+					$(this).attr("src", "icon/cartCheck.png");
+					cartCheck = $(this).attr('value','check1');
 					
-					output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-				
-					
-					var td22 = document.getElementById(muCode);
-					console.log(td22);
-					td22.innerHTML = output;
 				}
-				
-				$(this).attr("src", "icon/cartCheck.png");
-				cartCheck = $(this).attr('value','check1');
-				
 			}
 		});
 		
@@ -662,29 +752,20 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			});
 			
 		});
-		
-	
-
-		  // SDK 초기화 여부를 판단합니다.
-		  console.log(Kakao.isInitialized());
-
-		  
-		  $(".share").click(function(){
-		
+		 $(".share").click(function(){
+				
 			 	var mContent = $(this).attr('value');
 				var array = mContent.split(",");
 			    var muName = array[0]; 
 			    var muSinger = array[1]; 
 			    var muImage = array[2]; 
 			    var muCode = array[3];
-			    var imgurl = 'http://localhost:9091/muImage/'+muImage;
-			
+		  		 console.log(muImage);
 			    Kakao.Link.sendDefault({
 		      objectType: 'feed',
 		      content: {
 		    	  title: muName,
 		          description: muSinger,
-		    
 		          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
 		          link: {
 		            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
@@ -697,7 +778,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 		    })
 		 
 		  });
-		
 		
 	$(".play").click(function(){
 			
@@ -1004,7 +1084,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				}
 			});
 		});
-		
+		$(".endPage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			var page2 = paging.maxPage;	
+			
+			console.log("page2 : " + page2);
+			
+			$.ajax({
+				type : "POST",
+				url : "balGenre",
+				data : {"page" : page2,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					genrelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
+		});
 		
 		
 		
@@ -1037,27 +1141,28 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 		
 
 			var output="";
-			output +="<div class='col-12'>"
-			output +="<div class='main__title'>"
-			output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg><a href='#'>댄스 차트</a></h2>"
-			output +="</div>"
-			output +="</div>"
-			output +="</br></br>"
-			output +="<table table class='main__table'>";
-			output +="<thead>"
-			output +="<tr>";
-			output +="<th class='main__table-text'>NO</th>";
-			output +="<th class='main__table-text'> </th>";
-			output +="<th class='main__table-text' style='padding-right:600px;' >곡 정보</th>";
-			output +="<th class='main__table-text'>재생</th>";
-			output +="<th class='main__table-text'>음악장르</th>";
-			output +="<th class='main__table-text'>업로드일</th>";
-			output +="<th class='main__table-text'>조회수</th>";
-			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' >장바구니</th>";
-			output += "<th class='main__table-text'>공유하기</th>";
-			output +="</tr>	";
-			output +="</thead>";
+				output +="<div class='col-12'>"
+				output +="<div class='main__title'>"
+				output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg><a href='#'>댄스 차트</a></h2>"
+				output +="</div>"
+				output +="</div>"
+				output +="</br>"
+				output +="<table table class='main__table'>";
+				output +="<thead>"
+				output +="<tr>";
+				output +="<th class='main__table-text'> </th>";
+				output +="<th class='main__table-text'>NO</th>";
+				output +="<th class='main__table-text'> </th>";
+				output +="<th class='main__table-text' style='padding-right:600px;' >곡 정보</th>";
+				output +="<th class='main__table-text'>재생</th>";
+				output +="<th class='main__table-text'>음악장르</th>";
+				output +="<th class='main__table-text'>업로드일</th>";
+				output +="<th class='main__table-text'>조회수</th>";
+				output +="<th class='main__table-text'>좋아요수</th>";
+				output +="<th class='main__table-text'>장바구니</th>";
+				output +="<th class='main__table-text'>공유하기</th>";
+				output +="</tr>	";
+				output +="</thead>";
 		
 
 			for(var i in GenreChart){
@@ -1079,30 +1184,33 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 								dataType: "json",
 								async: false,
 								success: function(check){
-					output +="<tr>";				
-					output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
-						
-					output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-					output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-					output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
-
-
-			if(check == ""){
-				if(result == ""){
-					
-					output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-				} else if(result != ""){
-					
-					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-				}
-			} else if(check != ""){
-				output += "<td  ><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
-			output += "</tr>";
+									output += "<tbody>";
+									output +="<tr>";	
+									output +="<td> </td>";
+									output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
+									output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
+									output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
+									output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+									
+									if(check == ""){
+										if(result == ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'></a></td>";
+										} else if(result != ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'></a></td>";
+										}
+									} else if(check != ""){
+										output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"' class='single-item__export'>";
+										output += "<svg class='selectMusicDownload' id='"+GenreChart[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+									}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+									
+									output += "</tr>";
+									output += "</tbody>";
 		},
 		error: function(){
 			console.log('실패');
@@ -1126,18 +1234,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	        }else if(paging.page > 1){
 	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
 	        }
+			
 			if(paging.page <= 1){
 				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='pagingbtn'> "+i+" </span>";
+					output += "<span class='pagingbtn'>"+i+"</span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-					
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'>"+ i +"</a></span>";
 				}
 			}
 		
@@ -1145,19 +1253,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
-			}if(paging.page >= paging.maxPage){
+			}
+			if(paging.page >= paging.maxPage){
 				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
 			}
-			
-			
 			output += "</div>";
-			
+		
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
-		
+			
 			$(".homePage").click(function(){
 				var page = $(this).attr('id');
 				console.log("page : "+page);
@@ -1209,31 +1316,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			$(".endPage").click(function(){
-				var page = $(this).attr('id');
-				console.log("page : "+page);
-				
-				var limit = $(this).attr('value');
-				console.log("limit : "+limit);
-				
-				var page2 = paging.maxPage;	
-				
-				console.log("page2 : " + page2);
-				
-				$.ajax({
-					type : "POST",
-					url : "danceGenre",
-					data : {"page" : page2,
-							"limit" : limit},
-					dataType : "json",
-					success : function(list){
-						dancelist(list);
-					},
-					error : function(){
-						alert('음악목록 실패');
-					}
-				});
-			});
 			
 			
 			$(".cartChange").click(function(){
@@ -1243,66 +1325,96 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				
 				var cartCheck = $(this).attr('value');
 				
-				if(cartCheck == "check1"){
-					$.ajax({
-						type : "POST",
-						url : "cartListAdd",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartAddSuccess(list);
-						},
-						error : function(){
-							alert('장바구니 실패');
+				if(sessionId == 'nullId'){
+					alert('로그인 후 이용 가능합니다.');
+				}else{
+					if(cartCheck == "check1"){
+						$.ajax({
+							type : "POST",
+							url : "cartListAdd",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								CartAddSuccess(list);
+								$.ajax({
+									type : "POST",
+									url : "ajaxCartList",
+									data : {"caMid" : sessionId},
+									dataType : "json",
+									success : function(list){
+										smallCart(list);
+									},
+									error : function(){
+										console.log("장바구니 개수 출력 실패");
+									}
+								});
+							},
+							error : function(){
+								alert('장바구니 추가 실패');
+							}
+						});
+						
+						function CartAddSuccess(list){
+							
+							var output = "";
+							
+							output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+							
+							var td22 = document.getElementById(muCode);
+							console.log(td22);
+							td22.innerHTML = output;
 						}
-					});
-					
-					function CartAddSuccess(list){
+						$(this).attr("src", "icon/cartDelete.png");
+						cartCheck = $(this).attr('value','check2');
 						
-						var output = "";
+					}else if(cartCheck == "check2"){
+						$.ajax({
+							type : "POST",
+							url : "cartListDelete",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								CartDeleteSuccess(list);
+								$.ajax({
+									type : "POST",
+									url : "ajaxCartList",
+									data : {"caMid" : sessionId},
+									dataType : "json",
+									success : function(list){
+										smallCart(list);
+									},
+									error : function(){
+										console.log("장바구니 개수 출력 실패");
+									}
+								});
+							},
+							error : function(){
+								alert('장바구니 삭제 실패');
+							}
+						});
 						
-						output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
-					}
-					$(this).attr("src", "icon/cartDelete.png");
-					cartCheck = $(this).attr('value','check2');
-					
-				}else if(cartCheck == "check2"){
-					$.ajax({
-						type : "POST",
-						url : "cartListDelete",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartDeleteSuccess(list);
-						},
-						error : function(){
-							alert('장바구니 삭제 실패');
+						function CartDeleteSuccess(list){
+							
+							var output = "";
+							
+							output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+							
+							var td22 = document.getElementById(muCode);
+							console.log(td22);
+							td22.innerHTML = output;
 						}
-					});
-					
-					function CartDeleteSuccess(list){
 						
-						var output = "";
+						$(this).attr("src", "icon/cartCheck.png");
+						cartCheck = $(this).attr('value','check1');
 						
-						output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
 					}
-					
-					$(this).attr("src", "icon/cartCheck.png");
-					cartCheck = $(this).attr('value','check1');
-					
 				}
+				
+				
 			});
 
 			
@@ -1329,16 +1441,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
-			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
-			 
-
-			  // SDK 초기화 여부를 판단합니다.
-			  console.log(Kakao.isInitialized());
-
-			  
-			  $(".share").click(function(){
-			
+			 $(".share").click(function(){
+					
 				 	var mContent = $(this).attr('value');
 					var array = mContent.split(",");
 				    var muName = array[0]; 
@@ -1363,7 +1467,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			    })
 			 
 			  });
-			
+			 
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -1659,6 +1763,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 			});
 			
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "danceGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						dancelist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 			
 		}
 	
@@ -1689,27 +1818,28 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 
 			
 			var output="";
-			output +="<div class='col-12'>"
-			output +="<div class='main__title'>"
-			output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg><a href='#'>록 차트</a></h2>"
-			output +="</div>"
-			output +="</div>"
-			output +="</br></br>"
-			output +="<table table class='main__table'>";
-			output +="<thead>"
-			output +="<tr>";
-			output +="<th class='main__table-text'>NO</th>";
-			output +="<th class='main__table-text'> </th>";
-			output +="<th class='main__table-text' style='padding-right:600px;' >곡 정보</th>";
-			output +="<th class='main__table-text'>재생</th>";
-			output +="<th class='main__table-text'>음악장르</th>";
-			output +="<th class='main__table-text'>업로드일</th>";
-			output +="<th class='main__table-text'>조회수</th>";
-			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' >장바구니</th>";
-			output += "<th class='main__table-text'>공유하기</th>";
-			output +="</tr>	";
-			output +="</thead>";
+				output +="<div class='col-12'>"
+				output +="<div class='main__title'>"
+				output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg><a href='#'>록 차트</a></h2>"
+				output +="</div>"
+				output +="</div>"
+				output +="</br>"
+				output +="<table table class='main__table'>";
+				output +="<thead>"
+				output +="<tr>";
+				output +="<th class='main__table-text'> </th>";
+				output +="<th class='main__table-text'>NO</th>";
+				output +="<th class='main__table-text'> </th>";
+				output +="<th class='main__table-text' style='padding-right:600px;' >곡 정보</th>";
+				output +="<th class='main__table-text'>재생</th>";
+				output +="<th class='main__table-text'>음악장르</th>";
+				output +="<th class='main__table-text'>업로드일</th>";
+				output +="<th class='main__table-text'>조회수</th>";
+				output +="<th class='main__table-text'>좋아요수</th>";
+				output +="<th class='main__table-text'>장바구니</th>";
+				output +="<th class='main__table-text'>공유하기</th>";
+				output +="</tr>	";
+				output +="</thead>";
 
 
 		
@@ -1732,30 +1862,33 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 								dataType: "json",
 								async: false,
 								success: function(check){
-					output +="<tr>";				
-					output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
-						
-					output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-					output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-					output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
-
-
-			if(check == ""){
-				if(result == ""){
-					
-					output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-				} else if(result != ""){
-					
-					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-				}
-			} else if(check != ""){
-				output += "<td  ><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
-			output += "</tr>";
+									output += "<tbody>";
+									output +="<tr>";	
+									output +="<td> </td>";
+									output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
+									output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
+									output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
+									output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+									
+									if(check == ""){
+										if(result == ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'></a></td>";
+										} else if(result != ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'></a></td>";
+										}
+									} else if(check != ""){
+										output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"' class='single-item__export'>";
+										output += "<svg class='selectMusicDownload' id='"+GenreChart[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+									}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+									
+									output += "</tr>";
+									output += "</tbody>";
 		},
 		error: function(){
 			console.log('실패');
@@ -1769,6 +1902,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	}
 	});
 	})(i);
+			
+		
 			}
 			output +="</table>";
 			output +="</br>";
@@ -1778,18 +1913,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	        }else if(paging.page > 1){
 	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
 	        }
+			
 			if(paging.page <= 1){
 				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='pagingbtn'> "+i+" </span>";
+					output += "<span class='pagingbtn'>"+i+"</span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-					
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'>"+ i +"</a></span>";
 				}
 			}
 		
@@ -1797,13 +1932,12 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
-			}if(paging.page >= paging.maxPage){
+			}
+			if(paging.page >= paging.maxPage){
 				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
 			}
-			
-			
 			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
@@ -1861,31 +1995,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			$(".endPage").click(function(){
-				var page = $(this).attr('id');
-				console.log("page : "+page);
-				
-				var limit = $(this).attr('value');
-				console.log("limit : "+limit);
-				
-				var page2 = paging.maxPage;	
-				
-				console.log("page2 : " + page2);
-				
-				$.ajax({
-					type : "POST",
-					url : "rockGenre",
-					data : {"page" : page2,
-							"limit" : limit},
-					dataType : "json",
-					success : function(list){
-						rocklist(list);
-					},
-					error : function(){
-						alert('음악목록 실패');
-					}
-				});
-			});
 			
 			$(".cartChange").click(function(){
 				
@@ -1894,65 +2003,93 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				
 				var cartCheck = $(this).attr('value');
 				
-				if(cartCheck == "check1"){
-					$.ajax({
-						type : "POST",
-						url : "cartListAdd",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartAddSuccess(list);
-						},
-						error : function(){
-							alert('장바구니 실패');
+				if(sessionId == 'nullId'){
+					alert('로그인 후 이용 가능합니다.');
+				}else{
+					if(cartCheck == "check1"){
+						$.ajax({
+							type : "POST",
+							url : "cartListAdd",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								CartAddSuccess(list);
+								$.ajax({
+									type : "POST",
+									url : "ajaxCartList",
+									data : {"caMid" : sessionId},
+									dataType : "json",
+									success : function(list){
+										smallCart(list);
+									},
+									error : function(){
+										console.log("장바구니 개수 출력 실패");
+									}
+								});
+							},
+							error : function(){
+								alert('장바구니 추가 실패');
+							}
+						});
+						
+						function CartAddSuccess(list){
+							
+							var output = "";
+							
+							output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+							
+							var td22 = document.getElementById(muCode);
+							console.log(td22);
+							td22.innerHTML = output;
 						}
-					});
-					
-					function CartAddSuccess(list){
+						$(this).attr("src", "icon/cartDelete.png");
+						cartCheck = $(this).attr('value','check2');
 						
-						var output = "";
+					}else if(cartCheck == "check2"){
+						$.ajax({
+							type : "POST",
+							url : "cartListDelete",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								CartDeleteSuccess(list);
+								$.ajax({
+									type : "POST",
+									url : "ajaxCartList",
+									data : {"caMid" : sessionId},
+									dataType : "json",
+									success : function(list){
+										smallCart(list);
+									},
+									error : function(){
+										console.log("장바구니 개수 출력 실패");
+									}
+								});
+							},
+							error : function(){
+								alert('장바구니 삭제 실패');
+							}
+						});
 						
-						output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
-					}
-					$(this).attr("src", "icon/cartDelete.png");
-					cartCheck = $(this).attr('value','check2');
-					
-				}else if(cartCheck == "check2"){
-					$.ajax({
-						type : "POST",
-						url : "cartListDelete",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartDeleteSuccess(list);
-						},
-						error : function(){
-							alert('장바구니 삭제 실패');
+						function CartDeleteSuccess(list){
+							
+							var output = "";
+							
+							output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+							
+							var td22 = document.getElementById(muCode);
+							console.log(td22);
+							td22.innerHTML = output;
 						}
-					});
-					
-					function CartDeleteSuccess(list){
 						
-						var output = "";
+						$(this).attr("src", "icon/cartCheck.png");
+						cartCheck = $(this).attr('value','check1');
 						
-						output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
 					}
-					
-					$(this).attr("src", "icon/cartCheck.png");
-					cartCheck = $(this).attr('value','check1');
-					
 				}
 			});
 
@@ -1980,16 +2117,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
-			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
-			 
-
-			  // SDK 초기화 여부를 판단합니다.
-			  console.log(Kakao.isInitialized());
-
-			  
-			  $(".share").click(function(){
-			
+			 $(".share").click(function(){
+					
 				 	var mContent = $(this).attr('value');
 					var array = mContent.split(",");
 				    var muName = array[0]; 
@@ -2014,7 +2143,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			    })
 			 
 			  });
-			
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -2311,7 +2439,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 			});
 			
-			
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "rockGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						rocklist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 		}
 	
 	function on6(){
@@ -2341,27 +2493,28 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 
 
 			var output="";
-			output +="<div class='col-12'>"
-			output +="<div class='main__title'>"
-			output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg><a href='#'>힙합 차트</a></h2>"
-			output +="</div>"
-			output +="</div>"
-			output +="</br></br>"
-			output +="<table table class='main__table'>";
-			output +="<thead>"
-			output +="<tr>";
-			output +="<th class='main__table-text'>NO</th>";
-			output +="<th class='main__table-text'> </th>";
-			output +="<th class='main__table-text' style='padding-right:600px;' >곡 정보</th>";
-			output +="<th class='main__table-text'>재생</th>";
-			output +="<th class='main__table-text'>음악장르</th>";
-			output +="<th class='main__table-text'>업로드일</th>";
-			output +="<th class='main__table-text'>조회수</th>";
-			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' >장바구니</th>";
-			output += "<th class='main__table-text'>공유하기</th>";
-			output +="</tr>	";
-			output +="</thead>";
+			 output +="<div class='col-12'>"
+				output +="<div class='main__title'>"
+				output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg><a href='#'>힙합 차트</a></h2>"
+				output +="</div>"
+				output +="</div>"
+				output +="</br>"
+				output +="<table table class='main__table'>";
+				output +="<thead>"
+				output +="<tr>";
+				output +="<th class='main__table-text'> </th>";
+				output +="<th class='main__table-text'>NO</th>";
+				output +="<th class='main__table-text'> </th>";
+				output +="<th class='main__table-text' style='padding-right:600px;' >곡 정보</th>";
+				output +="<th class='main__table-text'>재생</th>";
+				output +="<th class='main__table-text'>음악장르</th>";
+				output +="<th class='main__table-text'>업로드일</th>";
+				output +="<th class='main__table-text'>조회수</th>";
+				output +="<th class='main__table-text'>좋아요수</th>";
+				output +="<th class='main__table-text'>장바구니</th>";
+				output +="<th class='main__table-text'>공유하기</th>";
+				output +="</tr>	";
+				output +="</thead>";
 		
 			for(var i in GenreChart){
 				(function(i){
@@ -2382,30 +2535,33 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 								dataType: "json",
 								async: false,
 								success: function(check){
-					output +="<tr>";				
-					output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
-						
-					output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-					output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-					output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
-
-
-			if(check == ""){
-				if(result == ""){
-					
-					output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-				} else if(result != ""){
-					
-					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-				}
-			} else if(check != ""){
-				output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
-			output += "</tr>";
+									output += "<tbody>";
+									output +="<tr>";	
+									output +="<td> </td>";
+									output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
+									output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
+									output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
+									output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+									
+									if(check == ""){
+										if(result == ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'></a></td>";
+										} else if(result != ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'></a></td>";
+										}
+									} else if(check != ""){
+										output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"' class='single-item__export'>";
+										output += "<svg class='selectMusicDownload' id='"+GenreChart[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+									}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+									
+									output += "</tr>";
+									output += "</tbody>";
 		},
 		error: function(){
 			console.log('실패');
@@ -2430,18 +2586,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	        }else if(paging.page > 1){
 	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
 	        }
+			
 			if(paging.page <= 1){
 				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='pagingbtn'> "+i+" </span>";
+					output += "<span class='pagingbtn'>"+i+"</span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-					
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'>"+ i +"</a></span>";
 				}
 			}
 		
@@ -2449,19 +2605,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
-			}if(paging.page >= paging.maxPage){
+			}
+			if(paging.page >= paging.maxPage){
 				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
 			}
-			
-			
 			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
-		
+			
 			$(".homePage").click(function(){
 				var page = $(this).attr('id');
 				console.log("page : "+page);
@@ -2513,31 +2668,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			$(".endPage").click(function(){
-				var page = $(this).attr('id');
-				console.log("page : "+page);
-				
-				var limit = $(this).attr('value');
-				console.log("limit : "+limit);
-				
-				var page2 = paging.maxPage;	
-				
-				console.log("page2 : " + page2);
-				
-				$.ajax({
-					type : "POST",
-					url : "hiphopGenre",
-					data : {"page" : page2,
-							"limit" : limit},
-					dataType : "json",
-					success : function(list){
-						hiphoplist(list);
-					},
-					error : function(){
-						alert('음악목록 실패');
-					}
-				});
-			});
 			
 			$(".cartChange").click(function(){
 				
@@ -2546,65 +2676,93 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				
 				var cartCheck = $(this).attr('value');
 				
-				if(cartCheck == "check1"){
-					$.ajax({
-						type : "POST",
-						url : "cartListAdd",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartAddSuccess(list);
-						},
-						error : function(){
-							alert('장바구니 실패');
+				if(sessionId == 'nullId'){
+					alert('로그인 후 이용 가능합니다.');
+				}else{
+					if(cartCheck == "check1"){
+						$.ajax({
+							type : "POST",
+							url : "cartListAdd",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								CartAddSuccess(list);
+								$.ajax({
+									type : "POST",
+									url : "ajaxCartList",
+									data : {"caMid" : sessionId},
+									dataType : "json",
+									success : function(list){
+										smallCart(list);
+									},
+									error : function(){
+										console.log("장바구니 개수 출력 실패");
+									}
+								});
+							},
+							error : function(){
+								alert('장바구니 추가 실패');
+							}
+						});
+						
+						function CartAddSuccess(list){
+							
+							var output = "";
+							
+							output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+							
+							var td22 = document.getElementById(muCode);
+							console.log(td22);
+							td22.innerHTML = output;
 						}
-					});
-					
-					function CartAddSuccess(list){
+						$(this).attr("src", "icon/cartDelete.png");
+						cartCheck = $(this).attr('value','check2');
 						
-						var output = "";
+					}else if(cartCheck == "check2"){
+						$.ajax({
+							type : "POST",
+							url : "cartListDelete",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								CartDeleteSuccess(list);
+								$.ajax({
+									type : "POST",
+									url : "ajaxCartList",
+									data : {"caMid" : sessionId},
+									dataType : "json",
+									success : function(list){
+										smallCart(list);
+									},
+									error : function(){
+										console.log("장바구니 개수 출력 실패");
+									}
+								});
+							},
+							error : function(){
+								alert('장바구니 삭제 실패');
+							}
+						});
 						
-						output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
-					}
-					$(this).attr("src", "icon/cartDelete.png");
-					cartCheck = $(this).attr('value','check2');
-					
-				}else if(cartCheck == "check2"){
-					$.ajax({
-						type : "POST",
-						url : "cartListDelete",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartDeleteSuccess(list);
-						},
-						error : function(){
-							alert('장바구니 삭제 실패');
+						function CartDeleteSuccess(list){
+							
+							var output = "";
+							
+							output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+							
+							var td22 = document.getElementById(muCode);
+							console.log(td22);
+							td22.innerHTML = output;
 						}
-					});
-					
-					function CartDeleteSuccess(list){
 						
-						var output = "";
+						$(this).attr("src", "icon/cartCheck.png");
+						cartCheck = $(this).attr('value','check1');
 						
-						output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
 					}
-					
-					$(this).attr("src", "icon/cartCheck.png");
-					cartCheck = $(this).attr('value','check1');
-					
 				}
 			});
 
@@ -2632,16 +2790,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
-			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
-			 
-
-			  // SDK 초기화 여부를 판단합니다.
-			  console.log(Kakao.isInitialized());
-
-			  
-			  $(".share").click(function(){
-			
+			 $(".share").click(function(){
+					
 				 	var mContent = $(this).attr('value');
 					var array = mContent.split(",");
 				    var muName = array[0]; 
@@ -2666,7 +2816,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			    })
 			 
 			  });
-			
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -2961,7 +3110,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 			});
 			
-			
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "hiphopGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						hiphoplist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 		}
 	
 	function on7(){
@@ -2993,27 +3166,28 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			var output="";
 
 			var output="";
-			output +="<div class='col-12'>"
-			output +="<div class='main__title'>"
-			output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg><a href='#'>인디 차트</a></h2>"
-			output +="</div>"
-			output +="</div>"
-			output +="</br></br>"
-			output +="<table table class='main__table'>";
-			output +="<thead>"
-			output +="<tr>";
-			output +="<th class='main__table-text'>NO</th>";
-			output +="<th class='main__table-text'> </th>";
-			output +="<th class='main__table-text' style='padding-right:600px;' >곡 정보</th>";
-			output +="<th class='main__table-text'>재생</th>";
-			output +="<th class='main__table-text'>음악장르</th>";
-			output +="<th class='main__table-text'>업로드일</th>";
-			output +="<th class='main__table-text'>조회수</th>";
-			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' >장바구니</th>";
-			output += "<th class='main__table-text'>공유하기</th>";
-			output +="</tr>	";
-			output +="</thead>";
+				output +="<div class='col-12'>"
+				output +="<div class='main__title'>"
+				output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg><a href='#'>인디 차트</a></h2>"
+				output +="</div>"
+				output +="</div>"
+				output +="</br>"
+				output +="<table table class='main__table'>";
+				output +="<thead>"
+				output +="<tr>";
+				output +="<th class='main__table-text'> </th>";
+				output +="<th class='main__table-text'>NO</th>";
+				output +="<th class='main__table-text'> </th>";
+				output +="<th class='main__table-text' style='padding-right:600px;' >곡 정보</th>";
+				output +="<th class='main__table-text'>재생</th>";
+				output +="<th class='main__table-text'>음악장르</th>";
+				output +="<th class='main__table-text'>업로드일</th>";
+				output +="<th class='main__table-text'>조회수</th>";
+				output +="<th class='main__table-text'>좋아요수</th>";
+				output +="<th class='main__table-text'>장바구니</th>";
+				output +="<th class='main__table-text'>공유하기</th>";
+				output +="</tr>	";
+				output +="</thead>";
 		
 			for(var i in GenreChart){
 				(function(i){
@@ -3034,30 +3208,33 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 								dataType: "json",
 								async: false,
 								success: function(check){
-					output +="<tr>";				
-					output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
-						
-					output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-					output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-					output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
-
-
-			if(check == ""){
-				if(result == ""){
-					
-					output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-				} else if(result != ""){
-					
-					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-				}
-			} else if(check != ""){
-				output += "<td  ><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
-			output += "</tr>";
+									output += "<tbody>";
+									output +="<tr>";	
+									output +="<td> </td>";
+									output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
+									output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
+									output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
+									output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+									
+									if(check == ""){
+										if(result == ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'></a></td>";
+										} else if(result != ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'></a></td>";
+										}
+									} else if(check != ""){
+										output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"' class='single-item__export'>";
+										output += "<svg class='selectMusicDownload' id='"+GenreChart[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+									}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+									
+									output += "</tr>";
+									output += "</tbody>";
 		},
 		error: function(){
 			console.log('실패');
@@ -3081,18 +3258,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	        }else if(paging.page > 1){
 	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
 	        }
+			
 			if(paging.page <= 1){
 				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='pagingbtn'> "+i+" </span>";
+					output += "<span class='pagingbtn'>"+i+"</span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-					
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'>"+ i +"</a></span>";
 				}
 			}
 		
@@ -3100,19 +3277,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
-			}if(paging.page >= paging.maxPage){
+			}
+			if(paging.page >= paging.maxPage){
 				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
 			}
-			
-			
 			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
-		
+			
 			$(".homePage").click(function(){
 				var page = $(this).attr('id');
 				console.log("page : "+page);
@@ -3164,31 +3340,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			$(".endPage").click(function(){
-				var page = $(this).attr('id');
-				console.log("page : "+page);
-				
-				var limit = $(this).attr('value');
-				console.log("limit : "+limit);
-				
-				var page2 = paging.maxPage;	
-				
-				console.log("page2 : " + page2);
-				
-				$.ajax({
-					type : "POST",
-					url : "indiGenre",
-					data : {"page" : page2,
-							"limit" : limit},
-					dataType : "json",
-					success : function(list){
-						indilist(list);
-					},
-					error : function(){
-						alert('음악목록 실패');
-					}
-				});
-			});
 			
 			$(".cartChange").click(function(){
 				
@@ -3197,65 +3348,93 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				
 				var cartCheck = $(this).attr('value');
 				
-				if(cartCheck == "check1"){
-					$.ajax({
-						type : "POST",
-						url : "cartListAdd",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartAddSuccess(list);
-						},
-						error : function(){
-							alert('장바구니 실패');
+				if(sessionId == 'nullId'){
+					alert('로그인 후 이용 가능합니다.');
+				}else{
+					if(cartCheck == "check1"){
+						$.ajax({
+							type : "POST",
+							url : "cartListAdd",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								CartAddSuccess(list);
+								$.ajax({
+									type : "POST",
+									url : "ajaxCartList",
+									data : {"caMid" : sessionId},
+									dataType : "json",
+									success : function(list){
+										smallCart(list);
+									},
+									error : function(){
+										console.log("장바구니 개수 출력 실패");
+									}
+								});
+							},
+							error : function(){
+								alert('장바구니 추가 실패');
+							}
+						});
+						
+						function CartAddSuccess(list){
+							
+							var output = "";
+							
+							output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+							
+							var td22 = document.getElementById(muCode);
+							console.log(td22);
+							td22.innerHTML = output;
 						}
-					});
-					
-					function CartAddSuccess(list){
+						$(this).attr("src", "icon/cartDelete.png");
+						cartCheck = $(this).attr('value','check2');
 						
-						var output = "";
+					}else if(cartCheck == "check2"){
+						$.ajax({
+							type : "POST",
+							url : "cartListDelete",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								CartDeleteSuccess(list);
+								$.ajax({
+									type : "POST",
+									url : "ajaxCartList",
+									data : {"caMid" : sessionId},
+									dataType : "json",
+									success : function(list){
+										smallCart(list);
+									},
+									error : function(){
+										console.log("장바구니 개수 출력 실패");
+									}
+								});
+							},
+							error : function(){
+								alert('장바구니 삭제 실패');
+							}
+						});
 						
-						output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
-					}
-					$(this).attr("src", "icon/cartDelete.png");
-					cartCheck = $(this).attr('value','check2');
-					
-				}else if(cartCheck == "check2"){
-					$.ajax({
-						type : "POST",
-						url : "cartListDelete",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartDeleteSuccess(list);
-						},
-						error : function(){
-							alert('장바구니 삭제 실패');
+						function CartDeleteSuccess(list){
+							
+							var output = "";
+							
+							output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+							
+							var td22 = document.getElementById(muCode);
+							console.log(td22);
+							td22.innerHTML = output;
 						}
-					});
-					
-					function CartDeleteSuccess(list){
 						
-						var output = "";
+						$(this).attr("src", "icon/cartCheck.png");
+						cartCheck = $(this).attr('value','check1');
 						
-						output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
 					}
-					
-					$(this).attr("src", "icon/cartCheck.png");
-					cartCheck = $(this).attr('value','check1');
-					
 				}
 			});
 
@@ -3283,16 +3462,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
-			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
-			 
-
-			  // SDK 초기화 여부를 판단합니다.
-			  console.log(Kakao.isInitialized());
-
-			  
-			  $(".share").click(function(){
-			
+			 $(".share").click(function(){
+					
 				 	var mContent = $(this).attr('value');
 					var array = mContent.split(",");
 				    var muName = array[0]; 
@@ -3317,7 +3488,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			    })
 			 
 			  });
-			
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -3612,7 +3782,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 			});
 			
-			
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "indiGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						indilist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 		}
 	
 	function on8(){
@@ -3641,27 +3835,28 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 
 
 			var output="";
-			output +="<div class='col-12'>"
-			output +="<div class='main__title'>"
-			output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M19.12,2.21A1,1,0,0,0,18.26,2l-8,2A1,1,0,0,0,9.5,5V15.35A3.45,3.45,0,0,0,8,15a3.5,3.5,0,1,0,3.5,3.5V10.78L18.74,9l.07,0L19,8.85l.15-.1a.93.93,0,0,0,.13-.15.78.78,0,0,0,.1-.15.55.55,0,0,0,.06-.18.58.58,0,0,0,0-.19.24.24,0,0,0,0-.08V3A1,1,0,0,0,19.12,2.21ZM8,20a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,8,20ZM17.5,7.22l-6,1.5V5.78l6-1.5Z'></path></svg><a href='#'>그 외 장르 </a></h2>"
-			output +="</div>"
-			output +="</div>"
-			output +="</br></br>"
-			output +="<table table class='main__table'>";
-			output +="<thead>"
-			output +="<tr>";
-			output +="<th class='main__table-text'>NO</th>";
-			output +="<th class='main__table-text'> </th>";
-			output +="<th class='main__table-text' style='padding-right:600px;' >곡 정보</th>";
-			output +="<th class='main__table-text'>재생</th>";
-			output +="<th class='main__table-text'>음악장르</th>";
-			output +="<th class='main__table-text'>업로드일</th>";
-			output +="<th class='main__table-text'>조회수</th>";
-			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text'>장바구니</th>";
-			output += "<th class='main__table-text'>공유하기</th>";
-			output +="</tr>	";
-			output +="</thead>";
+				output +="<div class='col-12'>"
+				output +="<div class='main__title'>"
+				output +="<h2><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg><a href='#'>그 외 장르</a></h2>"
+				output +="</div>"
+				output +="</div>"
+				output +="</br>"
+				output +="<table table class='main__table'>";
+				output +="<thead>"
+				output +="<tr>";
+				output +="<th class='main__table-text'> </th>";
+				output +="<th class='main__table-text'>NO</th>";
+				output +="<th class='main__table-text'> </th>";
+				output +="<th class='main__table-text' style='padding-right:600px;' >곡 정보</th>";
+				output +="<th class='main__table-text'>재생</th>";
+				output +="<th class='main__table-text'>음악장르</th>";
+				output +="<th class='main__table-text'>업로드일</th>";
+				output +="<th class='main__table-text'>조회수</th>";
+				output +="<th class='main__table-text'>좋아요수</th>";
+				output +="<th class='main__table-text'>장바구니</th>";
+				output +="<th class='main__table-text'>공유하기</th>";
+				output +="</tr>	";
+				output +="</thead>";
 			
 			for(var i in GenreChart){
 				(function(i){
@@ -3682,30 +3877,33 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 								dataType: "json",
 								async: false,
 								success: function(check){
-					output +="<tr>";				
-					output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
-						
-					output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-					output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-					output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
-
-
-			if(check == ""){
-				if(result == ""){
-					
-					output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-				} else if(result != ""){
-					
-					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-				}
-			} else if(check != ""){
-				output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
-			output += "</tr>";
+									output += "<tbody>";
+									output +="<tr>";	
+									output +="<td> </td>";
+									output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
+									output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
+									output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
+									output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+									
+									if(check == ""){
+										if(result == ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'></a></td>";
+										} else if(result != ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'></a></td>";
+										}
+									} else if(check != ""){
+										output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"' class='single-item__export'>";
+										output += "<svg class='selectMusicDownload' id='"+GenreChart[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+									}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+									
+									output += "</tr>";
+									output += "</tbody>";
 		},
 		error: function(){
 			console.log('실패');
@@ -3729,18 +3927,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	        }else if(paging.page > 1){
 	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
 	        }
+			
 			if(paging.page <= 1){
 				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='pagingbtn'> "+i+" </span>";
+					output += "<span class='pagingbtn'>"+i+"</span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-					
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'>"+ i +"</a></span>";
 				}
 			}
 		
@@ -3748,19 +3946,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
-			}if(paging.page >= paging.maxPage){
+			}
+			if(paging.page >= paging.maxPage){
 				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
 			}
-			
-			
 			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
-		
+			
 			$(".homePage").click(function(){
 				var page = $(this).attr('id');
 				console.log("page : "+page);
@@ -3812,31 +4009,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			$(".endPage").click(function(){
-				var page = $(this).attr('id');
-				console.log("page : "+page);
-				
-				var limit = $(this).attr('value');
-				console.log("limit : "+limit);
-				
-				var page2 = paging.maxPage;	
-				
-				console.log("page2 : " + page2);
-				
-				$.ajax({
-					type : "POST",
-					url : "gitaGenre",
-					data : {"page" : page2,
-							"limit" : limit},
-					dataType : "json",
-					success : function(list){
-						gitalist(list);
-					},
-					error : function(){
-						alert('음악목록 실패');
-					}
-				});
-			});
 			
 			$(".cartChange").click(function(){
 				
@@ -3845,65 +4017,93 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				
 				var cartCheck = $(this).attr('value');
 				
-				if(cartCheck == "check1"){
-					$.ajax({
-						type : "POST",
-						url : "cartListAdd",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartAddSuccess(list);
-						},
-						error : function(){
-							alert('장바구니 실패');
+				if(sessionId == 'nullId'){
+					alert('로그인 후 이용 가능합니다.');
+				}else{
+					if(cartCheck == "check1"){
+						$.ajax({
+							type : "POST",
+							url : "cartListAdd",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								CartAddSuccess(list);
+								$.ajax({
+									type : "POST",
+									url : "ajaxCartList",
+									data : {"caMid" : sessionId},
+									dataType : "json",
+									success : function(list){
+										smallCart(list);
+									},
+									error : function(){
+										console.log("장바구니 개수 출력 실패");
+									}
+								});
+							},
+							error : function(){
+								alert('장바구니 추가 실패');
+							}
+						});
+						
+						function CartAddSuccess(list){
+							
+							var output = "";
+							
+							output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+							
+							var td22 = document.getElementById(muCode);
+							console.log(td22);
+							td22.innerHTML = output;
 						}
-					});
-					
-					function CartAddSuccess(list){
+						$(this).attr("src", "icon/cartDelete.png");
+						cartCheck = $(this).attr('value','check2');
 						
-						var output = "";
+					}else if(cartCheck == "check2"){
+						$.ajax({
+							type : "POST",
+							url : "cartListDelete",
+							data : {"caMuCode" : muCode,
+									"caMid" : sessionId
+									},
+							dataType : "json",
+							success : function(list){
+								CartDeleteSuccess(list);
+								$.ajax({
+									type : "POST",
+									url : "ajaxCartList",
+									data : {"caMid" : sessionId},
+									dataType : "json",
+									success : function(list){
+										smallCart(list);
+									},
+									error : function(){
+										console.log("장바구니 개수 출력 실패");
+									}
+								});
+							},
+							error : function(){
+								alert('장바구니 삭제 실패');
+							}
+						});
 						
-						output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
-					}
-					$(this).attr("src", "icon/cartDelete.png");
-					cartCheck = $(this).attr('value','check2');
-					
-				}else if(cartCheck == "check2"){
-					$.ajax({
-						type : "POST",
-						url : "cartListDelete",
-						data : {"caMuCode" : muCode,
-								"caMid" : sessionId
-								},
-						dataType : "json",
-						success : function(list){
-							CartDeleteSuccess(list);
-						},
-						error : function(){
-							alert('장바구니 삭제 실패');
+						function CartDeleteSuccess(list){
+							
+							var output = "";
+							
+							output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
+							
+							var td22 = document.getElementById(muCode);
+							console.log(td22);
+							td22.innerHTML = output;
 						}
-					});
-					
-					function CartDeleteSuccess(list){
 						
-						var output = "";
+						$(this).attr("src", "icon/cartCheck.png");
+						cartCheck = $(this).attr('value','check1');
 						
-						output += "<td><img id='"+list.muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-						
-						var td22 = document.getElementById(muCode);
-						console.log(td22);
-						td22.innerHTML = output;
 					}
-					
-					$(this).attr("src", "icon/cartCheck.png");
-					cartCheck = $(this).attr('value','check1');
-					
 				}
 			});
 
@@ -3931,16 +4131,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
-			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
-			 
-
-			  // SDK 초기화 여부를 판단합니다.
-			  console.log(Kakao.isInitialized());
-
-			  
-			  $(".share").click(function(){
-			
+			 $(".share").click(function(){
+					
 				 	var mContent = $(this).attr('value');
 					var array = mContent.split(",");
 				    var muName = array[0]; 
@@ -3965,7 +4157,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			    })
 			 
 			  });
-			
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -4261,7 +4452,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 			});
 			
-			
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "gitaGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						gitalist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 		}
 	
 	
@@ -4274,19 +4489,13 @@ var CheckLogin = [[${session.login}]]
 if(CheckLogin != null){
 	var sessionId = [[${session.login.mId}]]
 }
-Kakao.init('4c25e779942dc16e7d31d2ea24d2b41e');	
-
 $(document).ready(function(){
-
 	on3();
- 
-});
-
-
-function on3(){
-
-
 	
+});
+Kakao.init('0baef7a236dd6024098239bd8c5f2527');
+
+function on3(){	
  	$.ajax({
 			type : "POST",
 			url : "balGenre",
@@ -4301,6 +4510,118 @@ function on3(){
 				alert("실패");
 			}
 		});
+}
+var action_popup = {
+		   timer: 500,
+		   alert: function (txt) {
+		        if (txt == null || txt.trim() == "") {
+		            console.warn("confirm message is empty.");
+		            return;
+		        } else {
+		            this.open("type-alert", txt);
+		        }
+		    },
+
+		    open: function (type, txt) {
+		        var popup = $("." + type);
+		        popup.find(".menu_msg").text(txt);
+		        $("body").append("<div class='dimLayer'></div>");
+		        $(".dimLayer").css('height', $(document).height()).attr("target", type);
+		        popup.fadeIn(this.timer);
+		    },
+
+		    close: function (target) {
+		        var modal = $(target).closest(".modal1-addplay");
+		        var dimLayer;
+		        if (modal.hasClass("type-confirm")) {
+		            dimLayer = $(".dimLayer[target=type-confirm]");
+		            $(".type-confirm .btn_ok").unbind("click");
+		        } else if (modal.hasClass("type-alert")) {
+		            dimLayer = $(".dimLayer[target=type-alert]")
+		        } else {
+		            console.warn("close unknown target.")
+		            return;
+		        }
+		        modal.fadeOut(this.timer);
+		        setTimeout(function () {
+		            dimLayer != null ? dimLayer.remove() : "";
+		        }, this.timer);
+		    }
+		}
+
+
+function smallCart(list){
+	var cartCountArea = document.getElementById('cartCountArea');
+	
+	if(list.length <= 0){
+		cartCountArea.innerHTML = "";
+	} else{
+		cartCountArea.innerHTML = list.length;
+	}
+	
+	var output = "";
+	
+	if(list.length > 4){
+		output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+		for(var i=0; i<4; i++){
+			output += "<div class='header__product'>";
+			output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+			output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+			output += "<span>"+list[i].muSinger+"</span>";
+			output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+		}
+	}else if(list.length == 0){
+		output += "<div class='header__product' style='padding-left:33px; padding-right:33px;'>";
+		output += "<span>장바구니가 비어있습니다.</span></div>"
+	}else{
+		output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+		for(var i in list){
+			output += "<div class='header__product'>";
+			output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+			output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+			output += "<span>"+list[i].muSinger+"</span>";
+			output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+		}
+	}
+	
+	
+	var smallCartListArea = document.getElementById('smallCartListArea');
+	smallCartListArea.innerHTML = output;
+	
+	$(".cartDelete").click(function(){
+		
+		var muCode = $(this).attr('id');
+		console.log("muCode : "+muCode);
+		
+		$.ajax({
+			type : "POST",
+			url : "cartListDelete",
+			data : {"caMuCode" : muCode,
+					"caMid" : sessionId
+					},
+			dataType : "json",
+			success : function(list){
+				smallCart(list);
+				$("#cartListArea").load(window.location.href + "#cartListArea");
+				$("#myMusicListArea").load(window.location.href + "#myMusicListArea");
+				
+				$.ajax({
+					type : "POST",
+					url : "balGenre",
+					dataType:'json',
+					success : function(list){
+						genrelist(list);
+					},
+					error : function(){
+						alert("실패");
+					}
+				});
+			},
+			error : function(){
+				alert('장바구니 삭제 실패');
+			}
+		});
+	});
 }
 
 	function genrelist(list){
@@ -4329,7 +4650,7 @@ function on3(){
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' >장바구니</th>";
+			output +="<th class='main__table-text'>장바구니</th>";
 			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
@@ -4354,47 +4675,43 @@ function on3(){
 							dataType: "json",
 							async: false,
 							success: function(check){
-					
-				output +="<tr>";	
-				output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>";
-				output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
-				output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-				output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-				output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-				output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
-				output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-				output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-				output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
-				
-		if(check == ""){
-			if(result == ""){
-				
-				output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-			} else if(result != ""){
-				
-				output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-			}
-		} else if(check != ""){
-			output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-		}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
-		
-		output += "</tr>";
-	},
-	error: function(){
-		console.log('실패');
-	},
-});
-
-
-},
-error: function(){
-alert('장바구니에 담은 리스트 불러오기 실패');
-}
-});
-})(i);
-		
-	
-
+								output += "<tbody>";
+								output +="<tr>";	
+								output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>";
+								output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
+								output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
+								output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
+								output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
+								output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
+								output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
+								output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
+								output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+								
+								if(check == ""){
+									if(result == ""){
+										output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+										output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'></a></td>";
+									} else if(result != ""){
+										output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+										output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'></a></td>";
+									}
+								} else if(check != ""){
+									output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"' class='single-item__export'>";
+									output += "<svg class='selectMusicDownload' id='"+GenreChart[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+								}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+								output += "</tr>";
+								output += "</tbody>";
+							},
+							error: function(){
+								console.log('실패');
+							},
+						});
+					},
+					error: function(){
+					alert('장바구니에 담은 리스트 불러오기 실패');
+					}
+				});
+			})(i);
 		}
 		output +="</table>";
 		output +="</br>";
@@ -4406,18 +4723,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
         }else if(paging.page > 1){
         	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
         }
+		
 		if(paging.page <= 1){
 			output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 		} else if(paging.page > 1){
-			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
+			output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>이전</a></span>";
 		}
 		
 		for(var i=paging.startPage; i<=paging.endPage; i++){
 			if(paging.page == i){
-				output += "<span class='pagingbtn'> "+i+" </span>";
+				output += "<span class='pagingbtn'>"+i+"</span>";
 			} else if(paging.page != i){
-				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-				
+				output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'>"+ i +"</a></span>";
 			}
 		}
 	
@@ -4425,20 +4742,91 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 		} else if(paging.page < paging.maxPage){
 			output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
-		}if(paging.page >= paging.maxPage){
+		}
+		if(paging.page >= paging.maxPage){
 			output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
 		} else if(paging.page < paging.maxPage){
 			output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
 		}
-		
-		
 		output += "</div>";
 		
 		var genreArea=document.getElementById('genreArea');
 		
 		genreArea.innerHTML=output;
 		
-		
+		function smallCart(list){
+			var cartCountArea = document.getElementById('cartCountArea');
+			
+			if(list.length <= 0){
+				cartCountArea.innerHTML = "";
+			} else{
+				cartCountArea.innerHTML = list.length;
+			}
+			
+			var output = "";
+			
+			if(list.length > 4){
+				output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+				for(var i=0; i<4; i++){
+					output += "<div class='header__product'>";
+					output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+					output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+					output += "<span>"+list[i].muSinger+"</span>";
+					output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+				}
+			}else if(list.length == 0){
+				output += "<div class='header__product' style='padding-left:33px; padding-right:33px;'>";
+				output += "<span>장바구니가 비어있습니다.</span></div>"
+			}else{
+				output += "<a href='/cartList' class='header__all'>Go to cart</a>";
+				for(var i in list){
+					output += "<div class='header__product'>";
+					output += "<img src='muImage/"+list[i].muImage+"' style='width: 50px; height: 50px; border-radius: 70%; overflow: hidden;'>";
+					output += "<p><a href='muView?muCode="+list[i].muCode+"&mId="+list[i].muSinger+"'><span id='"+list[i].muCode+"' class='cartMusicName' value='"+list[i].muSinger+"' name='"+list[i].muName+"'>"+list[i].muName+"</span></a></p>";
+					output += "<span>"+list[i].muSinger+"</span>";
+					output += "<button id='"+list[i].muCode+"' class='cartDelete' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z'></path></svg></button></div>";
+				}
+			}
+			
+			
+			var smallCartListArea = document.getElementById('smallCartListArea');
+			smallCartListArea.innerHTML = output;
+			
+			$(".cartDelete").click(function(){
+				
+				var muCode = $(this).attr('id');
+				console.log("muCode : "+muCode);
+				
+				$.ajax({
+					type : "POST",
+					url : "cartListDelete",
+					data : {"caMuCode" : muCode,
+							"caMid" : sessionId
+							},
+					dataType : "json",
+					success : function(list){
+						smallCart(list);
+						$("#cartListArea").load(window.location.href + "#cartListArea");
+						$("#myMusicListArea").load(window.location.href + "#myMusicListArea");
+						
+						$.ajax({
+							type : "POST",
+							url : "balGenre",
+							dataType:'json',
+							success : function(list){
+								genrelist(list);
+							},
+							error : function(){
+								alert("실패");
+							}
+						});
+					},
+					error : function(){
+						alert('장바구니 삭제 실패');
+					}
+				});
+			});
+		}
 			
 		$("input:checkbox[class=cb2]").on('click', function() {
 		      if ( $(this).prop('checked') ) {
@@ -4477,7 +4865,14 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 		 	 }
 			 $("input:checkbox[class=cb1]").prop("checked", false);
 			 $("input:checkbox[class=cb2]").prop("checked", false);
-		});
+			 action_popup.alert("플레이리스트 추가 완료");
+			 
+			  $(".modal_close").on("click", function () {
+			        action_popup.close(this);
+			    });
+			  });
+
+		
 		
 		$(".homePage").click(function(){
 			var page = $(this).attr('id');
@@ -4530,31 +4925,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			});
 			
 		});
-		$(".endPage").click(function(){
-			var page = $(this).attr('id');
-			console.log("page : "+page);
-			
-			var limit = $(this).attr('value');
-			console.log("limit : "+limit);
-			
-			var page2 = paging.maxPage;	
-			
-			console.log("page2 : " + page2);
-			
-			$.ajax({
-				type : "POST",
-				url : "balGenre",
-				data : {"page" : page2,
-						"limit" : limit},
-				dataType : "json",
-				success : function(list){
-					genrelist(list);
-				},
-				error : function(){
-					alert('음악목록 실패');
-				}
-			});
-		});
 		
 		
 
@@ -4576,9 +4946,21 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					dataType : "json",
 					success : function(list){
 						CartAddSuccess(list);
+						$.ajax({
+							type : "POST",
+							url : "ajaxCartList",
+							data : {"caMid" : sessionId},
+							dataType : "json",
+							success : function(list){
+								smallCart(list);
+							},
+							error : function(){
+								console.log("장바구니 개수 출력 실패");
+							}
+						});
 					},
 					error : function(){
-						alert('장바구니 실패');
+						alert('장바구니 추가 실패');
 					}
 				});
 				
@@ -4604,6 +4986,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					dataType : "json",
 					success : function(list){
 						CartDeleteSuccess(list);
+						$.ajax({
+							type : "POST",
+							url : "ajaxCartList",
+							data : {"caMid" : sessionId},
+							dataType : "json",
+							success : function(list){
+								smallCart(list);
+							},
+							error : function(){
+								console.log("장바구니 개수 출력 실패");
+							}
+						});
 					},
 					error : function(){
 						alert('장바구니 삭제 실패');
@@ -4652,16 +5046,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			});
 			
 		});
-		
-		// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
-		 
-
-		  // SDK 초기화 여부를 판단합니다.
-		  console.log(Kakao.isInitialized());
-
-		  
-		  $(".share").click(function(){
-		
+		 $(".share").click(function(){
+				
 			 	var mContent = $(this).attr('value');
 				var array = mContent.split(",");
 			    var muName = array[0]; 
@@ -4686,7 +5072,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 		    })
 		 
 		  });
-		
 		
 	$(".play").click(function(){
 			
@@ -5068,7 +5453,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			});
 		});
 		
-		
+		$(".endPage").click(function(){
+			var page = $(this).attr('id');
+			console.log("page : "+page);
+			
+			var limit = $(this).attr('value');
+			console.log("limit : "+limit);
+			
+			var page2 = paging.maxPage;	
+			
+			console.log("page2 : " + page2);
+			
+			$.ajax({
+				type : "POST",
+				url : "balGenre",
+				data : {"page" : page2,
+						"limit" : limit},
+				dataType : "json",
+				success : function(list){
+					genrelist(list);
+				},
+				error : function(){
+					alert('음악목록 실패');
+				}
+			});
+		});
 	}
 	
 	
@@ -5116,7 +5525,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>장바구니</th>";
 			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
@@ -5141,30 +5550,33 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 								dataType: "json",
 								async: false,
 								success: function(check){
-					output +="<tr>";
-					output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>";
-					output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
-					output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-					output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-					output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>"
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
-
-
-			if(check == ""){
-				if(result == ""){
-					
-					output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-				} else if(result != ""){
-					
-					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-				}
-			} else if(check != ""){
-				output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
-			output += "</tr>";
+									output += "<tbody>";
+									output +="<tr>";	
+									output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>";
+									output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
+									output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
+									output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
+									output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+									
+									if(check == ""){
+										if(result == ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'></a></td>";
+										} else if(result != ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'></a></td>";
+										}
+									} else if(check != ""){
+										output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"' class='single-item__export'>";
+										output += "<svg class='selectMusicDownload' id='"+GenreChart[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+									}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+									
+									output += "</tr>";
+									output += "</tbody>";
 		},
 		error: function(){
 			console.log('실패');
@@ -5188,18 +5600,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	        }else if(paging.page > 1){
 	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
 	        }
+			
 			if(paging.page <= 1){
 				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='pagingbtn'> "+i+" </span>";
+					output += "<span class='pagingbtn'>"+i+"</span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-					
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'>"+ i +"</a></span>";
 				}
 			}
 		
@@ -5207,14 +5619,14 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
-			}if(paging.page >= paging.maxPage){
+			}
+			if(paging.page >= paging.maxPage){
 				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
 			}
-			
 			output += "</div>";
-			
+		
 			var genreArea=document.getElementById('genreArea');
 			
 			genreArea.innerHTML=output;
@@ -5256,7 +5668,14 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			 	 }
 				 $("input:checkbox[class=cb1]").prop("checked", false);
 				 $("input:checkbox[class=cb2]").prop("checked", false);
-			});
+				 action_popup.alert("플레이리스트 추가 완료");
+				 
+				  $(".modal_close").on("click", function () {
+				        action_popup.close(this);
+				    });
+				  });
+
+			
 			
 			$(".homePage").click(function(){
 				var page = $(this).attr('id');
@@ -5309,31 +5728,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			$(".endPage").click(function(){
-				var page = $(this).attr('id');
-				console.log("page : "+page);
-				
-				var limit = $(this).attr('value');
-				console.log("limit : "+limit);
-				
-				var page2 = paging.maxPage;	
-				
-				console.log("page2 : " + page2);
-				
-				$.ajax({
-					type : "POST",
-					url : "danceGenre",
-					data : {"page" : page2,
-							"limit" : limit},
-					dataType : "json",
-					success : function(list){
-						dancelist(list);
-					},
-					error : function(){
-						alert('음악목록 실패');
-					}
-				});
-			});
 			
 			
 			$(".cartChange").click(function(){
@@ -5353,9 +5747,21 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 						dataType : "json",
 						success : function(list){
 							CartAddSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
 						},
 						error : function(){
-							alert('장바구니 실패');
+							alert('장바구니 추가 실패');
 						}
 					});
 					
@@ -5382,6 +5788,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 						dataType : "json",
 						success : function(list){
 							CartDeleteSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
 						},
 						error : function(){
 							alert('장바구니 삭제 실패');
@@ -5429,16 +5847,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
-			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
-			 
-
-			  // SDK 초기화 여부를 판단합니다.
-			  console.log(Kakao.isInitialized());
-
-			  
-			  $(".share").click(function(){
-			
+			 $(".share").click(function(){
+					
 				 	var mContent = $(this).attr('value');
 					var array = mContent.split(",");
 				    var muName = array[0]; 
@@ -5463,7 +5873,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			    })
 			 
 			  });
-			
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -5833,7 +6242,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 			});
 			
-			
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "danceGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						dancelist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 		}
 	
 	function on5(){
@@ -5882,7 +6315,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>장바구니</th>";
 			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
@@ -5908,31 +6341,33 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 								dataType: "json",
 								async: false,
 								success: function(check){
-					output +="<tr>";				
-					output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>";
-					output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";		
-					output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-					output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-					output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
-
-
-			if(check == ""){
-				if(result == ""){
-					
-					output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-				} else if(result != ""){
-					
-					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-				}
-			} else if(check != ""){
-				output += "<td  ><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
-	
-			output += "</tr>";
+									output += "<tbody>";
+									output +="<tr>";	
+									output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>";
+									output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
+									output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
+									output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
+									output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+									
+									if(check == ""){
+										if(result == ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'></a></td>";
+										} else if(result != ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'></a></td>";
+										}
+									} else if(check != ""){
+										output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"' class='single-item__export'>";
+										output += "<svg class='selectMusicDownload' id='"+GenreChart[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+									}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+									
+									output += "</tr>";
+									output += "</tbody>";
 		},
 		error: function(){
 			console.log('실패');
@@ -5957,18 +6392,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	        }else if(paging.page > 1){
 	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
 	        }
+			
 			if(paging.page <= 1){
 				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='pagingbtn'> "+i+" </span>";
+					output += "<span class='pagingbtn'>"+i+"</span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-					
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'>"+ i +"</a></span>";
 				}
 			}
 		
@@ -5976,13 +6411,12 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
-			}if(paging.page >= paging.maxPage){
+			}
+			if(paging.page >= paging.maxPage){
 				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
 			}
-			
-			
 			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
@@ -6026,7 +6460,13 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			 	 }
 				 $("input:checkbox[class=cb1]").prop("checked", false);
 				 $("input:checkbox[class=cb2]").prop("checked", false);
-			});
+				 action_popup.alert("플레이리스트 추가 완료");
+				 
+				  $(".modal_close").on("click", function () {
+				        action_popup.close(this);
+				    });
+				  });
+
 			
 			$(".homePage").click(function(){
 				var page = $(this).attr('id');
@@ -6079,31 +6519,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			$(".endPage").click(function(){
-				var page = $(this).attr('id');
-				console.log("page : "+page);
-				
-				var limit = $(this).attr('value');
-				console.log("limit : "+limit);
-				
-				var page2 = paging.maxPage;	
-				
-				console.log("page2 : " + page2);
-				
-				$.ajax({
-					type : "POST",
-					url : "rockGenre",
-					data : {"page" : page2,
-							"limit" : limit},
-					dataType : "json",
-					success : function(list){
-						rocklist(list);
-					},
-					error : function(){
-						alert('음악목록 실패');
-					}
-				});
-			});
 			
 			$(".cartChange").click(function(){
 				
@@ -6122,9 +6537,21 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 						dataType : "json",
 						success : function(list){
 							CartAddSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
 						},
 						error : function(){
-							alert('장바구니 실패');
+							alert('장바구니 추가 실패');
 						}
 					});
 					
@@ -6151,6 +6578,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 						dataType : "json",
 						success : function(list){
 							CartDeleteSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
 						},
 						error : function(){
 							alert('장바구니 삭제 실패');
@@ -6198,16 +6637,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
-			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
-			 
-
-			  // SDK 초기화 여부를 판단합니다.
-			  console.log(Kakao.isInitialized());
-
-			  
-			  $(".share").click(function(){
-			
+			 $(".share").click(function(){
+					
 				 	var mContent = $(this).attr('value');
 					var array = mContent.split(",");
 				    var muName = array[0]; 
@@ -6604,7 +7035,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 			});
 			
-			
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "rockGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						rocklist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 		}
 	
 	function on6(){
@@ -6653,7 +7108,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>장바구니</th>";
 			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
@@ -6677,31 +7132,33 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 								dataType: "json",
 								async: false,
 								success: function(check){
-					output +="<tr>";
-					output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>"
-					output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
-					output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-					output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-					output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
-
-
-			if(check == ""){
-				if(result == ""){
-					
-					output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-				} else if(result != ""){
-					
-					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-				}
-			} else if(check != ""){
-				output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
-
-			output += "</tr>";
+									output += "<tbody>";
+									output +="<tr>";	
+									output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>";
+									output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
+									output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
+									output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
+									output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+									
+									if(check == ""){
+										if(result == ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'></a></td>";
+										} else if(result != ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'></a></td>";
+										}
+									} else if(check != ""){
+										output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"' class='single-item__export'>";
+										output += "<svg class='selectMusicDownload' id='"+GenreChart[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+									}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+									
+									output += "</tr>";
+									output += "</tbody>";
 		},
 		error: function(){
 			console.log('실패');
@@ -6726,18 +7183,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	        }else if(paging.page > 1){
 	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
 	        }
+			
 			if(paging.page <= 1){
 				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='pagingbtn'> "+i+" </span>";
+					output += "<span class='pagingbtn'>"+i+"</span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-					
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'>"+ i +"</a></span>";
 				}
 			}
 		
@@ -6745,13 +7202,12 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
-			}if(paging.page >= paging.maxPage){
+			}
+			if(paging.page >= paging.maxPage){
 				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
 			}
-			
-			
 			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
@@ -6795,7 +7251,13 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			 	 }
 				 $("input:checkbox[class=cb1]").prop("checked", false);
 				 $("input:checkbox[class=cb2]").prop("checked", false);
-			});
+				 action_popup.alert("플레이리스트 추가 완료");
+				 
+				  $(".modal_close").on("click", function () {
+				        action_popup.close(this);
+				    });
+				  });
+
 			
 			$(".homePage").click(function(){
 				var page = $(this).attr('id');
@@ -6848,31 +7310,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			$(".endPage").click(function(){
-				var page = $(this).attr('id');
-				console.log("page : "+page);
-				
-				var limit = $(this).attr('value');
-				console.log("limit : "+limit);
-				
-				var page2 = paging.maxPage;	
-				
-				console.log("page2 : " + page2);
-				
-				$.ajax({
-					type : "POST",
-					url : "hiphopGenre",
-					data : {"page" : page2,
-							"limit" : limit},
-					dataType : "json",
-					success : function(list){
-						hiphoplist(list);
-					},
-					error : function(){
-						alert('음악목록 실패');
-					}
-				});
-			});
 			
 			$(".cartChange").click(function(){
 				
@@ -6891,9 +7328,21 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 						dataType : "json",
 						success : function(list){
 							CartAddSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
 						},
 						error : function(){
-							alert('장바구니 실패');
+							alert('장바구니 추가 실패');
 						}
 					});
 					
@@ -6920,6 +7369,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 						dataType : "json",
 						success : function(list){
 							CartDeleteSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
 						},
 						error : function(){
 							alert('장바구니 삭제 실패');
@@ -6966,41 +7427,32 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 					}
 				});
 				
-			});
-			
-			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
-			 
-
-			  // SDK 초기화 여부를 판단합니다.
-			  console.log(Kakao.isInitialized());
-
-			  
-			  $(".share").click(function(){
-			
-				 	var mContent = $(this).attr('value');
-					var array = mContent.split(",");
-				    var muName = array[0]; 
-				    var muSinger = array[1]; 
-				    var muImage = array[2]; 
-				    var muCode = array[3];
-			  		 console.log(muImage);
-				    Kakao.Link.sendDefault({
-			      objectType: 'feed',
-			      content: {
-			    	  title: muName,
-			          description: muSinger,
-			          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
-			          link: {
-			            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
-			            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
-			        },
-			      },
-			    
-			      // 카카오톡 미설치 시 카카오톡 설치 경로이동
-			      installTalk: true,
-			    })
-			 
-			  });
+			}); $(".share").click(function(){
+				
+			 	var mContent = $(this).attr('value');
+				var array = mContent.split(",");
+			    var muName = array[0]; 
+			    var muSinger = array[1]; 
+			    var muImage = array[2]; 
+			    var muCode = array[3];
+		  		 console.log(muImage);
+			    Kakao.Link.sendDefault({
+		      objectType: 'feed',
+		      content: {
+		    	  title: muName,
+		          description: muSinger,
+		          imageUrl: 'https://ifh.cc/g/4yyhN0.png',
+		          link: {
+		            mobileWebUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		            webUrl: 'http://localhost:9091/muView?muCode='+muCode+'&mId=nullId',
+		        },
+		      },
+		    
+		      // 카카오톡 미설치 시 카카오톡 설치 경로이동
+		      installTalk: true,
+		    })
+		 
+		  });
 			
 			$(".play").click(function(){
 				
@@ -7370,7 +7822,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 			});
 			
-			
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "hiphopGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						hiphoplist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 		}
 	
 	function on7(){
@@ -7421,7 +7897,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>업로드일</th>";
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
-			output += "<th class='main__table-text' >장바구니</th>";
+			output += "<th class='main__table-text'>장바구니</th>";
 			output += "<th class='main__table-text'>공유하기</th>";
 			output +="</tr>	";
 			output +="</thead>";
@@ -7445,31 +7921,33 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 								dataType: "json",
 								async: false,
 								success: function(check){
-					output +="<tr>";
-	 				output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>";
-					output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
-					output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-					output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-					output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
-
-
-			if(check == ""){
-				if(result == ""){
-					
-					output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-				} else if(result != ""){
-					
-					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-				}
-			} else if(check != ""){
-				output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
-
-			output += "</tr>";
+									output += "<tbody>";
+									output +="<tr>";	
+									output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>";
+									output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
+									output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
+									output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
+									output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+									
+									if(check == ""){
+										if(result == ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'></a></td>";
+										} else if(result != ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'></a></td>";
+										}
+									} else if(check != ""){
+										output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"' class='single-item__export'>";
+										output += "<svg class='selectMusicDownload' id='"+GenreChart[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+									}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+									
+									output += "</tr>";
+									output += "</tbody>";
 		},
 		error: function(){
 			console.log('실패');
@@ -7493,18 +7971,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	        }else if(paging.page > 1){
 	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
 	        }
+			
 			if(paging.page <= 1){
 				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='pagingbtn'> "+i+" </span>";
+					output += "<span class='pagingbtn'>"+i+"</span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-					
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'>"+ i +"</a></span>";
 				}
 			}
 		
@@ -7512,13 +7990,12 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
-			}if(paging.page >= paging.maxPage){
+			}
+			if(paging.page >= paging.maxPage){
 				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
 			}
-			
-			
 			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
@@ -7562,7 +8039,13 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			 	 }
 				 $("input:checkbox[class=cb1]").prop("checked", false);
 				 $("input:checkbox[class=cb2]").prop("checked", false);
-			});
+				 action_popup.alert("플레이리스트 추가 완료");
+				 
+				  $(".modal_close").on("click", function () {
+				        action_popup.close(this);
+				    });
+				  });
+
 			
 			$(".homePage").click(function(){
 				var page = $(this).attr('id');
@@ -7615,31 +8098,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			$(".endPage").click(function(){
-				var page = $(this).attr('id');
-				console.log("page : "+page);
-				
-				var limit = $(this).attr('value');
-				console.log("limit : "+limit);
-				
-				var page2 = paging.maxPage;	
-				
-				console.log("page2 : " + page2);
-				
-				$.ajax({
-					type : "POST",
-					url : "indiGenre",
-					data : {"page" : page2,
-							"limit" : limit},
-					dataType : "json",
-					success : function(list){
-						indilist(list);
-					},
-					error : function(){
-						alert('음악목록 실패');
-					}
-				});
-			});
 			
 			$(".cartChange").click(function(){
 				
@@ -7658,9 +8116,21 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 						dataType : "json",
 						success : function(list){
 							CartAddSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
 						},
 						error : function(){
-							alert('장바구니 실패');
+							alert('장바구니 추가 실패');
 						}
 					});
 					
@@ -7687,6 +8157,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 						dataType : "json",
 						success : function(list){
 							CartDeleteSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
 						},
 						error : function(){
 							alert('장바구니 삭제 실패');
@@ -7734,16 +8216,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
-			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
-			 
-
-			  // SDK 초기화 여부를 판단합니다.
-			  console.log(Kakao.isInitialized());
-
-			  
-			  $(".share").click(function(){
-			
+			 $(".share").click(function(){
+					
 				 	var mContent = $(this).attr('value');
 					var array = mContent.split(",");
 				    var muName = array[0]; 
@@ -8154,7 +8628,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 			});
 			
-			
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "indiGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						indilist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 		}
 	
 	function on8(){
@@ -8203,7 +8701,7 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			output +="<th class='main__table-text'>조회수</th>";
 			output +="<th class='main__table-text'>좋아요수</th>";
 			output +="<th class='main__table-text'>장바구니</th>";
-			output += "<th class='main__table-text'>공유하기</th>";
+			output +="<th class='main__table-text'>공유하기</th>";
 			output +="</tr>";
 			output +="</thead>";
 			
@@ -8226,32 +8724,33 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 								dataType: "json",
 								async: false,
 								success: function(check){
-					output +="<tr>";	
-
-					output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>";
-					output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
-					output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
-					output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
-					output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
-					output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
-
-
-			if(check == ""){
-				if(result == ""){
-					
-					output += "<td><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check1' src='icon/cartCheck.png' style='cursor:pointer' width='25px'></td>";
-				} else if(result != ""){
-					
-					output += "<td ><img id='"+GenreChart[i].muCode+"' class='cartChange' value='check2' src='icon/cartDelete.png' style='cursor:pointer' width='25px'></td>";
-				}
-			} else if(check != ""){
-				output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"'><button class='selectMusicDownload' id='"+GenreChart[i].muCode+"download'>음원다운</button></a></td>";
-			}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
-			
-			output += "</tr>";
+									output += "<tbody>";
+									output +="<tr>";	
+									output +="<td><input type='checkbox' id='"+i+"' class='cb1' value="+GenreChart[i].muCode+" ><label for='"+i+"'></label></td>";
+									output +="<td><span class='single-item__number'>"+GenreChart[i].rn+"</span></td>";
+									output +="<td class='main__table-text'><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'><img class='single-item__cover' src='muImage/"+GenreChart[i].muImage+"' style='width:50px;'/></a></td>";
+									output +="<td class='main__table-text'><h4><a href='muView?muCode="+GenreChart[i].muCode+"&mId="+sessionId+"'>"+GenreChart[i].muName+"</a></h4><span><a href='boardWriterView?boWriter="+GenreChart[i].muSinger+"&mId="+sessionId+"'>"+GenreChart[i].muSinger+"</a></span></td>";
+									output +="<td><div class='main__table-text'><label><img src='icon/play.png' style='cursor:pointer'><button style='display: none' name = "+i+" class='play' id='mplay' value='"+GenreChart[i].mFile+","+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muCode+","+GenreChart[i].muImage+"'></button ></label></div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muGanre+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muDate+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muHit+"</div></td>";
+									output +="<td><div class='main__table-text'>"+GenreChart[i].muLike+"</div></td>";
+									
+									if(check == ""){
+										if(result == ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartCheck.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check1'></a></td>";
+										} else if(result != ""){
+											output += "<td style='padding-left:1%;'><a href='#' style='width:31px; height:31px;'>";
+											output += "<img src='/img/cartDelete.png' style='width: 32px; opacity:0.8;' id='"+GenreChart[i].muCode+"' class='cartChange' value='check2'></a></td>";
+										}
+									} else if(check != ""){
+										output += "<td><a href='/audio/"+GenreChart[i].mFile+"' download='"+GenreChart[i].mFile+"' class='single-item__export'>";
+										output += "<svg class='selectMusicDownload' id='"+GenreChart[i].muCode+"download' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z'/></svg></a></td>";
+									}output +="<td><div class='main__table-text'><label><img src='icon/share.png' style='cursor:pointer','width:25px'><button   style='display: none' class='share'  value='"+GenreChart[i].muName+","+GenreChart[i].muSinger+","+GenreChart[i].muImage+","+GenreChart[i].muCode+"'></button></label></div></td>";
+									
+									output += "</tr>";
+									output += "</tbody>";
 		},
 		error: function(){
 			console.log('실패');
@@ -8275,18 +8774,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 	        }else if(paging.page > 1){
 	        	output += "<span id='"+paging.page+"' class='homePage' value='"+paging.limit+"'><a href='#'>처음</a></span>";
 	        }
+			
 			if(paging.page <= 1){
 				output += "<span class='pagingbtnPre' style='display:none;'>이전</span>"
 			} else if(paging.page > 1){
-				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a  href='#'>이전</a></span>";
+				output += "<span id='"+paging.page+"' class='previousPage' value='"+paging.limit+"'><a href='#'>이전</a></span>";
 			}
 			
 			for(var i=paging.startPage; i<=paging.endPage; i++){
 				if(paging.page == i){
-					output += "<span class='pagingbtn'> "+i+" </span>";
+					output += "<span class='pagingbtn'>"+i+"</span>";
 				} else if(paging.page != i){
-					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'> "+ i +" </a></span>";
-					
+					output += "<span id='"+ i +"' class='selectPage' value='"+paging.limit+"'><a href='#'>"+ i +"</a></span>";
 				}
 			}
 		
@@ -8294,13 +8793,12 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				output += "<span class='pagingbtnNext' style='display:none;'>다음</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='nextPage' value='"+paging.limit+"'><a href='#'>다음</a></span>";
-			}if(paging.page >= paging.maxPage){
+			}
+			if(paging.page >= paging.maxPage){
 				output += "<span class='pagingbtnEnd' style='display:none;'>끝</span>"
 			} else if(paging.page < paging.maxPage){
 				output += "<span id='"+paging.page+"' class='endPage' value='"+paging.limit+"'><a href='#'>끝</a></span>";
 			}
-			
-			
 			output += "</div>";
 			
 			var genreArea=document.getElementById('genreArea');
@@ -8344,7 +8842,13 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			 	 }
 				 $("input:checkbox[class=cb1]").prop("checked", false);
 				 $("input:checkbox[class=cb2]").prop("checked", false);
-			});
+				 action_popup.alert("플레이리스트 추가 완료");
+				 
+				  $(".modal_close").on("click", function () {
+				        action_popup.close(this);
+				    });
+				  });
+
 			
 			$(".homePage").click(function(){
 				var page = $(this).attr('id');
@@ -8397,31 +8901,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			$(".endPage").click(function(){
-				var page = $(this).attr('id');
-				console.log("page : "+page);
-				
-				var limit = $(this).attr('value');
-				console.log("limit : "+limit);
-				
-				var page2 = paging.maxPage;	
-				
-				console.log("page2 : " + page2);
-				
-				$.ajax({
-					type : "POST",
-					url : "gitaGenre",
-					data : {"page" : page2,
-							"limit" : limit},
-					dataType : "json",
-					success : function(list){
-						gitalist(list);
-					},
-					error : function(){
-						alert('음악목록 실패');
-					}
-				});
-			});
 			
 			$(".cartChange").click(function(){
 				
@@ -8440,9 +8919,21 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 						dataType : "json",
 						success : function(list){
 							CartAddSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
 						},
 						error : function(){
-							alert('장바구니 실패');
+							alert('장바구니 추가 실패');
 						}
 					});
 					
@@ -8469,6 +8960,18 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 						dataType : "json",
 						success : function(list){
 							CartDeleteSuccess(list);
+							$.ajax({
+								type : "POST",
+								url : "ajaxCartList",
+								data : {"caMid" : sessionId},
+								dataType : "json",
+								success : function(list){
+									smallCart(list);
+								},
+								error : function(){
+									console.log("장바구니 개수 출력 실패");
+								}
+							});
 						},
 						error : function(){
 							alert('장바구니 삭제 실패');
@@ -8516,16 +9019,8 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 				
 			});
-			
-			// SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
-			 
-
-			  // SDK 초기화 여부를 판단합니다.
-			  console.log(Kakao.isInitialized());
-
-			  
-			  $(".share").click(function(){
-			
+			 $(".share").click(function(){
+					
 				 	var mContent = $(this).attr('value');
 					var array = mContent.split(",");
 				    var muName = array[0]; 
@@ -8550,7 +9045,6 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 			    })
 			 
 			  });
-			
 			$(".play").click(function(){
 				
 				var aa = new Array();
@@ -8919,7 +9413,31 @@ alert('장바구니에 담은 리스트 불러오기 실패');
 				});
 			});
 			
-			
+			$(".endPage").click(function(){
+				var page = $(this).attr('id');
+				console.log("page : "+page);
+				
+				var limit = $(this).attr('value');
+				console.log("limit : "+limit);
+				
+				var page2 = paging.maxPage;	
+				
+				console.log("page2 : " + page2);
+				
+				$.ajax({
+					type : "POST",
+					url : "gitaGenre",
+					data : {"page" : page2,
+							"limit" : limit},
+					dataType : "json",
+					success : function(list){
+						gitalist(list);
+					},
+					error : function(){
+						alert('음악목록 실패');
+					}
+				});
+			});
 		}
 	
 	

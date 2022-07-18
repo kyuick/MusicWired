@@ -64,59 +64,7 @@
 	</div>
 
 	<button class="player__btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z"/></svg> Player</button>
-	<!-- end player -->
 
-	<!-- <div class="main"> -->
-	<!-- <button class="hero__btn hero__btn--green" th:if="${session.login eq null}" onclick="location.href='memberJoinForm'">회원가입</button> -->
-	<!-- <button class="hero__btn hero__btn--green" th:if="${session.login eq null}" onclick="location.href='memberLogin'">로그인</button> -->
-	<!-- <button class="hero__btn hero__btn--green" th:if="${session.login ne null}" onclick="location.href='memberLogout'">로그아웃</button> -->
-	<!-- <button class="hero__btn hero__btn--green" th:if="${session.login ne null}" onclick="location.href='memberViewMe'">내정보</button> -->
-	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='fUpload'">음원 등록</button> -->
-	<!-- <button class="hero__btn hero__btn--green" th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{fileList(mId=${session.login.mId})} + '\''">내가 등록한 음원목록</button> -->
-
-	
-
-
-	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='allfileList'">전체음원목록</button> -->
-
-
-	<button class="hero__btn hero__btn--green" onclick="location.href='boardUploadPage'">게시글 업로드</button>
-	<button class="hero__btn hero__btn--green" onclick="location.href='boardList'">게시글 목록</button>
-	<button class="hero__btn hero__btn--green" onclick="location.href='chart'">차트 목록</button>
-	<button class="hero__btn hero__btn--green" onclick="location.href='genre'">장르 목록</button>
-	<button class="hero__btn hero__btn--green" onclick="location.href='track'">트랙</button>
-
-	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='cartList'">장바구니</button> -->
-	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='buyListPage'">구매목록</button> -->
-	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='downListPage'">다운로드목록</button> -->
-	
-	<!-- <button class="hero__btn hero__btn--green" onclick="location.href='tetete'">테스트</button> -->
-	
-  	 <button class="hero__btn hero__btn--green" th:if="${session.login ne null}" th:onclick="'location.href=\'' + @{playListView(mId=${session.login.mId})} + '\''">재생목록조회</button>
-	<!--<button class="hero__btn hero__btn--green" th:if="${session.login ne null} and ${session.login.mId ne 'admin'}" th:onclick="'location.href=\'' + @{moveChating(mId=${session.login.mId})} + '\''">채팅하기</button>
-	<button class="hero__btn hero__btn--green" th:if="${session.login ne null} and ${session.login.mId eq 'admin'}"  onclick="location.href='chatlist'">채팅방목록보기</button>
-
-
-	<span th:if='${session.login ne null}'>
-
-	 -->
-	<!-- <span th:if='${session.login ne null}'>
-
-	<button class="hero__btn hero__btn--green" th:if ="${session.login.mId == 'admin'}" onclick="location.href='memberList'">회원정보</button>
-	</span> -->
-	
-	
-        <!-- 통합검색 -->        		
-    <!-- <form id="searchForm" action="/search" method="GET">
-    	<div class="search_input">
-			<input type="text" name="keyword" value="" placeholder="입력바람 ">
-			<button class="btn_search">검색</button>    	
-    	</div>
-    </form> -->
-	
-
-	<!-- <p th:if="${session.login ne null}" th:text="${session.login.mId}+'님 로그인 성공'"></p> -->
-	<!-- </div> -->
  <script>
       // Slide every slideDelay seconds
       const slideDelay = 3000;
@@ -614,7 +562,7 @@
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="http://localhost:9091/muView?muCode=34&mId=nullId">널 기다리며 부르는 노래, 키티도기</a></h4>
+										<h4><a style="color: #fff;" href="http://localhost:9091/muView?muCode=34&mId=nullId">널 기다리며 부르는 노래, 키티도기</a></h4>
 										<span><a href="http://localhost:9091/boardWriterView?boWriter=TricolorLili&mId=nullId">삼색리리</a></span>
 									</div>
 									<span class="single-item__time">1:58</span>
@@ -626,7 +574,7 @@
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="http://localhost:9091/muView?muCode=383&mId=nullId">그녀의 웃음소리뿐</a></h4>
+										<h4><a style="color: #fff;" href="http://localhost:9091/muView?muCode=383&mId=nullId">그녀의 웃음소리뿐</a></h4>
 										<span><a href="http://localhost:9091/boardWriterView?boWriter=ParkChanggeun&mId=nullId">박창근</a></span>
 									</div>
 									<span class="single-item__time">5:23</span>
@@ -638,7 +586,7 @@
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="http://localhost:9091/muView?muCode=196&mId=nullId">깽값 (Feat. Gaeko) (Prod. Slom)</a></h4>
+										<h4><a style="color: #fff;" href="http://localhost:9091/muView?muCode=196&mId=nullId">깽값 (Feat. Gaeko) (Prod. Slom)</a></h4>
 										<span><a href="http://localhost:9091/boardWriterView?boWriter=JoGwangil&mId=nullId">조광일</a></span>
 									</div>
 									<span class="single-item__time">4:03</span>
@@ -650,7 +598,7 @@
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="http://localhost:9091/muView?muCode=254&mId=nullId">아무것도 하기 싫다</a></h4>
+										<h4><a style="color: #fff;" href="http://localhost:9091/muView?muCode=254&mId=nullId">아무것도 하기 싫다</a></h4>
 										<span><a href="http://localhost:9091/boardWriterView?boWriter=potato&mId=nullId">potato</a></span>
 									</div>
 									<span class="single-item__time">3:20</span>
@@ -662,7 +610,7 @@
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="http://localhost:9091/muView?muCode=233&mId=nullId">하늘을 달리다</a></h4>
+										<h4><a style="color: #fff;" href="http://localhost:9091/muView?muCode=233&mId=nullId">하늘을 달리다</a></h4>
 										<span><a href="http://localhost:9091/boardWriterView?boWriter=JeongIn&mId=nullId">정인</a></span>
 									</div>
 									<span class="single-item__time">4:23</span>
@@ -691,7 +639,7 @@
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="http://localhost:9091/muView?muCode=384&mId=nullId">길</a></h4>
+										<h4><a style="color: #fff;" href="http://localhost:9091/muView?muCode=384&mId=nullId">길</a></h4>
 										<span><a href="http://localhost:9091/boardWriterView?boWriter=KimJonghan&mId=nullId">김종한</a></span>
 									</div>
 									<span class="single-item__time">4:58</span>
@@ -703,7 +651,7 @@
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="http://localhost:9091/muView?muCode=51&mId=nullId">Move Like This (Feat. 김연아)</a></h4>
+										<h4><a style="color: #fff;" href="http://localhost:9091/muView?muCode=51&mId=nullId">Move Like This (Feat. 김연아)</a></h4>
 										<span><a href="http://localhost:9091/boardWriterView?boWriter=KangDaniel&mId=nullId">강다니엘</a></span>
 									</div>
 									<span class="single-item__time">3:19</span>
@@ -715,7 +663,7 @@
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="http://localhost:9091/muView?muCode=167&mId=nullId">그녀는 자꾸 슬퍼</a></h4>
+										<h4><a style="color: #fff;" href="http://localhost:9091/muView?muCode=167&mId=nullId">그녀는 자꾸 슬퍼</a></h4>
 										<span><a href="http://localhost:9091/boardWriterView?boWriter=Joosiq&mId=nullId">쥬시크</a></span>
 									</div>
 									<span class="single-item__time">3:35</span>
@@ -727,7 +675,7 @@
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="http://localhost:9091/muView?muCode=205&mId=yspyyy">낭만고양이</a></h4>
+										<h4><a style="color: #fff;" href="http://localhost:9091/muView?muCode=205&mId=yspyyy">낭만고양이</a></h4>
 										<span><a href="http://localhost:9091/boardWriterView?boWriter=SongGain&mId=nullId">송가인</a></span>
 									</div>
 									<span class="single-item__time">3:35</span>
@@ -739,7 +687,7 @@
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z"/></svg>
 									</a>
 									<div class="single-item__title">
-										<h4><a href="http://localhost:9091/muView?muCode=306&mId=nullId">돌아버리겠네</a></h4>
+										<h4><a style="color: #fff;" href="http://localhost:9091/muView?muCode=306&mId=nullId">돌아버리겠네</a></h4>
 										<span><a href="http://localhost:9091/boardWriterView?boWriter=LeeYounghyun&mId=nullId">이영현</a></span>
 									</div>
 									<span class="single-item__time">3:14</span>
@@ -933,6 +881,7 @@ $("#idFindBtn").click(function(){
 				},
 				error : function(){
 					console.log("아이디 못찾음");
+					
 				}
 			});
 			
@@ -940,14 +889,13 @@ $("#idFindBtn").click(function(){
 				var length = list.length;
 				
 				var output = "";
-
+				
 				output += "<div class='sign__group'>";
 				output += "<input type='text' name='mEmail' class='sign__input' value='아이디 찾기 결과' disabled style='text-align: center; color: #99FFFF;'></div>";
-				
-				for(var i in list){
-					if(length <= 0){
-						output += "<input type='text' class='sign__input' value='가입된 아이디가 없습니다.' disabled style='text-align: center;'>";
-					} else{
+				if(length <= 0){
+					output += "<input type='text' class='sign__input' value='가입된 아이디가 없습니다.' disabled style='text-align: center;'>";
+				}else{
+					for(var i in list){
 						output += "<input type='text' class='sign__input' value='ID  ➡➡  "+ list[i] +"' disabled style='text-align: center;'>";
 					}
 				}

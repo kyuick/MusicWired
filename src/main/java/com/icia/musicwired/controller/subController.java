@@ -28,7 +28,7 @@ public class subController {
 	//팔로우 하기
 	@PostMapping("subreg")
 	public @ResponseBody int subreg(@ModelAttribute subDTO sub){
-		System.out.println(sub);
+//		System.out.println(sub);
 		
 		int subList = svc.subreg(sub);
 		
@@ -38,7 +38,7 @@ public class subController {
 	//팔로우 취소
 	@PostMapping("subcancel")
 	public @ResponseBody int subcancel(@ModelAttribute subDTO sub){
-		System.out.println(sub);
+//		System.out.println(sub);
 		
 		int subList = svc.subcancel(sub);
 		
@@ -48,7 +48,7 @@ public class subController {
 	//submodalList 구독자 목록 불러오기
 	@PostMapping("submodalList")
 	public @ResponseBody List<subDTO> submodalList(@RequestParam("sserMid")String sserMid){
-		System.out.println(sserMid);
+//		System.out.println(sserMid);
 		
 		subList = svc.submodalList(sserMid);
 		
@@ -58,10 +58,10 @@ public class subController {
 	//subermodalList 내가 구독한 구독자 목록 불러오기
 		@PostMapping("subermodalList")
 		public @ResponseBody List<subDTO> subermodalList(@RequestParam("ssMid")String ssMid){
-			System.out.println("[1] 내가 구독 C : "+ssMid);
+//			System.out.println("[1] 내가 구독 C : "+ssMid);
 			
 			subList = svc.subermodalList(ssMid);
-			System.out.println("[4] 내가 구독 S : " + subList);
+//			System.out.println("[4] 내가 구독 S : " + subList);
 			return subList;
 			
 		}

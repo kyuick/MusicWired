@@ -85,7 +85,6 @@ public class ChartServiceImpl implements ChartService{
 		
 		
 		GenreChart=dao.balgenre(paging);
-		System.out.println("몇개냐? : "+GenreChart);
 		result.put("GenreChart",GenreChart);
 		result.put("paging",paging);
 		
@@ -135,7 +134,6 @@ public class ChartServiceImpl implements ChartService{
 		
 		
 		GenreChart=dao.danceGenre(paging);
-		System.out.println("몇개냐? : "+GenreChart);
 		result.put("GenreChart",GenreChart);
 		result.put("paging",paging);
 		
@@ -185,7 +183,6 @@ public class ChartServiceImpl implements ChartService{
 		
 		
 		GenreChart=dao.rockGenre(paging);
-		System.out.println("몇개냐? : "+GenreChart);
 		result.put("GenreChart",GenreChart);
 		result.put("paging",paging);
 		
@@ -235,7 +232,6 @@ public class ChartServiceImpl implements ChartService{
 		
 		
 		GenreChart=dao.hiphopGenre(paging);
-		System.out.println("몇개냐? : "+GenreChart);
 		result.put("GenreChart",GenreChart);
 		result.put("paging",paging);
 		
@@ -285,7 +281,6 @@ public class ChartServiceImpl implements ChartService{
 		
 		
 		GenreChart=dao.indiGenre(paging);
-		System.out.println("몇개냐? : "+GenreChart);
 		result.put("GenreChart",GenreChart);
 		result.put("paging",paging);
 		
@@ -335,7 +330,6 @@ public class ChartServiceImpl implements ChartService{
 		
 		
 		GenreChart=dao.gitaGenre(paging);
-		System.out.println("몇개냐? : "+GenreChart);
 		result.put("GenreChart",GenreChart);
 		result.put("paging",paging);
 		

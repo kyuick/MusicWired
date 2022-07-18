@@ -1,136 +1,111 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<!-- CSS -->
-	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
-	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
-	<link rel="stylesheet" href="css/owl.carousel.min.css">
-	<link rel="stylesheet" href="css/magnific-popup.css">
-	<link rel="stylesheet" href="css/select2.min.css">
-	<link rel="stylesheet" href="css/paymentfont.min.css">
-	<link rel="stylesheet" href="css/slider-radio.css">
-	<link rel="stylesheet" href="css/plyr.css">
-	<link rel="stylesheet" href="css/main.css">
-
-	<!-- Favicons -->
-
-	<link rel="icon" type="image/png" href="icon/MUSICWIREDLOGOfavicon.png" sizes="32x32">
-	<link rel="apple-touch-icon" href="icon/MUSICWIREDLOGOfavicon.png">
-
-	<meta name="description" content="">
-	<meta name="keywords" content="">
-	<meta name="author" content="Dmitry Volkov">
-	<title>MusicWired</title>
+<head th:replace="head.html :: head"></head>
 	<style>
 	
 	.likeUserList{
 		float: right;
 		margin-right: 10px;
 	}
-#modal.modal-overlay {
-	 		width: 100%;
-            height: 100%;
-            position: fixed;
-            left: 0;
-            top: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            backdrop-filter: blur(1.5px);
-            -webkit-backdrop-filter: blur(1.5px);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            display: none;
-            z-index: 1050;
-}
-
-
-#modal .modal-window {
-	  		position: relative;
-            box-shadow: 0 8px 32px 0 rgba(88, 88, 88, 0.37);
-            backdrop-filter: blur( 13.5px );
-			display: block;
-			background-color: #16151a;
-			margin: 40px auto;
-			width: auto;
-			height: auto;
-			/* max-width: 420px; */
-			padding: 20px;
-			border-radius: 12px;
-			overflow: hidden;
-}
-
-#modal .title {
-	 padding-left: 10px;
-            display: inline;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
-}
-
-#modal .title h2 {
-	display: inline;
-}
-
-#modal .close-area {
-	display: inline;
-	float: right;
-	padding-right: 10px;
-	cursor: pointer;
-	text-shadow: 1px 1px 2px gray;
-	color: white;
-}
-
-#modal .content {
-	 		margin-top: 20px;
-            padding: 0px 10px;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
-           
-}
-
-.search_box{
-	background-color: black;
-	color: white;
-	 border:none;
-	 border-right:0px; 
-	 border-top:0px; 
-	text-decoration:underline;
-
-}
-
-.LikeBtn:hover{
- background-color: #008CBA;
-  color: white;
-}
-.followedBtn:hover{
- background-color: #008CBA;
-  color: white;
-}
-.myBtn:hover{
- background-color: #008CBA;
-  color: white;
-}
-
-.searchBtn:hover{
-background-color: #008CBA;
-  color: white;
-}
-
-.uploadBtn:hover{
-background-color: #008CBA;
-  color: white;
-}
-
+	#modal.modal-overlay {
+		 		width: 100%;
+	            height: 100%;
+	            position: fixed;
+	            left: 0;
+	            top: 0;
+	            display: flex;
+	            flex-direction: column;
+	            align-items: center;
+	            justify-content: center;
+	            background: rgba(255, 255, 255, 0.25);
+	            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	            backdrop-filter: blur(1.5px);
+	            -webkit-backdrop-filter: blur(1.5px);
+	            border-radius: 10px;
+	            border: 1px solid rgba(255, 255, 255, 0.18);
+	            display: none;
+	            z-index: 1050;
+	}
+	
+	
+	#modal .modal-window {
+		  		position: relative;
+	            box-shadow: 0 8px 32px 0 rgba(88, 88, 88, 0.37);
+	            backdrop-filter: blur( 13.5px );
+				display: block;
+				background-color: #16151a;
+				margin: 40px auto;
+				width: auto;
+				height: auto;
+				/* max-width: 420px; */
+				padding: 20px;
+				border-radius: 12px;
+				overflow: hidden;
+	}
+	
+	#modal .title {
+		 padding-left: 10px;
+	            display: inline;
+	            text-shadow: 1px 1px 2px gray;
+	            color: white;
+	}
+	
+	#modal .title h2 {
+		display: inline;
+	}
+	
+	#modal .close-area {
+		display: inline;
+		float: right;
+		padding-right: 10px;
+		cursor: pointer;
+		text-shadow: 1px 1px 2px gray;
+		color: white;
+	}
+	
+	#modal .content {
+		 		margin-top: 20px;
+	            padding: 0px 10px;
+	            text-shadow: 1px 1px 2px gray;
+	            color: white;
+	           
+	}
+	
+	.search_box{
+		background-color: black;
+		color: white;
+		 border:none;
+		 border-right:0px; 
+		 border-top:0px; 
+		text-decoration:underline;
+	
+	}
+	
+	.LikeBtn:hover{
+	 background-color: #008CBA;
+	  color: white;
+	}
+	.followedBtn:hover{
+	 background-color: #008CBA;
+	  color: white;
+	}
+	.myBtn:hover{
+	 background-color: #008CBA;
+	  color: white;
+	}
+	
+	.searchBtn:hover{
+	background-color: #008CBA;
+	  color: white;
+	}
+	
+	.uploadBtn:hover{
+	background-color: #008CBA;
+	  color: white;
+	}
 
 	</style>
-	<title>Volna – Record label & Music streaming HTML Template</title>
-
 </head>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -413,9 +388,9 @@ background-color: #008CBA;
 							
 							if(result == ""){
 								if(list[i].boLike <= 0){
-									output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'></span></div>"
+									output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/love.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'></span></div>"
 								} else if(list[i].boLike > 0){
-									output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
+									output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/love.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
 								}
 							} else if(result != ""){
 								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check2' src='/heart/heart2.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
@@ -663,7 +638,7 @@ background-color: #008CBA;
 					}
 				
 					CheckHeart = $(this).attr('value',"check1");
-					$(this).attr("src","/heart/heart1.png");
+					$(this).attr("src","/heart/love.png");
 					
 				}
 				
@@ -690,12 +665,12 @@ background-color: #008CBA;
 						
 						var output3 = "";
 						var output4 = "좋아요";
-						for(var i in list){
-							if(list.length <= 0){
-								output3 += "<p>가장 먼저 좋아요를 눌러보세요</p>";
-							} else if(list.length > 0){
+						if(list.length <= 0){
+							output3 += "<p>가장 먼저 좋아요를 눌러보세요</p>";
+						} else if(list.length > 0){
+							for(var i in list){
 								output3 += "<p><a href='boardWriterView?boWriter="+list[i].mId+"'><img src='/profile/"+ list[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + list[i].mName + "</a></p>";
-								}
+							}
 						}
 						
 						const modalContent = document.getElementById("content");
@@ -836,7 +811,7 @@ background-color: #008CBA;
 					$('.TestCheck').val("");
 				},
 				error : function(){
-					alert('실패');
+					alert('댓글 등록에 실패하였습니다.');
 				}
 			});
 		}
@@ -941,9 +916,9 @@ $(document).ready(function(){
 						
 						if(result == ""){
 							if(list[i].boLike <= 0){
-								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'></span></div>"
+								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/love.png' style='width: 25px;'/></td><td><span id='"+list[i].boCode+"check' class='likeUserList'></span></div>"
 							} else if(list[i].boLike > 0){
-								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/heart1.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
+								output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check1' src='/heart/love.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
 							}
 						} else if(result != ""){
 							output += "<div><img id='"+ list[i].boCode +"' class='heartChange' value='check2' src='/heart/heart2.png' style='width: 25px;'/></td><td><span style='postion:absolute;' id='"+list[i].boCode+"check' class='likeUserList'><strong style='color:white;'>" + list[i].boLike + "명이 좋아합니다.</strong></span></div>"
@@ -1217,17 +1192,20 @@ $(document).ready(function(){
 				success : function(list){
 					
 					var output3 = "";
-			    	
-					for(var i in list){
-						if(list.length <= 0){
-							output3 += "<p>가장 먼저 좋아요를 눌러보세요</p>";
-						} else if(list.length > 0){
+					var output4 = "좋아요";
+					if(list.length <= 0){
+						output3 += "<p>가장 먼저 좋아요를 눌러보세요</p>";
+					} else if(list.length > 0){
+						for(var i in list){
 							output3 += "<p><a href='boardWriterView?boWriter="+list[i].mId+"'><img src='/profile/"+ list[i].mProfileName + "' style='width: 30px; height: 30px; border-radius: 70%; overflow: hidden;'>" + list[i].mName + "</a></p>";
-							}
+						}	
 					}
 					
 					const modalContent = document.getElementById("content");
 					modalContent.innerHTML = output3;
+					
+					var modalTitle = document.getElementById("modalTitle");
+					modalTitle.innerHTML = output4;
 					
 			    	modal.style.display = "flex";
 					
@@ -1347,7 +1325,7 @@ $(document).on('click','.commBtn', function(){
 				$('.TestCheck').val("");
 			},
 			error : function(){
-				alert('실패');
+				alert('로그인 후 이용 가능합니다.');
 			}
 		});
 	}

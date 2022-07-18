@@ -679,14 +679,13 @@
 		
 		function myBoard(list){
 			var output = "";
-			console.log("씽나는 아웃풋 시간~~~~")
 			
 			for(var i in list){
-				output += "<div style='padding-top: 4%; padding-bottom: 4%' id='myBoardListArea'>"
+				output += "<div style='padding-top: 4%; padding-bottom: 4%' id='myBoardListArea'>";
 				output += "<div class='dashbox__note dashbox__note--succ'>";
 				output += "<ul class='main__list main__list--dashbox'>";
 				output += "<li class='single-item'>";
-				output += "<img src='/ImageUpload/"+ list[i].boImage +"' style='width: 87px; height: 87px; padding-top: 2%;'/>";
+				output += "<img src='/ImageUpload/"+ list[i].boImage +"' style='width: 87px; height: 87px;'/>";
 				output += "<div class='single-item__title'>";
 				output += "<h4><a>"+list[i].boTitle+"</a></h4>";
 				output += "<span>"+list[i].boContent+"</span>";
@@ -757,7 +756,7 @@
 								async: false,
 								success: function(check){
 									output += "<li class='single-item' style='padding-bottom: 5%; padding-top: 4%'>";
-									output += "<a data-playlist data-title='"+data[i].muName+"' data-artist='"+data[i].muSinger+"' data-img='img/covers/cover.svg' href='https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3' class='single-item__cover'>";
+									output += "<a style='cursor : pointer;' name = "+i+" id='mplay' class='single-item__cover' value='"+data[i].mFile+","+data[i].muName+","+data[i].muSinger+","+data[i].muCode+","+data[i].muImage+"'>";
 									output += "<img src='/muImage/"+data[i].muImage+"' style='width: 70px;'>";
 									output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z'/></svg>";
 									output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z'/></svg></a>";
@@ -804,6 +803,258 @@
 			}
 			var myMusicListArea = document.getElementById('myMusicListArea');
 			myMusicListArea.innerHTML = output;
+			
+			$(".single-item__cover").click(function(){
+				
+				  
+				var aa = new Array();
+				console.log(aa);
+				
+				var playlength = $(".single-item__cover").length;
+				console.log("1"+playlength);
+				
+				var idx = $(this).attr('name');
+				console.log(idx);
+				
+				for(var i=0; i < playlength; i++){
+					aa[i] = i;
+
+					if(idx == aa[i]){
+						var aaa = idx;
+					}
+				}
+				console.log(aa);
+				console.log(aaa);
+				
+				
+				$(".player").remove();
+				var head= document.getElementsByTagName('html')[0];
+				var script= document.createElement('script');
+				var script1= document.createElement('script');
+				var script2= document.createElement('script');
+				var script3= document.createElement('script');
+				var script4= document.createElement('script');
+				var script5= document.createElement('script');
+			
+				script.src= 'js/owl.carousel.min.js';
+				head.appendChild(script);
+				
+				script1.src= 'js/jquery.magnific-popup.min.js';
+				head.appendChild(script1);
+				
+				script2.src= 'js/select2.min.js"';
+				head.appendChild(script2);
+				
+				script3.src= 'js/jquery.inputmask.min.js';
+				head.appendChild(script3);
+			
+				script4.src= 'js/plyr.min.js';
+				head.appendChild(script4);
+				
+				script5.src= 'js/main.js';
+				head.appendChild(script5);
+			
+				var mContent = $(this).attr('value');
+				var array = mContent.split(",");
+			    var mFile = array[0];
+			    var muName = array[1]; 
+			    var muSinger = array[2]; 
+			    var muCode = array[3]; 		    
+			    var muImage = array[4]; 
+			    
+
+		        $.ajax({
+		            type: "POST",
+		            url: "playList",
+		            data: {
+		                "plmuCode": muCode,
+		                "plMid": sessionId
+		            },
+		            dataType: "json",
+		            success: function (playListInsert) {
+
+		            },
+		            error: function () {
+		                console.log("에러에러!!")
+		            }
+		        });
+		
+			    
+				console.log(mFile);
+				console.log(muName);
+		
+				 var output="<div class='player'>"
+				output+="<div class='player__cover'>"
+				output+="<img src='muImage/"+muImage+"' alt=''></div>";
+				output+="<div class='player__content'>";
+				output+="<span class='player__track'><b class='player__title'>"+muName+"</b>-<span class='player__artist'>"+muSinger+"</span></span>";
+				output+="<audio src='/audio/"+mFile+"' id='audio' controls></audio></div></div>"
+				output+="<button class='player__btn' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg> Player</button>";
+				
+				var mplayArea= document.getElementsByTagName('body')[0];
+				mplayArea.insertAdjacentHTML("afterend", output);
+		
+				/* var mplayArea=document.getElementById('mplayArea');
+				mplayArea.innerHTML=output;  */
+				audio.play();
+				//.plyr__control--prev
+				$(document).on('click','.plyr__control--next', function(e){ //동적으로 생성이되서 이벤트를 사용하지 못하여 document 추가
+					
+					aaa++;
+					
+					var idx2 = parseInt(aaa);
+				
+					console.log(idx2);
+					
+					var playlist1 = $('.single-item__cover')[idx2];
+					console.log(playlist1);
+					
+					$(".player").remove();
+					var head= document.getElementsByTagName('html')[0];
+					var script= document.createElement('script');
+					var script1= document.createElement('script');
+					var script2= document.createElement('script');
+					var script3= document.createElement('script');
+					var script4= document.createElement('script');
+					var script5= document.createElement('script');
+				
+					script.src= 'js/owl.carousel.min.js';
+					head.appendChild(script);
+					
+					script1.src= 'js/jquery.magnific-popup.min.js';
+					head.appendChild(script1);
+					
+					script2.src= 'js/select2.min.js"';
+					head.appendChild(script2);
+					
+					script3.src= 'js/jquery.inputmask.min.js';
+					head.appendChild(script3);
+				
+					script4.src= 'js/plyr.min.js';
+					head.appendChild(script4);
+					
+					script5.src= 'js/main.js';
+					head.appendChild(script5);
+					
+					var testtt = $(playlist1).attr('value');
+					var array = testtt.split(",");
+				    var mFile = array[0];
+				    var muName = array[1]; 
+				    var muSinger = array[2]; 
+				    var muCode = array[3]; 		   
+				    var muImage = array[4]; 
+					
+
+			        $.ajax({
+			            type: "POST",
+			            url: "playList",
+			            data: {
+			                "plmuCode": muCode,
+			                "plMid": sessionId
+			            },
+			            dataType: "json",
+			            success: function (playListInsert) {
+
+			            },
+			            error: function () {
+			                console.log("에러에러!!")
+			            }
+			        });
+			        
+			
+					var output1="<div class='player'>"
+					output1+="<div class='player__cover'>"
+					output1+="<img src='muImage/"+muImage+"' alt=''></div>";
+					output1+="<div class='player__content'>";
+					output1+="<span class='player__track'><b class='player__title'>"+muName+"</b>-<span class='player__artist'>"+muSinger+"</span></span>";
+					output1+="<audio src='/audio/"+mFile+"' id='audio' controls></audio></div></div>"
+					output1+="<button class='player__btn' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg> Player</button>";
+					
+					var mplayArea= document.getElementsByTagName('body')[0];
+					mplayArea.insertAdjacentHTML("afterend", output1);
+					audio.play();
+			
+				     
+
+				
+				});
+					$(document).on('click','.plyr__control--prev', function(e){ //동적으로 생성이되서 이벤트를 사용하지 못하여 document 추가
+					
+					aaa--;
+					
+					var idx2 = parseInt(aaa);
+				
+					console.log(idx2);
+					
+					var playlist1 = $('.single-item__cover')[idx2];
+					console.log(playlist1);
+					
+					$(".player").remove();
+					var head= document.getElementsByTagName('html')[0];
+					var script= document.createElement('script');
+					var script1= document.createElement('script');
+					var script2= document.createElement('script');
+					var script3= document.createElement('script');
+					var script4= document.createElement('script');
+					var script5= document.createElement('script');
+				
+					script.src= 'js/owl.carousel.min.js';
+					head.appendChild(script);
+					
+					script1.src= 'js/jquery.magnific-popup.min.js';
+					head.appendChild(script1);
+					
+					script2.src= 'js/select2.min.js"';
+					head.appendChild(script2);
+					
+					script3.src= 'js/jquery.inputmask.min.js';
+					head.appendChild(script3);
+				
+					script4.src= 'js/plyr.min.js';
+					head.appendChild(script4);
+					
+					script5.src= 'js/main.js';
+					head.appendChild(script5);
+					
+					var testtt = $(playlist1).attr('value');
+					var array = testtt.split(",");
+				    var mFile = array[0];
+				    var muName = array[1]; 
+				    var muSinger = array[2]; 
+				    var muCode = array[3]; 		   
+				    var muImage = array[4]; 
+				    
+
+			        $.ajax({
+			            type: "POST",
+			            url: "playList",
+			            data: {
+			                "plmuCode": muCode,
+			                "plMid": sessionId
+			            },
+			            dataType: "json",
+			            success: function (playListInsert) {
+
+			            },
+			            error: function () {
+			                console.log("에러에러!!")
+			            }
+			        });
+					
+					
+					var output1="<div class='player'>"
+					output1+="<div class='player__cover'>"
+					output1+="<img src='muImage/"+muImage+"' alt=''></div>";
+					output1+="<div class='player__content'>";
+					output1+="<span class='player__track'><b class='player__title'>"+muName+"</b>-<span class='player__artist'>"+muSinger+"</span></span>";
+					output1+="<audio src='/audio/"+mFile+"' id='audio' controls></audio></div></div>"
+					output1+="<button class='player__btn' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg> Player</button>";
+					
+					var mplayArea= document.getElementsByTagName('body')[0];
+					mplayArea.insertAdjacentHTML("afterend", output1);
+					audio.play();
+				});
+			});
 			
 			$(".musicDelete").click(function(){
 				var myMusicMuCode = $(this).attr('id');
@@ -1414,6 +1665,7 @@
 			        	  alert('구독자 목록 불러오기 실패');
 			          }
 				  });
+				  
 		});
 	
 	$("#modal_close_btn").click(function () {
@@ -1490,9 +1742,9 @@
 		
 		function myBoard(list){
 			var output = "";
-			console.log("씽나는 아웃풋 시간~~~~")
 			
 			for(var i in list){
+				output += "<div style='padding-top: 4%; padding-bottom: 4%' id='myBoardListArea'>";
 				output += "<div class='dashbox__note dashbox__note--succ'>";
 				output += "<ul class='main__list main__list--dashbox'>";
 				output += "<li class='single-item'>";
@@ -1505,7 +1757,7 @@
 					output += "<div style='position: absolute; right: 10px;' class='modiDelBtn'>";
 					output += "<h4><a href='boardModiForm?boCode="+list[i].boCode+"'>[수정]</a> <a class='feedBoardDelete' id='"+list[i].boCode+"feedBoardNum' style='cursor : pointer;'><img src='/icon/boardDelete.png' style='width: 30px;'></a></h4></div>";
 				}
-				output += "</li></ul></div>";
+				output += "</li></ul></div></div>";
 			}
 			var myBoardListArea = document.getElementById('myBoardListArea');
 			myBoardListArea.innerHTML = output;
@@ -1567,7 +1819,7 @@
 								async: false,
 								success: function(check){
 									output += "<li class='single-item' style='padding-bottom: 5%; padding-top: 4%'>";
-									output += "<a data-playlist data-title='"+data[i].muName+"' data-artist='"+data[i].muSinger+"' data-img='img/covers/cover.svg' href='https://dmitryvolkov.me/demo/blast2.0/audio/12071151_epic-cinematic-trailer_by_audiopizza_preview.mp3' class='single-item__cover'>";
+									output += "<a style='cursor : pointer;' name = "+i+" id='mplay' class='single-item__cover' value='"+data[i].mFile+","+data[i].muName+","+data[i].muSinger+","+data[i].muCode+","+data[i].muImage+"'>";
 									output += "<img src='/muImage/"+data[i].muImage+"' style='width: 70px;'>";
 									output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z'/></svg>";
 									output += "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M16,2a3,3,0,0,0-3,3V19a3,3,0,0,0,6,0V5A3,3,0,0,0,16,2Zm1,17a1,1,0,0,1-2,0V5a1,1,0,0,1,2,0ZM8,2A3,3,0,0,0,5,5V19a3,3,0,0,0,6,0V5A3,3,0,0,0,8,2ZM9,19a1,1,0,0,1-2,0V5A1,1,0,0,1,9,5Z'/></svg></a>";
@@ -1614,6 +1866,258 @@
 			}
 			var myMusicListArea = document.getElementById('myMusicListArea');
 			myMusicListArea.innerHTML = output;
+			
+			$(".single-item__cover").click(function(){
+				
+				  
+				var aa = new Array();
+				console.log(aa);
+				
+				var playlength = $(".single-item__cover").length;
+				console.log("1"+playlength);
+				
+				var idx = $(this).attr('name');
+				console.log(idx);
+				
+				for(var i=0; i < playlength; i++){
+					aa[i] = i;
+
+					if(idx == aa[i]){
+						var aaa = idx;
+					}
+				}
+				console.log(aa);
+				console.log(aaa);
+				
+				
+				$(".player").remove();
+				var head= document.getElementsByTagName('html')[0];
+				var script= document.createElement('script');
+				var script1= document.createElement('script');
+				var script2= document.createElement('script');
+				var script3= document.createElement('script');
+				var script4= document.createElement('script');
+				var script5= document.createElement('script');
+			
+				script.src= 'js/owl.carousel.min.js';
+				head.appendChild(script);
+				
+				script1.src= 'js/jquery.magnific-popup.min.js';
+				head.appendChild(script1);
+				
+				script2.src= 'js/select2.min.js"';
+				head.appendChild(script2);
+				
+				script3.src= 'js/jquery.inputmask.min.js';
+				head.appendChild(script3);
+			
+				script4.src= 'js/plyr.min.js';
+				head.appendChild(script4);
+				
+				script5.src= 'js/main.js';
+				head.appendChild(script5);
+			
+				var mContent = $(this).attr('value');
+				var array = mContent.split(",");
+			    var mFile = array[0];
+			    var muName = array[1]; 
+			    var muSinger = array[2]; 
+			    var muCode = array[3]; 		    
+			    var muImage = array[4]; 
+			    
+
+		        $.ajax({
+		            type: "POST",
+		            url: "playList",
+		            data: {
+		                "plmuCode": muCode,
+		                "plMid": sessionId
+		            },
+		            dataType: "json",
+		            success: function (playListInsert) {
+
+		            },
+		            error: function () {
+		                console.log("에러에러!!")
+		            }
+		        });
+		
+			    
+				console.log(mFile);
+				console.log(muName);
+		
+				 var output="<div class='player'>"
+				output+="<div class='player__cover'>"
+				output+="<img src='muImage/"+muImage+"' alt=''></div>";
+				output+="<div class='player__content'>";
+				output+="<span class='player__track'><b class='player__title'>"+muName+"</b>-<span class='player__artist'>"+muSinger+"</span></span>";
+				output+="<audio src='/audio/"+mFile+"' id='audio' controls></audio></div></div>"
+				output+="<button class='player__btn' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg> Player</button>";
+				
+				var mplayArea= document.getElementsByTagName('body')[0];
+				mplayArea.insertAdjacentHTML("afterend", output);
+		
+				/* var mplayArea=document.getElementById('mplayArea');
+				mplayArea.innerHTML=output;  */
+				audio.play();
+				//.plyr__control--prev
+				$(document).on('click','.plyr__control--next', function(e){ //동적으로 생성이되서 이벤트를 사용하지 못하여 document 추가
+					
+					aaa++;
+					
+					var idx2 = parseInt(aaa);
+				
+					console.log(idx2);
+					
+					var playlist1 = $('.single-item__cover')[idx2];
+					console.log(playlist1);
+					
+					$(".player").remove();
+					var head= document.getElementsByTagName('html')[0];
+					var script= document.createElement('script');
+					var script1= document.createElement('script');
+					var script2= document.createElement('script');
+					var script3= document.createElement('script');
+					var script4= document.createElement('script');
+					var script5= document.createElement('script');
+				
+					script.src= 'js/owl.carousel.min.js';
+					head.appendChild(script);
+					
+					script1.src= 'js/jquery.magnific-popup.min.js';
+					head.appendChild(script1);
+					
+					script2.src= 'js/select2.min.js"';
+					head.appendChild(script2);
+					
+					script3.src= 'js/jquery.inputmask.min.js';
+					head.appendChild(script3);
+				
+					script4.src= 'js/plyr.min.js';
+					head.appendChild(script4);
+					
+					script5.src= 'js/main.js';
+					head.appendChild(script5);
+					
+					var testtt = $(playlist1).attr('value');
+					var array = testtt.split(",");
+				    var mFile = array[0];
+				    var muName = array[1]; 
+				    var muSinger = array[2]; 
+				    var muCode = array[3]; 		   
+				    var muImage = array[4]; 
+					
+
+			        $.ajax({
+			            type: "POST",
+			            url: "playList",
+			            data: {
+			                "plmuCode": muCode,
+			                "plMid": sessionId
+			            },
+			            dataType: "json",
+			            success: function (playListInsert) {
+
+			            },
+			            error: function () {
+			                console.log("에러에러!!")
+			            }
+			        });
+			        
+			
+					var output1="<div class='player'>"
+					output1+="<div class='player__cover'>"
+					output1+="<img src='muImage/"+muImage+"' alt=''></div>";
+					output1+="<div class='player__content'>";
+					output1+="<span class='player__track'><b class='player__title'>"+muName+"</b>-<span class='player__artist'>"+muSinger+"</span></span>";
+					output1+="<audio src='/audio/"+mFile+"' id='audio' controls></audio></div></div>"
+					output1+="<button class='player__btn' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg> Player</button>";
+					
+					var mplayArea= document.getElementsByTagName('body')[0];
+					mplayArea.insertAdjacentHTML("afterend", output1);
+					audio.play();
+			
+				     
+
+				
+				});
+					$(document).on('click','.plyr__control--prev', function(e){ //동적으로 생성이되서 이벤트를 사용하지 못하여 document 추가
+					
+					aaa--;
+					
+					var idx2 = parseInt(aaa);
+				
+					console.log(idx2);
+					
+					var playlist1 = $('.single-item__cover')[idx2];
+					console.log(playlist1);
+					
+					$(".player").remove();
+					var head= document.getElementsByTagName('html')[0];
+					var script= document.createElement('script');
+					var script1= document.createElement('script');
+					var script2= document.createElement('script');
+					var script3= document.createElement('script');
+					var script4= document.createElement('script');
+					var script5= document.createElement('script');
+				
+					script.src= 'js/owl.carousel.min.js';
+					head.appendChild(script);
+					
+					script1.src= 'js/jquery.magnific-popup.min.js';
+					head.appendChild(script1);
+					
+					script2.src= 'js/select2.min.js"';
+					head.appendChild(script2);
+					
+					script3.src= 'js/jquery.inputmask.min.js';
+					head.appendChild(script3);
+				
+					script4.src= 'js/plyr.min.js';
+					head.appendChild(script4);
+					
+					script5.src= 'js/main.js';
+					head.appendChild(script5);
+					
+					var testtt = $(playlist1).attr('value');
+					var array = testtt.split(",");
+				    var mFile = array[0];
+				    var muName = array[1]; 
+				    var muSinger = array[2]; 
+				    var muCode = array[3]; 		   
+				    var muImage = array[4]; 
+				    
+
+			        $.ajax({
+			            type: "POST",
+			            url: "playList",
+			            data: {
+			                "plmuCode": muCode,
+			                "plMid": sessionId
+			            },
+			            dataType: "json",
+			            success: function (playListInsert) {
+
+			            },
+			            error: function () {
+			                console.log("에러에러!!")
+			            }
+			        });
+					
+					
+					var output1="<div class='player'>"
+					output1+="<div class='player__cover'>"
+					output1+="<img src='muImage/"+muImage+"' alt=''></div>";
+					output1+="<div class='player__content'>";
+					output1+="<span class='player__track'><b class='player__title'>"+muName+"</b>-<span class='player__artist'>"+muSinger+"</span></span>";
+					output1+="<audio src='/audio/"+mFile+"' id='audio' controls></audio></div></div>"
+					output1+="<button class='player__btn' type='button'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21.65,2.24a1,1,0,0,0-.8-.23l-13,2A1,1,0,0,0,7,5V15.35A3.45,3.45,0,0,0,5.5,15,3.5,3.5,0,1,0,9,18.5V10.86L20,9.17v4.18A3.45,3.45,0,0,0,18.5,13,3.5,3.5,0,1,0,22,16.5V3A1,1,0,0,0,21.65,2.24ZM5.5,20A1.5,1.5,0,1,1,7,18.5,1.5,1.5,0,0,1,5.5,20Zm13-2A1.5,1.5,0,1,1,20,16.5,1.5,1.5,0,0,1,18.5,18ZM20,7.14,9,8.83v-3L20,4.17Z'/></svg> Player</button>";
+					
+					var mplayArea= document.getElementsByTagName('body')[0];
+					mplayArea.insertAdjacentHTML("afterend", output1);
+					audio.play();
+				});
+			});
 			
 			$(".musicDelete").click(function(){
 				var myMusicMuCode = $(this).attr('id');
@@ -2236,7 +2740,7 @@
 	});
 
 	function modify(){
-		alert("정보가 수정되었습니다.")
+		alert("정보가 수정되었습니다")
 	}
 	
 	$(".dashbox__refresh").click(function(){

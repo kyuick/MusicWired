@@ -10,10 +10,10 @@
 
     <!--리스트 내용 출력-->
     <select id="playListPrint" parameterType="String" resultType="audio">
-        SELECT A.MUSINGER, A.MUNAME, A.MUIMAGE, A.MFILE, A.MUGANRE, A.MUHIT, A.MUDATE, A.MULIKE, A.MUCODE
+        SELECT DISTINCT A.MUSINGER, A.MUNAME, A.MUIMAGE, A.MFILE, A.MUGANRE, A.MUHIT, A.MUDATE, A.MULIKE, A.MUCODE
         FROM MUSIC A,
              PLAYLIST
-        WHERE  MUCODE=PLMUCODE AND PLMID = #{plMid}
+        WHERE  MUCODE=PLMUCODE AND PLMID = #{plMid} ORDER BY MUCODE
     </select>
 
     <!--리스트 내용 검색-->
@@ -22,10 +22,10 @@
     </select>
 
     <select id="playListDeleteAjax" parameterType="String" resultType="MusicPlayList">
-        SELECT p.PLMUCODE, p.PLMID
+        SELECT DISTINCT p.PLMUCODE, p.PLMID
         FROM MUSIC,
              PLAYLIST p
-        WHERE  MUCODE=PLMUCODE AND PLMID = #{plMid}
+        WHERE  MUCODE=PLMUCODE AND PLMID = #{plMid} ORDER BY PLMUCODE
     </select>
 
     <!--리스트 목록 삭제-->

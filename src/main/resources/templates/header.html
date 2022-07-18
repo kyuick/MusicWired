@@ -11,33 +11,11 @@
 			 cursor: Default;
 		}
 		#rank{
-		cursor: Default;
+			cursor: Default;
 		}
-	
-		
-		
-	</style>
-
-	<!-- CSS -->
-	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
-	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
-	<link rel="stylesheet" href="css/owl.carousel.min.css">
-	<link rel="stylesheet" href="css/magnific-popup.css">
-	<link rel="stylesheet" href="css/select2.min.css">
-	<link rel="stylesheet" href="css/paymentfont.min.css">
-	<link rel="stylesheet" href="css/slider-radio.css">
-	<link rel="stylesheet" href="css/plyr.css">
-	<link rel="stylesheet" href="css/main.css">
-
-	<!-- Favicons -->
-	<link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
-	<link rel="apple-touch-icon" href="icon/favicon-32x32.png">
-
-	<meta name="description" content="">
-	<meta name="keywords" content="">
-	<meta name="author" content="Dmitry Volkov">
-	<title>Volna – Record label & Music streaming HTML Template</title>
-	<style type="text/css">
+		#rank a{
+			color: white;
+		}
 		.sign__group label{
 		    width: 100%;
 			height: 50px;
@@ -75,6 +53,27 @@
   			cursor: pointer;
 		}
 	</style>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="css/select2.min.css">
+	<link rel="stylesheet" href="css/paymentfont.min.css">
+	<link rel="stylesheet" href="css/slider-radio.css">
+	<link rel="stylesheet" href="css/plyr.css">
+	<link rel="stylesheet" href="css/main.css">
+
+	<!-- Favicons -->
+	<link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
+	<link rel="apple-touch-icon" href="icon/favicon-32x32.png">
+
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="author" content="Dmitry Volkov">
+	<title>Volna – Record label & Music streaming HTML Template</title>
+	
 </head>
 
 <body>
@@ -86,11 +85,11 @@
 				</a>
 			</div>
 
-			<nav class="header__nav">
+			<nav class="header__nav" th:if="${session.login ne null}">
 
-				<a th:if="${session.login ne null}" th:href="@{boardWriterView(boWriter=${session.login.mId}, mId=${session.login.mId})}">Profile</a>
+				<a th:href="@{boardWriterView(boWriter=${session.login.mId}, mId=${session.login.mId})}">Profile</a>
 
-						</nav>
+			</nav>
 
 			<form action="/search" method="GET" class="header__search" id="aaa">
 				<input type="text" name="keyword" id="key" th:value="${keyword}" placeholder="Search" style="width:20vw;">
@@ -99,7 +98,7 @@
  -->			</form>
  				
  				
- 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style=" font-weight: nammal;  color:white; height:31px;  background:#0099FF; border-radius: 10px 10px 10px 10px;" >실시간</span><div id="rank"  style="color:white; background: black; font-style: italic; font-weight: bold; border-radius: 0px 10px 10px 0px;" ></div>
+ 				<span style=" font-weight: nammal; width:auto;  color:white; height:31px;  background:gray; border-radius: 10px 10px 10px 10px; opacity:0.8; margin-left: 2%; font-size: 12px; display: flex; align-items: center; padding-left: 1%; padding-right: 1%;" id="rankArea">인기 키워드</span><div id="rank" style="color:white; background: black; font-style: italic; font-weight: bold; border-radius: 0px 10px 10px 0px; width: 15vw; padding-left: 1%;"></div>
 				
 				
 
@@ -358,7 +357,6 @@
 		    		success : function(list){
 		    			
 		    			test(list);
-		    			test1(list);
 		    			console.log(list);
 		    		},
 		    		error : function(){
@@ -378,7 +376,7 @@
 		    		
 		    		for(var i in list){
 		    		for(var i in arr){	
-		    		output+=""+arr[i]+". <a href='search?keyword="+list[i].keyword+"'>"+list[i].keyword+"</a>"
+		    		output+="<span style='opacity:0.5;'>"+arr[i]+"</span>. <a style='color:#fff;' href='search?keyword="+list[i].keyword+"'>"+list[i].keyword+"</a>"
 		    		output+="</br>"
 		    			}
 		    		break;
@@ -769,7 +767,7 @@
 		        
 		        if (!result) {
 		        	
-		          alert("입력하십시오");
+		          alert("등록완료");
 		        }
 		    })
 		})
@@ -830,7 +828,6 @@
     		success : function(list){
     			
     			test(list);
-    			test1(list);
     			console.log(list);
     		},
     		error : function(){
@@ -850,7 +847,7 @@
     		
     		for(var i in list){
     		for(var i in arr){	
-    		output+=""+arr[i]+". <a href='search?keyword="+list[i].keyword+"'>"+list[i].keyword+"</a>"
+    		output+="<span style='opacity:0.5;'>"+arr[i]+".</span> <a style='color:#fff;' href='search?keyword="+list[i].keyword+"'>"+list[i].keyword+"</a>"
     		output+="</br>"
     			}
     		break;

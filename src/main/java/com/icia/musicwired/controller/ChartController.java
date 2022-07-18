@@ -35,20 +35,16 @@ public class ChartController {
 	
 	@RequestMapping(value="/hitChart", method = RequestMethod.POST)
 	public @ResponseBody List<uploadDto> hitChart(){
-		System.out.println("hit11");
 		hitChart = csv.hitChart();
 		
-		System.out.println("hit!! : "+hitChart);
 		
 		return hitChart;
 	}
 	
 	@RequestMapping(value="/likeChart", method = RequestMethod.POST)
 	public @ResponseBody List<uploadDto> likeChart(){
-		System.out.println("컨트롤러 likeChart ");
 		hitChart = csv.likeChart();
 		
-		System.out.println("like!!! : "+hitChart);
 		
 		return hitChart;
 	}

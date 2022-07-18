@@ -27,12 +27,12 @@ public class PayServiceImpl implements PayService{
 //	payInsert : 장바구니에서 결제할때 결제정보 저장하는 메소드
 	@Override
 	public List<PayDTO> payInsert(PayDTO pay) {
-		System.out.println("[2] 결제정보 저장 S : " + pay);
+//		System.out.println("[2] 결제정보 저장 S : " + pay);
 		
 		int result = paydao.payInsert(pay);
 		paydao.payMoneyAdd(pay);
 		
-		System.out.println("[3] 결제정보 저장 S : " + result);
+//		System.out.println("[3] 결제정보 저장 S : " + result);
 		
 		if(result > 0) {
 			
@@ -66,11 +66,11 @@ public class PayServiceImpl implements PayService{
 //	buyList : 구매 목록 리스트 출력 메소드
 	@Override
 	public List<PayDTO> buyList(String psMid) {
-		System.out.println("[2] 구매목록 리스트 S : " + psMid);
+//		System.out.println("[2] 구매목록 리스트 S : " + psMid);
 		
 		List<PayDTO> buyList = paydao.buyList(psMid);
 		
-		System.out.println("[3] 구매목록 리스트 S : " + buyList);
+//		System.out.println("[3] 구매목록 리스트 S : " + buyList);
 		
 		if(buyList != null) {
 			payList = buyList;
